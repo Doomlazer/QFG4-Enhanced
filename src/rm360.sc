@@ -5,7 +5,7 @@
 (use Main)
 (use GloryRm)
 (use TargFeature)
-(use DeathIcon)
+(use DeathControls)
 (use Array)
 (use Scaler)
 (use PolyPath)
@@ -61,6 +61,18 @@
 					setCycle: Walk
 				)
 			)
+			((IsFlag 330)
+				(= local3 (gEgo cycleSpeed:))
+				(gEgo
+					view: 17
+					setLoop: 0 1
+					setCel: 6
+					posn: 234 47
+					setSpeed: 6
+					setPri: 75
+					setCycle: 0
+				)
+			)
 			(else
 				(gEgo posn: 144 127 normalize: 2 setPri: 0)
 			)
@@ -73,7 +85,7 @@
 					yourself:
 				)
 		)
-		(if (and (not (IsFlag 200)) [gEgoStats 8] [gEgoStats 9]) ; stealth, pick locks
+		(if (and (not (IsFlag 200)) global255 global256)
 			(blackBird init: approachVerbs: 1) ; Look
 		)
 		(if (not (IsFlag 138))
@@ -91,31 +103,31 @@
 		)
 		(hector init:)
 		(mainDoor init:)
-		(bench init: approachVerbs: 4) ; Do
-		(table init: approachVerbs: 4) ; Do
-		(cabinet init: approachVerbs: 4 80 28 42) ; Do, openSpell, theLockpick, theToolkit
-		(chandelier1 init: approachVerbs: 4) ; Do
-		(chandelier2 init: approachVerbs: 4) ; Do
-		(leftWindow init: approachVerbs: 4) ; Do
-		(rightWindow init:)
-		(gargoyle1 init: approachVerbs: 4) ; Do
-		(gargoyle2 init: approachVerbs: 4) ; Do
-		(door init: approachVerbs: 4) ; Do
-		(alcove init: approachVerbs: 4) ; Do
-		(wrongHolder init: approachVerbs: 4) ; Do
-		(doorTrigger init: approachVerbs: 4) ; Do
-		(fireplace init: approachVerbs: 4) ; Do
-		(theMouth init: approachVerbs: 4) ; Do
-		(bones init: approachVerbs: 4) ; Do
-		(blood init: approachVerbs: 4) ; Do
-		(cloud init: approachVerbs: 4) ; Do
-		(heart init: approachVerbs: 4) ; Do
-		(beetle1 init: approachVerbs: 4) ; Do
-		(beetle2 init: approachVerbs: 4) ; Do
-		(scorpion init: approachVerbs: 4) ; Do
-		(curtain init: approachVerbs: 4) ; Do
-		(hexStand init: approachVerbs: 4) ; Do
-		(rug init: approachVerbs: 4) ; Do
+		(unknown_360_26 init: approachVerbs: 4) ; Do
+		(unknown_360_27 init: approachVerbs: 4) ; Do
+		(unknown_360_28 init: approachVerbs: 4 80 28 42) ; Do, openSpell, theLockpick, theToolkit
+		(unknown_360_29 init: approachVerbs: 4) ; Do
+		(unknown_360_30 init: approachVerbs: 4) ; Do
+		(unknown_360_31 init:)
+		(unknown_360_32 init:)
+		(unknown_360_33 init: approachVerbs: 4) ; Do
+		(unknown_360_34 init: approachVerbs: 4) ; Do
+		(unknown_360_35 init: approachVerbs: 4) ; Do
+		(unknown_360_36 init: approachVerbs: 4) ; Do
+		(unknown_360_37 init: approachVerbs: 4) ; Do
+		(unknown_360_38 init: approachVerbs: 4) ; Do
+		(unknown_360_39 init: approachVerbs: 4) ; Do
+		(unknown_360_40 init: approachVerbs: 4) ; Do
+		(unknown_360_41 init: approachVerbs: 4) ; Do
+		(unknown_360_42 init: approachVerbs: 4) ; Do
+		(unknown_360_43 init: approachVerbs: 4) ; Do
+		(unknown_360_44 init: approachVerbs: 4) ; Do
+		(unknown_360_45 init: approachVerbs: 4) ; Do
+		(unknown_360_46 init: approachVerbs: 4) ; Do
+		(unknown_360_47 init: approachVerbs: 4) ; Do
+		(unknown_360_48 init: approachVerbs: 4) ; Do
+		(unknown_360_49 init: approachVerbs: 4) ; Do
+		(unknown_360_50 init: approachVerbs: 4) ; Do
 		(super init: &rest)
 		(cond
 			((== gPrevRoomNum 780)
@@ -124,6 +136,9 @@
 			((IsFlag 328)
 				(self setScript: sClimbDown)
 			)
+			((IsFlag 330)
+				(self setScript: sLeviDown)
+			)
 			(else
 				(self setScript: sEnterRoom)
 			)
@@ -131,15 +146,195 @@
 		(gGlory save: 1)
 	)
 
-	(method (newRoom newRoomNumber)
-		(gLongSong fade: 0)
-		(super newRoom: newRoomNumber &rest)
+	(method (doit)
+		(if (and (== (gCurRoom script:) (ScriptID 31 1)) (>= (gEgo z:) 81)) ; sLevitate
+			(gCurRoom setScript: sLevitating)
+		)
+		(super doit: &rest)
 	)
 
 	(method (dispose)
 		(local10 dispose:)
 		(local9 dispose:)
 		(super dispose:)
+	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(81 ; detectMagicSpell
+				(if (IsFlag 138)
+					(gMessager say: 0 81 10) ; "You sense a low level of magic all around you as if many arcane and unpleasant activities have occurred here in the past. The hexapodal carving above the fireplace is actually an enchanted creature!"
+				else
+					(super doVerb: theVerb)
+				)
+			)
+			(89 ; levitateSpell
+				(if (or (IsFlag 328) (IsFlag 330))
+					((ScriptID 31 0) init: 234 128 95 0 3) ; leviCode
+				else
+					(gMessager say: 27 4 5) ; "The window seems to be secured by a bar on the outside, probably because it is almost inaccessible from the inside. You can't go out that way."
+				)
+			)
+			(83 ; dazzleSpell
+				(gCurRoom setScript: sCastDazzle)
+			)
+			(85 ; calmSpell
+				(gMessager say: 0 85 0) ; "That didn't seem to do much. The aura of expectant waiting and hunger still fills the room."
+			)
+			(95 ; invisibleSpell
+				(gMessager say: 0 95 0) ; "Oh, not to worry. Nothing here will attack you while you're standing still."
+			)
+			(103 ; Sleep 1 hour or less
+				(gMessager say: 0 103 0) ; "This place makes your skin crawl. You don't want to rest here, or even to remain here a minute more than you must."
+			)
+			(40 ; theGarlic
+				(if (IsFlag 201)
+					(gMessager say: 0 40 17) ; "There's nothing here you can do with garlic anymore."
+				else
+					(super doVerb: theVerb)
+				)
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "It's understandable that this place makes you a bit jumpy, but that isn't going to help here."
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
+	)
+
+	(method (newRoom newRoomNumber)
+		(gLongSong fade: 0)
+		(super newRoom: newRoomNumber &rest)
+	)
+)
+
+(instance sCastDazzle of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gGlory handsOff:)
+				(self setScript: (ScriptID 12) self 83) ; castAreaScript
+			)
+			(1
+				(Palette 2 0 255 500) ; PalIntensity
+				(Palette 2 0 255 100) ; PalIntensity
+				(gMessager say: 0 83 0 0 self) ; "The brief light helps brighten your spirits for a moment, but leaves you feeling even more depressed afterwards. This is not a nice place!"
+			)
+			(2
+				(gGlory handsOn:)
+				(self dispose:)
+			)
+		)
+	)
+)
+
+(instance sLevitating of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gGlory handsOff:)
+				(gEgo posn: (gEgo x:) 33)
+				(= cycles 6)
+			)
+			(1
+				(ClearFlag 328)
+				(SetFlag 330)
+				(gCurRoom newRoom: 250)
+			)
+		)
+	)
+)
+
+(instance sLeviWall of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gGlory handsOff:)
+				(gEgo setMotion: PolyPath 234 128 self)
+			)
+			(1
+				(gLongSong2 number: 941 play:)
+				(gEgo
+					view: 17
+					loop: 3
+					cel: 0
+					setPri: 75
+					setSpeed: 6
+					useMana: 7
+					setCycle: End self
+				)
+			)
+			(2
+				(sparklies init: setCycle: Fwd)
+				(gEgo
+					view: 17
+					setLoop: 3 1
+					setCel: 5
+					setPri: 75
+					setCycle: 0
+					setMotion: MoveTo 234 47 self
+				)
+			)
+			(3
+				(ClearFlag 328)
+				(SetFlag 330)
+				(gCurRoom newRoom: 250)
+			)
+		)
+	)
+)
+
+(instance sLeviDown of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gGlory handsOff:)
+				(sparklies init: setCycle: Fwd)
+				(= cycles 1)
+			)
+			(1
+				(gLongSong number: 360 setLoop: -1 play:)
+				(gEgo
+					useMana: 7
+					solvePuzzle: 434 6
+					setMotion: MoveTo 234 128 self
+				)
+			)
+			(2
+				(sparklies dispose:)
+				(gEgo view: 17 loop: 0 cel: 6 setPri: 75 setCycle: Beg self)
+			)
+			(3
+				(gEgo normalize: 3 setSpeed: local3)
+				(= cycles 2)
+			)
+			(4
+				(gEgo setHeading: 180 self)
+			)
+			(5
+				(gEgo setMotion: MoveTo 234 138 self)
+			)
+			(6
+				(if (not (IsFlag 329))
+					(gMessager say: 26 6 4 0) ; "You have a really bad feeling about this place. It looks ordinary enough, but the symbols of the Dark One everywhere and the general atmosphere make you almost want to turn and run as fast as you can."
+					(if (== gHeroType 3) ; Paladin
+						(gMessager say: 26 6 18 0) ; "Danger? How about a sense of all-pervading evil, a sense that you are being watched by otherworldly forces that mean to do you harm. Other than that it's just your basic monastery of a fanatical cult."
+					)
+					(SetFlag 329)
+				)
+				(gGlory handsOn:)
+				(self dispose:)
+			)
+		)
 	)
 )
 
@@ -352,11 +547,17 @@
 			)
 			(1
 				(gEgo changeGait: 1) ; running
-				(if (IsFlag 328)
-					(sClimbWall register: 0)
-					(= next sClimbWall)
-				else
-					(= next sExitRoom)
+				(cond
+					((IsFlag 328)
+						(sClimbWall register: 0)
+						(= next sClimbWall)
+					)
+					((IsFlag 330)
+						(= next sLeviWall)
+					)
+					(else
+						(= next sExitRoom)
+					)
 				)
 				(gGlory handsOn:)
 				(self dispose:)
@@ -380,6 +581,13 @@
 				(gEgo setPri: -1 setMotion: MoveTo 144 149 self)
 			)
 			(2
+				(if (not (IsFlag 329))
+					(gMessager say: 26 6 4 0) ; "You have a really bad feeling about this place. It looks ordinary enough, but the symbols of the Dark One everywhere and the general atmosphere make you almost want to turn and run as fast as you can."
+					(if (== gHeroType 3) ; Paladin
+						(gMessager say: 26 6 18 0) ; "Danger? How about a sense of all-pervading evil, a sense that you are being watched by otherworldly forces that mean to do you harm. Other than that it's just your basic monastery of a fanatical cult."
+					)
+					(SetFlag 329)
+				)
 				(mainDoor setCycle: Beg self)
 			)
 			(3
@@ -404,7 +612,6 @@
 				(gEgo setMotion: PolyPath 145 143 self)
 			)
 			(1
-				(ClearFlag 328)
 				(gEgo setHeading: 0 self)
 			)
 			(2
@@ -490,21 +697,18 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(gEgo setMotion: PolyPath 234 128 self)
 			)
 			(1
-				1
 				(= local3 (gEgo cycleSpeed:))
-				(if (== (gEgo trySkill: 11 250) 1) ; climbing
+				(if (or (IsFlag 41) (== (gEgo trySkill: 11 250) 1)) ; climbing
 					(self changeState: 5)
 				else
 					(= cycles 1)
 				)
 			)
 			(2
-				2
 				(gEgo
 					view: 7
 					setLoop: 3 1
@@ -515,16 +719,13 @@
 				)
 			)
 			(3
-				3
 				(gEgo setSpeed: 4 setCycle: 0 setMotion: MoveTo 234 128 self)
 			)
 			(4
-				4
 				(= state 17)
 				(gMessager say: 26 6 6 0 self) ; "You need to work more on your climbing. This wall is rather tricky."
 			)
 			(5
-				5
 				(gEgo
 					view: 7
 					setLoop: 3 1
@@ -535,11 +736,9 @@
 				)
 			)
 			(6
-				6
 				(gEgo setMotion: MoveTo 221 47 self)
 			)
 			(7
-				7
 				(gEgo normalize: 1 setSpeed: 9)
 				(if (== register 2)
 					(self changeState: 11)
@@ -548,28 +747,24 @@
 				)
 			)
 			(8
-				8
 				(gEgo setMotion: MoveTo 198 44 self)
 			)
 			(9
-				9
 				(gEgo setHeading: 0 self)
 			)
 			(10
-				10
 				(if local7
 					(gEgo changeGait: local7)
 				)
 				(gEgo setSpeed: local3)
+				(ClearFlag 330)
 				(SetFlag 328)
 				(gCurRoom newRoom: 250)
 			)
 			(11
-				11
 				(gEgo setMotion: MoveTo 166 38 self)
 			)
 			(12
-				12
 				(gEgo
 					view: 4
 					loop: 1
@@ -579,36 +774,32 @@
 				)
 			)
 			(13
-				13
 				(blackBird dispose:)
 				(SetFlag 200)
 				(gEgo get: 34 solvePuzzle: 506 6 4 setCycle: CT 0 -1 self) ; theBlackbird
 			)
 			(14
-				14
-				(gEgo normalize: 1 setHeading: 90 self)
+				(gMessager say: 24 4 7 0 self) ; "Precariously maintaining your balance on the narrow ledge, you just manage to snag the black bird and place it in your pack."
 			)
 			(15
-				15
-				(gEgo setMotion: MoveTo 221 47 self)
+				(gEgo normalize: 1 setHeading: 90 self)
 			)
 			(16
-				16
+				(gEgo setMotion: MoveTo 221 47 self)
+			)
+			(17
 				(gEgo
 					view: 7
 					setLoop: 3 1
-					cel: 0
 					setSpeed: 15
 					setCycle: Walk
 					setMotion: MoveTo 234 47 self
 				)
 			)
-			(17
-				17
+			(18
 				(gEgo setMotion: MoveTo 234 128 self)
 			)
-			(18
-				18
+			(19
 				(if (not local0)
 					(gEgo normalize: 3 setSpeed: local3)
 				else
@@ -646,6 +837,13 @@
 				(gEgo setMotion: MoveTo 234 138 self)
 			)
 			(5
+				(if (not (IsFlag 329))
+					(gMessager say: 26 6 4 0) ; "You have a really bad feeling about this place. It looks ordinary enough, but the symbols of the Dark One everywhere and the general atmosphere make you almost want to turn and run as fast as you can."
+					(if (== gHeroType 3) ; Paladin
+						(gMessager say: 26 6 18 0) ; "Danger? How about a sense of all-pervading evil, a sense that you are being watched by otherworldly forces that mean to do you harm. Other than that it's just your basic monastery of a fanatical cult."
+					)
+					(SetFlag 329)
+				)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -856,11 +1054,11 @@
 	)
 
 	(method (init)
-		(if (and (not (IsFlag 328)) (== gPrevRoomNum 250))
+		(if (and (not (IsFlag 328)) (not (IsFlag 330)) (== gPrevRoomNum 250))
 			(= cel 7)
 		)
 		(super init: &rest)
-		(if (not (IsFlag 328))
+		(if (and (not (IsFlag 328)) (not (IsFlag 330)))
 			(= heading
 				(((ScriptID 49 0) new:) ; doorMat
 					init:
@@ -879,10 +1077,17 @@
 		)
 	)
 
+	(method (dispose)
+		(if (and (not (IsFlag 328)) (not (IsFlag 330)) heading)
+			(heading dispose:)
+		)
+		(super dispose: &rest)
+	)
+
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (IsFlag 328)
+				(if (or (IsFlag 328) (IsFlag 330))
 					(gMessager say: 14 4 5) ; "The door is firmly sealed as if cemented in place. Either it really has been bricked in or some very powerful magic keeps it locked."
 				)
 			)
@@ -891,12 +1096,26 @@
 			)
 		)
 	)
+)
 
-	(method (dispose)
-		(if (and (not (IsFlag 328)) heading)
-			(heading dispose:)
-		)
-		(super dispose: &rest)
+(instance sparklies of Prop
+	(properties
+		priority 182
+		fixPriority 1
+		view 17
+		loop 4
+		signal 16385
+	)
+
+	(method (init)
+		(self setScaler: gEgo)
+		(super init: &rest)
+	)
+
+	(method (doit)
+		(= x (gEgo x:))
+		(= y (gEgo y:))
+		(super doit: &rest)
 	)
 )
 
@@ -970,14 +1189,6 @@
 		(super doit: &rest)
 	)
 
-	(method (getHurt param1 param2)
-		(if (<= (-= local5 param2) 0)
-			(self setScript: sKillHector 0 1)
-		else
-			(self setScript: sKillHector 0 0)
-		)
-	)
-
 	(method (doVerb theVerb)
 		(cond
 			((== theVerb 40) ; theGarlic
@@ -1012,9 +1223,17 @@
 			)
 		)
 	)
+
+	(method (getHurt param1 param2)
+		(if (<= (-= local5 param2) 0)
+			(self setScript: sKillHector 0 1)
+		else
+			(self setScript: sKillHector 0 0)
+		)
+	)
 )
 
-(instance bench of Feature
+(instance unknown_360_26 of Feature
 	(properties
 		noun 22
 		nsLeft 163
@@ -1027,7 +1246,7 @@
 	)
 )
 
-(instance table of Feature
+(instance unknown_360_27 of Feature
 	(properties
 		noun 21
 		nsLeft 113
@@ -1040,7 +1259,7 @@
 	)
 )
 
-(instance cabinet of Feature
+(instance unknown_360_28 of Feature
 	(properties
 		noun 20
 		nsLeft 19
@@ -1084,7 +1303,7 @@
 				(gMessager say: 20 4 16) ; "There is nothing else of value in the cabinet."
 			)
 			((== theVerb 4) ; Do
-				(if (> [gEgoStats 0] 300) ; strength
+				(if (> gEgoStats 300)
 					(if (== gHeroType 3) ; Paladin
 						(gMessager say: 20 4 14) ; "You don't think you should break someone else's property; it just isn't the honorable thing to do."
 					else
@@ -1107,9 +1326,11 @@
 				)
 			)
 			((== theVerb -80) ; openSpell (part 2)
+				(gCurRoom setScript: 0)
+				(gGlory handsOn:)
 				(SetFlag 202)
 				(gEgo get: 3) ; theHeals
-				(gMessager say: 20 80) ; "Your Open spell easily springs the cabinet lock. You take the Healing Potion you find inside."
+				(gMessager say: 20 80 0) ; "Your Open spell easily springs the cabinet lock. You take the Healing Potion you find inside."
 			)
 			(else
 				(super doVerb: theVerb &rest)
@@ -1118,7 +1339,7 @@
 	)
 )
 
-(instance chandelier1 of Feature
+(instance unknown_360_29 of Feature
 	(properties
 		noun 19
 		nsLeft 35
@@ -1130,7 +1351,7 @@
 	)
 )
 
-(instance chandelier2 of Feature
+(instance unknown_360_30 of Feature
 	(properties
 		noun 19
 		nsLeft 235
@@ -1142,7 +1363,7 @@
 	)
 )
 
-(instance leftWindow of Feature
+(instance unknown_360_31 of Feature
 	(properties
 		noun 17
 		nsLeft 86
@@ -1152,9 +1373,13 @@
 		x 99
 		y 13
 	)
+
+	(method (doVerb theVerb)
+		(unknown_360_32 doVerb: theVerb &rest)
+	)
 )
 
-(instance rightWindow of Feature
+(instance unknown_360_32 of Feature
 	(properties
 		noun 16
 		nsLeft 183
@@ -1169,7 +1394,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (IsFlag 328)
+				(if (or (IsFlag 328) (IsFlag 330))
 					(gCurRoom setScript: sClimbWall 0 1)
 				else
 					(gMessager say: 27 4 5) ; "The window seems to be secured by a bar on the outside, probably because it is almost inaccessible from the inside. You can't go out that way."
@@ -1182,7 +1407,7 @@
 	)
 )
 
-(instance gargoyle1 of Feature
+(instance unknown_360_33 of Feature
 	(properties
 		noun 15
 		nsLeft 75
@@ -1195,7 +1420,7 @@
 	)
 )
 
-(instance gargoyle2 of Feature
+(instance unknown_360_34 of Feature
 	(properties
 		noun 15
 		nsLeft 202
@@ -1208,7 +1433,7 @@
 	)
 )
 
-(instance door of Feature
+(instance unknown_360_35 of Feature
 	(properties
 		noun 14
 		nsLeft 125
@@ -1223,7 +1448,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (IsFlag 328)
+				(if (or (IsFlag 328) (IsFlag 330))
 					(gMessager say: 14 4 5) ; "The door is firmly sealed as if cemented in place. Either it really has been bricked in or some very powerful magic keeps it locked."
 				else
 					(gCurRoom setScript: sExitRoom)
@@ -1236,7 +1461,7 @@
 	)
 )
 
-(instance alcove of Feature
+(instance unknown_360_36 of Feature
 	(properties
 		noun 13
 		nsLeft 144
@@ -1253,7 +1478,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (and (not (IsFlag 200)) [gEgoStats 8] [gEgoStats 9]) ; stealth, pick locks
+				(if (and (not (IsFlag 200)) global255 global256)
 					(gCurRoom setScript: sClimbWall 0 2)
 				else
 					(super doVerb: theVerb &rest)
@@ -1266,7 +1491,7 @@
 	)
 )
 
-(instance wrongHolder of Feature
+(instance unknown_360_37 of Feature
 	(properties
 		noun 12
 		nsLeft 268
@@ -1279,7 +1504,7 @@
 	)
 )
 
-(instance doorTrigger of Feature
+(instance unknown_360_38 of Feature
 	(properties
 		noun 11
 		nsLeft 301
@@ -1297,6 +1522,9 @@
 		(switch theVerb
 			(4 ; Do
 				(if (IsFlag 201)
+					(if (not (IsFlag 319))
+						(gMessager say: 11 4 0) ; "As you push and pull at the antique log holder, suddenly it turns in your hand and the whole back of the fireplace opens to reveal a secret passage leading down! No wonder the fireplace didn't appear to have been used much."
+					)
 					(gCurRoom setScript: sOpenSecretDoor)
 				)
 			)
@@ -1307,7 +1535,7 @@
 	)
 )
 
-(instance fireplace of Feature
+(instance unknown_360_39 of Feature
 	(properties
 		noun 10
 		nsLeft 266
@@ -1320,7 +1548,7 @@
 	)
 )
 
-(instance theMouth of Feature
+(instance unknown_360_40 of Feature
 	(properties
 		noun 9
 		nsLeft 93
@@ -1333,7 +1561,7 @@
 	)
 )
 
-(instance bones of Feature
+(instance unknown_360_41 of Feature
 	(properties
 		noun 8
 		nsLeft 122
@@ -1346,7 +1574,7 @@
 	)
 )
 
-(instance blood of Feature
+(instance unknown_360_42 of Feature
 	(properties
 		noun 7
 		nsLeft 149
@@ -1359,7 +1587,7 @@
 	)
 )
 
-(instance cloud of Feature
+(instance unknown_360_43 of Feature
 	(properties
 		noun 6
 		nsLeft 166
@@ -1372,7 +1600,7 @@
 	)
 )
 
-(instance heart of Feature
+(instance unknown_360_44 of Feature
 	(properties
 		noun 5
 		nsLeft 192
@@ -1385,7 +1613,7 @@
 	)
 )
 
-(instance beetle1 of Feature
+(instance unknown_360_45 of Feature
 	(properties
 		noun 4
 		nsLeft 53
@@ -1398,7 +1626,7 @@
 	)
 )
 
-(instance beetle2 of Feature
+(instance unknown_360_46 of Feature
 	(properties
 		noun 4
 		nsLeft 224
@@ -1411,7 +1639,7 @@
 	)
 )
 
-(instance scorpion of Feature
+(instance unknown_360_47 of Feature
 	(properties
 		noun 3
 		nsLeft 216
@@ -1424,7 +1652,7 @@
 	)
 )
 
-(instance curtain of TargFeature
+(instance unknown_360_48 of TargFeature
 	(properties
 		noun 2
 		nsLeft 15
@@ -1433,10 +1661,6 @@
 		sightAngle 180
 		x 28
 		y 43
-	)
-
-	(method (getHurt)
-		(gCurRoom setScript: sSetFire 0 1)
 	)
 
 	(method (doVerb theVerb)
@@ -1450,9 +1674,13 @@
 			(super doVerb: theVerb &rest)
 		)
 	)
+
+	(method (getHurt)
+		(gCurRoom setScript: sSetFire 0 1)
+	)
 )
 
-(instance hexStand of Feature
+(instance unknown_360_49 of Feature
 	(properties
 		noun 1
 		nsLeft 273
@@ -1465,7 +1693,7 @@
 	)
 )
 
-(instance rug of TargFeature
+(instance unknown_360_50 of TargFeature
 	(properties
 		noun 25
 		nsLeft 51
@@ -1475,10 +1703,6 @@
 		sightAngle 180
 		x 184
 		y 169
-	)
-
-	(method (getHurt)
-		(gCurRoom setScript: sSetFire 0 1)
 	)
 
 	(method (doVerb theVerb)
@@ -1530,16 +1754,20 @@
 			)
 		)
 	)
+
+	(method (getHurt)
+		(gCurRoom setScript: sSetFire 0 1)
+	)
 )
 
 (class FireCycle of CT
 	(properties
+		nsRight {FireCycle}
 		cueFlag 0
 	)
 
 	(method (doit &tmp temp0 temp1)
-		(= temp1 (client lastCel:))
-		(if (> endCel temp1)
+		(if (> endCel (= temp1 (client lastCel:)))
 			(= endCel temp1)
 		)
 		(= temp0 (self nextCel:))

@@ -5,8 +5,6 @@
 (use Main)
 (use GloryRm)
 (use Interface)
-(use Str)
-(use Print)
 (use Scaler)
 (use PolyPath)
 (use Polygon)
@@ -34,7 +32,7 @@
 
 (instance rm790 of GloryRm
 	(properties
-		noun 14
+		noun 17
 		picture 790
 		west 800
 	)
@@ -95,33 +93,39 @@
 		(if (and (not (gEgo has: 25)) (not (IsFlag 354))) ; theDarksign
 			(vDarkOneSign init:)
 		else
-			(fDarkOneSign init:)
+			(unknown_790_20 init:)
 		)
-		(fMouthSign init:)
-		(fBoneSign init:)
-		(fBloodSign init:)
-		(fBreathSign init:)
-		(fSenseSign init:)
-		(fHeartSign init:)
-		(fEssenceSign init:)
-		(fCrack init:)
-		(fArchway init:)
-		(fIsland init:)
-		(fStepStones init:)
-		(fCaveMouth init:)
-		(fGoo init:)
-		(fMain init:)
-		(fFirst init:)
-		(fSecond init:)
-		(fThird init:)
-		(fFourth init:)
-		(fFifth init:)
-		(fSixth init:)
-		(fSeventh init:)
-		(fEight init:)
+		(unknown_790_13 init:)
+		(unknown_790_14 init:)
+		(unknown_790_15 init:)
+		(unknown_790_16 init:)
+		(unknown_790_17 init:)
+		(unknown_790_18 init:)
+		(unknown_790_19 init:)
+		(unknown_790_21 init:)
+		(unknown_790_22 init:)
+		(unknown_790_23 init:)
+		(unknown_790_24 init:)
+		(unknown_790_25 init:)
+		(unknown_790_26 init:)
+		(unknown_790_27 init:)
+		(unknown_790_28 init:)
+		(unknown_790_29 init:)
+		(unknown_790_30 init:)
+		(unknown_790_31 init:)
+		(unknown_790_32 init:)
+		(unknown_790_33 init:)
+		(unknown_790_34 init:)
+		(unknown_790_35 init:)
 		(gKeyDownHandler addToFront: self)
 		(gMouseDownHandler addToFront: self)
 		(gCurRoom setScript: sComeIn)
+	)
+
+	(method (dispose)
+		(gKeyDownHandler delete: rm790)
+		(gMouseDownHandler delete: rm790)
+		(super dispose:)
 	)
 
 	(method (handleEvent event)
@@ -132,41 +136,41 @@
 				(== ((gTheIconBar getCursor:) view:) 940)
 			)
 			(cond
-				((and (fMain onMe: event) (!= local1 0))
+				((and (unknown_790_27 onMe: event) (!= local1 0))
 					(event claimed: 1)
-					(fMain doVerb: 4)
+					(unknown_790_27 doVerb: 4)
 				)
-				((and (fFirst onMe: event) (!= local1 1))
+				((and (unknown_790_28 onMe: event) (!= local1 1))
 					(event claimed: 1)
-					(fFirst doVerb: 4)
+					(unknown_790_28 doVerb: 4)
 				)
-				((and (fSecond onMe: event) (!= local1 2))
+				((and (unknown_790_29 onMe: event) (!= local1 2))
 					(event claimed: 1)
-					(fSecond doVerb: 4)
+					(unknown_790_29 doVerb: 4)
 				)
-				((and (fThird onMe: event) (!= local1 3))
+				((and (unknown_790_30 onMe: event) (!= local1 3))
 					(event claimed: 1)
-					(fThird doVerb: 4)
+					(unknown_790_30 doVerb: 4)
 				)
-				((and (fFourth onMe: event) (!= local1 4))
+				((and (unknown_790_31 onMe: event) (!= local1 4))
 					(event claimed: 1)
-					(fFourth doVerb: 4)
+					(unknown_790_31 doVerb: 4)
 				)
-				((and (fFifth onMe: event) (!= local1 5))
+				((and (unknown_790_32 onMe: event) (!= local1 5))
 					(event claimed: 1)
-					(fFifth doVerb: 4)
+					(unknown_790_32 doVerb: 4)
 				)
-				((and (fSixth onMe: event) (!= local1 6))
+				((and (unknown_790_33 onMe: event) (!= local1 6))
 					(event claimed: 1)
-					(fSixth doVerb: 4)
+					(unknown_790_33 doVerb: 4)
 				)
-				((and (fSeventh onMe: event) (!= local1 7))
+				((and (unknown_790_34 onMe: event) (!= local1 7))
 					(event claimed: 1)
-					(fSeventh doVerb: 4)
+					(unknown_790_34 doVerb: 4)
 				)
-				((and (fEight onMe: event) (!= local1 8))
+				((and (unknown_790_35 onMe: event) (!= local1 8))
 					(event claimed: 1)
-					(fEight doVerb: 4)
+					(unknown_790_35 doVerb: 4)
 				)
 				(else
 					(event claimed: 0)
@@ -184,19 +188,56 @@
 				(gGlory handsOff:)
 				(self setScript: (ScriptID 37) 0 vDarkOneSign) ; castFetchScript
 			)
+			(81 ; detectMagicSpell
+				(if (IsFlag 354)
+					(gMessager say: 0 81 0) ; "You sense powerful restraining magic from the mouth of the cave. It doesn't look as though you'll be going back in there without help!"
+				else
+					(gMessager say: 0 81 6) ; "You sense powerful restraining magic from the mouth of the cave. It doesn't look as though you'll be going back in there without help! An equally potent magic emanates from the six-pointed starfish-like symbol on the archway."
+				)
+			)
+			(74 ; theHeartRit
+				(gMessager say: 0 67 0) ; "The Rituals will be useful only when you are once again inside the cave."
+			)
+			(72 ; theSenseRit
+				(gMessager say: 0 72 0) ; "The Rituals will be useful only when you are once again inside the cave."
+			)
+			(70 ; theBreathRit
+				(gMessager say: 0 70 0) ; "The Rituals will be useful only when you are once again inside the cave."
+			)
+			(69 ; theBloodRit
+				(gMessager say: 0 69 0) ; "The Rituals will be useful only when you are once again inside the cave."
+			)
+			(67 ; theBoneRit
+				(gMessager say: 0 67 0) ; "The Rituals will be useful only when you are once again inside the cave."
+			)
+			(60 ; theWillowisp
+				(gMessager say: 0 60 0) ; "The tiny creature cringes in its flask. It will have nothing to do with this place!"
+			)
+			(56 ; theAmulet
+				(gMessager say: 0 56 0) ; "That won't help you here."
+			)
+			(47 ; theBones
+				(gMessager say: 0 47 0) ; "This is no fit place for a burial. Would YOU like to be buried in that goop?"
+			)
+			(33 ; theGrapnel
+				(gMessager say: 0 33 0) ; "There's nothing for you to climb here."
+			)
+			(14 ; theBonsai
+				(gMessager say: 0 14 0) ; "The bonsai would thrive much better in a nice garden somewhere."
+			)
+			(104 ; Sleep all night
+				(gMessager say: 0 104 0) ; "To fall asleep here would surely mean your death!"
+			)
 			(11 ; glideSpell
 				(gMessager say: 0 11 0) ; "You could find better places to practice your Glide spell -- if it wears off here you'll find yourself stuck in the goo for goo'd."
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "You can't jump there."
 			)
 			(else
 				(super doVerb: theVerb)
 			)
 		)
-	)
-
-	(method (dispose)
-		(gKeyDownHandler delete: rm790)
-		(gMouseDownHandler delete: rm790)
-		(super dispose:)
 	)
 
 	(method (newRoom newRoomNumber)
@@ -299,7 +340,7 @@
 (instance sFrom630 of Script
 	(properties)
 
-	(method (changeState newState &tmp temp0 temp1 temp2)
+	(method (changeState newState &tmp [temp0 3])
 		(switch (= state newState)
 			(0
 				(= seconds 3)
@@ -321,16 +362,7 @@
 				(= ticks 90)
 			)
 			(6
-				(= temp0 (Str new:))
-				(= temp2 (Str new:))
-				(Message msgGET 790 1 6 3 1 (temp2 data:)) ; ""That is all I can do for you,"
-				(Message msgGET 790 1 6 3 2 (temp0 data:)) ; "You will need to perform the other Rituals yourself."
-				(temp2 cat: (gHeroName data:))
-				(temp2 cat: (temp0 data:))
-				(Print addText: (temp2 data:) init:)
-				(temp0 dispose:)
-				(temp2 dispose:)
-				(= seconds 2)
+				(gMessager say: 1 6 3 0 self) ; ""That is all I can do for you,"
 			)
 			(7
 				(gMessager say: 1 6 5 0 self) ; "We will be watching you, so do not even think of trying to betray us."
@@ -449,7 +481,7 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(fDarkOneSign init:)
+				(unknown_790_20 init:)
 				(SetFlag 354)
 				(if (!= local1 0)
 					(= local2 1)
@@ -911,8 +943,9 @@
 				(gCurRoom doVerb: theVerb)
 			)
 			(-87 ; fetchSpell (part 2)
-				(gEgo get: 25) ; theDarksign
-				(fDarkOneSign init:)
+				(SetFlag 354)
+				(gEgo get: 25 solvePuzzle: 404 6) ; theDarksign
+				(unknown_790_20 init:)
 				(vDarkOneSign dispose:)
 			)
 			(else
@@ -922,7 +955,7 @@
 	)
 )
 
-(instance fMouthSign of Feature
+(instance unknown_790_13 of Feature
 	(properties
 		noun 6
 		nsLeft 68
@@ -944,7 +977,7 @@
 	)
 )
 
-(instance fBoneSign of Feature
+(instance unknown_790_14 of Feature
 	(properties
 		noun 7
 		nsLeft 63
@@ -966,7 +999,7 @@
 	)
 )
 
-(instance fBloodSign of Feature
+(instance unknown_790_15 of Feature
 	(properties
 		noun 8
 		nsLeft 54
@@ -988,7 +1021,7 @@
 	)
 )
 
-(instance fBreathSign of Feature
+(instance unknown_790_16 of Feature
 	(properties
 		noun 9
 		nsLeft 46
@@ -1010,7 +1043,7 @@
 	)
 )
 
-(instance fSenseSign of Feature
+(instance unknown_790_17 of Feature
 	(properties
 		noun 10
 		nsLeft 29
@@ -1032,7 +1065,7 @@
 	)
 )
 
-(instance fHeartSign of Feature
+(instance unknown_790_18 of Feature
 	(properties
 		noun 11
 		nsLeft 23
@@ -1054,7 +1087,7 @@
 	)
 )
 
-(instance fEssenceSign of Feature
+(instance unknown_790_19 of Feature
 	(properties
 		noun 12
 		nsLeft 19
@@ -1076,7 +1109,7 @@
 	)
 )
 
-(instance fDarkOneSign of Feature
+(instance unknown_790_20 of Feature
 	(properties
 		noun 3
 		nsLeft 71
@@ -1099,7 +1132,7 @@
 	)
 )
 
-(instance fCrack of Feature
+(instance unknown_790_21 of Feature
 	(properties
 		noun 13
 		nsLeft 19
@@ -1112,7 +1145,7 @@
 	)
 )
 
-(instance fArchway of Feature
+(instance unknown_790_22 of Feature
 	(properties
 		noun 16
 		nsLeft 15
@@ -1135,7 +1168,7 @@
 	)
 )
 
-(instance fIsland of Feature
+(instance unknown_790_23 of Feature
 	(properties
 		noun 14
 		nsLeft 134
@@ -1160,7 +1193,7 @@
 	)
 )
 
-(instance fStepStones of Feature
+(instance unknown_790_24 of Feature
 	(properties
 		noun 15
 		nsLeft 187
@@ -1184,7 +1217,7 @@
 	)
 )
 
-(instance fCaveMouth of Feature
+(instance unknown_790_25 of Feature
 	(properties
 		noun 5
 		nsLeft 215
@@ -1225,7 +1258,7 @@
 	)
 )
 
-(instance fGoo of Feature
+(instance unknown_790_26 of Feature
 	(properties
 		noun 4
 		nsTop 91
@@ -1235,6 +1268,17 @@
 		x 228
 		y 157
 		z 91
+	)
+
+	(method (init)
+		(super init: &rest)
+		(= onMeCheck
+			((Polygon new:)
+				type: PTotalAccess
+				init: 0 133 68 133 122 129 131 118 103 108 96 92 150 91 140 107 180 114 241 118 276 101 300 107 271 134 271 143 319 147 319 189 188 189 153 181 187 160 115 152 58 144 1 144
+				yourself:
+			)
+		)
 	)
 
 	(method (doVerb theVerb)
@@ -1250,20 +1294,9 @@
 			)
 		)
 	)
-
-	(method (init)
-		(super init: &rest)
-		(= onMeCheck
-			((Polygon new:)
-				type: PTotalAccess
-				init: 0 133 68 133 122 129 131 118 103 108 96 92 150 91 140 107 180 114 241 118 276 101 300 107 271 134 271 143 319 147 319 189 188 189 153 181 187 160 115 152 58 144 1 144
-				yourself:
-			)
-		)
-	)
 )
 
-(instance fMain of Feature
+(instance unknown_790_27 of Feature
 	(properties
 		noun 14
 		nsTop 148
@@ -1272,6 +1305,17 @@
 		sightAngle 180
 		y 250
 		z 104
+	)
+
+	(method (init)
+		(super init: &rest)
+		(= onMeCheck
+			((Polygon new:)
+				type: PTotalAccess
+				init: 0 143 29 144 32 149 182 159 180 167 154 172 148 183 187 188 0 189
+				yourself:
+			)
+		)
 	)
 
 	(method (doVerb theVerb)
@@ -1288,20 +1332,9 @@
 			(super doVerb: theVerb)
 		)
 	)
-
-	(method (init)
-		(super init: &rest)
-		(= onMeCheck
-			((Polygon new:)
-				type: PTotalAccess
-				init: 0 143 29 144 32 149 182 159 180 167 154 172 148 183 187 188 0 189
-				yourself:
-			)
-		)
-	)
 )
 
-(instance fFirst of Feature
+(instance unknown_790_28 of Feature
 	(properties
 		noun 15
 		nsLeft 196
@@ -1312,6 +1345,17 @@
 		x 196
 		y 260
 		z 100
+	)
+
+	(method (init)
+		(super init: &rest)
+		(= onMeCheck
+			((Polygon new:)
+				type: PTotalAccess
+				init: 206 156 210 157 230 161 229 173 201 175 194 170 190 159
+				yourself:
+			)
+		)
 	)
 
 	(method (doVerb theVerb)
@@ -1329,20 +1373,9 @@
 			(super doVerb: theVerb)
 		)
 	)
-
-	(method (init)
-		(super init: &rest)
-		(= onMeCheck
-			((Polygon new:)
-				type: PTotalAccess
-				init: 206 156 210 157 230 161 229 173 201 175 194 170 190 159
-				yourself:
-			)
-		)
-	)
 )
 
-(instance fSecond of Feature
+(instance unknown_790_29 of Feature
 	(properties
 		noun 15
 		nsLeft 232
@@ -1353,6 +1386,17 @@
 		x 232
 		y 253
 		z 100
+	)
+
+	(method (init)
+		(super init: &rest)
+		(= onMeCheck
+			((Polygon new:)
+				type: PTotalAccess
+				init: 228 153 236 149 254 149 268 152 270 156 268 159 268 163 235 163
+				yourself:
+			)
+		)
 	)
 
 	(method (doVerb theVerb)
@@ -1370,20 +1414,9 @@
 			(super doVerb: theVerb)
 		)
 	)
-
-	(method (init)
-		(super init: &rest)
-		(= onMeCheck
-			((Polygon new:)
-				type: PTotalAccess
-				init: 228 153 236 149 254 149 268 152 270 156 268 159 268 163 235 163
-				yourself:
-			)
-		)
-	)
 )
 
-(instance fThird of Feature
+(instance unknown_790_30 of Feature
 	(properties
 		noun 15
 		nsLeft 220
@@ -1394,6 +1427,17 @@
 		x 220
 		y 252
 		z 110
+	)
+
+	(method (init)
+		(super init: &rest)
+		(= onMeCheck
+			((Polygon new:)
+				type: PTotalAccess
+				init: 237 140 248 144 248 149 235 149 228 152 220 151 216 147 217 141
+				yourself:
+			)
+		)
 	)
 
 	(method (doVerb theVerb)
@@ -1411,20 +1455,9 @@
 			(super doVerb: theVerb)
 		)
 	)
-
-	(method (init)
-		(super init: &rest)
-		(= onMeCheck
-			((Polygon new:)
-				type: PTotalAccess
-				init: 237 140 248 144 248 149 235 149 228 152 220 151 216 147 217 141
-				yourself:
-			)
-		)
-	)
 )
 
-(instance fFourth of Feature
+(instance unknown_790_31 of Feature
 	(properties
 		noun 14
 		nsLeft 151
@@ -1435,6 +1468,17 @@
 		x 151
 		y 254
 		z 120
+	)
+
+	(method (init)
+		(super init: &rest)
+		(= onMeCheck
+			((Polygon new:)
+				type: PTotalAccess
+				init: 133 132 150 128 150 125 226 124 237 127 237 133 237 140 216 142 213 147 206 153 188 153 133 136
+				yourself:
+			)
+		)
 	)
 
 	(method (doVerb theVerb)
@@ -1452,20 +1496,9 @@
 			(super doVerb: theVerb)
 		)
 	)
-
-	(method (init)
-		(super init: &rest)
-		(= onMeCheck
-			((Polygon new:)
-				type: PTotalAccess
-				init: 133 132 150 128 150 125 226 124 237 127 237 133 237 140 216 142 213 147 206 153 188 153 133 136
-				yourself:
-			)
-		)
-	)
 )
 
-(instance fFifth of Feature
+(instance unknown_790_32 of Feature
 	(properties
 		noun 15
 		nsLeft 187
@@ -1476,6 +1509,17 @@
 		x 187
 		y 251
 		z 130
+	)
+
+	(method (init)
+		(super init: &rest)
+		(= onMeCheck
+			((Polygon new:)
+				type: PTotalAccess
+				init: 187 124 183 122 189 119 201 119 208 121 208 123
+				yourself:
+			)
+		)
 	)
 
 	(method (doVerb theVerb)
@@ -1493,20 +1537,9 @@
 			(super doVerb: theVerb)
 		)
 	)
-
-	(method (init)
-		(super init: &rest)
-		(= onMeCheck
-			((Polygon new:)
-				type: PTotalAccess
-				init: 187 124 183 122 189 119 201 119 208 121 208 123
-				yourself:
-			)
-		)
-	)
 )
 
-(instance fSixth of Feature
+(instance unknown_790_33 of Feature
 	(properties
 		noun 15
 		nsLeft 202
@@ -1517,6 +1550,17 @@
 		x 202
 		y 267
 		z 150
+	)
+
+	(method (init)
+		(super init: &rest)
+		(= onMeCheck
+			((Polygon new:)
+				type: PTotalAccess
+				init: 200 118 200 116 206 115 216 115 218 119 213 120 208 122
+				yourself:
+			)
+		)
 	)
 
 	(method (doVerb theVerb)
@@ -1534,20 +1578,9 @@
 			(super doVerb: theVerb)
 		)
 	)
-
-	(method (init)
-		(super init: &rest)
-		(= onMeCheck
-			((Polygon new:)
-				type: PTotalAccess
-				init: 200 118 200 116 206 115 216 115 218 119 213 120 208 122
-				yourself:
-			)
-		)
-	)
 )
 
-(instance fSeventh of Feature
+(instance unknown_790_34 of Feature
 	(properties
 		noun 15
 		nsLeft 192
@@ -1558,6 +1591,17 @@
 		x 192
 		y 263
 		z 150
+	)
+
+	(method (init)
+		(super init: &rest)
+		(= onMeCheck
+			((Polygon new:)
+				type: PTotalAccess
+				init: 200 117 191 117 189 114 193 112 202 112 209 114
+				yourself:
+			)
+		)
 	)
 
 	(method (doVerb theVerb)
@@ -1575,20 +1619,9 @@
 			(super doVerb: theVerb)
 		)
 	)
-
-	(method (init)
-		(super init: &rest)
-		(= onMeCheck
-			((Polygon new:)
-				type: PTotalAccess
-				init: 200 117 191 117 189 114 193 112 202 112 209 114
-				yourself:
-			)
-		)
-	)
 )
 
-(instance fEight of Feature
+(instance unknown_790_35 of Feature
 	(properties
 		noun 15
 		nsLeft 202
@@ -1601,6 +1634,17 @@
 		z 150
 	)
 
+	(method (init)
+		(super init: &rest)
+		(= onMeCheck
+			((Polygon new:)
+				type: PTotalAccess
+				init: 196 109 215 100 256 106 249 113 217 115 208 111 197 110
+				yourself:
+			)
+		)
+	)
+
 	(method (doVerb theVerb)
 		(if (== theVerb 4) ; Do
 			(= local7 8)
@@ -1610,17 +1654,6 @@
 			)
 		else
 			(super doVerb: theVerb)
-		)
-	)
-
-	(method (init)
-		(super init: &rest)
-		(= onMeCheck
-			((Polygon new:)
-				type: PTotalAccess
-				init: 196 109 215 100 256 106 249 113 217 115 208 111 197 110
-				yourself:
-			)
 		)
 	)
 )

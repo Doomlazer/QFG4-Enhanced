@@ -3,7 +3,7 @@
 (script# 28)
 (include sci.sh)
 (use Main)
-(use DeathIcon)
+(use DeathControls)
 (use Str)
 (use Print)
 (use IconBar)

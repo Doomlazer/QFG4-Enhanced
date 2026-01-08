@@ -5,7 +5,7 @@
 (use Main)
 (use GloryRm)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use Interface)
 (use Scaler)
 (use PolyPath)

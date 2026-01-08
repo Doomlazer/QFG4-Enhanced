@@ -117,7 +117,7 @@
 		(if (IsFlag 169)
 			(emptyCase init: approachVerbs: 4) ; Do
 		else
-			(swordCase init: approachVerbs: 4) ; Do
+			(unknown_350_39 init: approachVerbs: 4) ; Do
 		)
 		(if (IsFlag 190)
 			(rope init: approachVerbs: 4) ; Do
@@ -129,36 +129,36 @@
 				(not (IsFlag 475))
 				(not (IsFlag 507))
 			)
-			(ropeGrapnel init: approachVerbs: 4) ; Do
+			(unknown_350_19 init: approachVerbs: 4) ; Do
 		)
 		(secretDoor init: loop: (if (IsFlag 181) 3 else 2) approachVerbs: 4) ; Do
 		(localproc_0 1)
 		(stepperRope init: approachVerbs: 4) ; Do
 		(weightsOnFloor1 init: approachVerbs: 4) ; Do
 		(weightsOnFloor2 init: approachVerbs: 4) ; Do
-		(floorHole init: approachVerbs: 4) ; Do
-		(floorHole2 init: approachVerbs: 4) ; Do
-		(mooseHead init: approachVerbs: 4) ; Do
-		(moose2 init: approachVerbs: 4) ; Do
-		(wallCrack1 init: approachVerbs: 4) ; Do
-		(wallCrack2 init: approachVerbs: 4) ; Do
-		(wallCrack3 init: approachVerbs: 4) ; Do
-		(bigRing init: approachVerbs: 4) ; Do
-		(pulleys init: approachVerbs: 4) ; Do
-		(hooks init: approachVerbs: 4) ; Do
-		(pen init: approachVerbs: 4) ; Do
-		(painting1 init: approachVerbs: 4) ; Do
-		(painting2 init: approachVerbs: 4) ; Do
-		(desk init: approachVerbs: 4) ; Do
-		(book init: approachVerbs: 4) ; Do
-		(stepper init: approachVerbs: 4) ; Do
-		(ceilingCrack init: approachVerbs: 4) ; Do
-		(ewer1 init: approachVerbs: 4) ; Do
-		(ewer2 init: approachVerbs: 4) ; Do
-		(bookShelf init: approachVerbs: 4) ; Do
-		(tableCorner init: approachVerbs: 4) ; Do
-		(pillar init: approachVerbs: 4) ; Do
-		(ceilingHole init: approachVerbs: 4) ; Do
+		(unknown_350_26 init: approachVerbs: 4) ; Do
+		(unknown_350_27 init: approachVerbs: 4) ; Do
+		(unknown_350_28 init: approachVerbs: 4) ; Do
+		(unknown_350_29 init: approachVerbs: 4) ; Do
+		(unknown_350_30 init: approachVerbs: 4) ; Do
+		(unknown_350_31 init: approachVerbs: 4) ; Do
+		(unknown_350_32 init: approachVerbs: 4) ; Do
+		(unknown_350_33 init: approachVerbs: 4) ; Do
+		(unknown_350_34 init: approachVerbs: 4) ; Do
+		(unknown_350_35 init: approachVerbs: 4) ; Do
+		(unknown_350_36 init: approachVerbs: 4) ; Do
+		(unknown_350_37 init: approachVerbs: 4) ; Do
+		(unknown_350_38 init: approachVerbs: 4) ; Do
+		(unknown_350_40 init: approachVerbs: 4) ; Do
+		(unknown_350_41 init: approachVerbs: 4) ; Do
+		(unknown_350_42 init: approachVerbs: 4) ; Do
+		(unknown_350_43 init: approachVerbs: 4) ; Do
+		(unknown_350_44 init: approachVerbs: 4) ; Do
+		(unknown_350_45 init: approachVerbs: 4) ; Do
+		(unknown_350_46 init: approachVerbs: 4) ; Do
+		(unknown_350_47 init: approachVerbs: 4) ; Do
+		(unknown_350_48 init: approachVerbs: 4) ; Do
+		(unknown_350_49 init: approachVerbs: 4) ; Do
 		(super init: &rest)
 		(if (== gPrevRoomNum 340)
 			(self setScript: sClimbDown)
@@ -167,10 +167,20 @@
 		)
 	)
 
+	(method (dispose)
+		(local2 dispose:)
+		(local3 dispose:)
+		(local4 dispose:)
+		(super dispose: &rest)
+	)
+
 	(method (doVerb theVerb)
 		(switch theVerb
 			(104 ; Sleep all night
 				(gMessager say: 23 6 50) ; "The dust is far too thick here for you to sleep without having an asthma attack."
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "This isn't a very good place to practice Acrobatics; you'd probably trip over the stair-stepper and see stairs, um, stars."
 			)
 			(else
 				(super doVerb: theVerb &rest)
@@ -183,11 +193,8 @@
 		(super newRoom: &rest)
 	)
 
-	(method (dispose)
-		(local2 dispose:)
-		(local3 dispose:)
-		(local4 dispose:)
-		(super dispose: &rest)
+	(method (notify)
+		(gMessager say: 0 8 0) ; "They only allow spell-casting in the Guild Hall during spelling bees."
 	)
 )
 
@@ -228,6 +235,7 @@
 			)
 			(2
 				(if (not (IsFlag 438))
+					(gMessager say: 23 6 3) ; "You've entered a run-down room that looks like a cross between an office and a gym. One end is dominated by exercise equipment, the other by a desk and bookshelf. The whole affair looks abandoned and generally in poor condition."
 					(gEgo solvePuzzle: 438 6)
 				)
 				(gEgo normalize:)
@@ -272,8 +280,7 @@
 				(SetFlag 168)
 				(SetFlag 169)
 				(emptyCase loop: 0 cel: 0)
-				(= temp0 (gInventory at: 19)) ; theSword
-				(temp0 state: 1 loop: 0 cel: 0)
+				((= temp0 (gInventory at: 19)) state: 1 loop: 0 cel: 0) ; theSword
 				(gEgo get: 19) ; theSword
 				(temp0 amount: 1)
 				(gEgo setCycle: CT 0 -1 self)
@@ -297,7 +304,7 @@
 				(gEgo setMotion: PolyPath 68 140 self)
 			)
 			(1
-				(Face gEgo (bigRing x:) (bigRing y:) self)
+				(Face gEgo (unknown_350_33 x:) (unknown_350_33 y:) self)
 			)
 			(2
 				(= cycles 8)
@@ -334,6 +341,7 @@
 			)
 			(7 0)
 			(8
+				(gMessager say: 4 33 0) ; "You heft the grapnel and throw it up in the air. Luckily, it catches the big ring instead of the top of your head."
 				(rope approachVerbs: 4) ; Do
 				(gEgo posn: 68 140 normalize: 0 cycleSpeed: local6)
 				(= local6 0)
@@ -350,10 +358,13 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
+				(gMessager say: 6 6 42 1 self) ; "These hooks are loose; you can turn them. Strangely, when you turn one hook, sometimes several of the hooks move at the same time."
+			)
+			(1
 				((ScriptID 86 0) init: show: dispose:) ; hookBar
 				(= cycles 1)
 			)
-			(1
+			(2
 				(DisposeScript 86)
 				(if (IsFlag 181)
 					(gGlory handsOff:)
@@ -362,7 +373,7 @@
 					(= cycles 1)
 				)
 			)
-			(2
+			(3
 				(if (IsFlag 181)
 					(secretDoor loop: 3)
 					(gGlory handsOn:)
@@ -419,7 +430,6 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(SetFlag 50)
 				(= local6 (gEgo cycleSpeed:))
@@ -434,21 +444,18 @@
 				)
 			)
 			(1
-				1
 				(gEgo useSkill: 11 160) ; climbing
 				(gEgo useStamina: 10)
-				(if (< [gEgoStats 11] 200) ; climbing
+				(if (< global258 200)
 					(= state 11)
 				)
 				(gEgo loop: 1 cel: 0 posn: 139 137 setCycle: End self)
 			)
 			(2
-				2
 				(gEgo cel: 0 posn: 139 122 setCycle: End self)
 			)
 			(3
-				3
-				(if (and [gEgoStats 9] [gEgoStats 8] (not (IsFlag 181))) ; pick locks, stealth
+				(if (and global256 global255 (not (IsFlag 181)))
 					(if (IsFlag 170)
 						(self changeState: 7)
 					else
@@ -468,7 +475,6 @@
 				)
 			)
 			(4
-				4
 				(if local9
 					(SetFlag 170)
 					(gGlory handsOn:)
@@ -479,7 +485,6 @@
 				)
 			)
 			(5
-				5
 				(if local9
 					(gNarrator y: -1)
 					(gKeyDownHandler addToFront: ceilingMark)
@@ -489,7 +494,6 @@
 				)
 			)
 			(6
-				6
 				(if local9
 					(gGlory handsOff:)
 					(gKeyDownHandler delete: ceilingMark)
@@ -500,7 +504,6 @@
 				)
 			)
 			(7
-				7
 				(if (and local9 (gCast contains: ceilingMark))
 					(= local9 0)
 					(ceilingMark dispose:)
@@ -508,19 +511,15 @@
 				(gEgo setCycle: Beg self)
 			)
 			(8
-				8
 				(gEgo cel: 5 posn: 139 137 setCycle: Beg self)
 			)
 			(9
-				9
 				(gEgo cel: 5 posn: 139 154 setCycle: Beg self)
 			)
 			(10
-				10
 				(gEgo loop: 0 cel: 4 setCycle: Beg self)
 			)
 			(11
-				11
 				(gEgo normalize: 3 setSpeed: local6)
 				(= local6 0)
 				(gGlory handsOn:)
@@ -528,7 +527,6 @@
 				(self dispose:)
 			)
 			(12
-				12
 				(= state 7)
 				(gMessager say: 29 4 21 0 self) ; "That was good climbing practice, but you haven't quite got it yet. Keep trying."
 			)
@@ -611,20 +609,15 @@
 		(super init: &rest)
 	)
 
-	(method (handleEvent event)
-		(if (and (OneOf (event type:) evKEYBOARD $0020 evMOUSEBUTTON) (OneOf state 1 3 4)) ; joyUp
-			(self changeState: 6)
-			(event claimed: 1)
-			(return)
-		else
-			(super handleEvent: event &rest)
-		)
+	(method (dispose)
+		(gKeyDownHandler delete: self)
+		(gMouseDownHandler delete: self)
+		(super dispose: &rest)
 	)
 
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(= local6 (gEgo cycleSpeed:))
 				(switch gHeroType
@@ -642,7 +635,6 @@
 				(gEgo setPri: 162 setMotion: MoveTo 50 159 self)
 			)
 			(1
-				1
 				(gGlory handsOn:)
 				(cond
 					((IsFlag 204)
@@ -657,11 +649,11 @@
 						(= local10 1)
 						(gMessager say: 14 4 10 0 self) ; "You think you've done about as much stair-stepping as your body can handle."
 					)
-					((< [gEgoStats 18] 65) ; stamina
+					((< global265 65)
 						(= local10 1)
 						(gMessager say: 14 4 12 0 self) ; "Your legs are too stiff and sore to use this right now."
 					)
-					((< [gEgoStats 0] 200) ; strength
+					((< gEgoStats 200)
 						(= local10 1)
 						(gMessager say: 14 4 5 0 self) ; "Hmm, you always thought those stair-stepper things were supposed to go down when you stepped on them. Maybe you'd better take a little weight out of the baskets."
 					)
@@ -682,7 +674,6 @@
 				)
 			)
 			(2
-				2
 				(if local10
 					(= local10 0)
 					(self changeState: 6)
@@ -691,7 +682,6 @@
 				)
 			)
 			(3
-				3
 				(gEgo
 					view: 351
 					setLoop: 3 1
@@ -707,20 +697,17 @@
 				(= cycles (+ local7 10))
 			)
 			(4
-				4
 				(++ global451)
 				(gEgo useStamina: (+ (* local7 5) 12))
-				(if (< [gEgoStats 0] 400) ; strength
-					(++ [gEgoStats 0]) ; strength
+				(if (< gEgoStats 400)
+					(++ gEgoStats)
 				)
 				(gEgo setCycle: End self)
 			)
 			(5
-				5
 				(self changeState: 1)
 			)
 			(6
-				6
 				(gGlory handsOff:)
 				(weightsOnFloor1 setCycle: 0)
 				(weightsOnFloor2 setCycle: 0)
@@ -733,7 +720,6 @@
 				)
 			)
 			(7
-				7
 				(gEgo setPri: -1)
 				(gGlory handsOn:)
 				(self dispose:)
@@ -741,10 +727,14 @@
 		)
 	)
 
-	(method (dispose)
-		(gKeyDownHandler delete: self)
-		(gMouseDownHandler delete: self)
-		(super dispose: &rest)
+	(method (handleEvent event)
+		(if (and (OneOf (event type:) evKEYBOARD $0020 evMOUSEBUTTON) (OneOf state 1 3 4)) ; joyUp
+			(self changeState: 6)
+			(event claimed: 1)
+			(return)
+		else
+			(super handleEvent: event &rest)
+		)
 	)
 )
 
@@ -778,7 +768,7 @@
 				)
 			)
 			(2
-				(ropeGrapnel hide:)
+				(unknown_350_19 hide:)
 				(gEgo get: 16 setCycle: Beg self) ; theGrapnel
 			)
 			(3
@@ -851,71 +841,6 @@
 		)
 	)
 
-	(method (showCases)
-		(super
-			showCases:
-				1 ; Close Case
-				(IsFlag 168)
-				8 ; Examine Case
-				(IsFlag 168)
-				7 ; Examine Case
-				(not (IsFlag 168))
-				5 ; Force Case Open
-				(and
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
-					)
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
-					)
-					(< [gEgoStats 0] 300) ; strength
-				)
-				6 ; Break Case Open
-				(and
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
-					)
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
-					)
-					(not (IsFlag 168))
-					(OneOf gHeroType 0 3) ; Fighter, Paladin
-				)
-				4 ; Pry Case Open
-				(and
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
-					)
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
-					)
-					(OneOf gHeroType 2 1) ; Thief, Magic User
-				)
-				9 ; Open Case
-				(and
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
-					)
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
-					)
-					(not (IsFlag 168))
-				)
-				43 ; Open Case
-				(and
-					(gEgo has: 19) ; theSword
-					(== ((gInventory at: 19) state:) 2) ; theSword
-					(not (IsFlag 168))
-				)
-				47 ; Open Case
-				(and
-					(gEgo has: 19) ; theSword
-					(== ((gInventory at: 19) state:) 3) ; theSword
-					(not (IsFlag 168))
-				)
-		)
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(6 ; Break Case Open
@@ -935,21 +860,106 @@
 			)
 		)
 	)
+
+	(method (showCases)
+		(super
+			showCases:
+				1 ; Close Case
+				(IsFlag 168)
+				8 ; Examine Case
+				(IsFlag 168)
+				7 ; Examine Case
+				(not (IsFlag 168))
+				5 ; Force Case Open
+				(if
+					(not
+						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
+					)
+					(and
+						(not
+							(and
+								(gEgo has: 19) ; theSword
+								(== ((gInventory at: 19) state:) 2) ; theSword
+							)
+						)
+						(< gEgoStats 300)
+					)
+				else
+					0
+				)
+				6 ; Break Case Open
+				(if
+					(not
+						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
+					)
+					(if
+						(and
+							(not
+								(and
+									(gEgo has: 19) ; theSword
+									(== ((gInventory at: 19) state:) 3) ; theSword
+								)
+							)
+							(not (IsFlag 168))
+						)
+						(OneOf gHeroType 0 3) ; Fighter, Paladin
+					)
+				else
+					0
+				)
+				4 ; Pry Case Open
+				(if
+					(not
+						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
+					)
+					(if
+						(not
+							(and
+								(gEgo has: 19) ; theSword
+								(== ((gInventory at: 19) state:) 3) ; theSword
+							)
+						)
+						(OneOf gHeroType 2 1) ; Thief, Magic User
+					)
+				else
+					0
+				)
+				9 ; Open Case
+				(if
+					(not
+						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
+					)
+					(if
+						(not
+							(and
+								(gEgo has: 19) ; theSword
+								(== ((gInventory at: 19) state:) 2) ; theSword
+							)
+						)
+						(not (IsFlag 168))
+					)
+				else
+					0
+				)
+				43 ; Open Case
+				(if (and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
+					(not (IsFlag 168))
+				else
+					0
+				)
+				47 ; Open Case
+				(if (and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
+					(not (IsFlag 168))
+				else
+					0
+				)
+		)
+	)
 )
 
 (instance bookTeller of Teller
 	(properties
 		actionVerb 4
-	)
-
-	(method (showCases)
-		(super
-			showCases:
-				24 ; Search Under Desk
-				(and (IsFlag 170) (not (IsFlag 181)))
-				25 ; Sign Logbook
-				(not (IsFlag 171))
-		)
 	)
 
 	(method (sayMessage)
@@ -968,31 +978,25 @@
 			)
 		)
 	)
+
+	(method (showCases)
+		(super
+			showCases:
+				24 ; Search Under Desk
+				(if (IsFlag 170)
+					(not (IsFlag 181))
+				else
+					0
+				)
+				25 ; Sign Logbook
+				(not (IsFlag 171))
+		)
+	)
 )
 
 (instance shelfTeller of Teller
 	(properties
 		actionVerb 4
-	)
-
-	(method (showCases)
-		(super
-			showCases:
-				27 ; Climb Bookshelf
-				(IsFlag 172)
-				37 ; Read "Essential Exercise" Again
-				(IsFlag 173)
-				36 ; Read "Climbing Skills" Again
-				(IsFlag 174)
-				38 ; Read "Creative Casting" Again
-				(IsFlag 175)
-				35 ; Read "Essential Exercise"
-				(and (not (IsFlag 173)) (OneOf gHeroType 0 3)) ; Fighter, Paladin
-				2 ; Read "Climbing Skills"
-				(and (OneOf gHeroType 0 3) (== [gEgoStats 11] 0)) ; Fighter, Paladin, climbing
-				33 ; Read "Creative Casting"
-				(and [gEgoStats 12] (not (IsFlag 175))) ; magic
-		)
 	)
 
 	(method (sayMessage)
@@ -1015,17 +1019,21 @@
 						(gEgo solvePuzzle: 476 2 1)
 					)
 				)
-				(+= [gEgoStats 11] 100) ; climbing
+				(if (> global258 0)
+					(+= global258 20)
+				else
+					(+= global258 100)
+				)
 				(super sayMessage: &rest) ; You read the book entitled "Climbing Skills for Upwardly-Mobile Adventurers." It's written entirely in one-syllable words, obviously intended for Fighters. It's absolutely fascinating.
 			)
 			(35 ; Read "Essential Exercise"
 				(SetFlag 173)
-				(+= [gEgoStats 0] 20) ; strength
+				(+= gEgoStats 20)
 				(super sayMessage: &rest) ; This book teaches you how to use the stair-stepper to build strong leg muscles and talks about the importance of whole-body development. It says to build up your strength gradually by adding weights to the baskets.
 			)
 			(33 ; Read "Creative Casting"
 				(SetFlag 175)
-				(+= [gEgoStats 12] 25) ; magic
+				(+= global259 25)
 				(super sayMessage: &rest) ; The book is all about using spells in unusual and creative ways, such as "Calming" a fire, using alternating Flame and Frost spells to make something brittle and break, and so on. You pick up a number of useful tips which will improve your spellcasting.
 			)
 			(31 ; Read "HERO" Magazine
@@ -1036,6 +1044,38 @@
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				27 ; Climb Bookshelf
+				(IsFlag 172)
+				37 ; Read "Essential Exercise" Again
+				(IsFlag 173)
+				36 ; Read "Climbing Skills" Again
+				(IsFlag 174)
+				38 ; Read "Creative Casting" Again
+				(IsFlag 175)
+				35 ; Read "Essential Exercise"
+				(if (not (IsFlag 173))
+					(OneOf gHeroType 0 3) ; Fighter, Paladin
+				else
+					0
+				)
+				2 ; Read "Climbing Skills"
+				(if (not (IsFlag 174))
+					(OneOf gHeroType 0 3) ; Fighter, Paladin
+				else
+					0
+				)
+				33 ; Read "Creative Casting"
+				(if global259
+					(not (IsFlag 175))
+				else
+					0
+				)
 		)
 	)
 )
@@ -1052,9 +1092,10 @@
 				(gEgo get: 16) ; theGrapnel
 				(ClearFlag 190)
 				(rope dispose:)
+				(gMessager say: 28 165 19) ; "You shake the grapnel loose from the ceiling ring and tie the rope back onto your pack."
 			)
 			(2 ; Climb Rope
-				(if [gEgoStats 11] ; climbing
+				(if global258
 					(self clean:)
 					(gCurRoom setScript: sClimbRope)
 				else
@@ -1136,7 +1177,7 @@
 	)
 )
 
-(instance ropeGrapnel of View
+(instance unknown_350_19 of View
 	(properties
 		noun 27
 		approachX 149
@@ -1216,7 +1257,7 @@
 
 	(method (init)
 		(super init: &rest)
-		(= actions (swordCase actions:))
+		(= actions (unknown_350_39 actions:))
 	)
 )
 
@@ -1241,6 +1282,11 @@
 		(ropeTeller init: self 350 28 165)
 	)
 
+	(method (dispose)
+		(ropeTeller dispose:)
+		(super dispose: &rest)
+	)
+
 	(method (doVerb theVerb)
 		(switch theVerb
 			(1 ; Look
@@ -1250,11 +1296,6 @@
 				(super doVerb: theVerb &rest)
 			)
 		)
-	)
-
-	(method (dispose)
-		(ropeTeller dispose:)
-		(super dispose: &rest)
 	)
 )
 
@@ -1345,7 +1386,7 @@
 	)
 )
 
-(instance floorHole of Feature
+(instance unknown_350_26 of Feature
 	(properties
 		noun 2
 		nsLeft 106
@@ -1358,7 +1399,7 @@
 	)
 )
 
-(instance floorHole2 of Feature
+(instance unknown_350_27 of Feature
 	(properties
 		noun 2
 		nsLeft 21
@@ -1371,7 +1412,7 @@
 	)
 )
 
-(instance mooseHead of Feature
+(instance unknown_350_28 of Feature
 	(properties
 		noun 1
 		nsLeft 11
@@ -1384,7 +1425,7 @@
 	)
 )
 
-(instance moose2 of Feature
+(instance unknown_350_29 of Feature
 	(properties
 		noun 1
 		nsLeft 54
@@ -1397,7 +1438,7 @@
 	)
 )
 
-(instance wallCrack1 of Feature
+(instance unknown_350_30 of Feature
 	(properties
 		noun 3
 		nsLeft 16
@@ -1410,7 +1451,7 @@
 	)
 )
 
-(instance wallCrack2 of Feature
+(instance unknown_350_31 of Feature
 	(properties
 		noun 3
 		nsLeft 129
@@ -1423,7 +1464,7 @@
 	)
 )
 
-(instance wallCrack3 of Feature
+(instance unknown_350_32 of Feature
 	(properties
 		noun 3
 		nsLeft 139
@@ -1436,7 +1477,7 @@
 	)
 )
 
-(instance bigRing of Feature
+(instance unknown_350_33 of Feature
 	(properties
 		noun 4
 		nsLeft 130
@@ -1463,7 +1504,7 @@
 	)
 )
 
-(instance pulleys of Feature
+(instance unknown_350_34 of Feature
 	(properties
 		noun 5
 		nsLeft 45
@@ -1476,7 +1517,7 @@
 	)
 )
 
-(instance hooks of Feature
+(instance unknown_350_35 of Feature
 	(properties
 		noun 6
 		nsLeft 290
@@ -1493,7 +1534,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if [gEgoStats 9] ; pick locks
+				(if global256
 					(if (IsFlag 181)
 						(gMessager say: 6 4 40) ; "You've already opened the secret passage."
 					else
@@ -1510,7 +1551,7 @@
 	)
 )
 
-(instance pen of Feature
+(instance unknown_350_36 of Feature
 	(properties
 		noun 7
 		nsLeft 204
@@ -1529,6 +1570,7 @@
 					(gMessager say: 7 4 44) ; "Signature only, please. Only the Guildmaster is allowed to make other logbook entries."
 				else
 					(SetFlag 171)
+					(gEgo solvePuzzle: 439 2)
 					(gMessager say: 7 4 25) ; "You sign your name into the Adventurers' Logbook with a flourish; it's almost become a habit by now."
 				)
 			)
@@ -1539,7 +1581,7 @@
 	)
 )
 
-(instance painting1 of Feature
+(instance unknown_350_37 of Feature
 	(properties
 		noun 9
 		nsLeft 175
@@ -1552,7 +1594,7 @@
 	)
 )
 
-(instance painting2 of Feature
+(instance unknown_350_38 of Feature
 	(properties
 		noun 10
 		nsLeft 184
@@ -1565,7 +1607,7 @@
 	)
 )
 
-(instance swordCase of Feature
+(instance unknown_350_39 of Feature
 	(properties
 		noun 11
 		nsLeft 192
@@ -1600,7 +1642,7 @@
 					((and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
 						(gMessager say: 11 171 47) ; "You think about retrieving the sword from the case, but then you realize that the weapon you already brandish is MUCH more extravagant."
 					)
-					((< [gEgoStats 0] 300) ; strength
+					((< gEgoStats 300)
 						(gEgo trySkill: 0 300) ; strength
 						(gMessager say: 11 171 5) ; "The heavy iron hammer ought to be pretty good for breaking glass, but somehow you aren't quite getting it. You think you should be able to manage it once you build up your strength some more."
 					)
@@ -1616,7 +1658,7 @@
 	)
 )
 
-(instance desk of Feature
+(instance unknown_350_40 of Feature
 	(properties
 		noun 13
 		nsLeft 173
@@ -1634,7 +1676,7 @@
 	)
 )
 
-(instance book of Feature
+(instance unknown_350_41 of Feature
 	(properties
 		noun 8
 		nsLeft 175
@@ -1646,13 +1688,19 @@
 		y 118
 	)
 
-	(method (init)
-		(super init: &rest)
-		(= actions bookTeller)
+	(method (doVerb theVerb)
+		(switch theVerb
+			(4 ; Do
+				(bookTeller doVerb: 4)
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
 	)
 )
 
-(instance stepper of Feature
+(instance unknown_350_42 of Feature
 	(properties
 		noun 14
 		nsLeft 30
@@ -1678,7 +1726,7 @@
 	)
 )
 
-(instance ceilingCrack of Feature
+(instance unknown_350_43 of Feature
 	(properties
 		noun 15
 		nsLeft 110
@@ -1691,7 +1739,7 @@
 	)
 )
 
-(instance ewer1 of Feature
+(instance unknown_350_44 of Feature
 	(properties
 		noun 16
 		nsLeft 224
@@ -1704,7 +1752,7 @@
 	)
 )
 
-(instance ewer2 of Feature
+(instance unknown_350_45 of Feature
 	(properties
 		noun 17
 		nsLeft 284
@@ -1717,7 +1765,7 @@
 	)
 )
 
-(instance bookShelf of Feature
+(instance unknown_350_46 of Feature
 	(properties
 		noun 18
 		nsLeft 210
@@ -1753,7 +1801,7 @@
 	)
 )
 
-(instance tableCorner of Feature
+(instance unknown_350_47 of Feature
 	(properties
 		noun 20
 		nsLeft 166
@@ -1766,7 +1814,7 @@
 	)
 )
 
-(instance pillar of Feature
+(instance unknown_350_48 of Feature
 	(properties
 		noun 21
 		nsLeft 99
@@ -1779,7 +1827,7 @@
 	)
 )
 
-(instance ceilingHole of Feature
+(instance unknown_350_49 of Feature
 	(properties
 		noun 22
 		nsLeft 126

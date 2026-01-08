@@ -6,7 +6,7 @@
 (use GloryRm)
 (use TargFeature)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use Scaler)
 (use RandCycle)
 (use PolyPath)
@@ -32,6 +32,8 @@
 	local5
 	local6 = 1
 	local7
+	local8
+	local9
 )
 
 (instance rm710 of GloryRm
@@ -119,15 +121,15 @@
 		(blowBit2 init: setCycle: Fwd)
 		(blowBit3 init: setCycle: Fwd)
 		(blowBit4 init: setCycle: Fwd)
-		(leftExitF init: approachVerbs: 4) ; Do
-		(rightExitF init: approachVerbs: 4) ; Do
-		(bridge init:)
-		(pillar init:)
-		(upperLedge init:)
-		(lowerLedge init:)
-		(largeCave init:)
-		(smallCave init:)
-		(backLedge init:)
+		(unknown_710_40 init: approachVerbs: 4) ; Do
+		(unknown_710_41 init: approachVerbs: 4) ; Do
+		(unknown_710_33 init:)
+		(unknown_710_34 init:)
+		(unknown_710_35 init:)
+		(unknown_710_36 init:)
+		(unknown_710_37 init:)
+		(unknown_710_38 init:)
+		(unknown_710_39 init:)
 		(if (== gPrevRoomNum 790)
 			(= global156 400)
 		)
@@ -204,27 +206,27 @@
 			(
 				(gEgo
 					inRect:
-						(leftExitF nsLeft:)
-						(leftExitF nsTop:)
-						(leftExitF nsRight:)
-						(leftExitF nsBottom:)
+						(unknown_710_40 nsLeft:)
+						(unknown_710_40 nsTop:)
+						(unknown_710_40 nsRight:)
+						(unknown_710_40 nsBottom:)
 				)
 				(if (IsFlag 101)
 					(gEgo setMotion: 0)
 					(self setScript: backOff)
 				else
-					(leftExitF doVerb: 4)
+					(unknown_710_40 doVerb: 4)
 				)
 			)
 			(
 				(gEgo
 					inRect:
-						(rightExitF nsLeft:)
-						(rightExitF nsTop:)
-						(rightExitF nsRight:)
-						(rightExitF nsBottom:)
+						(unknown_710_41 nsLeft:)
+						(unknown_710_41 nsTop:)
+						(unknown_710_41 nsRight:)
+						(unknown_710_41 nsBottom:)
 				)
-				(rightExitF doVerb: 4)
+				(unknown_710_41 doVerb: 4)
 			)
 			(
 				(and
@@ -240,6 +242,11 @@
 				(gCurRoom setScript: sHorrorWakes)
 			)
 		)
+	)
+
+	(method (dispose)
+		(gWalkHandler delete: self)
+		(super dispose: &rest)
 	)
 
 	(method (doVerb theVerb)
@@ -307,6 +314,12 @@
 					(super doVerb: theVerb &rest)
 				)
 			)
+			(95 ; invisibleSpell
+				(gMessager say: 0 95 0) ; "You're momentarily hidden, but you know that you will once again be in danger as soon as you move."
+			)
+			(104 ; Sleep all night
+				(gMessager say: 0 104 0) ; "This might be a good place for your final rest... but sleeping here would likely bring that about."
+			)
 			(10 ; Jump
 				(gMessager say: 0 159 0) ; "The pit is too wide to jump."
 			)
@@ -321,11 +334,6 @@
 			(param1 next: sLevitateDone)
 		)
 		(super setScript: param1 &rest)
-	)
-
-	(method (dispose)
-		(gWalkHandler delete: self)
-		(super dispose: &rest)
 	)
 )
 
@@ -394,7 +402,9 @@
 
 	(method (doit)
 		(super doit: &rest)
-		(if (== state 2)
+		(if (or (not (== state 2)) (< (Abs (- gGameTime local9)) 2))
+		else
+			(= local9 gGameTime)
 			(gEgo useStamina: 1)
 		)
 	)
@@ -439,15 +449,12 @@
 			(3
 				(if (not (IsFlag 392))
 					(SetFlag 392)
-					(gMessager say: 10 6 32 0 self) ; "You just barely made it across the pit."
+					(gMessager say: 12 4 4 0 self) ; "You painstakingly cross the rope bridge hand-over-hand. It's a good thing you've been keeping up with your weight training."
 				else
 					(self cue:)
 				)
 			)
 			(4
-				(if (not (IsFlag 101))
-					((tentacle script:) cue:)
-				)
 				(= local6 1)
 				(gCurRoom
 					addObstacle:
@@ -469,6 +476,19 @@
 					cycleSpeed: gTempEgoSpeed
 					moveSpeed: gTempEgoSpeed
 				)
+				(= cycles 1)
+			)
+			(5
+				(if (not (IsFlag 101))
+					(= seconds 3)
+				else
+					(self cue:)
+				)
+			)
+			(6
+				(if (not (IsFlag 101))
+					((tentacle script:) cue:)
+				)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -481,7 +501,9 @@
 
 	(method (doit)
 		(super doit: &rest)
-		(if (== state 1)
+		(if (or (not (== state 1)) (< (Abs (- gGameTime local9)) 2))
+		else
+			(= local9 gGameTime)
 			(gEgo useStamina: 1)
 		)
 	)
@@ -532,6 +554,7 @@
 			)
 			(4
 				(if (not (IsFlag 101))
+					(gEgo code: warnCode)
 					((tentacle script:) cue:)
 				)
 				(gCurRoom
@@ -542,7 +565,6 @@
 							yourself:
 						)
 				)
-				(gEgo code: warnCode)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -625,7 +647,7 @@
 			(8
 				(if (not (IsFlag 392))
 					(SetFlag 392)
-					(gMessager say: 10 6 32 0 self) ; "You just barely made it across the pit."
+					(gMessager say: 12 4 5 0 self) ; "Taking a deep breath, you begin to walk the length of the rope. Fortunately, it is a thick, strong cable and tightly stretched between the supports on either side of the chasm."
 				else
 					(self cue:)
 				)
@@ -753,6 +775,7 @@
 			)
 			(10
 				(if (not (IsFlag 101))
+					(gEgo code: warnCode)
 					((tentacle script:) cue:)
 				)
 				(gCurRoom
@@ -763,14 +786,7 @@
 							yourself:
 						)
 				)
-				(gEgo
-					x: 226
-					y: 44
-					z: 0
-					setSpeed: gTempEgoSpeed
-					code: warnCode
-					normalize: 0
-				)
+				(gEgo x: 226 y: 44 z: 0 setSpeed: gTempEgoSpeed normalize: 0)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -781,25 +797,9 @@
 (instance sLevitateOverPit of Script
 	(properties)
 
-	(method (handleEvent event)
-		(if (and (== state 3) (OneOf (event type:) evKEYBOARD $0020 evMOUSEBUTTON)) ; joyUp
-			(if (== (event message:) KEY_Y)
-				(= register 1)
-			else
-				(= register 0)
-			)
-			(self cue:)
-			(event claimed: 1)
-			(return)
-		else
-			(super handleEvent: event)
-		)
-	)
-
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(= register (if (> (gEgo x:) 190) 1 else 0))
 				(if register
@@ -809,7 +809,6 @@
 				)
 			)
 			(1
-				1
 				(= local2 (gEgo cycleSpeed:))
 				(gEgo
 					view: 711
@@ -820,18 +819,15 @@
 				)
 			)
 			(2
-				2
 				(gMessager say: 10 6 7 0 self) ; "As you hold up the sheet like a sail, you can feel the wind pushing it (and you) towards the pit. Unfortunately, you're a little too heavy. You don't think the wind is powerful enough to push you across safely."
 			)
 			(3
-				3
 				(gEgo cycleSpeed: local2 setLoop: 1 1 setCycle: Fwd)
 				(gKeyDownHandler addToFront: self)
 				(gMouseDownHandler addToFront: self)
 				(gGlory handsOn:)
 			)
 			(4
-				4
 				(gGlory handsOff:)
 				(gKeyDownHandler delete: self)
 				(gMouseDownHandler delete: self)
@@ -842,7 +838,6 @@
 				)
 			)
 			(5
-				5
 				(if (not (IsFlag 101))
 					(tentacle setScript: sTentacleDeath 0 1)
 				)
@@ -861,10 +856,6 @@
 				)
 			)
 			(6
-				6
-				(if (not (IsFlag 101))
-					((tentacle script:) cue:)
-				)
 				(if register
 					(gCurRoom
 						addObstacle:
@@ -891,10 +882,9 @@
 				)
 				(sparklies dispose:)
 				(gLongSong2 fade:)
-				(= cycles 2)
+				(= ticks 4)
 			)
 			(7
-				7
 				(= state 8)
 				(if (not (IsFlag 392))
 					(SetFlag 392)
@@ -904,11 +894,9 @@
 				)
 			)
 			(8
-				8
 				(gMessager say: 10 6 8 0 self) ; "It's hard to do much with the wind pushing at your sheet, so you put it away."
 			)
 			(9
-				9
 				(= local2 (gEgo cycleSpeed:))
 				(gEgo
 					view: 711
@@ -919,11 +907,38 @@
 				)
 			)
 			(10
-				10
 				(gEgo cycleSpeed: local2 normalize: 1)
+				(= cycles 1)
+			)
+			(11
+				(if (and (not (IsFlag 101)) (IsFlag 392))
+					(= seconds 3)
+				else
+					(self cue:)
+				)
+			)
+			(12
+				(if (and (not (IsFlag 101)) (IsFlag 392))
+					((tentacle script:) cue:)
+				)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
+		)
+	)
+
+	(method (handleEvent event)
+		(if (and (== state 3) (OneOf (event type:) evKEYBOARD $0020 evMOUSEBUTTON)) ; joyUp
+			(if (== (event message:) KEY_Y)
+				(= register 1)
+			else
+				(= register 0)
+			)
+			(self cue:)
+			(event claimed: 1)
+			(return)
+		else
+			(super handleEvent: event)
 		)
 	)
 )
@@ -951,22 +966,18 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(if (not register)
 					(gGlory handsOff:)
 				)
 				(tentacle setLoop: 0 1 setCel: 0 show: setCycle: End self)
 			)
 			(1
-				1
 				(tentacle setLoop: 1 1 setCel: 0 setCycle: End self)
 			)
 			(2
-				2
-				(= cycles 6)
+				(= ticks 12)
 			)
 			(3
-				3
 				(if register
 					(= state 5)
 					(tentacle setCycle: RandCycle tentacle)
@@ -975,21 +986,17 @@
 				)
 			)
 			(4
-				4
 				(gEgo hide:)
 				(torchEff hide:)
 				(tentacle cycleSpeed: 10 setCycle: End self)
 			)
 			(5
-				5
 				(EgoDead 1 710 6) ; "The tentacle is faster than the eye. It's strong, too, as you are unceremoniously yanked to the Horror and then apart."
 			)
 			(6
-				6
 				(tentacle setLoop: 0 1 setCel: 10 setCycle: Beg self)
 			)
 			(7
-				7
 				(tentacle hide:)
 				(= register 0)
 				(self dispose:)
@@ -1033,7 +1040,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				(= cycles 6)
+				(= ticks 12)
 			)
 			(1
 				(priestHorror setCel: 0)
@@ -1071,14 +1078,18 @@
 				(book hide:)
 				(gEgo solvePuzzle: 461 15)
 				(if register
-					(= cycles 2)
+					(= ticks 4)
 				else
 					(gEgo setCycle: Beg self)
 				)
 			)
 			(2
 				(if register
-					(gMessager say: 14 87 16 0 self) ; "Your spell travels down to the cave floor and draws up a large, well-worn book. It seems to be a nobleman's diary."
+					(if local7
+						(gMessager say: 10 6 18 0 self) ; "You've got a bite! (This could be dangerous.) Oh, it's not really a bite; it's a book! You bring it up from the cave floor."
+					else
+						(gMessager say: 14 87 16 0 self) ; "Your spell travels down to the cave floor and draws up a large, well-worn book. It seems to be a nobleman's diary."
+					)
 				else
 					(gEgo x: 185 y: 165 normalize: 0 setPri: 185)
 					(= cycles 1)
@@ -1088,6 +1099,9 @@
 				(gMessager say: 10 6 22 0 self) ; "You pick up the book and read it. It is the diary of the last Boyar. It seems the thing in the pit was the last Borgov. Being a servant of the Dark One didn't do much for his looks or disposition."
 			)
 			(4
+				(if local7
+					(gEgo normalize: 3)
+				)
 				(gEgo setPri: -1)
 				(gGlory handsOn:)
 				(self dispose:)
@@ -1152,7 +1166,7 @@
 			)
 			(6
 				(priestHorror loop: 0 setScript: sHorrorSleeps)
-				(= cycles 2)
+				(= ticks 4)
 			)
 			(7
 				(gGlory handsOn:)
@@ -1180,7 +1194,7 @@
 				else
 					(= local4 0)
 					(= local3 0)
-					(gMessager say: 14 local7 0 0 self)
+					(gMessager say: 14 local8 0 0 self)
 				)
 			)
 			(3
@@ -1218,7 +1232,7 @@
 				else
 					(priestHorror loop: 0 cel: 0 setScript: sHorrorSleeps)
 				)
-				(= cycles 2)
+				(= ticks 4)
 			)
 			(2
 				(gGlory handsOn:)
@@ -1236,7 +1250,7 @@
 			(0
 				(gGlory handsOff:)
 				(SetFlag 378)
-				(= cycles 2)
+				(= ticks 4)
 			)
 			(1
 				(gGlory handsOn:)
@@ -1273,7 +1287,7 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(= cycles 2)
+				(= ticks 4)
 			)
 			(1
 				(switch gHeroType
@@ -1292,13 +1306,71 @@
 	)
 )
 
+(instance sHorrorTouch of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gMessager say: 14 4 11 0 self) ; "You walk over to the mound of maggots and wake him up. Dreadfully sporting of you, old chap. Stupid, but sporting."
+			)
+			(1
+				(= local3 0)
+				(= local4 0)
+				(gCurRoom setScript: sCombatOrNot)
+				(self dispose:)
+			)
+		)
+	)
+)
+
+(instance sGrapnelBook of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gGlory handsOff:)
+				(= local7 1)
+				(if (< (gEgo x:) 170)
+					(gEgo setMotion: PolyPath 239 45 self)
+				else
+					(gEgo setMotion: PolyPath 203 45 self)
+				)
+			)
+			(1
+				(gMessager say: 14 33 0 0 self) ; "You've always wanted to use a rope and grapnel for fishing. You cast the line, then wait with baited (er, we mean "bated") breath."
+			)
+			(2
+				(if (< (gEgo x:) 170)
+					(gEgo
+						view: 8
+						loop: 4
+						cel: 0
+						cycleSpeed: 6
+						setCycle: End self
+					)
+				else
+					(gEgo
+						view: 8
+						loop: 5
+						cel: 0
+						cycleSpeed: 6
+						setCycle: End self
+					)
+				)
+			)
+			(3
+				(gCurRoom setScript: sGetBook 0 1)
+				(self dispose:)
+			)
+		)
+	)
+)
+
 (instance torchEff of Prop
 	(properties
 		view 775
-	)
-
-	(method (onMe)
-		(return 0)
 	)
 
 	(method (doit)
@@ -1317,6 +1389,10 @@
 
 	(method (doVerb theVerb)
 		(gEgo doVerb: theVerb)
+	)
+
+	(method (onMe)
+		(return 0)
 	)
 )
 
@@ -1338,14 +1414,6 @@
 		signal 16385
 	)
 
-	(method (getHurt param1 param2)
-		(if (<= (-= global156 param2) 0)
-			(self setScript: sKillHorror 0 1)
-		else
-			(self setScript: sKillHorror 0 0)
-		)
-	)
-
 	(method (doVerb theVerb)
 		(cond
 			((OneOf theVerb 37 86 88 79 93) ; theThrowdagger, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell
@@ -1357,7 +1425,7 @@
 						(gMessager say: 10 6 35) ; "You decide you'd be better off with at least one dagger to defend yourself with."
 					)
 					(else
-						(gEgo setScript: (ScriptID 32) 0 (= local7 theVerb)) ; project
+						(gEgo setScript: (ScriptID 32) 0 (= local8 theVerb)) ; project
 					)
 				)
 			)
@@ -1386,12 +1454,43 @@
 						(gMessager say: 14 4 14) ; "The Horror is gross, slimy, and (fortunately) quite dead."
 					)
 					(else
-						(gMessager say: 14 4 11) ; "You walk over to the mound of maggots and wake him up. Dreadfully sporting of you, old chap. Stupid, but sporting."
+						(gCurRoom setScript: sHorrorTouch)
 					)
+				)
+			)
+			((== theVerb 43) ; theDarksign
+				(if (> global156 0)
+					(gMessager say: 14 43 0) ; "The horrible creature appears to be dismayed by the Dark One Sign, but quickly returns to its original position."
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			((== theVerb 56) ; theAmulet
+				(if (> global156 0)
+					(gMessager say: 14 56 0) ; "Whatever it may be, the awful creature isn't Undead. Something about it suggests a horribly mutated human shape."
+				else
+					(super doVerb: theVerb &rest)
 				)
 			)
 			(else
 				(super doVerb: theVerb &rest)
+			)
+		)
+	)
+
+	(method (getHurt param1 param2)
+		(cond
+			((and (or local3 local4) (not (< (gEgo y:) 125)) (> global156 0))
+				(= local3 0)
+				(= local4 0)
+				(gMessager say: 10 6 20 0) ; "Now you've done it! The Horror has woken up completely and it looks HUNGRY! You're also having some trouble keeping the contents of your stomach at the sight of the creature."
+				(gCurRoom setScript: sCombatOrNot)
+			)
+			((<= (-= global156 param2) 0)
+				(self setScript: sKillHorror 0 1)
+			)
+			(else
+				(self setScript: sKillHorror 0 0)
 			)
 		)
 	)
@@ -1442,7 +1541,7 @@
 
 	(method (doVerb theVerb)
 		(if (== theVerb 33) ; theGrapnel
-			(lowerLedge doVerb: theVerb &rest)
+			(unknown_710_36 doVerb: theVerb &rest)
 		else
 			(super doVerb: theVerb)
 		)
@@ -1502,6 +1601,13 @@
 					(gCurRoom setScript: sHorrorFetch)
 				)
 			)
+			(33 ; theGrapnel
+				(if (or (<= global156 0) local3 local4)
+					(gCurRoom setScript: sGrapnelBook)
+				else
+					(gMessager say: 14 33 10) ; "That wouldn't be such a great idea. The Horror would likely grab the grapnel and pull it, the rope, and you to your demise."
+				)
+			)
 			(else
 				(super doVerb: theVerb &rest)
 			)
@@ -1512,22 +1618,6 @@
 (instance ropeTeller of Teller
 	(properties
 		actionVerb 4
-	)
-
-	(method (showCases)
-		(super
-			showCases:
-				4 ; Cross Hand-Over-Hand
-				(or
-					(OneOf gHeroType 0 3) ; Fighter, Paladin
-					(>= [gEgoStats 0] 320) ; strength
-					(and (< [gEgoStats 0] 320) (IsFlag 101) (== gHeroType 1)) ; strength, Magic User
-				)
-				6 ; Fly Across
-				(or (OneOf gHeroType 1 3) (>= [gEgoStats 19] 310)) ; Magic User, Paladin, mana
-				5 ; Walk the Tightrope
-				(or (== gHeroType 2) (>= [gEgoStats 15] 110)) ; Thief, acrobatics
-		)
 	)
 
 	(method (doVerb theVerb)
@@ -1561,9 +1651,30 @@
 			)
 		)
 	)
+
+	(method (showCases)
+		(super
+			showCases:
+				4 ; Cross Hand-Over-Hand
+				(if (or (OneOf gHeroType 0 3) (IsFlag 101)) ; Fighter, Paladin
+				else
+					(>= gEgoStats 320)
+				)
+				6 ; Fly Across
+				(if (OneOf gHeroType 1 3) ; Magic User, Paladin
+				else
+					(>= global266 310)
+				)
+				5 ; Walk the Tightrope
+				(if (== gHeroType 2) ; Thief
+				else
+					(>= global262 110)
+				)
+		)
+	)
 )
 
-(instance bridge of Feature
+(instance unknown_710_33 of Feature
 	(properties
 		noun 3
 		nsLeft 128
@@ -1589,9 +1700,23 @@
 		(self approachVerbs: 4 1 4) ; Do, Look, Do
 		(ropeTeller init: self 710 12 4 11)
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(76 ; theTorch
+				(gMessager say: 11 76 0) ; "Don't burn your bridges behind (or in front of) you!"
+			)
+			(86 ; flameDartSpell
+				(gMessager say: 11 76 0) ; "Don't burn your bridges behind (or in front of) you!"
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
+	)
 )
 
-(instance pillar of Feature
+(instance unknown_710_34 of Feature
 	(properties
 		noun 4
 		nsLeft 23
@@ -1614,7 +1739,7 @@
 	)
 )
 
-(instance upperLedge of Feature
+(instance unknown_710_35 of Feature
 	(properties
 		noun 5
 		nsTop 66
@@ -1622,18 +1747,6 @@
 		nsBottom 116
 		x 86
 		y 91
-	)
-
-	(method (handleEvent event)
-		(if (< (gEgo y:) 125)
-			(= approachY (= approachX 0))
-			(self approachVerbs: 0)
-		else
-			(= approachX 145)
-			(= approachY 240)
-			(self approachVerbs: 4 33) ; Do, theGrapnel
-		)
-		(super handleEvent: event &rest)
 	)
 
 	(method (init)
@@ -1646,6 +1759,18 @@
 				)
 		)
 		(super init: &rest)
+	)
+
+	(method (handleEvent event)
+		(if (< (gEgo y:) 125)
+			(= approachY (= approachX 0))
+			(self approachVerbs: 0)
+		else
+			(= approachX 145)
+			(= approachY 240)
+			(self approachVerbs: 4 33) ; Do, theGrapnel
+		)
+		(super handleEvent: event &rest)
 	)
 
 	(method (doVerb theVerb)
@@ -1668,7 +1793,7 @@
 	)
 )
 
-(instance lowerLedge of Feature
+(instance unknown_710_36 of Feature
 	(properties
 		noun 6
 		nsTop 122
@@ -1711,7 +1836,7 @@
 	)
 )
 
-(instance largeCave of Feature
+(instance unknown_710_37 of Feature
 	(properties
 		noun 7
 		nsLeft 175
@@ -1724,7 +1849,7 @@
 	)
 )
 
-(instance smallCave of Feature
+(instance unknown_710_38 of Feature
 	(properties
 		noun 8
 		nsLeft 251
@@ -1737,7 +1862,7 @@
 	)
 )
 
-(instance backLedge of Feature
+(instance unknown_710_39 of Feature
 	(properties
 		noun 9
 		nsLeft 195
@@ -1761,7 +1886,7 @@
 	)
 )
 
-(instance leftExitF of Feature
+(instance unknown_710_40 of Feature
 	(properties
 		noun 2
 		nsRight 51
@@ -1792,6 +1917,10 @@
 					((> (gEgo x:) 190)
 						(gMessager say: 10 6 29) ; "That might be a useful place to go, but first you need to find a way to get to the other side."
 					)
+					((IsFlag 101)
+						(gEgo setMotion: 0)
+						(gCurRoom setScript: backOff)
+					)
 					(else
 						(= local0 50)
 						(= local1 28)
@@ -1806,7 +1935,7 @@
 	)
 )
 
-(instance rightExitF of Feature
+(instance unknown_710_41 of Feature
 	(properties
 		noun 1
 		nsLeft 271
@@ -1880,17 +2009,17 @@
 			(0
 				(gGlory handsOff:)
 				(if register
-					(if (and (!= gHeroType 1) (< [gEgoStats 11] 100)) ; Magic User, climbing
-						(= [gEgoStats 11] 100) ; climbing
+					(if (and (!= gHeroType 1) (< global258 100)) ; Magic User
+						(= global258 100)
 					)
 					(if (and (!= gHeroType 1) (not (gEgo has: 16))) ; Magic User, theGrapnel
 						(gEgo get: 16) ; theGrapnel
 					)
-					(= temp0 (leftExitF approachX:))
-					(= temp1 (leftExitF approachY:))
+					(= temp0 (unknown_710_40 approachX:))
+					(= temp1 (unknown_710_40 approachY:))
 				else
-					(= temp0 (rightExitF approachX:))
-					(= temp1 (rightExitF approachY:))
+					(= temp0 (unknown_710_41 approachX:))
+					(= temp1 (unknown_710_41 approachY:))
 				)
 				(gEgo setMotion: PolyPath temp0 temp1 self)
 			)

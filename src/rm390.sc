@@ -4,7 +4,7 @@
 (include sci.sh)
 (use Main)
 (use GloryRm)
-(use DeathIcon)
+(use DeathControls)
 (use Scaler)
 (use RandCycle)
 (use PolyPath)
@@ -92,21 +92,21 @@
 		)
 		(musicBox init: setPri: 152 approachVerbs: 4) ; Do
 		(door init: approachVerbs: 4) ; Do
-		(lamp init: approachVerbs: 4) ; Do
-		(chest init: approachVerbs: 4 63) ; Do, theLocket
-		(bed init: approachVerbs: 4 37) ; Do, theThrowdagger
-		(desk init: approachVerbs: 4) ; Do
-		(frontDoor init: approachVerbs: 4) ; Do
-		(couch init: approachVerbs: 4) ; Do
-		(downChest init: approachVerbs: 4) ; Do
-		(cabinet init: approachVerbs: 4) ; Do
-		(tableChairs init: approachVerbs: 4) ; Do
-		(stairs init: approachVerbs: 4) ; Do
-		(frontSteps init: approachVerbs: 4) ; Do
-		(pillar1 init: approachVerbs: 4) ; Do
-		(pillar2 init: approachVerbs: 4) ; Do
-		(railing1 init: approachVerbs: 4) ; Do
-		(railing2 init: approachVerbs: 4) ; Do
+		(unknown_390_28 init: approachVerbs: 4) ; Do
+		(unknown_390_29 init: approachVerbs: 4 63) ; Do, theLocket
+		(unknown_390_30 init: approachVerbs: 4 37) ; Do, theThrowdagger
+		(unknown_390_31 init: approachVerbs: 4) ; Do
+		(unknown_390_32 init: approachVerbs: 4) ; Do
+		(unknown_390_33 init: approachVerbs: 4) ; Do
+		(unknown_390_34 init: approachVerbs: 4) ; Do
+		(unknown_390_35 init: approachVerbs: 4) ; Do
+		(unknown_390_36 init: approachVerbs: 4) ; Do
+		(unknown_390_37 init: approachVerbs: 4) ; Do
+		(unknown_390_38 init: approachVerbs: 4) ; Do
+		(unknown_390_39 init: approachVerbs: 4) ; Do
+		(unknown_390_40 init: approachVerbs: 4) ; Do
+		(unknown_390_41 init: approachVerbs: 4) ; Do
+		(unknown_390_42 init: approachVerbs: 4) ; Do
 		(gCurRoom
 			addObstacle:
 				((Polygon new:)
@@ -130,6 +130,11 @@
 		(self setScript: sInWindow)
 	)
 
+	(method (dispose)
+		(gWalkHandler delete: self)
+		(super dispose: &rest)
+	)
+
 	(method (handleEvent event)
 		(if
 			(and
@@ -147,15 +152,6 @@
 		)
 	)
 
-	(method (doTorch param1)
-		(if param1
-			(torchFx init:)
-			(SetFlag 373)
-			(gEgo changeGait:)
-			(Palette 2 66 85 90) ; PalIntensity
-		)
-	)
-
 	(method (doVerb theVerb)
 		(switch theVerb
 			(91 ; jugglingLightsSpell
@@ -164,6 +160,16 @@
 				else
 					(super doVerb: theVerb &rest)
 				)
+			)
+			(85 ; calmSpell
+				(if (== local6 2)
+					(gMessager say: 20 6 44) ; "You think about it, and decide that casting that spell would attract too much attention to your location."
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "You're making enough noise already without jumping all over the place!"
 			)
 			(else
 				(super doVerb: theVerb &rest)
@@ -179,9 +185,13 @@
 		(super newRoom: newRoomNumber &rest)
 	)
 
-	(method (dispose)
-		(gWalkHandler delete: self)
-		(super dispose: &rest)
+	(method (doTorch param1)
+		(if param1
+			(torchFx init:)
+			(SetFlag 373)
+			(gEgo changeGait:)
+			(Palette 2 66 85 90) ; PalIntensity
+		)
 	)
 )
 
@@ -275,7 +285,7 @@
 				(gMessager say: 18 6 23 0 self) ; "What has happened to me? I do not understand."
 			)
 			(4
-				(EgoDead 24 0 0 0 912)
+				(EgoDead 24 390) ; "If dead men tell no tales, then why did this one do so much talking? Next time, leave the murdering to the BAD guys, eh?"
 			)
 		)
 	)
@@ -534,7 +544,7 @@
 			(1
 				(cond
 					((IsFlag 348)
-						(= [gEgoStats 14] 0) ; honor
+						(= global261 0)
 						(gMessager say: 20 6 40 0 self) ; "You have no morals, do you? Tsk, tsk."
 					)
 					(register
@@ -869,19 +879,19 @@
 		)
 	)
 
+	(method (doit)
+		(= x (gEgo x:))
+		(= y (gEgo y:))
+		(= z (- (gEgo z:) 2))
+		(super doit: &rest)
+	)
+
 	(method (handleEvent)
 		(return 0)
 	)
 
 	(method (onMe)
 		(return 0)
-	)
-
-	(method (doit)
-		(= x (gEgo x:))
-		(= y (gEgo y:))
-		(= z (- (gEgo z:) 2))
-		(super doit: &rest)
 	)
 )
 
@@ -898,7 +908,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(chest doVerb: theVerb &rest)
+		(unknown_390_29 doVerb: theVerb &rest)
 	)
 )
 
@@ -1021,7 +1031,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(downChest doVerb: theVerb &rest)
+		(unknown_390_34 doVerb: theVerb &rest)
 	)
 )
 
@@ -1037,7 +1047,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(desk doVerb: theVerb &rest)
+		(unknown_390_31 doVerb: theVerb &rest)
 	)
 )
 
@@ -1161,7 +1171,7 @@
 	)
 )
 
-(instance lamp of Feature
+(instance unknown_390_28 of Feature
 	(properties
 		noun 4
 		nsTop 44
@@ -1175,7 +1185,7 @@
 	)
 )
 
-(instance chest of Feature
+(instance unknown_390_29 of Feature
 	(properties
 		noun 5
 		nsLeft 97
@@ -1228,7 +1238,7 @@
 	)
 )
 
-(instance bed of Feature
+(instance unknown_390_30 of Feature
 	(properties
 		noun 6
 		nsLeft 14
@@ -1261,6 +1271,11 @@
 		)
 	)
 
+	(method (dispose)
+		(heading dispose:)
+		(super dispose: &rest)
+	)
+
 	(method (doVerb theVerb)
 		(switch theVerb
 			(1 ; Look
@@ -1289,14 +1304,9 @@
 			)
 		)
 	)
-
-	(method (dispose)
-		(heading dispose:)
-		(super dispose: &rest)
-	)
 )
 
-(instance desk of Feature
+(instance unknown_390_31 of Feature
 	(properties
 		noun 7
 		nsLeft 214
@@ -1355,7 +1365,7 @@
 	)
 )
 
-(instance frontDoor of Feature
+(instance unknown_390_32 of Feature
 	(properties
 		noun 9
 		nsLeft 292
@@ -1381,7 +1391,7 @@
 	)
 )
 
-(instance couch of Feature
+(instance unknown_390_33 of Feature
 	(properties
 		noun 10
 		nsLeft 106
@@ -1394,7 +1404,7 @@
 	)
 )
 
-(instance downChest of Feature
+(instance unknown_390_34 of Feature
 	(properties
 		noun 11
 		nsLeft 267
@@ -1431,7 +1441,7 @@
 	)
 )
 
-(instance cabinet of Feature
+(instance unknown_390_35 of Feature
 	(properties
 		noun 13
 		nsLeft 33
@@ -1444,7 +1454,7 @@
 	)
 )
 
-(instance tableChairs of Feature
+(instance unknown_390_36 of Feature
 	(properties
 		noun 14
 		nsLeft 67
@@ -1457,7 +1467,7 @@
 	)
 )
 
-(instance stairs of Feature
+(instance unknown_390_37 of Feature
 	(properties
 		noun 15
 		nsLeft 2
@@ -1496,7 +1506,7 @@
 	)
 )
 
-(instance frontSteps of Feature
+(instance unknown_390_38 of Feature
 	(properties
 		noun 16
 		nsLeft 274
@@ -1512,7 +1522,7 @@
 	)
 )
 
-(instance pillar1 of Feature
+(instance unknown_390_39 of Feature
 	(properties
 		noun 17
 		nsLeft 176
@@ -1525,7 +1535,7 @@
 	)
 )
 
-(instance pillar2 of Feature
+(instance unknown_390_40 of Feature
 	(properties
 		noun 17
 		nsLeft 257
@@ -1537,7 +1547,7 @@
 	)
 )
 
-(instance railing1 of Feature
+(instance unknown_390_41 of Feature
 	(properties
 		noun 19
 		nsTop 72
@@ -1552,7 +1562,7 @@
 	)
 )
 
-(instance railing2 of Feature
+(instance unknown_390_42 of Feature
 	(properties
 		noun 19
 		nsLeft 207

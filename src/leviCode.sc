@@ -3,7 +3,7 @@
 (script# 31)
 (include sci.sh)
 (use Main)
-(use DeathIcon)
+(use DeathControls)
 (use Array)
 (use PolyPath)
 (use Sound)

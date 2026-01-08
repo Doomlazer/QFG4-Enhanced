@@ -6,7 +6,7 @@
 (use GloryRm)
 (use TargFeature)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use Array)
 (use Scaler)
 (use PolyPath)

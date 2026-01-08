@@ -2,7 +2,7 @@
 ;;; Decompiled by sluicebox
 (script# 0)
 (include sci.sh)
-(use DeathIcon)
+(use DeathControls)
 (use QIcon)
 (use Plane)
 (use Str)
@@ -3928,7 +3928,7 @@
 						(ScriptID 520 1) ; rusalkaTalkerYoung
 					)
 					(38
-						(ScriptID 520 2) ; rusalkaTalkerOld
+						(ScriptID 520 2) ; unknown_520_38
 					)
 					(3
 						(ScriptID 70) ; tobyTalker

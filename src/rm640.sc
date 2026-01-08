@@ -86,7 +86,7 @@
 		(vBackDoor ignoreActors: approachVerbs: 4 init:) ; Do
 		(vRightDoor ignoreActors: approachVerbs: 4 init:) ; Do
 		(vCandle ignoreActors: init:)
-		(vStoneSteps ignoreActors: approachVerbs: 4 init:) ; Do
+		(unknown_640_23 ignoreActors: approachVerbs: 4 init:) ; Do
 		(vCupBoard ignoreActors: approachVerbs: 4 init:) ; Do
 		(vChest ignoreActors: approachVerbs: 4 init:) ; Do
 		(vRightCurtain ignoreActors: approachVerbs: 4 init:) ; Do
@@ -104,7 +104,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				(gGlory handsOn:)
+				(gGlory handsOff:)
 				(doorSound play:)
 				(switch gPrevRoomNum
 					(621
@@ -122,7 +122,7 @@
 				(vBackDoor setPri: 0)
 				(pBackDoor setPri: 86)
 				(pLeftDoor setPri: 75)
-				(vStoneSteps setPri: 86 init:)
+				(unknown_640_23 setPri: 86 init:)
 				(pRightDoor setPri: 75)
 				(vRightCurtain setPri: 141 init:)
 				(gEgo setMotion: PolyPath local0 local1 self)
@@ -1087,7 +1087,7 @@
 	)
 )
 
-(instance vStoneSteps of View
+(instance unknown_640_23 of View
 	(properties
 		noun 8
 		modNum 640
@@ -1181,16 +1181,6 @@
 		actionVerb 4
 	)
 
-	(method (showCases)
-		(super
-			showCases:
-				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
-				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
-		)
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(4 ; Open Door
@@ -1212,6 +1202,24 @@
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				13 ; Look for Traps
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
+				7 ; Pick the Lock
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 )
@@ -1221,16 +1229,6 @@
 		actionVerb 4
 	)
 
-	(method (showCases)
-		(super
-			showCases:
-				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
-				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
-		)
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(4 ; Open Door
@@ -1252,6 +1250,24 @@
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				13 ; Look for Traps
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
+				7 ; Pick the Lock
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 )
@@ -1261,16 +1277,6 @@
 		actionVerb 4
 	)
 
-	(method (showCases)
-		(super
-			showCases:
-				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
-				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
-		)
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(4 ; Open Door
@@ -1292,6 +1298,24 @@
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				13 ; Look for Traps
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
+				7 ; Pick the Lock
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 )

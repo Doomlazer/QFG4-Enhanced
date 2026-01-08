@@ -68,34 +68,31 @@
 		(super doit: &rest)
 	)
 
-	(method (handleEvent event &tmp temp0)
-		(cond
-			((OneOf (event type:) evMOUSEBUTTON $0020) ; joyUp
-				(= local0 gMouseX)
-				(= local1 (- gMouseY 10))
-				(if (not (IsFlag 240))
-					(= local8 1)
-				)
-				(if (= temp0 (myList firstTrue: #onMe event))
-					(temp0 doVerb:)
-				)
-				(event claimed: 1)
-				(return)
-			)
-			((== (event type:) evKEYBOARD)
-				(event claimed: 1)
-				(return)
-			)
-			(else
-				(super handleEvent: event)
-			)
+	(method (dispose)
+		(gKeyDownHandler delete: self)
+		(gMouseDownHandler delete: self)
+		(myList dispose:)
+		(ClearFlag 50)
+		(ClearFlag 51)
+		(local2 dispose:)
+		(local3 dispose:)
+		(if (IsFlag 240)
+			(dial dispose:)
+			(unknown_89_6 dispose:)
 		)
+		(safe dispose:)
+		(unknown_89_7 dispose:)
+		(gGlory handsOn: setCursor: local7)
+		(gCurRoom drawPic: gCurRoomNum)
+		(ClearFlag 147)
+		((ScriptID 0 21) doit: gCurRoomNum) ; statusCode
+		(gCast eachElementDo: #perform (ScriptID 90 0) 0) ; ZCode
+		(super dispose:)
 	)
 
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(UpdatePlane ((gCurRoom plane:) back: 0 picture: -1 yourself:))
 				(SetFlag 147)
@@ -104,21 +101,19 @@
 				(= cycles 2)
 			)
 			(1
-				1
 				(safe init:)
 				(if (IsFlag 240)
 					(dial init:)
-					(comboLetter init:)
+					(unknown_89_6 init:)
 				)
-				(bogusFtr init:)
+				(unknown_89_7 init:)
 				(= cycles 2)
 			)
 			(2
-				2
 				(if (IsFlag 240)
-					(myList add: dial comboLetter)
+					(myList add: dial unknown_89_6)
 				)
-				(myList add: safe bogusFtr)
+				(myList add: safe unknown_89_7)
 				(gGlory handsOn:)
 				(= local7 (gTheIconBar getCursor:))
 				(gGlory
@@ -139,33 +134,32 @@
 					(= cycles 1)
 				)
 			)
-			(3
-				3
-				0
-			)
+			(3 0)
 		)
 	)
 
-	(method (dispose)
-		(gKeyDownHandler delete: self)
-		(gMouseDownHandler delete: self)
-		(myList dispose:)
-		(ClearFlag 50)
-		(ClearFlag 51)
-		(local2 dispose:)
-		(local3 dispose:)
-		(if (IsFlag 240)
-			(dial dispose:)
-			(comboLetter dispose:)
+	(method (handleEvent event &tmp temp0)
+		(cond
+			((OneOf (event type:) evMOUSEBUTTON $0020) ; joyUp
+				(= local0 gMouseX)
+				(= local1 (- gMouseY 10))
+				(if (not (IsFlag 240))
+					(= local8 1)
+				)
+				(if (= temp0 (myList firstTrue: #onMe event))
+					((= temp0 (myList firstTrue: #onMe event)) doVerb:)
+				)
+				(event claimed: 1)
+				(return)
+			)
+			((== (event type:) evKEYBOARD)
+				(event claimed: 1)
+				(return)
+			)
+			(else
+				(super handleEvent: event)
+			)
 		)
-		(safe dispose:)
-		(bogusFtr dispose:)
-		(gGlory handsOn: setCursor: local7)
-		(gCurRoom drawPic: gCurRoomNum)
-		(ClearFlag 147)
-		((ScriptID 0 21) doit: gCurRoomNum) ; statusCode
-		(gCast eachElementDo: #perform (ScriptID 90 0) 0) ; ZCode
-		(super dispose:)
 	)
 )
 
@@ -175,13 +169,11 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(= local6 (localproc_0 local0 local1))
 				(= cycles 1)
 			)
 			(1
-				1
 				(cond
 					(local4
 						(if (== (dial cel:) (dial lastCel:))
@@ -200,7 +192,6 @@
 				(= cycles 1)
 			)
 			(2
-				2
 				(if (== (dial cel:) local6)
 					(= local6 0)
 					(if
@@ -216,8 +207,7 @@
 							(and (== local5 4) (== local4 1) (== (dial cel:) 7))
 						)
 						(if (>= (++ local5) 5)
-							(SetFlag 248)
-							(gEgo solvePuzzle: 510 2 4)
+							(dial setScript: sSolvePuz)
 						)
 					else
 						(= local5 0)
@@ -228,6 +218,24 @@
 				else
 					(self changeState: 1)
 				)
+			)
+		)
+	)
+)
+
+(instance sSolvePuz of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gEgo solvePuzzle: 510 2 4)
+				(gMessager say: 25 6 25 0 self) ; "The last tumbler slips into place and you open the large safe. Could it be full of jewelry? Negotiable bonds? Or maybe something REALLY priceless -- a complete collection of Sierra On-Line games?"
+			)
+			(1
+				(SetFlag 248)
+				(gGlory handsOn:)
+				(self dispose:)
 			)
 		)
 	)
@@ -301,7 +309,7 @@
 	)
 )
 
-(instance comboLetter of Feature
+(instance unknown_89_6 of Feature
 	(properties
 		nsLeft 104
 		nsTop 46
@@ -317,7 +325,7 @@
 	)
 )
 
-(instance bogusFtr of Feature
+(instance unknown_89_7 of Feature
 	(properties
 		nsRight 320
 		nsBottom 200

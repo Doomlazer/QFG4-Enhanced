@@ -5,7 +5,7 @@
 (use Main)
 (use GloryRm)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use Interface)
 (use Scaler)
 (use PolyPath)
@@ -60,7 +60,7 @@
 		)
 		(if
 			(or
-				(and (IsFlag 144) (== gHeroType 1) (> [gEgoStats 35] 0)) ; Magic User, ritualOfReleaseSpell
+				(and (IsFlag 144) (== gHeroType 1) (> global282 0)) ; Magic User
 				(and (!= gHeroType 1) (IsFlag 144)) ; Magic User
 			)
 			(= local1 1)
@@ -81,7 +81,7 @@
 			)
 		else
 			(pDoor init:)
-			(fFloor init:)
+			(unknown_650_30 init:)
 			(if (not (IsFlag 145))
 				(gCurRoom
 					addObstacle:
@@ -131,45 +131,45 @@
 		(super init: &rest)
 		(FrameOut)
 		(gLongSong number: 650 setLoop: -1 play:)
-		(fWindow init:)
-		(fSnowGlobe init:)
-		(fDancer init:)
-		(fClock init:)
-		(fSteps init:)
-		(fPeasantDoll init:)
-		(fDresser init:)
-		(fClown init:)
-		(fElephant init:)
-		(fCastle1 init:)
-		(fCastle2 init:)
-		(fTheatre init:)
-		(fPolkaHorse init:)
-		(fDoor init:)
-		(fCandelabra1 init:)
-		(fCandelabra2 init:)
-		(fCoffin init:)
-		(fDrapery init:)
-		(fRug init:)
+		(unknown_650_16 init:)
+		(unknown_650_17 init:)
+		(unknown_650_18 init:)
+		(unknown_650_19 init:)
+		(unknown_650_20 init:)
+		(unknown_650_21 init:)
+		(unknown_650_22 init:)
+		(unknown_650_23 init:)
+		(unknown_650_24 init:)
+		(unknown_650_25 init:)
+		(unknown_650_26 init:)
+		(unknown_650_27 init:)
+		(unknown_650_28 init:)
+		(unknown_650_29 init:)
+		(unknown_650_31 init:)
+		(unknown_650_32 init:)
+		(unknown_650_33 init:)
+		(unknown_650_34 init:)
+		(unknown_650_35 init:)
 		(gGlory save: 1)
 	)
 
+	(method (doit)
+		(super doit: &rest)
+		(if (> (gEgo x:) 310)
+			(gCurRoom newRoom: (gCurRoom east:))
+		)
+	)
+
 	(method (doVerb theVerb)
-		(cond
-			((IsFlag 115)
-				(if (== theVerb 4) ; Do
-					(gMessager say: 27 4 47 0 self) ; "The toys look forlorn with the little girl gone."
-				else
-					(super doVerb: theVerb)
-				)
-			)
-			((== theVerb 4) ; Do
+		(switch theVerb
+			(4 ; Do
 				(if (not (IsFlag 143))
-					(gMessager say: 27 4 42 0 self) ; "You can't reach anything from here."
+					(gMessager say: 27 4 42) ; "You can't reach anything from here."
 				else
-					(gMessager say: 27 4 43 0 self) ; "That belongs to the little girl."
+					(super doVerb: theVerb &rest)
 				)
 			)
-			((== theVerb 37) ; theThrowdagger
+			(37 ; theThrowdagger
 				(if (== (gEgo has: 5) 1) ; theThrowdagger
 					(gMessager say: 28 6 46) ; "You are down to your last dagger. You'd better hold on to it."
 				else
@@ -181,24 +181,18 @@
 					)
 				)
 			)
-			((OneOf theVerb 21 83 86 88 79 93 82) ; theRocks, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
-				(SetFlag 145)
-				(if (IsFlag 143)
-					(gCurRoom setScript: sNotNice)
+			(else
+				(if (OneOf theVerb 21 83 86 88 79 93 82) ; theRocks, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(SetFlag 145)
+					(if (IsFlag 143)
+						(gCurRoom setScript: sNotNice)
+					else
+						(gCurRoom setScript: sStayOut)
+					)
 				else
-					(gCurRoom setScript: sStayOut)
+					(super doVerb: theVerb &rest)
 				)
 			)
-			(else
-				(super doVerb: theVerb)
-			)
-		)
-	)
-
-	(method (doit)
-		(super doit: &rest)
-		(if (> (gEgo x:) 310)
-			(gCurRoom newRoom: (gCurRoom east:))
 		)
 	)
 )
@@ -356,6 +350,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
+				(gGlory handsOff:)
 				(ClearFlag 145)
 				(gMessager say: 1 6 3 0 self) ; "You're not a very nice person. You tried to hurt us. I don't like you. You should hug me and make me feel better."
 			)
@@ -492,7 +487,7 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(fFloor dispose:)
+				(unknown_650_30 dispose:)
 				((gCurRoom obstacles:) dispose:)
 				(gCurRoom obstacles: 0)
 				(gMessager say: 1 6 5 0 self) ; "What's that you got?"
@@ -611,10 +606,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -654,10 +660,18 @@
 				(gCurRoom setScript: sGiveDoll)
 			)
 			(4 ; Do
-				(gCurRoom doVerb: theVerb)
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
 			)
 			(else
-				(super doVerb: theVerb)
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
 			)
 		)
 	)
@@ -674,19 +688,19 @@
 		loop 2
 	)
 
+	(method (doit)
+		(if (and cycler (cycler isKindOf: End) (not cel))
+			(openDoor stop: play:)
+		)
+		(super doit:)
+	)
+
 	(method (doVerb theVerb)
 		(if (== theVerb 4) ; Do
 			(gCurRoom newRoom: 620)
 		else
 			(super doVerb: theVerb)
 		)
-	)
-
-	(method (doit)
-		(if (and cycler (cycler isKindOf: End) (not cel))
-			(openDoor stop: play:)
-		)
-		(super doit:)
 	)
 )
 
@@ -722,7 +736,7 @@
 	)
 )
 
-(instance fWindow of Feature
+(instance unknown_650_16 of Feature
 	(properties
 		noun 10
 		nsTop 10
@@ -734,15 +748,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fSnowGlobe of Feature
+(instance unknown_650_17 of Feature
 	(properties
 		noun 11
 		nsLeft 20
@@ -755,15 +780,32 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(cond
+					((not (IsFlag 143))
+						(gCurRoom doVerb: theVerb)
+					)
+					((IsFlag 115)
+						(gMessager say: 27 4 47) ; "The toys look forlorn with the little girl gone."
+					)
+					(else
+						(gMessager say: 27 4 43) ; "That belongs to the little girl."
+					)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fDancer of Feature
+(instance unknown_650_18 of Feature
 	(properties
 		noun 12
 		nsLeft 31
@@ -776,15 +818,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fClock of Feature
+(instance unknown_650_19 of Feature
 	(properties
 		noun 13
 		nsLeft 59
@@ -797,15 +850,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fSteps of Feature
+(instance unknown_650_20 of Feature
 	(properties
 		noun 14
 		nsLeft 126
@@ -818,15 +882,32 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(cond
+					((not (IsFlag 143))
+						(gCurRoom doVerb: theVerb)
+					)
+					((IsFlag 115)
+						(gMessager say: 27 4 47) ; "The toys look forlorn with the little girl gone."
+					)
+					(else
+						(gMessager say: 27 4 43) ; "That belongs to the little girl."
+					)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fPeasantDoll of Feature
+(instance unknown_650_21 of Feature
 	(properties
 		noun 15
 		nsTop 92
@@ -838,15 +919,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fDresser of Feature
+(instance unknown_650_22 of Feature
 	(properties
 		noun 16
 		nsLeft 7
@@ -859,15 +951,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fClown of Feature
+(instance unknown_650_23 of Feature
 	(properties
 		noun 17
 		nsLeft 33
@@ -880,15 +983,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fElephant of Feature
+(instance unknown_650_24 of Feature
 	(properties
 		noun 18
 		nsTop 123
@@ -900,15 +1014,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fCastle1 of Feature
+(instance unknown_650_25 of Feature
 	(properties
 		noun 4
 		nsLeft 71
@@ -921,15 +1046,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fCastle2 of Feature
+(instance unknown_650_26 of Feature
 	(properties
 		noun 4
 		nsLeft 100
@@ -942,15 +1078,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
-		)
+		(unknown_650_25 doVerb: theVerb &rest)
 	)
 )
 
-(instance fTheatre of Feature
+(instance unknown_650_27 of Feature
 	(properties
 		noun 19
 		nsLeft 227
@@ -963,15 +1095,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fPolkaHorse of Feature
+(instance unknown_650_28 of Feature
 	(properties
 		noun 20
 		nsLeft 283
@@ -984,15 +1127,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fDoor of Feature
+(instance unknown_650_29 of Feature
 	(properties
 		noun 21
 		nsLeft 272
@@ -1013,7 +1167,7 @@
 	)
 )
 
-(instance fFloor of Feature
+(instance unknown_650_30 of Feature
 	(properties
 		nsLeft 257
 		nsTop 103
@@ -1059,7 +1213,7 @@
 	)
 )
 
-(instance fCandelabra1 of Feature
+(instance unknown_650_31 of Feature
 	(properties
 		noun 22
 		nsLeft 75
@@ -1072,15 +1226,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fCandelabra2 of Feature
+(instance unknown_650_32 of Feature
 	(properties
 		noun 23
 		nsLeft 215
@@ -1093,15 +1258,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fCoffin of Feature
+(instance unknown_650_33 of Feature
 	(properties
 		noun 24
 		nsLeft 109
@@ -1114,15 +1290,32 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(cond
+					((not (IsFlag 143))
+						(gCurRoom doVerb: theVerb)
+					)
+					((IsFlag 115)
+						(gMessager say: 27 4 47) ; "The toys look forlorn with the little girl gone."
+					)
+					(else
+						(gMessager say: 27 4 43) ; "That belongs to the little girl."
+					)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fDrapery of Feature
+(instance unknown_650_34 of Feature
 	(properties
 		noun 25
 		nsLeft 73
@@ -1134,15 +1327,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
 
-(instance fRug of Feature
+(instance unknown_650_35 of Feature
 	(properties
 		noun 26
 		nsLeft 100
@@ -1155,10 +1359,27 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(cond
+					((not (IsFlag 143))
+						(gCurRoom doVerb: theVerb)
+					)
+					((IsFlag 115)
+						(gMessager say: 27 4 47) ; "The toys look forlorn with the little girl gone."
+					)
+					(else
+						(gMessager say: 27 4 43) ; "That belongs to the little girl."
+					)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -1180,10 +1401,6 @@
 		actionVerb 2
 	)
 
-	(method (showCases)
-		(super showCases: 41 local1) ; Tell About Erana's Staff
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(41 ; Tell About Erana's Staff
@@ -1194,6 +1411,10 @@
 				(super sayMessage: &rest)
 			)
 		)
+	)
+
+	(method (showCases)
+		(super showCases: 41 local1) ; Tell About Erana's Staff
 	)
 )
 

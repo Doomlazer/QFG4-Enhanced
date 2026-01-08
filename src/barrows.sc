@@ -4,7 +4,7 @@
 (include sci.sh)
 (use Main)
 (use TargFeature)
-(use DeathIcon)
+(use DeathControls)
 (use Polygon)
 (use Sound)
 (use Motion)
@@ -80,6 +80,13 @@
 		)
 	)
 
+	(method (dispose)
+		(ClearFlag 66)
+		(ClearFlag 65)
+		(ClearFlag 35)
+		(super dispose: &rest)
+	)
+
 	(method (newRoom newRoomNumber)
 		(if (and (!= newRoomNumber 810) (== gCombatMonsterNum 850)) ; combat, wraith
 			(= gCombatMonsterNum 0)
@@ -88,13 +95,6 @@
 			(gLongSong client: 0)
 		)
 		(super newRoom: newRoomNumber)
-	)
-
-	(method (dispose)
-		(ClearFlag 66)
-		(ClearFlag 65)
-		(ClearFlag 35)
-		(super dispose: &rest)
 	)
 )
 
@@ -117,9 +117,9 @@
 					init:
 						(- nsLeft 5)
 						(- nsBottom 5)
-						(+ nsRight 5)
+						(+ name 5)
 						(- nsBottom 5)
-						(+ nsRight 5)
+						(+ name 5)
 						nsBottom
 						(- nsLeft 5)
 						nsBottom
@@ -173,18 +173,6 @@
 		(super init: &rest)
 		(= x (mound x:))
 		(= y (mound y:))
-	)
-
-	(method (cue)
-		(gCurRoom setScript: sStartWraith)
-	)
-
-	(method (doVerb theVerb)
-		(if (Message msgSIZE 53 noun theVerb 0 1)
-			(gMessager say: noun theVerb 0 0 0 53)
-		else
-			((ScriptID 50) doVerb: theVerb) ; forest
-		)
 	)
 
 	(method (doit)
@@ -246,6 +234,18 @@
 		(super doit: &rest)
 	)
 
+	(method (doVerb theVerb)
+		(if (Message msgSIZE 53 noun theVerb 0 1)
+			(gMessager say: noun theVerb 0 0 0 53)
+		else
+			((ScriptID 50) doVerb: theVerb) ; forest
+		)
+	)
+
+	(method (cue)
+		(gCurRoom setScript: sStartWraith)
+	)
+
 	(method (getHurt param1 param2)
 		(if
 			(and
@@ -292,6 +292,10 @@
 		)
 	)
 
+	(method (doVerb theVerb)
+		((ScriptID 50) doVerb: theVerb) ; forest
+	)
+
 	(method (cue &tmp temp0)
 		(if (or (== loop 4) (== loop 13))
 			(if (gEgo onMe: x y)
@@ -312,7 +316,7 @@
 					(/= temp0 2)
 				)
 				(if global454
-					(= temp0 (/ (* temp0 (- 100 (/ [gEgoStats 39] 7))) 100)) ; resistanceSpell
+					(= temp0 (/ (* temp0 (- 100 (/ global286 7))) 100))
 				)
 				(if (and (not (IsFlag 8)) (not (gEgo takeDamage: temp0)))
 					(EgoDead 16 53) ; "The Wraith has sucked your life force right out of you. Should you return here (in another life), you will need to be properly protected and strike quickly."
@@ -330,10 +334,6 @@
 			(self dispose:)
 		)
 	)
-
-	(method (doVerb theVerb)
-		((ScriptID 50) doVerb: theVerb) ; forest
-	)
 )
 
 (instance sStartWraith of Script
@@ -346,7 +346,7 @@
 				(gMessager say: 1 6 7 0 self 53) ; "You feel a chill go through you as you enter this part of the forest as if a cold wind suddenly sprang up from nowhere."
 			)
 			(1
-				(if (and (== gHeroType 3) (< [gEgoStats 14] 50)) ; Paladin, honor
+				(if (and (== gHeroType 3) (> global261 50)) ; Paladin
 					(gMessager say: 1 6 8 0 self 53) ; "Your Paladin "Danger Sense" alerts you. That shadowy figure intends to harm you!"
 				else
 					(self cue:)
@@ -611,6 +611,8 @@
 							(switch gHeroType
 								(0 ; Fighter
 									((gInventory at: 19) state: 2) ; theSword
+									(gEgo has: 19) ; theSword
+									((gInventory at: 19) cel: 15) ; theSword
 									(if (not (gEgo has: 19)) ; theSword
 										(gEgo get: 19 1) ; theSword
 									)
@@ -624,6 +626,8 @@
 								)
 								(3 ; Paladin
 									((gInventory at: 19) state: 3) ; theSword
+									(gEgo has: 19) ; theSword
+									((gInventory at: 19) cel: 14) ; theSword
 									(if (not (gEgo has: 19)) ; theSword
 										(gEgo get: 19 1) ; theSword
 									)
@@ -644,7 +648,8 @@
 							(gEgo get: 0 25 get: 45 1) ; thePurse, theJewelry
 							(or (== gHeroType 3) (== gHeroType 0)) ; Paladin, Fighter
 							((gInventory at: 17) state: 1) ; theArmor
-							(if (not (gEgo has: 17)) ; theArmor
+							(gEgo has: 17) ; theArmor
+							(if (not ((gInventory at: 17) cel: 13)) ; theArmor
 								(gEgo get: 17 1) ; theArmor
 							)
 						)

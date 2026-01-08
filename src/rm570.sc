@@ -5,7 +5,7 @@
 (use Main)
 (use GloryRm)
 (use TargFeature)
-(use DeathIcon)
+(use DeathControls)
 (use forest)
 (use PolyPath)
 (use Polygon)

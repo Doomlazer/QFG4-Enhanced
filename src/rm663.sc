@@ -77,9 +77,9 @@
 		(vRightCeiling ignoreActors: init:)
 		(vSecretDoor ignoreActors: init:)
 		(vBook ignoreActors: init:)
-		(fChair1 approachVerbs: 4 init:) ; Do
-		(fChair2 approachVerbs: 4 init:) ; Do
-		(fChair3 approachVerbs: 4 init:) ; Do
+		(unknown_663_22 approachVerbs: 4 init:) ; Do
+		(unknown_663_23 approachVerbs: 4 init:) ; Do
+		(unknown_663_24 approachVerbs: 4 init:) ; Do
 		(gCurRoom setScript: sComeOnIn)
 	)
 
@@ -477,6 +477,13 @@
 
 	(method (doVerb theVerb)
 		(switch theVerb
+			(1 ; Look
+				(if local1
+					(gMessager say: 37 1 4 1 0 640) ; "Now the crest is crooked in the other direction! Some days, you just can't win. On the other hand, you DID manage to open the secret passage!"
+				else
+					(gMessager say: 37 1 0 1 0 640) ; "The Boyar's crest looks slightly crooked."
+				)
+			)
 			(4 ; Do
 				(if local1
 					(= local1 0)
@@ -617,7 +624,7 @@
 	)
 )
 
-(instance fChair1 of Feature
+(instance unknown_663_22 of Feature
 	(properties
 		noun 27
 		nsLeft 123
@@ -630,7 +637,7 @@
 	)
 )
 
-(instance fChair2 of Feature
+(instance unknown_663_23 of Feature
 	(properties
 		noun 27
 		nsLeft 139
@@ -643,7 +650,7 @@
 	)
 )
 
-(instance fChair3 of Feature
+(instance unknown_663_24 of Feature
 	(properties
 		noun 27
 		nsLeft 183
@@ -659,16 +666,6 @@
 (instance doorTeller of Teller
 	(properties
 		actionVerb 4
-	)
-
-	(method (showCases)
-		(super
-			showCases:
-				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
-				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
-		)
 	)
 
 	(method (sayMessage)
@@ -692,6 +689,24 @@
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				13 ; Look for Traps
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
+				7 ; Pick the Lock
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 )

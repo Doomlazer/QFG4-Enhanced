@@ -4,7 +4,7 @@
 (include sci.sh)
 (use Main)
 (use GloryRm)
-(use DeathIcon)
+(use DeathControls)
 (use Array)
 (use Scaler)
 (use RandCycle)
@@ -73,22 +73,22 @@
 
 (procedure (localproc_1)
 	(cond
-		((and (== local2 0) (== (sBlowTent register:) lRTent))
+		((and (== local2 0) (== (sBlowTent register:) unknown_750_33))
 			(notes number: 988 client: self play:)
 			(++ local2)
 			(return 1)
 		)
-		((and (== local2 1) (== (sBlowTent register:) lLTent))
+		((and (== local2 1) (== (sBlowTent register:) unknown_750_31))
 			(notes number: 989 client: self play:)
 			(++ local2)
 			(return 1)
 		)
-		((and (== local2 2) (== (sBlowTent register:) lMidTent))
+		((and (== local2 2) (== (sBlowTent register:) unknown_750_32))
 			(notes number: 990 client: self play:)
 			(++ local2)
 			(return 1)
 		)
-		((and (== local2 3) (== (sBlowTent register:) uMidTent))
+		((and (== local2 3) (== (sBlowTent register:) unknown_750_30))
 			(notes number: 991 client: self play:)
 			(++ local2)
 			(return 1)
@@ -138,22 +138,39 @@
 		(tent3 init:)
 		(tent4 init:)
 		(tent5 init:)
-		(lRTent approachVerbs: 4 70 init:) ; Do, theBreathRit
+		(unknown_750_33 approachVerbs: 4 70 init:) ; Do, theBreathRit
 		(uLTent approachVerbs: 4 70 init:) ; Do, theBreathRit
-		(lLTent approachVerbs: 4 70 init:) ; Do, theBreathRit
+		(unknown_750_31 approachVerbs: 4 70 init:) ; Do, theBreathRit
 		(uRTent approachVerbs: 4 70 init:) ; Do, theBreathRit
-		(uMidTent approachVerbs: 4 70 init:) ; Do, theBreathRit
-		(lMidTent approachVerbs: 4 70 init:) ; Do, theBreathRit
-		(altar approachVerbs: 4 70 init:) ; Do, theBreathRit
-		(headRock init:)
-		(sphincter init:)
-		(theExit init: approachVerbs: 4) ; Do
-		(bubbleHead init:)
-		(midBubble init:)
-		(foreBubbles init:)
-		(moreBubbles init:)
+		(unknown_750_30 approachVerbs: 4 70 init:) ; Do, theBreathRit
+		(unknown_750_32 approachVerbs: 4 70 init:) ; Do, theBreathRit
+		(unknown_750_34 approachVerbs: 4 70 init:) ; Do, theBreathRit
+		(unknown_750_35 init:)
+		(unknown_750_36 init:)
+		(unknown_750_37 init: approachVerbs: 4) ; Do
+		(unknown_750_38 init:)
+		(unknown_750_39 init:)
+		(unknown_750_40 init:)
+		(unknown_750_41 init:)
 		(gCurRoom setScript: sEnter)
 		(gGlory save: 1)
+	)
+
+	(method (doit)
+		(super doit: &rest)
+		(cond
+			(script)
+			(
+				(gEgo
+					inRect:
+						(unknown_750_37 nsLeft:)
+						(unknown_750_37 nsTop:)
+						(unknown_750_37 nsRight:)
+						(unknown_750_37 nsBottom:)
+				)
+				(gCurRoom setScript: sExit)
+			)
+		)
 	)
 
 	(method (handleEvent event)
@@ -165,19 +182,85 @@
 		)
 	)
 
-	(method (doit)
-		(super doit: &rest)
-		(cond
-			(script)
-			(
-				(gEgo
-					inRect:
-						(theExit nsLeft:)
-						(theExit nsTop:)
-						(theExit nsRight:)
-						(theExit nsBottom:)
+	(method (doVerb theVerb)
+		(switch theVerb
+			(1 ; Look
+				(if local3
+					(gMessager say: noun theVerb 2 0) ; "Dust swirls through the chamber as the giant "lung" blows its powerful wind through the cave."
+				else
+					(gMessager say: noun theVerb 1 0) ; "The stone has formed into a number of strange globes in this part of the cave. A stone image of a huge, unearthly creature with tentacles has been carved out of the rock on the left side."
 				)
-				(gCurRoom setScript: sExit)
+				(return 1)
+			)
+			(4 ; Do
+				(if
+					(or
+						local9
+						(and
+							(== gHeroType 2) ; Thief
+							(IsFlag 356)
+							(== (sSuckEgo state:) 3)
+						)
+					)
+					(= local7 ((User curEvent:) x:))
+					(= local8 ((User curEvent:) y:))
+					(gCurRoom setScript: unknown_750_11)
+					(sBreath start: 5)
+					(hole setScript: sBreath)
+				else
+					(super doVerb: theVerb)
+				)
+			)
+			(14 ; theBonsai
+				(gMessager say: 0 14 0) ; "You should have planted that earlier. It will never survive in this cave."
+				(return 1)
+			)
+			(33 ; theGrapnel
+				(gMessager say: 0 33 0) ; "You missed."
+				(return 1)
+			)
+			(47 ; theBones
+				(gMessager say: 0 47 0) ; "This is no fit place for a burial."
+				(return 1)
+			)
+			(56 ; theAmulet
+				(gMessager say: 0 56 0) ; "That won't help you here."
+				(return 1)
+			)
+			(60 ; theWillowisp
+				(gMessager say: 0 60 0) ; "The tiny creature cringes in its flask. It will have nothing to do with this place!"
+				(return 1)
+			)
+			(67 ; theBoneRit
+				(gMessager say: 0 67 0) ; "This is not the proper place for that Ritual."
+				(return 1)
+			)
+			(69 ; theBloodRit
+				(gMessager say: 0 69 0) ; "This is not the proper place for that Ritual."
+				(return 1)
+			)
+			(70 ; theBreathRit
+				(gMessager say: 0 70 0) ; "The Breath Ritual must be used on the Altar of Darkness."
+				(return 1)
+			)
+			(72 ; theSenseRit
+				(gMessager say: 0 72 0) ; "This is not the proper place for that Ritual."
+				(return 1)
+			)
+			(74 ; theHeartRit
+				(gMessager say: 0 74 0) ; "This is not the proper place for that Ritual."
+				(return 1)
+			)
+			(104 ; Sleep all night
+				(gMessager say: 0 104 0) ; "To fall asleep here would surely mean your death!"
+				(return 1)
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "Jumping's not easy in a place that's this breezy!"
+				(return 1)
+			)
+			(else
+				(super doVerb: theVerb &rest)
 			)
 		)
 	)
@@ -291,41 +374,6 @@
 		(gEgo castSpell: temp0)
 		(return 1)
 	)
-
-	(method (doVerb theVerb)
-		(switch theVerb
-			(1 ; Look
-				(if local3
-					(gMessager say: noun theVerb 2 0) ; "Dust swirls through the chamber as the giant "lung" blows its powerful wind through the cave."
-				else
-					(gMessager say: noun theVerb 1 0) ; "The stone has formed into a number of strange globes in this part of the cave. A stone image of a huge, unearthly creature with tentacles has been carved out of the rock on the left side."
-				)
-				(return 1)
-			)
-			(4 ; Do
-				(if
-					(or
-						local9
-						(and
-							(== gHeroType 2) ; Thief
-							(IsFlag 356)
-							(== (sSuckEgo state:) 3)
-						)
-					)
-					(= local7 ((User curEvent:) x:))
-					(= local8 ((User curEvent:) y:))
-					(gCurRoom setScript: sMoveEgo)
-					(sBreath start: 5)
-					(hole setScript: sBreath)
-				else
-					(super doVerb: theVerb)
-				)
-			)
-			(else
-				(super doVerb: theVerb)
-			)
-		)
-	)
 )
 
 (instance sPlaySpellSound of Script
@@ -339,7 +387,11 @@
 				(= seconds 2)
 			)
 			(1
-				(gMessager say: 11 6 9 0 self) ; "Your spell has no effect."
+				(if (== register 942)
+					(gMessager say: 0 81 0 0 self) ; "The entire cave is suffused with dark, eldritch magic. The focus seems to be the tentacle-laden altar on the left side of the chamber."
+				else
+					(gMessager say: 11 6 9 0 self) ; "Your spell has no effect."
+				)
 			)
 			(2
 				(gGlory handsOn:)
@@ -586,7 +638,7 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(if (== register uMidTent)
+				(if (== register unknown_750_30)
 					(gEgo view: 31 loop: 1 cel: 0 setCycle: End self)
 				else
 					(gEgo view: 4 loop: 1 cel: 0 setCycle: CT 2 1 self)
@@ -601,7 +653,7 @@
 			)
 			(3
 				(cond
-					((== register uMidTent)
+					((== register unknown_750_30)
 						(if (localproc_1)
 							(= local3 1)
 							(gEgo drop: 54 1 solvePuzzle: 457 6) ; theBreathRit
@@ -820,7 +872,7 @@
 					(2
 						(sBreath start: 1)
 						(hole setScript: sBreath)
-						(gCurRoom setScript: sThrowEgoLeft)
+						(gCurRoom setScript: unknown_750_14)
 					)
 					(else
 						(gEgo
@@ -861,7 +913,7 @@
 					(2
 						(sBreath start: 5)
 						(hole setScript: sBreath)
-						(gCurRoom setScript: sThrowEgoLeft)
+						(gCurRoom setScript: unknown_750_14)
 					)
 					(else
 						(gEgo
@@ -932,7 +984,7 @@
 	)
 )
 
-(instance sMoveEgo of Script
+(instance unknown_750_11 of Script
 	(properties)
 
 	(method (changeState newState)
@@ -1068,7 +1120,7 @@
 	)
 )
 
-(instance sThrowEgoLeft of Script
+(instance unknown_750_14 of Script
 	(properties)
 
 	(method (init)
@@ -1472,7 +1524,7 @@
 				)
 			)
 			((OneOf theVerb 70 69 67 72 74) ; theBreathRit, theBloodRit, theBoneRit, theSenseRit, theHeartRit
-				(altar doVerb: theVerb)
+				(unknown_750_34 doVerb: theVerb)
 			)
 			(else
 				(super doVerb: theVerb)
@@ -1511,7 +1563,7 @@
 				)
 			)
 			((OneOf theVerb 70 69 67 72 74) ; theBreathRit, theBloodRit, theBoneRit, theSenseRit, theHeartRit
-				(altar doVerb: theVerb)
+				(unknown_750_34 doVerb: theVerb)
 			)
 			(else
 				(super doVerb: theVerb)
@@ -1520,7 +1572,7 @@
 	)
 )
 
-(instance uMidTent of Feature
+(instance unknown_750_30 of Feature
 	(properties
 		noun 8
 		nsLeft 65
@@ -1552,7 +1604,7 @@
 				)
 			)
 			((OneOf theVerb 70 69 67 72 74) ; theBreathRit, theBloodRit, theBoneRit, theSenseRit, theHeartRit
-				(altar doVerb: theVerb)
+				(unknown_750_34 doVerb: theVerb)
 			)
 			(else
 				(super doVerb: theVerb)
@@ -1561,7 +1613,7 @@
 	)
 )
 
-(instance lLTent of Feature
+(instance unknown_750_31 of Feature
 	(properties
 		noun 10
 		nsLeft 59
@@ -1575,20 +1627,20 @@
 		y 56
 	)
 
-	(method (handleEvent event)
-		(if (IsFlag 356)
-			0
-		else
-			(super handleEvent: event &rest)
-		)
-	)
-
 	(method (init)
 		(self
 			onMeCheck:
 				((Polygon new:) type: PBarredAccess init: 69 50 84 50 84 64 70 64 yourself:)
 		)
 		(super init: &rest)
+	)
+
+	(method (handleEvent event)
+		(if (IsFlag 356)
+			0
+		else
+			(super handleEvent: event &rest)
+		)
 	)
 
 	(method (doVerb theVerb)
@@ -1601,7 +1653,7 @@
 				)
 			)
 			((OneOf theVerb 70 69 67 72 74) ; theBreathRit, theBloodRit, theBoneRit, theSenseRit, theHeartRit
-				(altar doVerb: theVerb)
+				(unknown_750_34 doVerb: theVerb)
 			)
 			(else
 				(super doVerb: theVerb)
@@ -1610,7 +1662,7 @@
 	)
 )
 
-(instance lMidTent of Feature
+(instance unknown_750_32 of Feature
 	(properties
 		noun 10
 		nsLeft 86
@@ -1622,14 +1674,6 @@
 		approachY 67
 		x 92
 		y 56
-	)
-
-	(method (handleEvent event)
-		(if (IsFlag 356)
-			0
-		else
-			(super handleEvent: event &rest)
-		)
 	)
 
 	(method (init)
@@ -1644,6 +1688,14 @@
 		(super init: &rest)
 	)
 
+	(method (handleEvent event)
+		(if (IsFlag 356)
+			0
+		else
+			(super handleEvent: event &rest)
+		)
+	)
+
 	(method (doVerb theVerb)
 		(cond
 			((== theVerb 4) ; Do
@@ -1654,7 +1706,7 @@
 				)
 			)
 			((OneOf theVerb 70 69 67 72 74) ; theBreathRit, theBloodRit, theBoneRit, theSenseRit, theHeartRit
-				(altar doVerb: theVerb)
+				(unknown_750_34 doVerb: theVerb)
 			)
 			(else
 				(super doVerb: theVerb)
@@ -1663,7 +1715,7 @@
 	)
 )
 
-(instance lRTent of Feature
+(instance unknown_750_33 of Feature
 	(properties
 		noun 10
 		nsLeft 100
@@ -1675,14 +1727,6 @@
 		approachY 64
 		x 105
 		y 51
-	)
-
-	(method (handleEvent event)
-		(if (IsFlag 356)
-			0
-		else
-			(super handleEvent: event &rest)
-		)
 	)
 
 	(method (init)
@@ -1697,6 +1741,14 @@
 		(super init: &rest)
 	)
 
+	(method (handleEvent event)
+		(if (IsFlag 356)
+			0
+		else
+			(super handleEvent: event &rest)
+		)
+	)
+
 	(method (doVerb theVerb)
 		(cond
 			((== theVerb 4) ; Do
@@ -1707,7 +1759,7 @@
 				)
 			)
 			((OneOf theVerb 70 69 67 72 74) ; theBreathRit, theBloodRit, theBoneRit, theSenseRit, theHeartRit
-				(altar doVerb: theVerb)
+				(unknown_750_34 doVerb: theVerb)
 			)
 			(else
 				(super doVerb: theVerb)
@@ -1716,7 +1768,7 @@
 	)
 )
 
-(instance altar of Feature
+(instance unknown_750_34 of Feature
 	(properties
 		noun 2
 		nsLeft 5
@@ -1763,7 +1815,7 @@
 	)
 )
 
-(instance headRock of Feature
+(instance unknown_750_35 of Feature
 	(properties
 		noun 3
 		nsLeft 10
@@ -1784,7 +1836,7 @@
 	)
 )
 
-(instance sphincter of Feature
+(instance unknown_750_36 of Feature
 	(properties
 		noun 4
 		nsLeft 136
@@ -1805,7 +1857,7 @@
 	)
 )
 
-(instance theExit of Feature
+(instance unknown_750_37 of Feature
 	(properties
 		noun 5
 		nsLeft 274
@@ -1839,7 +1891,7 @@
 	)
 )
 
-(instance bubbleHead of Feature
+(instance unknown_750_38 of Feature
 	(properties
 		noun 6
 		nsLeft 130
@@ -1860,7 +1912,7 @@
 	)
 )
 
-(instance midBubble of Feature
+(instance unknown_750_39 of Feature
 	(properties
 		noun 7
 		nsLeft 192
@@ -1881,7 +1933,7 @@
 	)
 )
 
-(instance foreBubbles of Feature
+(instance unknown_750_40 of Feature
 	(properties
 		noun 7
 		nsTop 134
@@ -1890,14 +1942,6 @@
 		sightAngle 180
 		x 159
 		y 161
-	)
-
-	(method (handleEvent event)
-		(if (IsFlag 356)
-			0
-		else
-			(super handleEvent: event &rest)
-		)
 	)
 
 	(method (init)
@@ -1911,9 +1955,17 @@
 		)
 		(super init: &rest)
 	)
+
+	(method (handleEvent event)
+		(if (IsFlag 356)
+			0
+		else
+			(super handleEvent: event &rest)
+		)
+	)
 )
 
-(instance moreBubbles of Feature
+(instance unknown_750_41 of Feature
 	(properties
 		noun 7
 		nsLeft 227

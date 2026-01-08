@@ -5,7 +5,7 @@
 (use Main)
 (use GloryRm)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use GloryTalker)
 (use Interface)
 (use RandCycle)

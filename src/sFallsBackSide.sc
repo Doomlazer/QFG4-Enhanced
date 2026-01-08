@@ -17,6 +17,8 @@
 (local
 	local0
 	local1
+	local2
+	local3
 )
 
 (instance sFallsBackSide of Script
@@ -25,6 +27,10 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
+				(= local2 (* (gEgo cycleSpeed:) 2))
+				(= local3 (GetTime))
+				(while (< (Abs (- (GetTime) local3)) local2)
+				)
 				(gGlory handsOff:)
 				(= local0 (gEgo cycleSpeed:))
 				(gEgo setStep: 1 1 setMotion: PolyPath 73 80 self)

@@ -9,6 +9,17 @@
 (use Actor)
 (use System)
 
+(local
+	local0
+)
+
+(procedure (localproc_0)
+	(while (< (Abs (- (GetTime) local0)) 1)
+	)
+	(= local0 (GetTime))
+	(FrameOut)
+)
+
 (class SView of View
 	(properties)
 
@@ -182,29 +193,7 @@
 	(method (move))
 
 	(method (init)
-		(cond
-			((> global191 200)
-				(= global190 12)
-			)
-			((> global191 160)
-				(= global190 10)
-			)
-			((> global191 100)
-				(= global190 9)
-			)
-			((> global191 70)
-				(= global190 9)
-			)
-			((> global191 40)
-				(= global190 8)
-			)
-			((> global191 30)
-				(= global190 4)
-			)
-			(else
-				(= global190 1)
-			)
-		)
+		(= global190 8)
 		(= extraCast (Cast new:))
 		(super init: &rest)
 	)
@@ -243,7 +232,7 @@
 		(while (and (& state $0020) (= combatEvent ((gUser curEvent:) new:)))
 			(= gGameTime (+ gTickOffset (GetTime)))
 			(puzzleCast doit:)
-			(FrameOut)
+			(localproc_0)
 			(if noHands
 				(combatEvent type: 0)
 			)
@@ -251,7 +240,7 @@
 		)
 		(= temp0 (GetTime))
 		(while (< (- (GetTime) temp0) 60)
-			(FrameOut)
+			(localproc_0)
 			(gSounds eachElementDo: #check)
 		)
 	)

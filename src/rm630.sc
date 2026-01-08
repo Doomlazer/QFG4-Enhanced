@@ -4,7 +4,7 @@
 (include sci.sh)
 (use Main)
 (use GloryRm)
-(use DeathIcon)
+(use DeathControls)
 (use Interface)
 (use Scaler)
 (use PolyPath)
@@ -25,12 +25,6 @@
 	local1
 	local2
 	local3
-)
-
-(procedure (localproc_0 &tmp temp0) ; UNUSED
-	(for ((= temp0 100)) (>= temp0 0) ((-- temp0))
-		(Palette 2 0 255 temp0) ; PalIntensity
-	)
 )
 
 (instance rm630 of GloryRm
@@ -115,34 +109,79 @@
 			approachVerbs: 4 32 ; Do, theOil
 		)
 		(super init: &rest)
-		(fCrest init: approachVerbs: 4) ; Do
-		(fChair1 init: approachVerbs: 4) ; Do
-		(fChair2 init: approachVerbs: 4) ; Do
-		(fTable init: approachVerbs: 4) ; Do
-		(fHearth init: approachVerbs: 4) ; Do
-		(fStatue1 init: approachVerbs: 4) ; Do
-		(fStatue2 init: approachVerbs: 4) ; Do
-		(fStatue3 init: approachVerbs: 4) ; Do
-		(fStatue4 init: approachVerbs: 4) ; Do
-		(fBust init: approachVerbs: 4) ; Do
-		(fCandelabra init: approachVerbs: 4) ; Do
-		(fRug init: approachVerbs: 4) ; Do
+		(unknown_630_28 init: approachVerbs: 4) ; Do
+		(unknown_630_29 init: approachVerbs: 4) ; Do
+		(unknown_630_30 init: approachVerbs: 4) ; Do
+		(unknown_630_31 init: approachVerbs: 4) ; Do
+		(unknown_630_32 init: approachVerbs: 4) ; Do
+		(unknown_630_33 init: approachVerbs: 4) ; Do
+		(unknown_630_34 init: approachVerbs: 4) ; Do
+		(unknown_630_35 init: approachVerbs: 4) ; Do
+		(unknown_630_36 init: approachVerbs: 4) ; Do
+		(unknown_630_37 init: approachVerbs: 4) ; Do
+		(unknown_630_38 init: approachVerbs: 4) ; Do
+		(unknown_630_39 init: approachVerbs: 4) ; Do
 		(vClosentDoor init: approachVerbs: 32) ; theOil
-		(fSouth init:)
-		(fUp init:)
-		(fDown init:)
-	)
-
-	(method (doVerb theVerb)
-		(if (== theVerb 91) ; jugglingLightsSpell
-			(gMessager say: 17 91 0 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
-		else
-			(super doVerb: theVerb)
-		)
+		(unknown_630_25 init:)
+		(unknown_630_26 init:)
+		(unknown_630_27 init:)
 	)
 
 	(method (dispose)
 		(super dispose:)
+	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(21 ; theRocks
+				(gMessager say: 0 21 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(22 ; theCandle
+				(gMessager say: 0 22 0) ; "The candle doesn't belong there."
+			)
+			(39 ; theFlint
+				(gMessager say: 0 39 0) ; "That won't burn."
+			)
+			(42 ; theToolkit
+				(gMessager say: 0 42 0) ; "You can't open that."
+			)
+			(58 ; theBroom
+				(gMessager say: 0 58 0) ; "You take out the broom and do a little castle-sweeping. It's a hopeless task -- there's dust everywhere."
+			)
+			(60 ; theWillowisp
+				(gMessager say: 0 60 0) ; "Will o' Wisps don't like the indoors."
+			)
+			(76 ; theTorch
+				(gMessager say: 0 76 0) ; "That won't burn."
+			)
+			(79 ; frostSpell
+				(gMessager say: 0 79 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(80 ; openSpell
+				(gMessager say: 0 80 0) ; "You can't open that."
+			)
+			(81 ; detectMagicSpell
+				(gMessager say: 0 81 0) ; "There is a weak general ambiance of magic throughout the castle, but nothing you can specifically pinpoint."
+			)
+			(83 ; dazzleSpell
+				(gMessager say: 0 83 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(86 ; flameDartSpell
+				(gMessager say: 0 86 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(88 ; forceBoltSpell
+				(gMessager say: 0 88 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(91 ; jugglingLightsSpell
+				(gMessager say: 17 91 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(93 ; lightningBallSpell
+				(gMessager say: 0 93 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
 	)
 )
 
@@ -933,7 +972,7 @@
 	)
 )
 
-(instance fSouth of Feature
+(instance unknown_630_25 of Feature
 	(properties
 		nsLeft 129
 		nsTop 56
@@ -973,7 +1012,7 @@
 	)
 )
 
-(instance fUp of Feature
+(instance unknown_630_26 of Feature
 	(properties
 		nsLeft 30
 		nsTop 142
@@ -1011,7 +1050,7 @@
 	)
 )
 
-(instance fDown of Feature
+(instance unknown_630_27 of Feature
 	(properties
 		nsLeft 30
 		nsTop 140
@@ -1049,7 +1088,7 @@
 	)
 )
 
-(instance fCrest of Feature
+(instance unknown_630_28 of Feature
 	(properties
 		noun 2
 		nsLeft 185
@@ -1064,7 +1103,7 @@
 	)
 )
 
-(instance fChair1 of Feature
+(instance unknown_630_29 of Feature
 	(properties
 		noun 3
 		nsLeft 136
@@ -1079,7 +1118,7 @@
 	)
 )
 
-(instance fChair2 of Feature
+(instance unknown_630_30 of Feature
 	(properties
 		noun 4
 		nsLeft 197
@@ -1094,7 +1133,7 @@
 	)
 )
 
-(instance fTable of Feature
+(instance unknown_630_31 of Feature
 	(properties
 		noun 5
 		nsLeft 156
@@ -1109,7 +1148,7 @@
 	)
 )
 
-(instance fHearth of Feature
+(instance unknown_630_32 of Feature
 	(properties
 		noun 6
 		nsLeft 163
@@ -1124,7 +1163,7 @@
 	)
 )
 
-(instance fStatue1 of Feature
+(instance unknown_630_33 of Feature
 	(properties
 		noun 7
 		nsLeft 18
@@ -1139,7 +1178,7 @@
 	)
 )
 
-(instance fStatue2 of Feature
+(instance unknown_630_34 of Feature
 	(properties
 		noun 8
 		nsLeft 73
@@ -1154,7 +1193,7 @@
 	)
 )
 
-(instance fStatue3 of Feature
+(instance unknown_630_35 of Feature
 	(properties
 		noun 9
 		nsLeft 254
@@ -1169,7 +1208,7 @@
 	)
 )
 
-(instance fStatue4 of Feature
+(instance unknown_630_36 of Feature
 	(properties
 		noun 10
 		nsLeft 303
@@ -1184,7 +1223,7 @@
 	)
 )
 
-(instance fBust of Feature
+(instance unknown_630_37 of Feature
 	(properties
 		noun 11
 		nsLeft 104
@@ -1199,7 +1238,7 @@
 	)
 )
 
-(instance fCandelabra of Feature
+(instance unknown_630_38 of Feature
 	(properties
 		noun 12
 		nsLeft 92
@@ -1214,7 +1253,7 @@
 	)
 )
 
-(instance fRug of Feature
+(instance unknown_630_39 of Feature
 	(properties
 		noun 15
 		nsLeft 47

@@ -9,6 +9,7 @@
 (use GloryTalker)
 (use Scaler)
 (use Feature)
+(use Sound)
 (use Jump)
 (use Motion)
 (use User)
@@ -43,6 +44,7 @@
 	local10
 	local11
 	local12
+	local13
 )
 
 (instance rm730 of GloryRm
@@ -71,42 +73,39 @@
 		)
 		(gGlory handsOn:)
 		(gTheIconBar disable: 0)
-		(fNode1 init:)
-		(fNode2 init:)
-		(fNode3 init:)
-		(fNode4 init:)
-		(fNode5 init:)
-		(fNode6 init:)
-		(fNode7 init:)
+		(unknown_730_26 init:)
+		(unknown_730_27 init:)
+		(unknown_730_28 init:)
+		(unknown_730_29 init:)
+		(unknown_730_30 init:)
+		(unknown_730_31 init:)
+		(unknown_730_32 init:)
 		(adavisTeller init: avis 730 9 160 7)
 		(heroTeller init: gEgo 730 9 128 7)
 		(self setScript: (ScriptID 731 0)) ; enterScr
 		(gGlory save: 1)
 	)
 
-	(method (cue)
-		(switch local1
-			(9
-				(if local2
-					(gCurRoom setScript: sDoTheEndGame)
-				else
-					(gCurRoom setScript: sSummon)
-				)
-			)
-			(4
-				(gMessager say: 0 86 0 0) ; "Your spell disappears into the distance having had no useful effect."
-			)
-			(5
-				(gMessager say: 0 88 0 0) ; "Your spell disappears into the distance having had no useful effect."
-			)
-			(6
-				(gMessager say: 0 79 0 0) ; "Your spell disappears into the distance having had no useful effect."
-			)
-			(8
-				(gMessager say: 0 93 0 0) ; "Your spell disappears into the distance having had no useful effect."
-			)
+	(method (doit)
+		(if (< (Abs (- gGameTime local13)) 2)
+			(return)
 		)
-		(= local1 0)
+		(= local13 gGameTime)
+		(super doit:)
+		(if
+			(and
+				(IsFlag 360)
+				(not (gCurRoom script:))
+				(not local2)
+				(not local5)
+				(!= gHeroType 1) ; Magic User
+			)
+			(= local5 1)
+			(gCurRoom setScript: sDoTheStaff)
+		)
+		(if (== (gTheIconBar curIcon:) (gTheIconBar at: 0))
+			(gTheIconBar advanceCurIcon:)
+		)
 	)
 
 	(method (dispose)
@@ -114,22 +113,7 @@
 			(script dispose:)
 		)
 		(SetFlag 373)
-		(DisposeScript 731)
 		(super dispose:)
-	)
-
-	(method (doit)
-		(super doit:)
-		(if
-			(and
-				(IsFlag 360)
-				(not (gCurRoom script:))
-				(not local5)
-				(!= gHeroType 1) ; Magic User
-			)
-			(= local5 1)
-			(gCurRoom setScript: sDoTheStaff)
-		)
 	)
 
 	(method (doVerb theVerb)
@@ -226,7 +210,7 @@
 				)
 			)
 			(92 ; summonStaffSpell
-				(if (== (gEgo view:) 20)
+				(if local8
 					(gMessager say: 0 92 38) ; "You've already summoned the staff."
 					(return 1)
 				else
@@ -239,6 +223,31 @@
 			)
 		)
 	)
+
+	(method (cue)
+		(switch local1
+			(9
+				(if local2
+					(gCurRoom setScript: sDoTheEndGame)
+				else
+					(gCurRoom setScript: sSummon)
+				)
+			)
+			(4
+				(gMessager say: 0 86 0 0) ; "Your spell disappears into the distance having had no useful effect."
+			)
+			(5
+				(gMessager say: 0 88 0 0) ; "Your spell disappears into the distance having had no useful effect."
+			)
+			(6
+				(gMessager say: 0 79 0 0) ; "Your spell disappears into the distance having had no useful effect."
+			)
+			(8
+				(gMessager say: 0 93 0 0) ; "Your spell disappears into the distance having had no useful effect."
+			)
+		)
+		(= local1 0)
+	)
 )
 
 (instance sSummon of Script
@@ -248,9 +257,9 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(= [gEgoStats 17] (gEgo maxHealth:)) ; health
-				(= [gEgoStats 18] (gEgo maxStamina:)) ; stamina
-				(= [gEgoStats 19] (gEgo maxMana:)) ; mana
+				(= global264 (gEgo maxHealth:))
+				(= global265 (gEgo maxStamina:))
+				(= global266 (gEgo maxMana:))
 				(if (or local4 local8)
 					(self cue:)
 				else
@@ -284,7 +293,7 @@
 				)
 			)
 			(2
-				(if (== local1 0)
+				(if (> local1 0)
 					(gMessager say: 5 6 5 0 self) ; "You think I haven't arranged protections against all of your spells? I know what puny magics the Wizards teach such as you!"
 				else
 					(gMessager say: 5 6 10 0 self) ; "Ha! There are advantages to being a Vampire. Those puny mundane weapons can do nothing to me!"
@@ -307,12 +316,13 @@
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(1
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -324,19 +334,22 @@
 			(3
 				(local0 dispose:)
 				(cond
-					((and (> (gEgo view:) 17) (< (gEgo view:) 21))
+					(
+						(and
+							(> (gEgo view:) 17)
+							(< (gEgo view:) 21)
+							(< (gEgo view:) 21)
+						)
 						(gEgo takeDamage: 23)
 					)
 					((> global454 0)
-						(gEgo
-							takeDamage: (- 50 (/ (* [gEgoStats 26] 15) 100)) ; flameDartSpell
-						)
+						(gEgo takeDamage: (- 50 (/ (* global273 15) 100)))
 					)
 					(else
 						(gEgo takeDamage: 50)
 					)
 				)
-				(if (== [gEgoStats 17] 0) ; health
+				(if (== global264 0)
 					(self setScript: sEgoDies)
 				else
 					(self cue:)
@@ -346,8 +359,12 @@
 				(proc0_17 5 6 13 sCastASpell 730)
 			)
 			(5
+				(if (not local8)
+					(gEgo view: 5 setLoop: 5 1)
+				)
 				(gGlory handsOn:)
 				(gTheIconBar disable: 0)
+				(sMessages dispose:)
 				(self dispose:)
 			)
 		)
@@ -378,7 +395,7 @@
 				(gEgo
 					posn: 146 162
 					setCel: 5
-					moveSpeed: 0
+					moveSpeed: 2
 					setMotion: MoveTo 146 162 self
 				)
 			)
@@ -428,8 +445,12 @@
 				)
 				(gLongSong number: 440 loop: -1 play:)
 				(crystal signal: (| (crystal signal:) $0001) setCycle: Fwd)
+				(= local8 0)
 				(gGlory handsOn:)
 				(gTheIconBar disable: 0)
+				(if (gCurRoom script:)
+					((gCurRoom script:) cue:)
+				)
 				(self dispose:)
 			)
 		)
@@ -452,13 +473,14 @@
 				(avis view: 677 setLoop: 0 1 cel: 0 setCycle: CT 5 1 self)
 			)
 			(2
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					setLoop: 1 1
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -509,15 +531,17 @@
 				)
 			)
 			(1
+				(gGlory handsOff:)
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(2
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -540,6 +564,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
+				(sTimeItOut dispose:)
 				(gMessager say: 9 128 20 0 self) ; "You tell the Ultimate Joke about the Wizard and the farmer's daughter."
 			)
 			(1
@@ -566,12 +591,13 @@
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(5
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -765,13 +791,14 @@
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(2
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					setLoop: 1 1
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -785,7 +812,7 @@
 				(aSpear
 					init:
 					setLoop: 1
-					moveSpeed: 0
+					moveSpeed: 2
 					setMotion: JumpTo 209 189 self
 				)
 				(gEgo view: 5 setLoop: 5)
@@ -798,12 +825,13 @@
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(7
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -963,12 +991,13 @@
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(1
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 124 77 self
 				)
@@ -1085,31 +1114,6 @@
 		view 737
 	)
 
-	(method (getHurt)
-		(if (and (not local10) (not local2))
-			(cond
-				(
-					(and
-						local4
-						(not (gEgo script:))
-						(!= local1 0)
-						(not
-							(and (> (gEgo view:) 17) (< (gEgo view:) 21))
-						)
-					)
-					(gCurRoom setScript: sMessages)
-				)
-				((and local4 (not (gEgo script:)))
-					(gEgo view: 5 setLoop: 5 1)
-					(gEgo setScript: sAdavisDies)
-				)
-				(else
-					(gCurRoom setScript: sMessages)
-				)
-			)
-		)
-	)
-
 	(method (doVerb theVerb)
 		(= global441 ((User curEvent:) x:))
 		(= global442 ((User curEvent:) y:))
@@ -1181,6 +1185,31 @@
 			)
 		)
 	)
+
+	(method (getHurt)
+		(if (and (not local10) (not local2))
+			(cond
+				(
+					(and
+						local4
+						(not (gEgo script:))
+						(!= local1 0)
+						(not
+							(and (> (gEgo view:) 17) (< (gEgo view:) 21))
+						)
+					)
+					(gCurRoom setScript: sMessages)
+				)
+				((and local4 (not (gEgo script:)))
+					(gEgo view: 5 setLoop: 5 1)
+					(gEgo setScript: sAdavisDies)
+				)
+				(else
+					(gCurRoom setScript: sMessages)
+				)
+			)
+		)
+	)
 )
 
 (instance fireBall of Actor
@@ -1192,7 +1221,7 @@
 		yStep 15
 		signal 16385
 		xStep 15
-		moveSpeed 0
+		moveSpeed 2
 	)
 )
 
@@ -1215,7 +1244,7 @@
 		y 38
 		view 745
 		signal 16385
-		moveSpeed 0
+		moveSpeed 2
 	)
 )
 
@@ -1278,10 +1307,6 @@
 		signal 16384
 	)
 
-	(method (cue)
-		(gMessager say: 1 86 0 0) ; "The crystal is totally unaffected by your spell."
-	)
-
 	(method (doVerb theVerb)
 		(if local2
 			(= global441 ((User curEvent:) x:))
@@ -1329,9 +1354,13 @@
 			(gMessager say: 1 157 0 0) ; "You don't have time to deal with the crystal right now -- Ad Avis is trying to kill you!"
 		)
 	)
+
+	(method (cue)
+		(gMessager say: 1 86 0 0) ; "The crystal is totally unaffected by your spell."
+	)
 )
 
-(instance fNode1 of Feature
+(instance unknown_730_26 of Feature
 	(properties
 		noun 2
 		nsLeft 7
@@ -1358,7 +1387,7 @@
 	)
 )
 
-(instance fNode2 of Feature
+(instance unknown_730_27 of Feature
 	(properties
 		noun 2
 		nsLeft 47
@@ -1371,11 +1400,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(fNode1 doVerb: theVerb)
+		(unknown_730_26 doVerb: theVerb)
 	)
 )
 
-(instance fNode3 of Feature
+(instance unknown_730_28 of Feature
 	(properties
 		noun 2
 		nsLeft 88
@@ -1388,11 +1417,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(fNode1 doVerb: theVerb)
+		(unknown_730_26 doVerb: theVerb)
 	)
 )
 
-(instance fNode4 of Feature
+(instance unknown_730_29 of Feature
 	(properties
 		noun 2
 		nsLeft 142
@@ -1412,12 +1441,12 @@
 				(gMessager say: 0 159 0 0) ; "You can't jump to that point."
 			)
 		else
-			(fNode1 doVerb: theVerb)
+			(unknown_730_26 doVerb: theVerb)
 		)
 	)
 )
 
-(instance fNode5 of Feature
+(instance unknown_730_30 of Feature
 	(properties
 		noun 2
 		nsLeft 153
@@ -1430,11 +1459,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(fNode1 doVerb: theVerb)
+		(unknown_730_26 doVerb: theVerb)
 	)
 )
 
-(instance fNode6 of Feature
+(instance unknown_730_31 of Feature
 	(properties
 		noun 2
 		nsLeft 208
@@ -1447,11 +1476,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(fNode1 doVerb: theVerb)
+		(unknown_730_26 doVerb: theVerb)
 	)
 )
 
-(instance fNode7 of Feature
+(instance unknown_730_32 of Feature
 	(properties
 		noun 2
 		nsLeft 259
@@ -1464,7 +1493,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(fNode1 doVerb: theVerb)
+		(unknown_730_26 doVerb: theVerb)
 	)
 )
 
@@ -1485,15 +1514,8 @@
 		actionVerb 2
 	)
 
-	(method (showCases)
-		(super showCases: 20 (not local4)) ; Tell Ultimate Joke
-	)
-
 	(method (respond)
 		(super respond: &rest)
-		(if (or (not iconValue) (== iconValue -999))
-			(gEgo view: 5 setLoop: 5 1)
-		)
 		(return 1)
 	)
 
@@ -1505,6 +1527,10 @@
 		else
 			(super sayMessage: &rest)
 		)
+	)
+
+	(method (showCases)
+		(super showCases: 20 (not local4)) ; Tell Ultimate Joke
 	)
 )
 
@@ -1524,10 +1550,24 @@
 		(star1 init: cycleSpeed: 12 setCycle: Fwd)
 		(star2 init: cycleSpeed: 12 setCycle: Fwd)
 		(star3 init: cycleSpeed: 12 setCycle: Fwd)
-		(star4 init: cycleSpeed: 12 setCycle: Fwd)
+		(unknown_730_43 init: cycleSpeed: 12 setCycle: Fwd)
 		(star5 init: cycleSpeed: 12 setCycle: Fwd)
 		(star6 init: cycleSpeed: 12 setCycle: Fwd)
 		(star7 init: cycleSpeed: 12 setCycle: Fwd)
+	)
+
+	(method (dispose param1)
+		(if (or (not argc) param1)
+			(eranaExtra dispose:)
+			(star1 dispose:)
+			(star2 dispose:)
+			(star3 dispose:)
+			(unknown_730_43 dispose:)
+			(star5 dispose:)
+			(star6 dispose:)
+			(star7 dispose:)
+		)
+		(super dispose: param1)
 	)
 
 	(method (hide)
@@ -1535,7 +1575,7 @@
 		(star1 hide:)
 		(star2 hide:)
 		(star3 hide:)
-		(star4 hide:)
+		(unknown_730_43 hide:)
 		(star5 hide:)
 		(star6 hide:)
 		(star7 hide:)
@@ -1547,25 +1587,11 @@
 		(star1 show:)
 		(star2 show:)
 		(star3 show:)
-		(star4 show:)
+		(unknown_730_43 show:)
 		(star5 show:)
 		(star6 show:)
 		(star7 show:)
 		(super showAgain:)
-	)
-
-	(method (dispose param1)
-		(if (or (not argc) param1)
-			(eranaExtra dispose:)
-			(star1 dispose:)
-			(star2 dispose:)
-			(star3 dispose:)
-			(star4 dispose:)
-			(star5 dispose:)
-			(star6 dispose:)
-			(star7 dispose:)
-		)
-		(super dispose: param1)
 	)
 )
 
@@ -1630,7 +1656,7 @@
 	)
 )
 
-(instance star4 of Prop
+(instance unknown_730_43 of Prop
 	(properties
 		y 93
 		view 736
@@ -1663,5 +1689,9 @@
 		view 736
 		loop 7
 	)
+)
+
+(instance spellSoundFX of Sound
+	(properties)
 )
 

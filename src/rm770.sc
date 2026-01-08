@@ -6,7 +6,7 @@
 (use GloryRm)
 (use TargFeature)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use Array)
 (use Scaler)
 (use IconBar)
@@ -69,8 +69,7 @@
 	(gGlory setCursor: (IconBarCursor view: 905 loop: 8 cel: 10 yourself:))
 	((gInventory at: 44) loop: 8 cel: 10 mainCel: 10 state: 1) ; theTorch
 	((gTheIconBar at: 6) cursorCel: 10)
-	(= temp0 (ScriptID 36 1)) ; invItem
-	(temp0 cel: 10 show:)
+	((= temp0 (ScriptID 36 1)) cel: 10 show:) ; invItem
 	(UpdateScreenItem temp0)
 )
 
@@ -81,6 +80,12 @@
 	)
 
 	(method (init)
+		(if (and (!= gHeroType 3) (> global288 0)) ; Paladin
+			(= global288 0)
+		)
+		(if (== gPrevRoomNum 140)
+			((ScriptID 35 16) cel: 9 state: 0) ; theTorch
+		)
 		(ClearFlag 6)
 		(gGlory handsOff:)
 		(gCurRoom
@@ -97,18 +102,18 @@
 				)
 		)
 		(= local3 50)
-		(body1 init: approachVerbs: 4) ; Do
-		(body2 init: approachVerbs: 4) ; Do
-		(body3 init: approachVerbs: 4) ; Do
-		(leftTHolder init: approachVerbs: 4 39 76) ; Do, theFlint, theTorch
+		(unknown_770_24 init: approachVerbs: 4) ; Do
+		(unknown_770_25 init: approachVerbs: 4) ; Do
+		(unknown_770_26 init: approachVerbs: 4) ; Do
+		(unknown_770_27 init: approachVerbs: 4 39 76) ; Do, theFlint, theTorch
 		(if (== gPrevRoomNum 720)
-			(rightTHolder init: approachVerbs: 4 39 76) ; Do, theFlint, theTorch
+			(unknown_770_28 init: approachVerbs: 4 39 76) ; Do, theFlint, theTorch
 		else
-			(rightTHolder nsTop: 50 init: approachVerbs: 4 39 76) ; Do, theFlint, theTorch
+			(unknown_770_28 nsTop: 50 init: approachVerbs: 4 39 76) ; Do, theFlint, theTorch
 		)
 		(leftEfx init: approachVerbs: 4 39 76) ; Do, theFlint, theTorch
 		(rightEfx init: approachVerbs: 4 39 76) ; Do, theFlint, theTorch
-		(altar init: approachVerbs: -1) ; ???
+		(unknown_770_29 init: approachVerbs: -1) ; ???
 		(if (== gPrevRoomNum 720)
 			(gEgo
 				x: 153
@@ -150,14 +155,6 @@
 		(super init: &rest)
 	)
 
-	(method (doTorch param1)
-		(if param1
-			(torchEff signal: (| (torchEff signal:) $0001) show:)
-			(SetFlag 373)
-			(gEgo changeGait:)
-		)
-	)
-
 	(method (doit)
 		(if (GameIsRestarting)
 			(if (not (& (leftEfx signal:) $0008))
@@ -179,6 +176,9 @@
 			(torchEff setScaler: Scaler 100 66 158 71)
 			(= local18 0)
 			(= local19 1)
+		)
+		(if (and (or local17 local5) (== (gTheIconBar curIcon:) (gTheIconBar at: 0)))
+			(gTheIconBar advanceCurIcon:)
 		)
 	)
 
@@ -219,18 +219,66 @@
 				)
 			)
 			(81 ; detectMagicSpell
-				(gMessager say: 2 81 4) ; "There is a faint glow of magic on all of the bones, stronger near the altar. The torch sconces beside the altar have some magic, and the altar itself radiates a strong magical aura."
+				(if (IsFlag 302)
+					(gMessager say: 2 81 3) ; "There is a faint glow of magic on all of the bones, stronger near the altar. The torch sconces beside the altar have some magic, and the altar itself radiates a strong magical aura."
+				else
+					(gMessager say: 2 81 4) ; "There is a faint glow of magic on all of the bones, stronger near the altar. The torch sconces beside the altar have some magic, and the altar itself radiates a strong magical aura."
+				)
+			)
+			(14 ; theBonsai
+				(gMessager say: 0 14 0) ; "You should have planted that earlier. It will never survive in this cave."
+			)
+			(27 ; theBonemeal
+				(gMessager say: 0 27 0) ; "No, thanks, the bones aren't hungry. (Or maybe they are, but you're much more to their taste than the bone meal!)"
+			)
+			(33 ; theGrapnel
+				(gMessager say: 0 33 0) ; "You missed."
+			)
+			(47 ; theBones
+				(gMessager say: 0 47 0) ; "There are plenty of bones here already!"
+			)
+			(56 ; theAmulet
+				(gMessager say: 0 56 0) ; "That won't help you here."
+			)
+			(60 ; theWillowisp
+				(gMessager say: 0 60 0) ; "The tiny creature cringes in its flask. It will have nothing to do with this place!"
+			)
+			(67 ; theBoneRit
+				(gMessager say: 0 67 0) ; "The Bone Ritual must be used on the Altar of Darkness between the torch sconces."
+			)
+			(69 ; theBloodRit
+				(gMessager say: 0 74 0) ; "This is not the proper place for that Ritual."
+			)
+			(70 ; theBreathRit
+				(gMessager say: 0 74 0) ; "This is not the proper place for that Ritual."
+			)
+			(72 ; theSenseRit
+				(gMessager say: 0 74 0) ; "This is not the proper place for that Ritual."
+			)
+			(74 ; theHeartRit
+				(gMessager say: 0 74 0) ; "This is not the proper place for that Ritual."
+			)
+			(104 ; Sleep all night
+				(gMessager say: 0 104 0) ; "To fall asleep here would surely mean your death!"
 			)
 			(10 ; Jump
 				(if local5
 					(gCurRoom setScript: sJumpOut)
 				else
-					(super doVerb: theVerb)
+					(gMessager say: 0 159 0) ; "That looks like a difficult jump."
 				)
 			)
 			(else
 				(super doVerb: theVerb)
 			)
+		)
+	)
+
+	(method (doTorch param1)
+		(if param1
+			(torchEff signal: (| (torchEff signal:) $0001) show:)
+			(SetFlag 373)
+			(gEgo changeGait:)
 		)
 	)
 )
@@ -265,8 +313,8 @@
 			)
 			(2
 				(gEgo setSpeed: gTempEgoSpeed solvePuzzle: 454 15 normalize:)
-				(altar init:)
-				(leftTHolder init:)
+				(unknown_770_29 init:)
+				(unknown_770_27 init:)
 				(egoTeller dispose:)
 				(= local5 0)
 				(gGlory handsOn:)
@@ -303,8 +351,8 @@
 			)
 			(3
 				(= local5 0)
-				(altar init:)
-				(leftTHolder init:)
+				(unknown_770_29 init:)
+				(unknown_770_27 init:)
 				(egoTeller dispose:)
 				(gGlory handsOn:)
 				(self dispose:)
@@ -399,7 +447,12 @@
 					(gEgo setMotion: 0)
 				)
 				(gLongSong2 number: 934 setLoop: 1 1 play:)
-				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+				(if
+					(and
+						(> (gEgo view:) 17)
+						(< (gEgo view:) 21)
+						(< (gEgo view:) 21)
+					)
 					(gEgo view: 19 loop: 5 cel: 0 setCycle: End self)
 				else
 					(gEgo view: 15 loop: 0 setCycle: End self)
@@ -426,14 +479,24 @@
 					scaleY: (gEgo scaleY:)
 					setCycle: Fwd
 				)
-				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+				(if
+					(and
+						(> (gEgo view:) 17)
+						(< (gEgo view:) 21)
+						(< (gEgo view:) 21)
+					)
 					(self cue:)
 				else
 					(gEgo setCycle: CT 4 -1 self)
 				)
 			)
 			(2
-				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+				(if
+					(and
+						(> (gEgo view:) 17)
+						(< (gEgo view:) 21)
+						(< (gEgo view:) 21)
+					)
 					(self cue:)
 				else
 					(gEgo setCycle: CT 2 -1 self)
@@ -570,13 +633,13 @@
 			)
 			(1
 				(switch register
-					(body1
+					(unknown_770_24
 						(gMessager say: 9 4 26 0 self) ; "You search the dessicated body. The only still-usable item is a dagger, which you pick up. However, lying around the bones are some coins -- 5 golden coins each have a crown stamped onto them, and 13 small copper ones are each stamped "1 Kopek.""
 					)
-					(body2
+					(unknown_770_25
 						(gMessager say: 10 4 30 0 self) ; "A brief search reveals a piece of hard, grey rock, which you take, and some coins -- 3 Crowns and 13 Kopeks."
 					)
-					(body3
+					(unknown_770_26
 						(gMessager say: 11 4 31 0 self) ; "You find 30 assorted copper and gold coins on the body."
 					)
 				)
@@ -587,21 +650,21 @@
 			(3
 				(gEgo cycleSpeed: gTempEgoSpeed normalize:)
 				(switch register
-					(body1
+					(unknown_770_24
 						(gEgo solvePuzzle: 402 2 get: 5) ; theThrowdagger
 						((gInventory at: 0) ; thePurse
 							amount: (+ 5 ((gInventory at: 0) amount:)) ; thePurse
 						)
 						(+= global395 13)
 					)
-					(body2
+					(unknown_770_25
 						(gEgo get: 21) ; theFlint
 						((gInventory at: 0) ; thePurse
 							amount: (+ 3 ((gInventory at: 0) amount:)) ; thePurse
 						)
 						(+= global395 13)
 					)
-					(body3
+					(unknown_770_26
 						((gInventory at: 0) ; thePurse
 							amount: (+ 5 ((gInventory at: 0) amount:)) ; thePurse
 						)
@@ -717,8 +780,8 @@
 					(gEgo changeGait: 0 setLooper: 0 setCycle: 0 hide:) ; walking
 				)
 				(egoTeller init: gEgo 770 12 154 8)
-				(altar dispose:)
-				(leftTHolder dispose:)
+				(unknown_770_29 dispose:)
+				(unknown_770_27 dispose:)
 				(gGlory handsOn:)
 				(gTheIconBar disable: 0)
 				(User canControl: 0)
@@ -857,7 +920,12 @@
 				(= local8 (gEgo cycleSpeed:))
 				(= local9 (gEgo loop:))
 				(soundFX number: 940 play:)
-				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+				(if
+					(and
+						(> (gEgo view:) 17)
+						(< (gEgo view:) 21)
+						(< (gEgo view:) 21)
+					)
 					(= local10 (gEgo cel:))
 					(gEgo view: 19 loop: (temp1 at: local9))
 				else
@@ -872,7 +940,12 @@
 			)
 			(2
 				(gEgo cycleSpeed: local8)
-				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+				(if
+					(and
+						(> (gEgo view:) 17)
+						(< (gEgo view:) 21)
+						(< (gEgo view:) 21)
+					)
 					(gEgo view: 20 loop: local9 cel: local10)
 				else
 					(gEgo normalize: local9)
@@ -901,8 +974,8 @@
 					(localproc_1 self)
 				else
 					(gMessager say: 8 88 21 0 self) ; "That did it! The brittle bones cannot take any more of your onslaught of spells. They crack and fall to the ground."
-					(altar init:)
-					(leftTHolder init:)
+					(unknown_770_29 init:)
+					(unknown_770_27 init:)
 					(egoTeller dispose:)
 					(= local5 0)
 					(cage dispose:)
@@ -955,8 +1028,8 @@
 						(if (>= local13 2)
 							(gMessager say: 8 86 23 0 self) ; "That did it! The brittle bones cannot take any more of your onslaught of spells. They crack and fall to the ground."
 							(= local5 0)
-							(altar init:)
-							(leftTHolder init:)
+							(unknown_770_29 init:)
+							(unknown_770_27 init:)
 							(egoTeller dispose:)
 							(cage dispose:)
 							(gEgo view: 29 setLoop: 1 1)
@@ -1021,8 +1094,8 @@
 					(if local15
 						(if (>= local14 2)
 							(gMessager say: 8 79 20 0 self) ; "That did it! The brittle bones cannot take any more of your onslaught of spells. They crack and fall to the ground."
-							(altar init:)
-							(leftTHolder init:)
+							(unknown_770_29 init:)
+							(unknown_770_27 init:)
 							(egoTeller dispose:)
 							(= local5 0)
 							(cage dispose:)
@@ -1118,20 +1191,21 @@
 		)
 	)
 
-	(method (onMe)
-		(return 0)
-	)
-
 	(method (doit)
 		(= x (gEgo x:))
 		(= y (gEgo y:))
 		(= z (+ (gEgo z:) 1))
 		(super doit: &rest)
 	)
+
+	(method (onMe)
+		(return 0)
+	)
 )
 
 (instance cage of Prop
 	(properties
+		noun 8
 		x 241
 		y 62
 		view 771
@@ -1233,7 +1307,7 @@
 							)
 							(gMessager say: 5 4 12) ; "The valve won't budge. If you had a bit more light maybe you'd be able to see how to open it."
 						)
-						((and local12 (not (IsFlag 323)))
+						((gEgo has: 52) ; theBoneRit
 							(gMessager say: 5 4 48) ; "The valve won't open. You're trapped!"
 						)
 						(
@@ -1286,7 +1360,7 @@
 	)
 
 	(method (doVerb)
-		(leftTHolder doVerb: &rest)
+		(unknown_770_27 doVerb: &rest)
 	)
 
 	(method (cue)
@@ -1324,7 +1398,7 @@
 	)
 
 	(method (doVerb)
-		(rightTHolder doVerb: &rest)
+		(unknown_770_28 doVerb: &rest)
 	)
 
 	(method (cue)
@@ -1332,7 +1406,7 @@
 	)
 )
 
-(instance body1 of Feature
+(instance unknown_770_24 of Feature
 	(properties
 		noun 9
 		nsLeft 75
@@ -1350,17 +1424,6 @@
 		)
 	)
 
-	(method (handleEvent event)
-		(if (== (event message:) JOY_DOWNRIGHT)
-			(if (self onMe: (event x:) (event y:))
-				(= local20 1)
-			else
-				(= local20 0)
-			)
-		)
-		(super handleEvent: event &rest)
-	)
-
 	(method (doit)
 		(if
 			(and
@@ -1371,6 +1434,24 @@
 			)
 			(gCurRoom setScript: sGetTrapped 0 self)
 		)
+	)
+
+	(method (dispose)
+		(if (!= gPrevRoomNum 720)
+			(gTheDoits delete: self)
+		)
+		(super dispose:)
+	)
+
+	(method (handleEvent event)
+		(if (== (event message:) JOY_DOWNRIGHT)
+			(if (self onMe: (event x:) (event y:))
+				(= local20 1)
+			else
+				(= local20 0)
+			)
+		)
+		(super handleEvent: event &rest)
 	)
 
 	(method (doVerb theVerb)
@@ -1399,16 +1480,9 @@
 			)
 		)
 	)
-
-	(method (dispose)
-		(if (!= gPrevRoomNum 720)
-			(gTheDoits delete: self)
-		)
-		(super dispose:)
-	)
 )
 
-(instance body2 of Feature
+(instance unknown_770_25 of Feature
 	(properties
 		noun 10
 		nsLeft 131
@@ -1426,6 +1500,13 @@
 		(if (!= gPrevRoomNum 720)
 			(gTheDoits add: self)
 		)
+	)
+
+	(method (dispose)
+		(if (!= gPrevRoomNum 720)
+			(gTheDoits delete: self)
+		)
+		(super dispose:)
 	)
 
 	(method (doVerb theVerb)
@@ -1454,16 +1535,9 @@
 			)
 		)
 	)
-
-	(method (dispose)
-		(if (!= gPrevRoomNum 720)
-			(gTheDoits delete: self)
-		)
-		(super dispose:)
-	)
 )
 
-(instance body3 of Feature
+(instance unknown_770_26 of Feature
 	(properties
 		noun 11
 		nsLeft 153
@@ -1481,6 +1555,13 @@
 		(if (!= gPrevRoomNum 720)
 			(gTheDoits add: self)
 		)
+	)
+
+	(method (dispose)
+		(if (!= gPrevRoomNum 720)
+			(gTheDoits delete: self)
+		)
+		(super dispose:)
 	)
 
 	(method (doVerb theVerb)
@@ -1509,16 +1590,9 @@
 			)
 		)
 	)
-
-	(method (dispose)
-		(if (!= gPrevRoomNum 720)
-			(gTheDoits delete: self)
-		)
-		(super dispose:)
-	)
 )
 
-(instance leftTHolder of TargFeature
+(instance unknown_770_27 of TargFeature
 	(properties
 		noun 3
 		nsLeft 207
@@ -1544,89 +1618,108 @@
 		(DisposeClone self)
 	)
 
-	(method (getHurt)
-		(gList delete: self)
-		(leftEfx setScript: sFlameTorch 0 leftEfx)
-	)
-
 	(method (doVerb theVerb &tmp temp0)
-		(if (and (not (== theVerb 10)) local5) ; Jump
-			(gMessager say: 7 6 47) ; "You need to get out of this cage before you can do anything else."
-		else
-			(switch theVerb
-				(1 ; Look
-					(if (IsFlag 303)
-						(gMessager say: 1 1 2) ; "The torch glows with a flickering light."
-					else
-						(gMessager say: 3 1 1) ; "The torch is firmly embedded in its holder."
+		(cond
+			(
+				(and
+					(OneOf
+						theVerb
+						11 ; glideSpell
+						79 ; frostSpell
+						80 ; openSpell
+						81 ; detectMagicSpell
+						82 ; triggerSpell
+						83 ; dazzleSpell
+						84 ; zapSpell
+						85 ; calmSpell
+						86 ; flameDartSpell
+						87 ; fetchSpell
+						88 ; forceBoltSpell
+						89 ; levitateSpell
+						90 ; reversalSpell
+						91 ; jugglingLightsSpell
+						92 ; summonStaffSpell
+						93 ; lightningBallSpell
+						94 ; ritualSpell
+						95 ; invisibleSpell
+						96 ; auraSpell
+						97 ; protectionSpell
+						98 ; resistanceSpell
+						102 ; healingSpell
 					)
+					local17
 				)
-				(76 ; theTorch
-					(cond
-						((and (== gHeroType 2) (IsFlag 323)) ; Thief
-							(gMessager say: 3 76 45) ; "You can't reach the torch through the bone cage that surrounds you."
+				(gMessager say: 0 0 42) ; "You're too busy to cast a spell right now. Better think of something else FAST!"
+			)
+			((and (not (== theVerb 10)) local5) ; Jump
+				(gMessager say: 3 76 45) ; "You can't reach the torch through the bone cage that surrounds you."
+			)
+			(else
+				(switch theVerb
+					(1 ; Look
+						(if (IsFlag 303)
+							(gMessager say: 1 1 2) ; "The torch glows with a flickering light."
+						else
+							(gMessager say: 3 1 1) ; "The torch is firmly embedded in its holder."
 						)
-						(((gInventory at: 44) state:) ; theTorch
-							(if (IsFlag 303)
-								(gMessager say: 3 76 8) ; "Both torches are already lit."
-							else
-								(gMessager say: 3 76 9) ; "You light the torch in the sconce with the one you are carrying."
-								(gCurRoom setScript: sLightTorch 0 leftEfx)
+					)
+					(76 ; theTorch
+						(cond
+							(((gInventory at: 44) state:) ; theTorch
+								(if (IsFlag 303)
+									(gMessager say: 3 76 8) ; "Both torches are already lit."
+								else
+									(gMessager say: 3 76 9) ; "You light the torch in the sconce with the one you are carrying."
+									(gCurRoom setScript: sLightTorch 0 leftEfx)
+								)
+							)
+							((IsFlag 303)
+								(localproc_2)
+								(gCurRoom doTorch: 1)
+								(gMessager say: 3 76 10) ; "You light your torch from the one in the sconce."
+							)
+							(else
+								(gMessager say: 3 76 11) ; "You touch the two unlit torches together. Not surprisingly, nothing happens."
 							)
 						)
-						((IsFlag 303)
-							(localproc_2)
-							(gCurRoom doTorch: 1)
-							(gMessager say: 3 76 10) ; "You light your torch from the one in the sconce."
-						)
-						(else
-							(gMessager say: 3 76 11) ; "You touch the two unlit torches together. Not surprisingly, nothing happens."
-						)
 					)
-				)
-				(39 ; theFlint
-					(cond
-						((and (== gHeroType 2) (IsFlag 323)) ; Thief
-							(gMessager say: 3 76 45) ; "You can't reach the torch through the bone cage that surrounds you."
-						)
-						((gEgo has: 5) ; theThrowdagger
+					(39 ; theFlint
+						(if (gEgo has: 5) ; theThrowdagger
 							(if (!= (leftEfx loop:) 1)
 								(gMessager say: 1 39 1) ; "You strike sparks off the flint using your dagger. The torch soon begins to burn, almost as if by magic."
 								(gCurRoom setScript: sLightTorch 0 leftEfx)
 							else
 								(gMessager say: 1 39 2) ; "The torch is already lit."
 							)
-						)
-						(else
+						else
 							(gMessager say: 1 39 7) ; "You attempt to light the torch using your piece of flint, but you don't have anything with which to create a spark. You'll need to find something made of steel."
 						)
 					)
-				)
-				(86 ; flameDartSpell
-					(cond
-						(local17
-							(gMessager say: 0 0 42) ; "You're too busy to cast a spell right now. Better think of something else FAST!"
-						)
-						(local5
+					(86 ; flameDartSpell
+						(if local5
 							(gCurRoom setScript: sCastFlame)
-						)
-						(else
+						else
 							(gCurRoom setScript: (ScriptID 32) 0 86) ; project
 						)
 					)
-				)
-				(10 ; Jump
-					(gCurRoom doVerb: theVerb)
-				)
-				(else
-					(super doVerb: theVerb)
+					(10 ; Jump
+						(gCurRoom doVerb: theVerb)
+					)
+					(else
+						(super doVerb: theVerb)
+					)
 				)
 			)
 		)
 	)
+
+	(method (getHurt)
+		(gList delete: self)
+		(leftEfx setScript: sFlameTorch 0 leftEfx)
+	)
 )
 
-(instance rightTHolder of TargFeature
+(instance unknown_770_28 of TargFeature
 	(properties
 		noun 1
 		nsLeft 241
@@ -1652,6 +1745,125 @@
 		(DisposeClone self)
 	)
 
+	(method (doVerb theVerb &tmp temp0)
+		(cond
+			(
+				(and
+					(OneOf
+						theVerb
+						11 ; glideSpell
+						79 ; frostSpell
+						80 ; openSpell
+						81 ; detectMagicSpell
+						82 ; triggerSpell
+						83 ; dazzleSpell
+						84 ; zapSpell
+						85 ; calmSpell
+						86 ; flameDartSpell
+						87 ; fetchSpell
+						88 ; forceBoltSpell
+						89 ; levitateSpell
+						90 ; reversalSpell
+						91 ; jugglingLightsSpell
+						92 ; summonStaffSpell
+						93 ; lightningBallSpell
+						94 ; ritualSpell
+						95 ; invisibleSpell
+						96 ; auraSpell
+						97 ; protectionSpell
+						98 ; resistanceSpell
+						102 ; healingSpell
+					)
+					local17
+				)
+				(gMessager say: 0 0 42) ; "You're too busy to cast a spell right now. Better think of something else FAST!"
+			)
+			((and (not (== theVerb 10)) local5) ; Jump
+				(gMessager say: 3 76 45) ; "You can't reach the torch through the bone cage that surrounds you."
+			)
+			(else
+				(switch theVerb
+					(1 ; Look
+						(cond
+							((and (not (IsFlag 302)) (not (IsFlag 304)))
+								(gMessager say: 1 1 1) ; "It looks like a torch, but there doesn't appear to be any pitch or other flammable material on it."
+							)
+							((and (not (IsFlag 302)) (IsFlag 304))
+								(gMessager say: 1 1 2) ; "The torch glows with a flickering light."
+							)
+							(else
+								(gMessager say: 1 4 43) ; "There is nothing in the torch holder."
+							)
+						)
+					)
+					(4 ; Do
+						(if (not (IsFlag 302))
+							(if (gEgo has: 44) ; theTorch
+								(gMessager say: 3 4 40) ; "The sconce doesn't budge."
+							else
+								(gCurRoom setScript: sTakeTorch 0 rightEfx)
+							)
+						else
+							(gMessager say: 3 4 40) ; "The sconce doesn't budge."
+						)
+					)
+					(76 ; theTorch
+						(cond
+							((IsFlag 302)
+								(gCurRoom setScript: sPlaceTorch 0 rightEfx)
+							)
+							(((gInventory at: 44) state:) ; theTorch
+								(if (IsFlag 304)
+									(gMessager say: 3 76 8) ; "Both torches are already lit."
+								else
+									(gMessager say: 3 76 9) ; "You light the torch in the sconce with the one you are carrying."
+									(gCurRoom setScript: sLightTorch 0 rightEfx)
+								)
+							)
+							((IsFlag 304)
+								(localproc_2)
+								(gCurRoom doTorch: 1)
+								(gMessager say: 3 76 10) ; "You light your torch from the one in the sconce."
+							)
+							(else
+								(gMessager say: 3 76 11) ; "You touch the two unlit torches together. Not surprisingly, nothing happens."
+							)
+						)
+					)
+					(39 ; theFlint
+						(if (not (IsFlag 302))
+							(if (gEgo has: 5) ; theThrowdagger
+								(if (!= (rightEfx loop:) 3)
+									(gMessager say: 1 39 1) ; "You strike sparks off the flint using your dagger. The torch soon begins to burn, almost as if by magic."
+									(gCurRoom setScript: sLightTorch 0 rightEfx)
+								else
+									(gMessager say: 1 39 2) ; "The torch is already lit."
+								)
+							else
+								(gMessager say: 1 39 7) ; "You attempt to light the torch using your piece of flint, but you don't have anything with which to create a spark. You'll need to find something made of steel."
+							)
+						else
+							(gMessager say: 1 4 43) ; "There is nothing in the torch holder."
+						)
+					)
+					(10 ; Jump
+						(gCurRoom doVerb: theVerb)
+					)
+					(86 ; flameDartSpell
+						(if local5
+							(gCurRoom setScript: sCastFlame)
+						else
+							(gCurRoom setScript: (ScriptID 32) 0 86) ; project
+						)
+					)
+					(else
+						(super doVerb: theVerb)
+					)
+				)
+			)
+		)
+	)
+
 	(method (getHurt)
 		(if (IsFlag 302)
 			(gMessager say: 1 86 3) ; "The sconce is empty, so your Flame Dart has no effect."
@@ -1660,100 +1872,9 @@
 			(rightEfx setScript: sFlameTorch 0 rightEfx)
 		)
 	)
-
-	(method (doVerb theVerb &tmp temp0)
-		(if (and (not (== theVerb 10)) local5) ; Jump
-			(gMessager say: 7 6 47) ; "You need to get out of this cage before you can do anything else."
-		else
-			(switch theVerb
-				(1 ; Look
-					(cond
-						((and (not (IsFlag 302)) (not (IsFlag 304)))
-							(gMessager say: 1 1 1) ; "It looks like a torch, but there doesn't appear to be any pitch or other flammable material on it."
-						)
-						((and (not (IsFlag 302)) (IsFlag 304))
-							(gMessager say: 1 1 2) ; "The torch glows with a flickering light."
-						)
-						(else
-							(super doVerb: theVerb)
-						)
-					)
-				)
-				(4 ; Do
-					(if (not (IsFlag 302))
-						(if (gEgo has: 44) ; theTorch
-							(gMessager say: 3 4 40) ; "The sconce doesn't budge."
-						else
-							(gCurRoom setScript: sTakeTorch 0 rightEfx)
-						)
-					else
-						(gMessager say: 1 4 43) ; "There is nothing in the torch holder."
-					)
-				)
-				(76 ; theTorch
-					(cond
-						((IsFlag 302)
-							(gCurRoom setScript: sPlaceTorch 0 rightEfx)
-						)
-						(((gInventory at: 44) state:) ; theTorch
-							(if (IsFlag 304)
-								(gMessager say: 3 76 8) ; "Both torches are already lit."
-							else
-								(gMessager say: 3 76 9) ; "You light the torch in the sconce with the one you are carrying."
-								(gCurRoom setScript: sLightTorch 0 rightEfx)
-							)
-						)
-						((IsFlag 304)
-							(localproc_2)
-							(gCurRoom doTorch: 1)
-							(gMessager say: 3 76 10) ; "You light your torch from the one in the sconce."
-						)
-						(else
-							(gMessager say: 3 76 11) ; "You touch the two unlit torches together. Not surprisingly, nothing happens."
-						)
-					)
-				)
-				(39 ; theFlint
-					(if (not (IsFlag 302))
-						(if (gEgo has: 5) ; theThrowdagger
-							(if (!= (rightEfx loop:) 3)
-								(gMessager say: 1 39 1) ; "You strike sparks off the flint using your dagger. The torch soon begins to burn, almost as if by magic."
-								(gCurRoom setScript: sLightTorch 0 rightEfx)
-							else
-								(gMessager say: 1 39 2) ; "The torch is already lit."
-							)
-						else
-							(gMessager say: 1 39 7) ; "You attempt to light the torch using your piece of flint, but you don't have anything with which to create a spark. You'll need to find something made of steel."
-						)
-					else
-						(gMessager say: 1 4 43) ; "There is nothing in the torch holder."
-					)
-				)
-				(10 ; Jump
-					(gCurRoom doVerb: theVerb)
-				)
-				(86 ; flameDartSpell
-					(cond
-						(local17
-							(gMessager say: 0 0 42) ; "You're too busy to cast a spell right now. Better think of something else FAST!"
-						)
-						(local5
-							(gCurRoom setScript: sCastFlame)
-						)
-						(else
-							(gCurRoom setScript: (ScriptID 32) 0 86) ; project
-						)
-					)
-				)
-				(else
-					(super doVerb: theVerb)
-				)
-			)
-		)
-	)
 )
 
-(instance altar of Feature
+(instance unknown_770_29 of Feature
 	(properties
 		noun 4
 		nsLeft 223
@@ -1773,20 +1894,34 @@
 		else
 			(switch theVerb
 				(43 ; theDarksign
-					(if (IsFlag 302)
-						(gMessager say: 7 6 44) ; "The altar doesn't look quite ready for the ritual somehow. The lighting isn't quite right."
-					else
-						(= local12 1)
-						(gEgo drop: 25) ; theDarksign
-						(gMessager say: 7 6 41) ; "You press the Dark One Sign against the top of the altar. The sand swirls and shifts to form a mirror image of the sign on the altar surface."
+					(cond
+						((and (not (IsFlag 303)) (IsFlag 302))
+							(gMessager say: 7 6 46) ; "The lighting isn't quite appropriate for this Ritual. You need to make some preparations first."
+						)
+						(
+							(or
+								(not (IsFlag 303))
+								(and (IsFlag 302) (IsFlag 303))
+							)
+							(gMessager say: 7 6 44) ; "The altar doesn't look quite ready for the ritual somehow. The lighting isn't quite right."
+						)
+						(else
+							(= local12 1)
+							(gEgo drop: 25) ; theDarksign
+							(gMessager say: 7 6 41) ; "You press the Dark One Sign against the top of the altar. The sand swirls and shifts to form a mirror image of the sign on the altar surface."
+						)
 					)
 				)
 				(67 ; theBoneRit
 					(cond
-						((or (not (IsFlag 303)) (not (IsFlag 304)))
+						((and (not (IsFlag 303)) (IsFlag 302))
 							(gMessager say: 7 6 46) ; "The lighting isn't quite appropriate for this Ritual. You need to make some preparations first."
 						)
-						((IsFlag 302)
+						(
+							(or
+								(not (IsFlag 303))
+								(and (IsFlag 302) (IsFlag 303))
+							)
 							(gMessager say: 7 6 44) ; "The altar doesn't look quite ready for the ritual somehow. The lighting isn't quite right."
 						)
 						((not local12)
@@ -1820,7 +1955,10 @@
 					)
 				)
 				(76 ; theTorch
-					(rightTHolder doVerb: theVerb)
+					(unknown_770_28 doVerb: theVerb)
+				)
+				(74 ; theHeartRit
+					(gMessager say: 4 67 38) ; "You sense that it is not yet time to perform the Heart Ritual -- first you must prepare the Dark One with the other Rituals."
 				)
 				(else
 					(super doVerb: theVerb)
@@ -1835,20 +1973,6 @@
 		actionVerb 4
 	)
 
-	(method (showCases)
-		(super
-			showCases:
-				32 ; Break Cage
-				(or (== gHeroType 0) (== gHeroType 3)) ; Fighter, Paladin
-				33 ; Break Cage
-				(or (== gHeroType 1) (== gHeroType 2)) ; Magic User, Thief
-				34 ; Climb Over Cage
-				[gEgoStats 11] ; climbing
-				35 ; Jump Out of Cage
-				(== gHeroType 2) ; Thief
-		)
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(32 ; Break Cage
@@ -1857,10 +1981,31 @@
 			)
 			(35 ; Jump Out of Cage
 				(gCurRoom setScript: sJumpOut)
+				(self clean:)
 			)
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				32 ; Break Cage
+				(if (== gHeroType 0) ; Fighter
+				else
+					(== gHeroType 3) ; Paladin
+				)
+				33 ; Break Cage
+				(if (== gHeroType 1) ; Magic User
+				else
+					(== gHeroType 2) ; Thief
+				)
+				34 ; Climb Over Cage
+				global258
+				35 ; Jump Out of Cage
+				(== gHeroType 2) ; Thief
 		)
 	)
 )

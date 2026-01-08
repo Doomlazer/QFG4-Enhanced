@@ -4,7 +4,7 @@
 (include sci.sh)
 (use Main)
 (use GloryRm)
-(use DeathIcon)
+(use DeathControls)
 (use Scaler)
 (use RandCycle)
 (use PolyPath)
@@ -27,6 +27,7 @@
 	local5
 	local6
 	local7
+	local8
 )
 
 (instance rm720 of GloryRm
@@ -37,7 +38,7 @@
 
 	(method (init)
 		(ClearFlag 6)
-		(= local4
+		(= local5
 			(cond
 				((not (IsFlag 101)) 1)
 				((not (IsFlag 453)) 2)
@@ -69,10 +70,15 @@
 		)
 		(if (and (== gPrevRoomNum 810) (IsFlag 368)) ; combat
 			(gLongSong number: 200 play:)
-			(badder2 init: approachX: 182 approachY: 159 approachVerbs: 4) ; Do
+			(unknown_720_25
+				init:
+				approachX: 182
+				approachY: 159
+				approachVerbs: 4 ; Do
+			)
 			(badder1 init: approachX: 165 approachY: 176 approachVerbs: 4) ; Do
 			(if global462
-				(badder2
+				(unknown_720_25
 					cel: 3
 					posn: 227 109
 					setPri: 230
@@ -82,7 +88,7 @@
 					setScript: sFollow2
 				)
 			else
-				(badder2 view: 827 loop: 0 cel: 5 posn: 182 159)
+				(unknown_720_25 view: 827 loop: 0 cel: 5 posn: 182 159)
 			)
 			(if global156
 				(badder1
@@ -100,16 +106,16 @@
 		(if (== gHeroType 2) ; Thief
 			(tSign init:)
 		)
-		(if (== local4 1)
+		(if (== local5 1)
 			(cond
 				((OneOf gHeroType 0 3) ; Fighter, Paladin
-					(gTheDoits add: CaveExit)
+					(gTheDoits add: Class_720_0)
 					(if (not (gEgo has: 19)) ; theSword
 						(swordNShield init:)
 					)
 				)
 				((and (== gHeroType 1) (not (gEgo has: 35))) ; Magic User, theCloth
-					(cloth init:)
+					(unknown_720_34 init:)
 				)
 			)
 		)
@@ -119,37 +125,48 @@
 		(exit4 init: approachVerbs: 4) ; Do
 		(exit5 init: approachVerbs: 4) ; Do
 		(heart init: approachVerbs: 4) ; Do
-		(senseExitF init: approachVerbs: 4) ; Do
-		(boneExitF init: approachVerbs: 4) ; Do
-		(breathExitF init: approachVerbs: 4) ; Do
-		(bloodExitF init: approachVerbs: 4) ; Do
-		(altar init:)
-		(altarStem init:)
-		(essenceExit init:)
-		(CaveExit init:)
+		(unknown_720_38 init: approachVerbs: 4) ; Do
+		(unknown_720_39 init: approachVerbs: 4) ; Do
+		(unknown_720_37 init: approachVerbs: 4) ; Do
+		(unknown_720_36 init: approachVerbs: 4) ; Do
+		(unknown_720_40 init:)
+		(unknown_720_41 init:)
+		(unknown_720_42 init:)
+		(Class_720_0 init:)
 		(switch gPrevRoomNum
 			(740
+				(gLongSong
+					number: 203
+					setLoop: -1
+					mute: 1 6
+					mute: 1 7
+					mute: 1 8
+					mute: 1 9
+					play:
+				)
 				(gEgo x: 41 y: 61)
-				(= local3 exit2)
-				(= local2 bloodExitF)
+				(= local4 exit2)
+				(= local3 unknown_720_36)
 			)
 			(750
-				(gEgo x: 116 y: 55 loop: 2)
-				(= local3 exit3)
-				(= local2 breathExitF)
+				(gLongSong number: 203 setLoop: -1 mute: 1 7 mute: 1 9 play:)
+				(gEgo x: 116 y: 52 loop: 2)
+				(= local4 exit3)
+				(= local3 unknown_720_37)
 			)
 			(760
+				(gLongSong number: 203 setLoop: -1 mute: 1 9 play:)
 				(gEgo x: 277 y: 52)
-				(= local3 exit4)
-				(= local2 senseExitF)
+				(= local4 exit4)
+				(= local3 unknown_720_38)
 			)
 			(810 ; combat
 				(gEgo x: 105 y: 160 loop: 0)
 			)
 			(else
 				(gEgo x: 340 y: 100)
-				(= local3 exit5)
-				(= local2 boneExitF)
+				(= local4 exit5)
+				(= local3 unknown_720_39)
 			)
 		)
 		(super init: &rest)
@@ -160,7 +177,7 @@
 			)
 			(= south 710)
 		)
-		(if (and (== local4 1) (not (IsFlag 368)) (OneOf gHeroType 1 2)) ; Magic User, Thief
+		(if (and (== local5 1) (not (IsFlag 368)) (OneOf gHeroType 1 2)) ; Magic User, Thief
 			(gEgo setScript: sCounter)
 		)
 		(RemapColors 1 253 112 175 62) ; ByRange
@@ -185,28 +202,67 @@
 				(gCurRoom setScript: sEnter)
 			)
 		)
-		(if (and (== local4 1) (not (IsFlag 371)))
+		(if (and (== local5 1) (not (IsFlag 371)))
 			(gGlory save: 1)
 		)
 	)
 
+	(method (dispose)
+		(if local2
+			(gLongSong fade: 0)
+		)
+		(gTheDoits delete: Class_720_0)
+		(super dispose: &rest)
+	)
+
 	(method (doVerb theVerb)
 		(switch theVerb
+			(14 ; theBonsai
+				(gMessager say: 0 14 0) ; "You should have planted that earlier. It will never survive in this cave."
+			)
+			(33 ; theGrapnel
+				(gMessager say: 0 33 0) ; "You missed."
+			)
+			(47 ; theBones
+				(gMessager say: 0 47 0) ; "This is no fit place for a burial."
+			)
+			(56 ; theAmulet
+				(gMessager say: 0 56 0) ; "That won't help you here."
+			)
+			(60 ; theWillowisp
+				(gMessager say: 0 60 0) ; "The tiny creature cringes in its flask. It will have nothing to do with this place!"
+			)
+			(67 ; theBoneRit
+				(gMessager say: 0 67 0) ; "This is not the proper place for that Ritual."
+			)
+			(69 ; theBloodRit
+				(gMessager say: 0 69 0) ; "This is not the proper place for that Ritual."
+			)
+			(70 ; theBreathRit
+				(gMessager say: 0 70 0) ; "This is not the proper place for that Ritual."
+			)
+			(72 ; theSenseRit
+				(gMessager say: 0 72 0) ; "This is not the proper place for that Ritual."
+			)
+			(74 ; theHeartRit
+				(gMessager say: 0 74 0) ; "The Heart Ritual must be used on the Altar of Darkness in the center of the chamber."
+			)
 			(89 ; levitateSpell
 				((ScriptID 31 0) init: 164 155 100) ; leviCode
 			)
 			(81 ; detectMagicSpell
 				(gMessager say: 0 81 0) ; "The entire cave is suffused with dark, eldritch magic. The focus seems to be the altar near the center of the chamber."
 			)
+			(104 ; Sleep all night
+				(gMessager say: 0 104 0) ; "To fall asleep here would surely mean your death!"
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "You can't jump-start a heart."
+			)
 			(else
-				(super doVerb: theVerb)
+				(super doVerb: theVerb &rest)
 			)
 		)
-	)
-
-	(method (dispose)
-		(gTheDoits delete: CaveExit)
-		(super dispose: &rest)
 	)
 )
 
@@ -214,7 +270,7 @@
 	(properties)
 
 	(method (doit)
-		(if (> (gEgo z:) 95)
+		(if (and (> (gEgo z:) 95) (IsFlag 462))
 			(gCurRoom setScript: toEndGame)
 		)
 	)
@@ -227,10 +283,10 @@
 		(if
 			(gEgo
 				inRect:
-					(boneExitF nsLeft:)
-					(boneExitF nsTop:)
-					(boneExitF nsRight:)
-					(boneExitF nsBottom:)
+					(unknown_720_39 nsLeft:)
+					(unknown_720_39 nsTop:)
+					(unknown_720_39 nsRight:)
+					(unknown_720_39 nsBottom:)
 			)
 			(= local0 310)
 			(= local1 115)
@@ -247,10 +303,10 @@
 		(if
 			(gEgo
 				inRect:
-					(bloodExitF nsLeft:)
-					(bloodExitF nsTop:)
-					(bloodExitF nsRight:)
-					(bloodExitF nsBottom:)
+					(unknown_720_36 nsLeft:)
+					(unknown_720_36 nsTop:)
+					(unknown_720_36 nsRight:)
+					(unknown_720_36 nsBottom:)
 			)
 			(= local0 35)
 			(= local1 56)
@@ -267,10 +323,10 @@
 		(if
 			(gEgo
 				inRect:
-					(breathExitF nsLeft:)
-					(breathExitF nsTop:)
-					(breathExitF nsRight:)
-					(breathExitF nsBottom:)
+					(unknown_720_37 nsLeft:)
+					(unknown_720_37 nsTop:)
+					(unknown_720_37 nsRight:)
+					(unknown_720_37 nsBottom:)
 			)
 			(= local0 116)
 			(= local1 55)
@@ -287,10 +343,10 @@
 		(if
 			(gEgo
 				inRect:
-					(senseExitF nsLeft:)
-					(senseExitF nsTop:)
-					(senseExitF nsRight:)
-					(senseExitF nsBottom:)
+					(unknown_720_38 nsLeft:)
+					(unknown_720_38 nsTop:)
+					(unknown_720_38 nsRight:)
+					(unknown_720_38 nsBottom:)
 			)
 			(= local0 277)
 			(= local1 52)
@@ -316,12 +372,14 @@
 						)
 					)
 					(750
+						(= local2 1)
 						(exit3
 							setLoop: (+ (exit3 loop:) 1)
 							setCycle: hideEndLoop self
 						)
 					)
 					(760
+						(= local2 1)
 						(exit4
 							setLoop: (+ (exit4 loop:) 1)
 							setCycle: hideEndLoop self
@@ -352,19 +410,19 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(local3 setLoop: (+ (local3 loop:) 1) setCycle: End self)
+				(local4 setLoop: (+ (local4 loop:) 1) setCycle: End self)
 			)
 			(1
 				(gEgo
 					setMotion:
 						MoveTo
-						(local2 approachX:)
-						(local2 approachY:)
+						(local3 approachX:)
+						(local3 approachY:)
 						self
 				)
 			)
 			(2
-				(local3 setCycle: Beg self)
+				(local4 setCycle: Beg self)
 			)
 			(3
 				(if (not (IsFlag 371))
@@ -377,7 +435,7 @@
 			(4
 				(gEgo
 					code:
-						(switch local4
+						(switch local5
 							(3 bloodCode)
 							(4 breathCode)
 							(5 senseCode)
@@ -385,8 +443,8 @@
 							(else 0)
 						)
 				)
-				(local3 setLoop: (- (local3 loop:) 1))
-				(switch local4
+				(local4 setLoop: (- (local4 loop:) 1))
+				(switch local5
 					(1 0)
 					(3
 						(exit2 setCycle: Fwd)
@@ -412,13 +470,42 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(if (== local4 2)
-					(gEgo code: boneCode)
-					(exit5 setCycle: Fwd)
-				)
 				(gEgo x: 145 y: 240 setMotion: PolyPath 145 172 self)
 			)
 			(1
+				(gEgo
+					code:
+						(switch local5
+							(2 boneCode)
+							(3 bloodCode)
+							(4 breathCode)
+							(5 senseCode)
+							(6 levitateExit)
+							(else 0)
+						)
+				)
+				(switch local5
+					(2
+						(exit5 setCycle: Fwd)
+					)
+					(3
+						(exit2 setCycle: Fwd)
+					)
+					(4
+						(exit3 setCycle: Fwd)
+					)
+					(5
+						(exit4 setCycle: Fwd)
+					)
+					(6
+						(if (IsFlag 462)
+							(heart setCycle: Fwd)
+						else
+							0
+						)
+					)
+					(else 0)
+				)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -447,14 +534,14 @@
 					)
 					(else
 						(gEgo get: 35) ; theCloth
-						(cloth hide:)
+						(unknown_720_34 hide:)
 					)
 				)
 				(gEgo setCycle: Beg self)
 			)
 			(2
 				(if (== register swordNShield)
-					(if local6
+					(if local7
 						(gMessager say: 16 6 7 0 self) ; "Frantically searching for something better with which to defend yourself, you snatch a battered old sword and shield from the remains of a not-so-lucky combatant. Just in time, you prepare yourself for battle."
 					else
 						(gMessager say: 11 4 0 0 self) ; "You gratefully retrieve the shield and battered sword from the dead warrior. You hope they will serve you better than they did their last owner."
@@ -507,6 +594,7 @@
 				)
 			)
 			(2
+				(gEgo normalize:)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -534,10 +622,13 @@
 				)
 			)
 			(2
+				(gMessager say: 4 33 3 0 self) ; "You catch the lip of the passageway with your grapnel and prepare to climb the rope."
+			)
+			(3
 				(aRope init: setCycle: End)
 				(gEgo setLoop: 7 1 cel: 0 setCycle: End self)
 			)
-			(3
+			(4
 				(gEgo drop: 16) ; theGrapnel
 				(gEgo normalize: 6)
 				(gGlory handsOn:)
@@ -555,7 +646,7 @@
 			(0
 				(gGlory handsOff:)
 				(gCurRoom south: 710)
-				(= local5 gEgoGait)
+				(= local6 gEgoGait)
 				(if (and (not (gEgo has: 19)) (OneOf gHeroType 0 3)) ; theSword, Fighter, Paladin
 					(gEgo changeGait: 1 setMotion: PolyPath 209 176 self) ; running
 				else
@@ -563,7 +654,7 @@
 				)
 			)
 			(1
-				(gEgo changeGait: local5)
+				(gEgo changeGait: local6)
 				(badder1
 					x: 109
 					y: 187
@@ -574,7 +665,7 @@
 					setLoop: 2 1
 					setScript: sFollow1
 				)
-				(badder2
+				(unknown_720_25
 					x: 116
 					y: 194
 					cel: 3
@@ -612,26 +703,26 @@
 					(= global462 50)
 				)
 				(gCurRoom south: 710)
-				(= local5 gEgoGait)
+				(= local6 gEgoGait)
 				(if (and (not (gEgo has: 19)) (OneOf gHeroType 0 3)) ; theSword, Fighter, Paladin
-					(= local6 1)
+					(= local7 1)
 					(gEgo changeGait: 1 setMotion: PolyPath 242 170 self) ; running
 				else
 					(= cycles 1)
 				)
 			)
 			(1
-				(if local6
+				(if local7
 					(self setScript: pickUp self swordNShield)
 				else
 					(= cycles 1)
 				)
 			)
 			(2
-				(Face gEgo (badder2 x:) (badder2 y:) self)
+				(Face gEgo (unknown_720_25 x:) (unknown_720_25 y:) self)
 			)
 			(3
-				(gEgo changeGait: local5)
+				(gEgo changeGait: local6)
 				(gCurRoom newRoom: 810) ; combat
 			)
 		)
@@ -664,7 +755,7 @@
 			(0
 				(gGlory handsOff:)
 				(SetFlag 50)
-				(= local7
+				(= local8
 					(gGlory
 						setCursor:
 							((gTheIconBar getCursor:)
@@ -702,7 +793,7 @@
 			)
 			(4
 				(markCloseUp dispose:)
-				(gGlory setCursor: local7)
+				(gGlory setCursor: local8)
 				(ClearFlag 50)
 				(gGlory handsOn:)
 				(self dispose:)
@@ -791,7 +882,9 @@
 				(= cycles 2)
 			)
 			(1
-				(badder2 setMotion: PolyPath (gEgo x:) (- (gEgo y:) 20))
+				(unknown_720_25
+					setMotion: PolyPath (gEgo x:) (- (gEgo y:) 20)
+				)
 				(= cycles 5)
 			)
 			(2
@@ -799,8 +892,8 @@
 					(and
 						(<
 							(GetDistance
-								(badder2 x:)
-								(badder2 y:)
+								(unknown_720_25 x:)
+								(unknown_720_25 y:)
 								(gEgo x:)
 								(- (gEgo y:) 20)
 							)
@@ -823,14 +916,14 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(gEgo use: 56 solvePuzzle: 462 6) ; theHeartRit
-				(heart setCycle: Fwd)
-				(= seconds 2)
+				(gEgo setMotion: MoveTo 153 144 self)
 			)
 			(1
 				(gMessager say: 2 74 0 0 self) ; "You unroll the scroll containing the Heart Ritual. The words are visible at last and you begin to perform the Ritual."
 			)
 			(2
+				(gEgo use: 56 solvePuzzle: 462 6) ; theHeartRit
+				(heart setCycle: Fwd)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -899,7 +992,7 @@
 					setLoop: 2 1
 					setScript: sFollow1
 				)
-				(badder2
+				(unknown_720_25
 					x: 116
 					y: 194
 					cel: 4
@@ -969,7 +1062,7 @@
 	)
 )
 
-(instance badder2 of Actor
+(instance unknown_720_25 of Actor
 	(properties
 		noun 14
 		scaleX 64
@@ -994,15 +1087,15 @@
 		signal 16385
 	)
 
-	(method (onMe)
-		(return 0)
-	)
-
 	(method (doit)
 		(super doit: &rest)
 		(= x (gEgo x:))
 		(= y (gEgo y:))
 		(= z (+ (gEgo z:) 1))
+	)
+
+	(method (onMe)
+		(return 0)
 	)
 )
 
@@ -1022,13 +1115,13 @@
 
 	(method (init)
 		(super init:)
-		(if (== local4 3)
+		(if (== local5 3)
 			(self setCycle: Fwd)
 		)
 	)
 
 	(method (handleEvent event)
-		(if (== local4 3)
+		(if (== local5 3)
 			(= approachX 64)
 			(= approachY 79)
 		else
@@ -1041,7 +1134,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (== local4 3)
+				(if (== local5 3)
 					0
 				else
 					(super doVerb: theVerb &rest)
@@ -1059,7 +1152,7 @@
 		noun 8
 		x 114
 		y 42
-		priority 50
+		priority 60
 		fixPriority 1
 		view 721
 		loop 4
@@ -1069,13 +1162,13 @@
 
 	(method (init)
 		(super init:)
-		(if (== local4 4)
+		(if (== local5 4)
 			(self setCycle: Fwd)
 		)
 	)
 
 	(method (handleEvent event)
-		(if (== local4 4)
+		(if (== local5 4)
 			(= approachX 114)
 			(= approachY 54)
 		else
@@ -1088,7 +1181,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (== local4 4)
+				(if (== local5 4)
 					0
 				else
 					(super doVerb: theVerb &rest)
@@ -1117,13 +1210,13 @@
 
 	(method (init)
 		(super init:)
-		(if (== local4 5)
+		(if (== local5 5)
 			(self setCycle: Fwd)
 		)
 	)
 
 	(method (handleEvent event)
-		(if (== local4 5)
+		(if (== local5 5)
 			(= approachX 241)
 			(= approachY 73)
 		else
@@ -1136,7 +1229,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (== local4 5)
+				(if (== local5 5)
 					0
 				else
 					(super doVerb: theVerb &rest)
@@ -1161,13 +1254,13 @@
 
 	(method (init)
 		(super init:)
-		(if (== local4 2)
+		(if (== local5 2)
 			(self setCycle: Fwd)
 		)
 	)
 
 	(method (handleEvent event)
-		(if (== local4 2)
+		(if (== local5 2)
 			(= approachX 306)
 			(= approachY 111)
 		else
@@ -1180,7 +1273,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (== local4 2)
+				(if (== local5 2)
 					0
 				else
 					(super doVerb: theVerb &rest)
@@ -1215,14 +1308,14 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(33 ; theGrapnel
-				(if (and (== local4 6) (IsFlag 462))
+				(if (and (== local5 6) (IsFlag 462))
 					(gCurRoom setScript: toHook)
 				else
 					(super doVerb: theVerb)
 				)
 			)
 			(74 ; theHeartRit
-				(if (== local4 6)
+				(if (== local5 6)
 					(gCurRoom setScript: sRitOnHeart)
 				else
 					(gMessager say: 2 74 5) ; "You sense that it is not yet time to perform the Heart Ritual -- first you must prepare the Dark One with the other Rituals."
@@ -1294,7 +1387,7 @@
 	)
 )
 
-(instance cloth of View
+(instance unknown_720_34 of View
 	(properties
 		noun 12
 		approachX 242
@@ -1339,7 +1432,7 @@
 		(super init: &rest)
 		(-= nsLeft 5)
 		(-= nsTop 3)
-		(+= nsRight 5)
+		(+= name 5)
 		(+= nsBottom 3)
 		(self approachVerbs: 4 1) ; Do, Look
 	)
@@ -1359,7 +1452,7 @@
 	)
 )
 
-(instance bloodExitF of Feature
+(instance unknown_720_36 of Feature
 	(properties
 		noun 7
 		nsLeft 40
@@ -1373,7 +1466,7 @@
 	)
 
 	(method (handleEvent event)
-		(if (== local4 3)
+		(if (== local5 3)
 			(= approachX 64)
 			(= approachY 79)
 		else
@@ -1386,7 +1479,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (== local4 3)
+				(if (== local5 3)
 					0
 				else
 					(super doVerb: theVerb &rest)
@@ -1399,7 +1492,7 @@
 	)
 )
 
-(instance breathExitF of Feature
+(instance unknown_720_37 of Feature
 	(properties
 		noun 8
 		nsLeft 88
@@ -1413,7 +1506,7 @@
 	)
 
 	(method (handleEvent event)
-		(if (== local4 4)
+		(if (== local5 4)
 			(= approachX 114)
 			(= approachY 54)
 		else
@@ -1426,7 +1519,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (== local4 4)
+				(if (== local5 4)
 					0
 				else
 					(super doVerb: theVerb &rest)
@@ -1439,7 +1532,7 @@
 	)
 )
 
-(instance senseExitF of Feature
+(instance unknown_720_38 of Feature
 	(properties
 		noun 6
 		nsLeft 215
@@ -1453,7 +1546,7 @@
 	)
 
 	(method (handleEvent event)
-		(if (== local4 5)
+		(if (== local5 5)
 			(= approachX 241)
 			(= approachY 73)
 		else
@@ -1466,7 +1559,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (== local4 5)
+				(if (== local5 5)
 					0
 				else
 					(super doVerb: theVerb &rest)
@@ -1479,7 +1572,7 @@
 	)
 )
 
-(instance boneExitF of Feature
+(instance unknown_720_39 of Feature
 	(properties
 		noun 5
 		nsLeft 284
@@ -1493,7 +1586,7 @@
 	)
 
 	(method (handleEvent event)
-		(if (== local4 2)
+		(if (== local5 2)
 			(= approachX 306)
 			(= approachY 111)
 		else
@@ -1506,7 +1599,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if (== local4 2)
+				(if (== local5 2)
 					0
 				else
 					(super doVerb: theVerb &rest)
@@ -1519,7 +1612,7 @@
 	)
 )
 
-(instance altar of Feature
+(instance unknown_720_40 of Feature
 	(properties
 		noun 2
 		nsLeft 145
@@ -1541,10 +1634,10 @@
 		(switch theVerb
 			(4 ; Do
 				(cond
-					((and (gCast contains: aRope) (== local4 6))
+					((and (gCast contains: aRope) (== local5 6))
 						(aRope doVerb: theVerb)
 					)
-					((and (== local4 6) (IsFlag 462))
+					((and (== local5 6) (IsFlag 462))
 						(gCurRoom setScript: toClimb)
 					)
 					(else
@@ -1553,14 +1646,14 @@
 				)
 			)
 			(33 ; theGrapnel
-				(if (and (== local4 6) (IsFlag 462))
+				(if (and (== local5 6) (IsFlag 462))
 					(gCurRoom setScript: toHook)
 				else
 					(super doVerb: theVerb)
 				)
 			)
 			(74 ; theHeartRit
-				(if (== local4 6)
+				(if (== local5 6)
 					(gCurRoom setScript: sRitOnHeart)
 				else
 					(gMessager say: 2 74 5) ; "You sense that it is not yet time to perform the Heart Ritual -- first you must prepare the Dark One with the other Rituals."
@@ -1573,7 +1666,7 @@
 	)
 )
 
-(instance altarStem of Feature
+(instance unknown_720_41 of Feature
 	(properties
 		noun 3
 		nsLeft 134
@@ -1595,10 +1688,10 @@
 		(switch theVerb
 			(4 ; Do
 				(cond
-					((and (gCast contains: aRope) (== local4 6))
+					((and (gCast contains: aRope) (== local5 6))
 						(aRope doVerb: theVerb)
 					)
-					((== local4 720)
+					((== local5 720)
 						(gCurRoom setScript: toClimb)
 					)
 					(else
@@ -1613,7 +1706,7 @@
 	)
 )
 
-(instance essenceExit of Feature
+(instance unknown_720_42 of Feature
 	(properties
 		noun 4
 		nsLeft 137
@@ -1654,8 +1747,9 @@
 	)
 )
 
-(class CaveExit of Feature
+(class Class_720_0 of Feature
 	(properties
+		nsRight 190
 		noun 9
 		nsLeft 90
 		nsTop 173
@@ -1664,10 +1758,6 @@
 		x 140
 		y 182
 		alreadyGone 0
-	)
-
-	(method (cue)
-		(gCurRoom newRoom: 710)
 	)
 
 	(method (doit)
@@ -1694,6 +1784,10 @@
 				)
 			)
 		)
+	)
+
+	(method (cue)
+		(gCurRoom newRoom: 710)
 	)
 )
 

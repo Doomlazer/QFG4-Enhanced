@@ -18,23 +18,6 @@
 (instance hookBar of PuzzleBar
 	(properties)
 
-	(method (resetPuzzle &tmp temp0 temp1)
-		((ScriptID 34 3) setCel: 2) ; pExit
-		(for ((= temp0 0)) (< temp0 4) ((++ temp0))
-			(self
-				add:
-					((diamond new:)
-						value: temp0
-						nsLeft: (= temp1 (+ 30 (* temp0 35)))
-						x: temp1
-						init: self
-						yourself:
-					)
-			)
-		)
-		(self eachElementDo: #show)
-	)
-
 	(method (init &tmp temp0)
 		(self changeCursor: 999)
 		(super init: &rest)
@@ -44,16 +27,21 @@
 		(hook4 init: puzzleCast)
 	)
 
-	(method (setPlane)
-		(= usePlane 1)
-		(plane
-			bitmap: 0
-			priority: (+ (GetHighPlanePri) 1)
-			init:
-			setRect: 82 40 250 155
-			setBitmap: 935 0 0 1
-			addCast: puzzleCast
+	(method (resetPuzzle &tmp temp0 temp1)
+		((ScriptID 34 3) setCel: 2) ; pExit
+		(for ((= temp0 0)) (< temp0 4) ((++ temp0))
+			(self
+				add:
+					((diamond new:)
+						value: temp0
+						nsLeft: (= temp1 (+ 30 (* temp0 35)))
+						x: (= temp1 (+ 30 (* temp0 35)))
+						init: self
+						yourself:
+					)
+			)
 		)
+		(self eachElementDo: #show)
 	)
 
 	(method (helpYou)
@@ -78,6 +66,18 @@
 	)
 
 	(method (giveYou))
+
+	(method (setPlane)
+		(= usePlane 1)
+		(plane
+			bitmap: 0
+			priority: (+ (GetHighPlanePri) 1)
+			init:
+			setRect: 82 40 250 155
+			setBitmap: 935 0 0 1
+			addCast: puzzleCast
+		)
+	)
 )
 
 (instance diamond of TextIcon
@@ -183,6 +183,7 @@
 							(== (hook3 cel:) 2)
 							(== (hook4 cel:) 1)
 						)
+						(gMessager say: 6 6 41 1) ; "You hear a "Click!" somewhere in the distance."
 						(self cue:)
 					)
 					(register

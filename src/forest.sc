@@ -4,7 +4,7 @@
 (include sci.sh)
 (use Main)
 (use TargFeature)
-(use DeathIcon)
+(use DeathControls)
 (use Str)
 (use Array)
 (use Talker)

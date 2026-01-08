@@ -112,13 +112,13 @@
 		(vBackDoor approachVerbs: 4 32 ignoreActors: init:) ; Do, theOil
 		(vTheRug ignoreActors: init:)
 		(vTheTable ignoreActors: init:)
-		(vTheCeiling ignoreActors: init:)
+		(unknown_662_21 ignoreActors: init:)
 		(vRightCeiling ignoreActors: init:)
 		(vTheCandles ignoreActors: init:)
-		(fChair1 init: approachVerbs: 4) ; Do
-		(fChair2 init: approachVerbs: 4) ; Do
-		(fChair3 init: approachVerbs: 4) ; Do
-		(fCrest init: approachVerbs: 4) ; Do
+		(unknown_662_26 init: approachVerbs: 4) ; Do
+		(unknown_662_27 init: approachVerbs: 4) ; Do
+		(unknown_662_28 init: approachVerbs: 4) ; Do
+		(unknown_662_29 init: approachVerbs: 4) ; Do
 		(gCurRoom setScript: sComeOnIn)
 	)
 
@@ -610,10 +610,6 @@
 		signal 16385
 	)
 
-	(method (cue)
-		(gCurRoom setScript: (ScriptID 13) 0 self) ; castOpenScript
-	)
-
 	(method (doVerb theVerb)
 		(switch theVerb
 			(-80 ; openSpell (part 2)
@@ -633,6 +629,10 @@
 				(super doVerb: theVerb)
 			)
 		)
+	)
+
+	(method (cue)
+		(gCurRoom setScript: (ScriptID 13) 0 self) ; castOpenScript
 	)
 )
 
@@ -810,7 +810,7 @@
 	)
 )
 
-(instance vTheCeiling of View
+(instance unknown_662_21 of View
 	(properties
 		noun 20
 		modNum 640
@@ -820,7 +820,7 @@
 
 (instance vRightCeiling of View
 	(properties
-		noun 39
+		noun 20
 		modNum 640
 		x 180
 		view 690
@@ -871,7 +871,7 @@
 	)
 )
 
-(instance fChair1 of Feature
+(instance unknown_662_26 of Feature
 	(properties
 		noun 27
 		modNum 640
@@ -885,7 +885,7 @@
 	)
 )
 
-(instance fChair2 of Feature
+(instance unknown_662_27 of Feature
 	(properties
 		noun 27
 		modNum 640
@@ -899,7 +899,7 @@
 	)
 )
 
-(instance fChair3 of Feature
+(instance unknown_662_28 of Feature
 	(properties
 		noun 27
 		modNum 640
@@ -913,7 +913,7 @@
 	)
 )
 
-(instance fCrest of Feature
+(instance unknown_662_29 of Feature
 	(properties
 		noun 36
 		modNum 640
@@ -932,16 +932,6 @@
 		actionVerb 4
 	)
 
-	(method (showCases)
-		(super
-			showCases:
-				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
-				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
-		)
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(4 ; Open Door
@@ -963,6 +953,24 @@
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				13 ; Look for Traps
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
+				7 ; Pick the Lock
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 )
@@ -972,16 +980,6 @@
 		actionVerb 4
 	)
 
-	(method (showCases)
-		(super
-			showCases:
-				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
-				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
-		)
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(4 ; Open Door
@@ -1003,6 +1001,24 @@
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				13 ; Look for Traps
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
+				7 ; Pick the Lock
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 )

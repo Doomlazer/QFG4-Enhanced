@@ -5,7 +5,7 @@
 (use Main)
 (use GloryRm)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use OccCyc)
 (use Interface)
 (use Scaler)
@@ -75,9 +75,9 @@
 				(igor init:)
 			)
 			(else
-				(headStone init: setPri: 138)
+				(unknown_500_26 init: setPri: 138)
 				(if (IsFlag 236)
-					(headStone cel: 0)
+					(unknown_500_26 cel: 0)
 				)
 			)
 		)
@@ -92,7 +92,7 @@
 					(or
 						(== local0 2)
 						(== local0 4)
-						(gCast contains: headStone)
+						(gCast contains: unknown_500_26)
 					)
 					((Polygon new:)
 						type: PBarredAccess
@@ -135,28 +135,28 @@
 		(shadow3 setPri: 130 init:)
 		(coffin init:)
 		(coffin2 init:)
-		(rusalkaGrave approachVerbs: 4 58 1 init:) ; Do, theBroom, Look
-		(loverGrave init: approachVerbs: 4 58 1) ; Do, theBroom, Look
-		(cryptDoor init: approachVerbs: 4 29 42 1) ; Do, theKeyRing, theToolkit, Look
-		(doorTeller init: cryptDoor 500 39 155 11)
-		(crypt init:)
-		(grave1 init:)
-		(grave2 init:)
-		(grave3 init:)
-		(grave4 init:)
-		(grave5 init:)
-		(urn1 init:)
-		(urn2 init:)
-		(ligeiaDoorF init: approachVerbs: 4) ; Do
-		(ligeiaTomb init:)
-		(ligeiaTop init:)
-		(thinTree init:)
-		(thinBranch init:)
-		(bigBranch init:)
-		(bigTrunk init: approachVerbs: 4) ; Do
-		(coffins init:)
-		(dirtPile init:)
-		(openGrave init:)
+		(unknown_500_45 approachVerbs: 4 58 1 init:) ; Do, theBroom, Look
+		(unknown_500_46 init: approachVerbs: 4 58 1) ; Do, theBroom, Look
+		(unknown_500_47 init: approachVerbs: 4 29 42 1) ; Do, theKeyRing, theToolkit, Look
+		(doorTeller init: unknown_500_47 500 39 155 11)
+		(unknown_500_48 init:)
+		(unknown_500_49 init:)
+		(unknown_500_50 init:)
+		(unknown_500_51 init:)
+		(unknown_500_52 init:)
+		(unknown_500_53 init:)
+		(unknown_500_54 init:)
+		(unknown_500_55 init:)
+		(unknown_500_56 init: approachVerbs: 4) ; Do
+		(unknown_500_57 init:)
+		(unknown_500_58 init:)
+		(unknown_500_59 init:)
+		(unknown_500_60 init:)
+		(unknown_500_61 init:)
+		(unknown_500_62 init: approachVerbs: 4) ; Do
+		(unknown_500_63 init:)
+		(unknown_500_64 init:)
+		(unknown_500_65 init:)
 		(gLongSong number: 500 setLoop: -1 play:)
 	)
 
@@ -175,6 +175,27 @@
 			(gLongSong2 stop:)
 		)
 		(super dispose:)
+	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(1 ; Look
+				(if gNight
+					(gMessager say: 26 1 39) ; "Death seems to lurk among the dread gravestones of this grim cemetery. Beware, for the spirits of the dead may come forth by night!"
+				else
+					(gMessager say: 26 1 0) ; "The majestic mountains in the background provide a beautiful contrast to the grim gravestones and crypts of the cemetery."
+				)
+			)
+			(74 ; theHeartRit
+				(gMessager say: 0 67 0) ; "You still can't read the Ritual. This must not be the right place for it."
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "You're right; this place DOES make you jumpy!"
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
 	)
 )
 
@@ -265,14 +286,14 @@
 						(if (not (IsFlag 230))
 							(SetFlag 230)
 							(= register 1)
-							(gMessager say: 37 6 20 0 self) ; "You have entered an eerie deserted graveyard. Strange moans wail through the trees, and mysterious lights seem to flicker and fade among the tombstones. Two large crypts dominate the cemetery."
+							(gMessager say: 26 1 39 0 self) ; "Death seems to lurk among the dread gravestones of this grim cemetery. Beware, for the spirits of the dead may come forth by night!"
 						else
 							(self cue:)
 						)
 					)
 					((not (IsFlag 229))
 						(SetFlag 229)
-						(gMessager say: 37 6 18 0 self) ; "The majestic mountains in the background provide a beautiful contrast to the grim gravestones and crypts of the cemetery."
+						(gMessager say: 37 6 20 0 self) ; "You have entered an eerie deserted graveyard. Strange moans wail through the trees, and mysterious lights seem to flicker and fade among the tombstones. Two large crypts dominate the cemetery."
 					)
 					(else
 						(self cue:)
@@ -342,14 +363,14 @@
 						(if (not (IsFlag 230))
 							(SetFlag 230)
 							(= register 1)
-							(gMessager say: 37 6 20 0 self) ; "You have entered an eerie deserted graveyard. Strange moans wail through the trees, and mysterious lights seem to flicker and fade among the tombstones. Two large crypts dominate the cemetery."
+							(gMessager say: 26 1 39 0 self) ; "Death seems to lurk among the dread gravestones of this grim cemetery. Beware, for the spirits of the dead may come forth by night!"
 						else
 							(self cue:)
 						)
 					)
 					((not (IsFlag 229))
 						(SetFlag 229)
-						(gMessager say: 37 6 18 0 self) ; "The majestic mountains in the background provide a beautiful contrast to the grim gravestones and crypts of the cemetery."
+						(gMessager say: 37 6 20 0 self) ; "You have entered an eerie deserted graveyard. Strange moans wail through the trees, and mysterious lights seem to flicker and fade among the tombstones. Two large crypts dominate the cemetery."
 					)
 					(else
 						(self cue:)
@@ -547,8 +568,8 @@
 				(gEgo
 					setMotion:
 						PolyPath
-						(cryptDoor approachX:)
-						(cryptDoor approachY:)
+						(unknown_500_47 approachX:)
+						(unknown_500_47 approachY:)
 						self
 				)
 			)
@@ -610,13 +631,13 @@
 			(0
 				(gGlory handsOff:)
 				(igor show:)
-				(headStone
-					signal: (| (headStone signal:) $0001)
+				(unknown_500_26
+					signal: (| (unknown_500_26 signal:) $0001)
 					setCycle: Beg self
 				)
 			)
 			(1
-				(headStone signal: (& (headStone signal:) $fffe))
+				(unknown_500_26 signal: (& (unknown_500_26 signal:) $fffe))
 				(gCurRoom setScript: sIgorLeaves)
 			)
 		)
@@ -645,8 +666,8 @@
 			(2
 				(if (> (gEgo trySkill: 0 300) 0) ; strength
 					(= register 1)
-					(headStone
-						signal: (| (headStone signal:) $0001)
+					(unknown_500_26
+						signal: (| (unknown_500_26 signal:) $0001)
 						setCycle: Beg self
 					)
 					(igor show:)
@@ -661,7 +682,7 @@
 				)
 			)
 			(4
-				(headStone signal: (& (headStone signal:) $fffe))
+				(unknown_500_26 signal: (& (unknown_500_26 signal:) $fffe))
 				(gEgo setSpeed: local3 normalize: 1)
 				(if register
 					(gCurRoom setScript: sIgorLeaves)
@@ -710,8 +731,8 @@
 					setScaler: Scaler 110 65 129 87
 					setMotion:
 						MoveTo
-						(bigTrunk approachX:)
-						(bigTrunk approachY:)
+						(unknown_500_62 approachX:)
+						(unknown_500_62 approachY:)
 						self
 				)
 			)
@@ -789,8 +810,8 @@
 					setScaler: Scaler 110 65 129 87
 					setMotion:
 						MoveTo
-						(bigTrunk approachX:)
-						(bigTrunk approachY:)
+						(unknown_500_62 approachX:)
+						(unknown_500_62 approachY:)
 						self
 				)
 			)
@@ -843,13 +864,13 @@
 					setMotion: MoveTo (+ (rope2 x:) 50) (- (rope1 y:) 50)
 				)
 				(igor show:)
-				(headStone
-					signal: (| (headStone signal:) $0001)
+				(unknown_500_26
+					signal: (| (unknown_500_26 signal:) $0001)
 					setCycle: Beg self
 				)
 			)
 			(13
-				(headStone signal: (& (headStone signal:) $fffe))
+				(unknown_500_26 signal: (& (unknown_500_26 signal:) $fffe))
 				(gEgo setCycle: End self)
 			)
 			(14
@@ -910,7 +931,7 @@
 				(gEgo setCycle: 0 setSpeed: local3)
 				(if local7
 					(= local7 0)
-					(bigBranch doVerb: 33)
+					(unknown_500_61 doVerb: 33)
 				else
 					(gUser canInput: 1 canControl: 1)
 					(gTheIconBar enable: 1 0 7)
@@ -1168,8 +1189,8 @@
 					(= global156 200)
 					(gMessager say: 21 4 10 0 self) ; "Ligeia's Ghost comes forth... and she looks MAD! This could turn into a really bad day."
 				else
-					(= ticks 1)
 					(= global156 300)
+					(gMessager say: 33 58 15 0 self) ; "You beat the grave three times with your broom. On the third strike, a horrible moan arises from the grave."
 				)
 			)
 			(1
@@ -1266,10 +1287,6 @@
 		actionVerb 4
 	)
 
-	(method (showCases)
-		(super showCases: 2 (gEgo has: 24) 34 (gEgo has: 60)) ; Pick Lock, theToolkit, Unlock Door, crypt-key
-	)
-
 	(method (sayMessage)
 		(ClearFlag 51)
 		(cond
@@ -1298,6 +1315,10 @@
 			)
 		)
 	)
+
+	(method (showCases)
+		(super showCases: 2 (gEgo has: 24) 34 (gEgo has: 60)) ; Pick Lock, theToolkit, Unlock Door, crypt-key
+	)
 )
 
 (instance igor of Actor
@@ -1310,30 +1331,22 @@
 		signal 16384
 	)
 
-	(method (cue)
-		(if loop
-			(self setLoop: 0 1 setCel: 0 setCycle: End self)
-		else
-			(self setLoop: 1 1 setCycle: OccCyc self 1 5 15 (Random 6 36) self)
-		)
-	)
-
 	(method (init)
 		(super init: &rest)
 		(switch local0
 			(2
-				(headStone init:)
+				(unknown_500_26 init:)
 				(igorTeller init: igor 500 39 123 34)
 				(heroTeller init: gEgo 500 39 128 34)
 				(self setScript: sChip)
 				(self cue:)
 			)
 			(4
-				(headStone view: 502 loop: 2 cel: 6 init: approachVerbs: 4) ; Do
+				(unknown_500_26 view: 502 loop: 2 cel: 6 init: approachVerbs: 4) ; Do
 				(if (IsFlag 38)
 					(self loop: 6 posn: 147 145)
 					(if (IsFlag 236)
-						(headStone cel: 0)
+						(unknown_500_26 cel: 0)
 					)
 				else
 					(self loop: 3 posn: 113 179)
@@ -1367,9 +1380,17 @@
 			(super doVerb: theVerb)
 		)
 	)
+
+	(method (cue)
+		(if loop
+			(self setLoop: 0 1 setCel: 0 setCycle: End self)
+		else
+			(self setLoop: 1 1 setCycle: OccCyc self 1 5 15 (Random 6 36) self)
+		)
+	)
 )
 
-(instance headStone of Prop
+(instance unknown_500_26 of Prop
 	(properties
 		noun 41
 		approachX 171
@@ -1448,7 +1469,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(ligeiaTomb doVerb: theVerb)
+		(unknown_500_57 doVerb: theVerb)
 	)
 )
 
@@ -1464,7 +1485,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(ligeiaTomb doVerb: theVerb)
+		(unknown_500_57 doVerb: theVerb)
 	)
 )
 
@@ -1480,7 +1501,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(ligeiaTomb doVerb: theVerb)
+		(unknown_500_57 doVerb: theVerb)
 	)
 )
 
@@ -1579,7 +1600,7 @@
 		(if (== theVerb 4) ; Do
 			(doorTeller doVerb: theVerb)
 		else
-			(cryptDoor doVerb: theVerb)
+			(unknown_500_47 doVerb: theVerb)
 		)
 	)
 )
@@ -1596,7 +1617,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(grave1 doVerb: theVerb)
+		(unknown_500_49 doVerb: theVerb)
 	)
 )
 
@@ -1611,7 +1632,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(ligeiaDoorF doVerb: theVerb)
+		(unknown_500_56 doVerb: theVerb)
 	)
 )
 
@@ -1642,7 +1663,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(coffins doVerb: theVerb)
+		(unknown_500_63 doVerb: theVerb)
 	)
 )
 
@@ -1663,7 +1684,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(coffins doVerb: theVerb)
+		(unknown_500_63 doVerb: theVerb)
 	)
 )
 
@@ -1686,7 +1707,7 @@
 	)
 )
 
-(instance rusalkaGrave of Feature
+(instance unknown_500_45 of Feature
 	(properties
 		noun 32
 		nsLeft 260
@@ -1713,7 +1734,7 @@
 	)
 )
 
-(instance loverGrave of Feature
+(instance unknown_500_46 of Feature
 	(properties
 		noun 33
 		nsLeft 292
@@ -1738,7 +1759,7 @@
 					)
 					(gCurRoom setScript: sWraithRise)
 				else
-					(super doVerb: theVerb)
+					(gMessager say: 33 58 14) ; "You sweep the grave clean. Nothing else seems to happen. This seems like the right place, but as though you're missing something."
 				)
 			)
 			(else
@@ -1748,7 +1769,7 @@
 	)
 )
 
-(instance cryptDoor of Feature
+(instance unknown_500_47 of Feature
 	(properties
 		noun 11
 		nsLeft 99
@@ -1796,7 +1817,7 @@
 	)
 )
 
-(instance crypt of Feature
+(instance unknown_500_48 of Feature
 	(properties
 		noun 20
 		nsLeft 54
@@ -1809,7 +1830,7 @@
 	)
 )
 
-(instance grave1 of Feature
+(instance unknown_500_49 of Feature
 	(properties
 		noun 1
 		nsLeft 196
@@ -1822,7 +1843,7 @@
 	)
 )
 
-(instance grave2 of Feature
+(instance unknown_500_50 of Feature
 	(properties
 		noun 2
 		nsLeft 215
@@ -1835,7 +1856,7 @@
 	)
 )
 
-(instance grave3 of Feature
+(instance unknown_500_51 of Feature
 	(properties
 		noun 3
 		nsLeft 157
@@ -1848,7 +1869,7 @@
 	)
 )
 
-(instance grave4 of Feature
+(instance unknown_500_52 of Feature
 	(properties
 		noun 4
 		nsLeft 174
@@ -1861,7 +1882,7 @@
 	)
 )
 
-(instance grave5 of Feature
+(instance unknown_500_53 of Feature
 	(properties
 		noun 5
 		nsLeft 225
@@ -1874,7 +1895,7 @@
 	)
 )
 
-(instance urn1 of Feature
+(instance unknown_500_54 of Feature
 	(properties
 		noun 24
 		nsLeft 236
@@ -1887,7 +1908,7 @@
 	)
 )
 
-(instance urn2 of Feature
+(instance unknown_500_55 of Feature
 	(properties
 		noun 25
 		nsLeft 278
@@ -1900,7 +1921,7 @@
 	)
 )
 
-(instance ligeiaDoorF of Feature
+(instance unknown_500_56 of Feature
 	(properties
 		noun 21
 		nsLeft 255
@@ -1943,7 +1964,7 @@
 	)
 )
 
-(instance ligeiaTomb of Feature
+(instance unknown_500_57 of Feature
 	(properties
 		noun 22
 		nsLeft 235
@@ -1956,7 +1977,7 @@
 	)
 )
 
-(instance ligeiaTop of Feature
+(instance unknown_500_58 of Feature
 	(properties
 		noun 23
 		nsLeft 257
@@ -1969,7 +1990,7 @@
 	)
 )
 
-(instance thinTree of Feature
+(instance unknown_500_59 of Feature
 	(properties
 		noun 27
 		nsLeft 299
@@ -1981,7 +2002,7 @@
 	)
 )
 
-(instance thinBranch of Feature
+(instance unknown_500_60 of Feature
 	(properties
 		noun 28
 		nsLeft 216
@@ -1993,7 +2014,7 @@
 	)
 )
 
-(instance bigBranch of Feature
+(instance unknown_500_61 of Feature
 	(properties
 		noun 29
 		nsLeft 37
@@ -2013,10 +2034,10 @@
 						(rope2 init: setPri: 116)
 						(gCurRoom setScript: sClimbDown)
 					)
-					((or (!= local0 4) (not (headStone cel:)))
+					((or (!= local0 4) (not (unknown_500_26 cel:)))
 						(super doVerb: theVerb)
 					)
-					((not [gEgoStats 11]) ; climbing
+					((not global258)
 						(gMessager say: 30 4 42) ; "It's at times like this you wish you'd signed up for that course in "Vertical Mobility: How to be a Social Climber." But you didn't, so you'll have to find another approach."
 					)
 					(else
@@ -2032,7 +2053,7 @@
 	)
 )
 
-(instance bigTrunk of Feature
+(instance unknown_500_62 of Feature
 	(properties
 		noun 30
 		nsTop 11
@@ -2049,10 +2070,10 @@
 		(switch theVerb
 			(4 ; Do
 				(cond
-					((or (!= local0 4) (not (headStone cel:)))
+					((or (!= local0 4) (not (unknown_500_26 cel:)))
 						(gCurRoom setScript: sTryTree2)
 					)
-					((not [gEgoStats 11]) ; climbing
+					((not global258)
 						(gMessager say: 30 4 42) ; "It's at times like this you wish you'd signed up for that course in "Vertical Mobility: How to be a Social Climber." But you didn't, so you'll have to find another approach."
 					)
 					(else
@@ -2062,10 +2083,10 @@
 			)
 			(33 ; theGrapnel
 				(cond
-					((or (!= local0 4) (not (headStone cel:)))
+					((or (!= local0 4) (not (unknown_500_26 cel:)))
 						(super doVerb: theVerb)
 					)
-					((not [gEgoStats 11]) ; climbing
+					((not global258)
 						(gMessager say: 30 4 42) ; "It's at times like this you wish you'd signed up for that course in "Vertical Mobility: How to be a Social Climber." But you didn't, so you'll have to find another approach."
 					)
 					(else
@@ -2081,7 +2102,7 @@
 	)
 )
 
-(instance coffins of Feature
+(instance unknown_500_63 of Feature
 	(properties
 		noun 31
 		nsLeft 51
@@ -2094,7 +2115,7 @@
 	)
 )
 
-(instance dirtPile of Feature
+(instance unknown_500_64 of Feature
 	(properties
 		noun 17
 		nsLeft 134
@@ -2107,7 +2128,7 @@
 	)
 )
 
-(instance openGrave of Feature
+(instance unknown_500_65 of Feature
 	(properties
 		noun 16
 		nsLeft 103

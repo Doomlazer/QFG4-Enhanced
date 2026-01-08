@@ -4,7 +4,7 @@
 (include sci.sh)
 (use Main)
 (use GloryRm)
-(use DeathIcon)
+(use DeathControls)
 (use GloryTalker)
 (use Scaler)
 (use Polygon)

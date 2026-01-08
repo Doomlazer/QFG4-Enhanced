@@ -5,7 +5,7 @@
 (use Main)
 (use GloryRm)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use Scaler)
 (use PolyPath)
 (use Polygon)
@@ -82,7 +82,7 @@
 		(torch2 init: setPri: 55 setCycle: Fwd)
 		(barrel init: setPri: 120 setLoop: 2 1 approachVerbs: 4) ; Do
 		(if (IsFlag 254)
-			(secretPassage init: approachVerbs: 4) ; Do
+			(unknown_340_55 init: approachVerbs: 4) ; Do
 		else
 			(secretDoor init: setPri: 64)
 		)
@@ -102,25 +102,25 @@
 			)
 			(note init: setPri: 121 approachVerbs: 4) ; Do
 		)
-		(chair init: approachVerbs: 4) ; Do
-		(desk init: approachVerbs: 4 28) ; Do, theLockpick
-		(safe init: approachVerbs: 4) ; Do
-		(stone init: approachVerbs: 4 1) ; Do, Look
-		(ladder init: approachVerbs: 4) ; Do
-		(sconce1 init: approachVerbs: 4) ; Do
-		(sconce2 init: approachVerbs: 4) ; Do
-		(bookshelf init: approachVerbs: 4 1) ; Do, Look
-		(floorGrate init: approachVerbs: 4) ; Do
-		(drain init: approachVerbs: 4) ; Do
-		(steps1 init: approachVerbs: 4) ; Do
-		(steps2 init: approachVerbs: 4) ; Do
-		(barrels1 init: approachVerbs: 4) ; Do
-		(barrels2 init: approachVerbs: 4) ; Do
-		(crack1 init: approachVerbs: 4) ; Do
-		(crack2 init: approachVerbs: 4) ; Do
-		(pillar init: approachVerbs: 4) ; Do
-		(gTheDoits add: steps1)
-		(gTheDoits add: steps2)
+		(unknown_340_39 init: approachVerbs: 4) ; Do
+		(unknown_340_40 init: approachVerbs: 4 28) ; Do, theLockpick
+		(unknown_340_41 init: approachVerbs: 4) ; Do
+		(unknown_340_42 init: approachVerbs: 4 1) ; Do, Look
+		(unknown_340_43 init: approachVerbs: 4) ; Do
+		(unknown_340_44 init: approachVerbs: 4) ; Do
+		(unknown_340_45 init: approachVerbs: 4) ; Do
+		(unknown_340_46 init: approachVerbs: 4 1) ; Do, Look
+		(unknown_340_47 init: approachVerbs: 4) ; Do
+		(unknown_340_48 init: approachVerbs: 4) ; Do
+		(unknown_340_49 init: approachVerbs: 4) ; Do
+		(unknown_340_50 init: approachVerbs: 4) ; Do
+		(unknown_340_51 init: approachVerbs: 4) ; Do
+		(unknown_340_52 init: approachVerbs: 4) ; Do
+		(unknown_340_53 init: approachVerbs: 4) ; Do
+		(unknown_340_54 init: approachVerbs: 4) ; Do
+		(unknown_340_56 init: approachVerbs: 4) ; Do
+		(gTheDoits add: unknown_340_49)
+		(gTheDoits add: unknown_340_50)
 		(cond
 			((not (IsFlag 243))
 				(gCurRoom
@@ -143,7 +143,7 @@
 				)
 			)
 			(else
-				(secritExit init:)
+				(unknown_340_57 init:)
 				(gCurRoom
 					addObstacle:
 						((Polygon new:)
@@ -172,8 +172,11 @@
 		(gGlory save: 1)
 	)
 
-	(method (notify)
-		(gMessager say: 0 8 0) ; "Use of magic is strictly forbidden in Thieves' Guildhalls, as you know. It's considered to be bad form and to interfere with the mental and physical training process of building your skills."
+	(method (dispose)
+		(gTheDoits delete: unknown_340_49)
+		(gTheDoits delete: unknown_340_50)
+		(DisposeScript 341)
+		(super dispose: &rest)
 	)
 
 	(method (newRoom newRoomNumber)
@@ -181,11 +184,19 @@
 		(super newRoom: newRoomNumber &rest)
 	)
 
-	(method (dispose)
-		(gTheDoits delete: steps1)
-		(gTheDoits delete: steps2)
-		(DisposeScript 341)
-		(super dispose: &rest)
+	(method (doVerb theVerb)
+		(switch theVerb
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "You practice your acrobatics and jumping techniques."
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
+	)
+
+	(method (notify)
+		(gMessager say: 0 8 0) ; "Use of magic is strictly forbidden in Thieves' Guildhalls, as you know. It's considered to be bad form and to interfere with the mental and physical training process of building your skills."
 	)
 )
 
@@ -235,6 +246,13 @@
 				)
 			)
 			(6
+				(if (== local3 5)
+					(gMessager say: 32 6 59 0 self) ; "There is no longer any trace of the Chief's body (except maybe a little leftover slug slime (no, it's not useful)). You suddenly remember that Master Thieves often receive training in feigning death in desperate situations. You hope you don't meet up with the Chief again any time soon!"
+				else
+					(= cycles 1)
+				)
+			)
+			(7
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -395,7 +413,7 @@
 					(gasTrap hide:)
 					(= cycles 1)
 				else
-					(EgoDead 3 0 974 1 912)
+					(EgoDead 3 0 977 1 912)
 				)
 			)
 			(4
@@ -411,7 +429,6 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(if (and (== (barrel x:) 116) (not (IsFlag 254)))
 					(self changeState: 6)
@@ -420,7 +437,6 @@
 				)
 			)
 			(1
-				1
 				(= local4 (gEgo cycleSpeed:))
 				(gEgo
 					view: 4
@@ -433,7 +449,6 @@
 				)
 			)
 			(2
-				2
 				(if register
 					(gMessager say: 6 4 18 0 self) ; "You slide the barrel back into place covering the lock mechanism."
 				else
@@ -441,7 +456,6 @@
 				)
 			)
 			(3
-				3
 				(barrel setLoop:)
 				(if register
 					(barrel setMotion: MoveTo 132 148 self)
@@ -450,36 +464,31 @@
 				)
 			)
 			(4
-				4
 				(gEgo setCycle: Beg self)
 			)
 			(5
-				5
 				(gEgo
 					normalize:
 					cycleSpeed: local4
 					posn: (if register 149 else 159) 131
 				)
 				(if register
-					(= state 11)
+					(= state 12)
 				)
 				(= cycles 1)
 			)
 			(6
-				6
 				(gMessager say: 28 6 14 0 self) ; "This is a door unlocking mechanism. To operate it, push each of the tiles until all nine tiles have been set to the correct pattern to open the door."
 			)
 			(7
-				7
 				(gGlory handsOn:)
 				(if ((ScriptID 341 0) init: show: dispose:) ; barrelPuz
 					(= cycles 1)
 				else
-					(self changeState: 12)
+					(self changeState: 14)
 				)
 			)
 			(8
-				8
 				(gGlory handsOff:)
 				(SetFlag 254)
 				(gEgo solvePuzzle: 513 2 4)
@@ -495,21 +504,32 @@
 				(secretDoor setMotion: MoveTo 236 52 self)
 			)
 			(9
-				9
-				(secretDoor setMotion: MoveTo 294 60 self)
+				(gMessager say: 28 6 25 1 self) ; "As you push the last tile, you hear a grinding sound to your right. A section of the wall has slid aside, revealing a long dark secret passageway."
 			)
 			(10
-				10
-				(secretDoor dispose:)
-				(secretPassage init:)
-				(chiefThief setMotion: MoveTo 307 117 self)
+				(secretDoor setMotion: MoveTo 294 60 self)
 			)
 			(11
-				11
-				(gMessager say: 10 6 21 0 self) ; "So... You found my secret passageway. You must excuse me... I am not quite myself any more. Heh, heh, heh."
+				(secretDoor dispose:)
+				(unknown_340_55 init:)
+				(unknown_340_57 init:)
+				(gCurRoom
+					addObstacle:
+						((Polygon new:)
+							type: PContainedAccess
+							init: 117 134 91 134 91 112 95 112 95 110 88 110 88 103 52 103 52 112 69 112 69 137 38 137 26 149 65 149 65 171 206 156 227 177 208 183 208 189 319 189 319 163 282 153 260 158 238 154 280 131 314 137 314 128 273 128 273 124 319 124 319 122 227 122 260 128 223 153 211 148 211 136 192 130 117 130
+							yourself:
+						)
+				)
+				(chiefThief setMotion: MoveTo 307 117 self)
 			)
 			(12
-				12
+				(gMessager say: 28 6 25 2 self) ; "Blocking the passage is a strange creature. From the waist up, it looks human, with sharp features and piercing eyes. Below the waist it looks like some sort of spider or horrible insect. The sight fills you with a nameless dread and loathing."
+			)
+			(13
+				(gMessager say: 10 6 21 0 self) ; "So... You found my secret passageway. You must excuse me... I am not quite myself any more. Heh, heh, heh."
+			)
+			(14
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -523,7 +543,6 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(ClearFlag 182)
 				(if (== (CueObj client:) frame1)
@@ -533,7 +552,6 @@
 				)
 			)
 			(1
-				1
 				(gGlory handsOn:)
 				(if ((ScriptID 648 0) init: show: dispose:) ; ticTacPuz
 					(DisposeScript 648)
@@ -554,21 +572,18 @@
 				)
 			)
 			(2
-				2
 				(gGlory handsOff:)
 				(explosion dispose:)
 				(gMessager say: 16 4 3 0 self) ; "You set off a spike trap on the safe! Ouch! You're not sure whether it's safe now or if the trap has rearmed itself."
 			)
 			(3
-				3
 				(if (gEgo takeDamage: 5)
 					(= cycles 1)
 				else
-					(EgoDead 3 0 974 1 912)
+					(EgoDead 2 0 974 1 912)
 				)
 			)
 			(4
-				4
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -582,7 +597,6 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(if
 					(or
@@ -595,20 +609,17 @@
 				)
 			)
 			(1
-				1
 				(explosion dispose:)
 				(gMessager say: 16 4 3 0 self) ; "You set off a spike trap on the safe! Ouch! You're not sure whether it's safe now or if the trap has rearmed itself."
 			)
 			(2
-				2
 				(if (not (gEgo takeDamage: 30))
-					(EgoDead 3 0 974 1 912)
+					(EgoDead 2 0 974 1 912)
 				else
 					(= cycles 1)
 				)
 			)
 			(3
-				3
 				(if (== (CueObj client:) frame1)
 					(SetFlag 366)
 					(+= global154 6)
@@ -622,7 +633,6 @@
 				)
 			)
 			(4
-				4
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -695,7 +705,7 @@
 			)
 			(1
 				(chiefThief view: 345 loop: 0 cel: 0 posn: 280 119)
-				(secritExit init:)
+				(unknown_340_57 init:)
 				(gCurRoom
 					addObstacle:
 						((Polygon new:)
@@ -732,9 +742,12 @@
 				(chiefThief setLoop: 1 1 setCycle: End self)
 			)
 			(1
-				(gEgo view: 43 loop: 2 cel: 0 setCycle: End self)
+				(gMessager say: 32 6 1 0 self) ; "The "Chief Monster" flicks a tentacle towards you, providing you with a free acid bath. Don't worry; it only hurts for a moment."
 			)
 			(2
+				(gEgo view: 43 loop: 2 cel: 0 setCycle: End self)
+			)
+			(3
 				(EgoDead 1 0 960 1 912)
 			)
 		)
@@ -749,7 +762,7 @@
 			(0
 				(gGlory handsOff:)
 				(SetFlag 244)
-				(= [gEgoStats 14] 0) ; honor
+				(= global261 0)
 				(if (gEgo actions:)
 					((gEgo actions:) dispose:)
 				)
@@ -972,6 +985,12 @@
 			)
 			(3
 				(gEgo cycleSpeed: local4 normalize: 7)
+				(= cycles 2)
+			)
+			(4
+				(gMessager say: 35 173 40 1 self) ; "You detach the plastic Thieves' Guild membership card from the poster and put it away. You've always wanted to steal one of these!"
+			)
+			(5
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -982,6 +1001,15 @@
 (instance posterTeller of Teller
 	(properties
 		actionVerb 4
+	)
+
+	(method (sayMessage)
+		(if (== iconValue 40) ; Take Guild Card
+			(self clean:)
+			(gCurRoom setScript: sGetCard)
+		else
+			(super sayMessage: &rest)
+		)
 	)
 
 	(method (showCases)
@@ -1001,15 +1029,6 @@
 				(not (IsFlag 509))
 		)
 	)
-
-	(method (sayMessage)
-		(if (== iconValue 40) ; Take Guild Card
-			(self clean:)
-			(gCurRoom setScript: sGetCard)
-		else
-			(super sayMessage: &rest)
-		)
-	)
 )
 
 (instance deskTeller of Teller
@@ -1022,16 +1041,6 @@
 			(client doVerb: theVerb)
 		else
 			(super doVerb: theVerb)
-		)
-	)
-
-	(method (showCases)
-		(super
-			showCases:
-				75 ; Search for Traps
-				(and (not (IsFlag 247)) (not (IsFlag 241)) (IsFlag 242))
-				76 ; Pick Lock
-				(and (not (IsFlag 241)) (gEgo has: 13)) ; theLockpick
 		)
 	)
 
@@ -1048,6 +1057,24 @@
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				75 ; Search for Traps
+				(if (and (not (IsFlag 247)) (not (IsFlag 241)))
+					(IsFlag 242)
+				else
+					0
+				)
+				76 ; Pick Lock
+				(if (not (IsFlag 241))
+					(gEgo has: 13) ; theLockpick
+				else
+					0
+				)
 		)
 	)
 )
@@ -1073,37 +1100,6 @@
 		)
 	)
 
-	(method (showCases)
-		(super
-			showCases:
-				50 ; Disarm Trap
-				(and
-					(IsFlag 242)
-					(gEgo has: 24) ; theToolkit
-					(or
-						(and
-							(== (CueObj client:) frame1)
-							(not (IsFlag 308))
-							(not (IsFlag 366))
-						)
-						(and
-							(== (CueObj client:) frame2)
-							(not (IsFlag 309))
-							(not (IsFlag 367))
-						)
-					)
-				)
-				49 ; Crack Safe
-				(and
-					(gEgo has: 24) ; theToolkit
-					(or
-						(== (CueObj client:) frame1)
-						(== (CueObj client:) frame2)
-					)
-				)
-		)
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(50 ; Disarm Trap
@@ -1112,24 +1108,63 @@
 			)
 			(49 ; Crack Safe
 				(self clean:)
-				(if
-					(or
-						(and (IsFlag 366) (== (CueObj client:) frame1))
-						(and (IsFlag 367) (== (CueObj client:) frame2))
+				(cond
+					((not (gEgo has: 24)) ; theToolkit
+						(gMessager say: 16 28 0) ; "This lock is much too complex for a simple lockpick. You need more tools."
 					)
-					(gEgo useSkill: 9 100) ; pick locks
-					(gMessager say: 16 4 27) ; "You've already cracked this one. There's nothing else in it."
-				else
-					(gCurRoom setScript: sOpenSafe)
+					(
+						(or
+							(and (IsFlag 366) (== (CueObj client:) frame1))
+							(and (IsFlag 367) (== (CueObj client:) frame2))
+						)
+						(gEgo useSkill: 9 100) ; pick locks
+						(gMessager say: 16 4 27) ; "You've already cracked this one. There's nothing else in it."
+					)
+					(else
+						(gCurRoom setScript: sOpenSafe)
+					)
 				)
 			)
 			(78 ; Cover Safe
 				(self clean:)
 				((CueObj client:) setCel: 0)
+				(gMessager say: 16 4 18) ; "You move the frame back to cover up the safe for the next Thief who wanders by. (Besides, maybe someone will add some more valuables to it.)"
 			)
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				50 ; Disarm Trap
+				(if
+					(and
+						(IsFlag 242)
+						(gEgo has: 24) ; theToolkit
+						(or
+							(and
+								(== (CueObj client:) frame1)
+								(not (IsFlag 308))
+								(not (IsFlag 366))
+							)
+							(and
+								(== (CueObj client:) frame2)
+								(not (IsFlag 309))
+								(not (IsFlag 367))
+							)
+						)
+					)
+				else
+					0
+				)
+				49 ; Crack Safe
+				(if (or (not (gEgo has: 24)) (== (CueObj client:) frame1)) ; theToolkit
+				else
+					(== (CueObj client:) frame2)
+				)
 		)
 	)
 )
@@ -1429,10 +1464,16 @@
 				)
 			)
 			(1 ; Look
-				(if (== ((CueObj client:) cel:) 1)
-					(gMessager say: 40 1 111) ; "You can see a safe hidden behind the picture."
-				else
-					(super doVerb: theVerb &rest)
+				(cond
+					((== ((CueObj client:) cel:) 1)
+						(gMessager say: 40 1 111) ; "You can see a safe hidden behind the picture."
+					)
+					((== (CueObj client:) frame2)
+						(gMessager say: 17 1 0) ; "It's a cheap reproduction of a little-known painting by one of the Old Masters. (Of course, around here that term means "a Master Thief who's too old to climb in windows anymore.")"
+					)
+					(else
+						(super doVerb: theVerb &rest)
+					)
 				)
 			)
 			(42 ; theToolkit
@@ -1631,7 +1672,7 @@
 	)
 )
 
-(instance chair of Feature
+(instance unknown_340_39 of Feature
 	(properties
 		noun 9
 		nsLeft 150
@@ -1644,7 +1685,7 @@
 	)
 )
 
-(instance desk of Feature
+(instance unknown_340_40 of Feature
 	(properties
 		noun 12
 		nsLeft 101
@@ -1701,7 +1742,7 @@
 	)
 )
 
-(instance safe of Feature
+(instance unknown_340_41 of Feature
 	(properties
 		noun 22
 		nsLeft 55
@@ -1751,7 +1792,7 @@
 	)
 )
 
-(instance stone of Feature
+(instance unknown_340_42 of Feature
 	(properties
 		nsLeft 49
 		nsTop 87
@@ -1779,7 +1820,7 @@
 	)
 )
 
-(instance ladder of Feature
+(instance unknown_340_43 of Feature
 	(properties
 		noun 18
 		nsLeft 21
@@ -1805,7 +1846,7 @@
 	)
 )
 
-(instance sconce1 of Feature
+(instance unknown_340_44 of Feature
 	(properties
 		noun 26
 		nsLeft 35
@@ -1818,7 +1859,7 @@
 	)
 )
 
-(instance sconce2 of Feature
+(instance unknown_340_45 of Feature
 	(properties
 		noun 26
 		nsLeft 117
@@ -1831,7 +1872,7 @@
 	)
 )
 
-(instance bookshelf of Feature
+(instance unknown_340_46 of Feature
 	(properties
 		noun 8
 		nsLeft 91
@@ -1859,7 +1900,7 @@
 	)
 )
 
-(instance floorGrate of Feature
+(instance unknown_340_47 of Feature
 	(properties
 		noun 15
 		nsLeft 227
@@ -1885,7 +1926,7 @@
 	)
 )
 
-(instance drain of Feature
+(instance unknown_340_48 of Feature
 	(properties
 		noun 14
 		nsLeft 292
@@ -1911,7 +1952,7 @@
 	)
 )
 
-(instance steps1 of Feature
+(instance unknown_340_49 of Feature
 	(properties
 		noun 29
 		nsLeft 54
@@ -1935,7 +1976,7 @@
 	)
 )
 
-(instance steps2 of Feature
+(instance unknown_340_50 of Feature
 	(properties
 		noun 29
 		nsLeft 227
@@ -1959,7 +2000,7 @@
 	)
 )
 
-(instance barrels1 of Feature
+(instance unknown_340_51 of Feature
 	(properties
 		noun 7
 		nsLeft 204
@@ -1972,7 +2013,7 @@
 	)
 )
 
-(instance barrels2 of Feature
+(instance unknown_340_52 of Feature
 	(properties
 		noun 7
 		nsLeft 11
@@ -1985,7 +2026,7 @@
 	)
 )
 
-(instance crack1 of Feature
+(instance unknown_340_53 of Feature
 	(properties
 		noun 11
 		nsLeft 34
@@ -1998,7 +2039,7 @@
 	)
 )
 
-(instance crack2 of Feature
+(instance unknown_340_54 of Feature
 	(properties
 		noun 11
 		nsLeft 142
@@ -2011,7 +2052,7 @@
 	)
 )
 
-(instance secretPassage of Feature
+(instance unknown_340_55 of Feature
 	(properties
 		noun 27
 		nsLeft 234
@@ -2024,7 +2065,7 @@
 	)
 )
 
-(instance pillar of Feature
+(instance unknown_340_56 of Feature
 	(properties
 		noun 19
 		nsLeft 173
@@ -2037,7 +2078,7 @@
 	)
 )
 
-(instance secritExit of Feature
+(instance unknown_340_57 of Feature
 	(properties
 		nsLeft 311
 		nsTop 119

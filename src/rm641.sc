@@ -5,7 +5,7 @@
 (use Main)
 (use GloryRm)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use Scaler)
 (use PolyPath)
 (use Polygon)
@@ -98,16 +98,16 @@
 		(pDoor approachVerbs: 4 32 init:) ; Do, theOil
 		(vTheBed signal: (| (vTheBed signal:) $1000) init:)
 		(vTheRug ignoreActors: init:)
-		(vLeftWindow ignoreActors: init:)
+		(unknown_641_19 ignoreActors: init:)
 		(vRightDoor ignoreActors: approachVerbs: 4 32 init:) ; Do, theOil
 		(doorTeller init: vRightDoor 640 2 155)
 		(vLeftCandle ignoreActors: init:)
 		(vRightCandle ignoreActors: init:)
-		(fChest init: approachVerbs: 4) ; Do
-		(fSteps init: approachVerbs: 4) ; Do
-		(fBedHead init: approachVerbs: 4) ; Do
-		(fCurtain1 init: approachVerbs: 4) ; Do
-		(fCurtain2 init: approachVerbs: 4) ; Do
+		(unknown_641_23 init: approachVerbs: 4) ; Do
+		(unknown_641_24 init: approachVerbs: 4) ; Do
+		(unknown_641_25 init: approachVerbs: 4) ; Do
+		(unknown_641_26 init: approachVerbs: 4) ; Do
+		(unknown_641_27 init: approachVerbs: 4) ; Do
 		(if (and (IsFlag 185) (== gPrevRoomNum 810) (== gCombatResult 2)) ; combat
 			(gMessager say: 3 6 32 0 0 640) ; "Finally, the Wraith vanishes under the force of your onslaught, its ties to this world severed at last."
 		)
@@ -355,7 +355,7 @@
 				)
 			)
 			(1
-				(if (< (gEgo distanceTo: fChest) 50)
+				(if (< (gEgo distanceTo: unknown_641_23) 50)
 					(= local0 1)
 				)
 				(if (not local2)
@@ -386,7 +386,7 @@
 				)
 			)
 			(4
-				(if (<= [gEgoStats 17] 0) ; health
+				(if (<= global264 0)
 					(EgoDead 16 640) ; "You opened the case; the trap shut your eyes. It's hard to make a living when you're dying."
 				else
 					(gEgo setMotion: PolyPath 144 140 self)
@@ -447,7 +447,7 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(if (< (gEgo distanceTo: fChest) 50)
+				(if (< (gEgo distanceTo: unknown_641_23) 50)
 					(= local0 1)
 				)
 				(if (not local2)
@@ -592,7 +592,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(80 ; openSpell
-				(fChest doVerb: theVerb)
+				(unknown_641_23 doVerb: theVerb)
 			)
 			(4 ; Do
 				(if cel
@@ -665,7 +665,7 @@
 	)
 )
 
-(instance vLeftWindow of View
+(instance unknown_641_19 of View
 	(properties
 		noun 16
 		modNum 640
@@ -732,7 +732,7 @@
 	)
 )
 
-(instance fChest of Feature
+(instance unknown_641_23 of Feature
 	(properties
 		noun 6
 		modNum 640
@@ -785,7 +785,7 @@
 	)
 )
 
-(instance fSteps of Feature
+(instance unknown_641_24 of Feature
 	(properties
 		noun 8
 		modNum 640
@@ -799,7 +799,7 @@
 	)
 )
 
-(instance fBedHead of Feature
+(instance unknown_641_25 of Feature
 	(properties
 		noun 19
 		modNum 640
@@ -813,7 +813,7 @@
 	)
 )
 
-(instance fCurtain1 of Feature
+(instance unknown_641_26 of Feature
 	(properties
 		noun 18
 		modNum 640
@@ -826,7 +826,7 @@
 	)
 )
 
-(instance fCurtain2 of Feature
+(instance unknown_641_27 of Feature
 	(properties
 		noun 18
 		modNum 640
@@ -850,20 +850,6 @@
 			(pChest doVerb: &rest)
 		else
 			(super doVerb: &rest)
-		)
-	)
-
-	(method (showCases)
-		(super
-			showCases:
-				13 ; Look for Traps
-				(and (gEgo has: 24) (IsFlag 242) (not local1)) ; theToolkit
-				4 ; Open Chest
-				(not local1)
-				26 ; Pick Lock
-				(and [gEgoStats 9] (not local1)) ; pick locks
-				25 ; Bash Chest Open
-				(not local1)
 		)
 	)
 
@@ -916,21 +902,33 @@
 			)
 		)
 	)
-)
-
-(instance doorTeller of Teller
-	(properties
-		actionVerb 4
-	)
 
 	(method (showCases)
 		(super
 			showCases:
 				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
-				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
+				(if (and (gEgo has: 24) (IsFlag 242)) ; theToolkit
+					(not local1)
+				else
+					0
+				)
+				4 ; Open Chest
+				(not local1)
+				26 ; Pick Lock
+				(if (and global256 (gEgo has: 24)) ; theToolkit
+					(not local1)
+				else
+					0
+				)
+				25 ; Bash Chest Open
+				(not local1)
 		)
+	)
+)
+
+(instance doorTeller of Teller
+	(properties
+		actionVerb 4
 	)
 
 	(method (sayMessage)
@@ -954,6 +952,24 @@
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				13 ; Look for Traps
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
+				7 ; Pick the Lock
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 )

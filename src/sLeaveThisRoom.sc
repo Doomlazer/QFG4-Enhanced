@@ -3,7 +3,7 @@
 (script# 741)
 (include sci.sh)
 (use Main)
-(use DeathIcon)
+(use DeathControls)
 (use Scaler)
 (use PolyPath)
 (use Jump)

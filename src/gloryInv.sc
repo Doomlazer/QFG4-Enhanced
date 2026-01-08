@@ -18,6 +18,7 @@
 	local0
 	local1
 	local2
+	local3
 )
 
 (procedure (localproc_0 &tmp temp0)
@@ -41,44 +42,12 @@
 		invLeft 16
 	)
 
-	(method (drawInvItems &tmp temp0)
-		(= temp0 0)
-		(if (< (thePurse amount:) 1)
-			(thePurse amount: 1)
-			(= temp0 1)
-		)
-		(super drawInvItems:)
-		(if temp0
-			(thePurse amount: 0)
-		)
-	)
-
-	(method (drawIcons)
-		(super drawIcons: &rest)
-		(plane addCast: (= local1 (Cast new:)))
-		((View new:) view: 932 loop: 10 cel: 2 posn: 0 26 init: local1)
-		((View new:) view: 932 loop: 10 cel: 0 posn: 3 28 init: local1)
-		((View new:) view: 932 loop: 10 cel: 1 posn: 170 28 init: local1)
-		(invSlider
-			theSlider:
-				((View new:)
-					x: 180
-					y: 41
-					view: 932
-					loop: 12
-					cel: 0
-					init: local1
-					yourself:
-				)
-		)
-	)
-
 	(method (init)
 		(= gInventory self)
 		(self
 			helpIconItem: invHelp
 			selectIcon: invSelect
-			theSlider: invSlider
+			theSlider: unknown_16_1
 			okButton: ok
 		)
 		(self
@@ -128,7 +97,7 @@
 				(ScriptID 35 14) ; theLocket
 				(ScriptID 35 15) ; theStatue
 				(ScriptID 35 16) ; theTorch
-				(ScriptID 35 0) ; theJewelry
+				(ScriptID 35 0) ; unknown_35_0
 				(ScriptID 35 1) ; theKnob
 				(ScriptID 35 2) ; theStaff
 				(ScriptID 35 3) ; theBonsai
@@ -146,9 +115,9 @@
 				invHelp
 				ok
 				invDummy2
-				invSlider
-				invUpArrow
-				invDownArrow
+				unknown_16_1
+				unknown_16_2
+				unknown_16_3
 			eachElementDo: #highlightColor -1
 			eachElementDo: #lowlightColor -1
 			eachElementDo: #modNum 16
@@ -159,8 +128,14 @@
 		(thePurse amount: 0)
 	)
 
+	(method (hide)
+		(gThePlane deleteCast: local1)
+		(super hide: &rest)
+		(local1 dispose:)
+	)
+
 	(method (showSelf param1 &tmp temp0 temp1 temp2 temp3 temp4 temp5)
-		(= local2 (= owner param1))
+		(= local3 (= owner param1))
 		(= temp1 (CelWide 932 8 0))
 		(= temp0 (CelHigh 932 8 0))
 		(= temp2 (/ (- 320 temp1) 2))
@@ -168,14 +143,14 @@
 		(= temp3 (+ temp2 temp1))
 		(= temp5 (+ temp4 temp0))
 		(plane back: 108)
-		(gThePlane addCast: (= local0 (Cast new:)))
+		(gThePlane addCast: (= local1 (Cast new:)))
 		((View new:)
 			view: 932
 			loop: 8
 			cel: 0
 			setPri: 254
 			posn: temp2 temp4
-			init: local0
+			init: local1
 		)
 		((View new:)
 			view: 932
@@ -183,23 +158,49 @@
 			cel: 0
 			setPri: 254
 			posn: 53 143
-			init: local0
+			init: local1
 		)
 		(self getInvNum:)
 		(= currentRow (= curIndex 0))
-		((invSlider theSlider:) y: 41)
-		(UpdateScreenItem (invSlider theSlider:))
+		((unknown_16_1 theSlider:) y: 41)
+		(UpdateScreenItem (unknown_16_1 theSlider:))
 		(super showSelf: param1)
 	)
 
-	(method (hide)
-		(gThePlane deleteCast: local0)
-		(super hide: &rest)
-		(local0 dispose:)
+	(method (drawIcons)
+		(super drawIcons: &rest)
+		(plane addCast: (= local2 (Cast new:)))
+		((View new:) view: 932 loop: 10 cel: 2 posn: 0 26 init: local2)
+		((View new:) view: 932 loop: 10 cel: 0 posn: 3 28 init: local2)
+		((View new:) view: 932 loop: 10 cel: 1 posn: 170 28 init: local2)
+		(unknown_16_1
+			theSlider:
+				((View new:)
+					x: 180
+					y: 41
+					view: 932
+					loop: 12
+					cel: 0
+					init: local2
+					yourself:
+				)
+		)
+	)
+
+	(method (drawInvItems &tmp temp0)
+		(= temp0 0)
+		(if (< (thePurse amount:) 1)
+			(thePurse amount: 1)
+			(= temp0 1)
+		)
+		(super drawInvItems:)
+		(if temp0
+			(thePurse amount: 0)
+		)
 	)
 )
 
-(instance invSlider of SliderIcon
+(instance unknown_16_1 of SliderIcon
 	(properties
 		noun 53
 		nsLeft 180
@@ -303,7 +304,7 @@
 	)
 )
 
-(instance invUpArrow of GloryIconItem
+(instance unknown_16_2 of GloryIconItem
 	(properties
 		noun 2
 		nsLeft 180
@@ -323,9 +324,9 @@
 		(if (>= (- (gloryInv currentRow:) 1) 0)
 			(gloryInv currentRow: (- (gloryInv currentRow:) 1))
 			(if (== (gloryInv currentRow:) 0)
-				(invSlider updateSlider: 0 0)
+				(unknown_16_1 updateSlider: 0 0)
 			else
-				(invSlider updateSlider: (- 0 (gloryInv interval:)))
+				(unknown_16_1 updateSlider: (- 0 (gloryInv interval:)))
 			)
 			(gloryInv setCurIndex: -6 drawInvItems:)
 		)
@@ -333,7 +334,7 @@
 	)
 )
 
-(instance invDownArrow of GloryIconItem
+(instance unknown_16_3 of GloryIconItem
 	(properties
 		noun 1
 		nsLeft 180
@@ -353,9 +354,9 @@
 		(if (<= (+ (gloryInv currentRow:) 1) (gloryInv totalRow:))
 			(gloryInv currentRow: (+ (gloryInv currentRow:) 1))
 			(if (== (gloryInv currentRow:) (gloryInv totalRow:))
-				(invSlider updateSlider: 0 1)
+				(unknown_16_1 updateSlider: 0 1)
 			else
-				(invSlider updateSlider: (gloryInv interval:))
+				(unknown_16_1 updateSlider: (gloryInv interval:))
 			)
 			(gloryInv setCurIndex: 6 drawInvItems:)
 		)
@@ -374,9 +375,9 @@
 		(return 0)
 	)
 
-	(method (highlight))
-
 	(method (select))
+
+	(method (highlight))
 )
 
 (instance invDummy2 of GloryIconItem
@@ -391,9 +392,9 @@
 		(return 0)
 	)
 
-	(method (highlight))
-
 	(method (select))
+
+	(method (highlight))
 )
 
 (instance invLook of GloryIconItem
@@ -465,7 +466,20 @@
 		(switch theVerb
 			(1 ; Look
 				(if (or amount global395)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 8 1 0 2) ; "This pouch holds all your money."
+					)
 					(Print y: 165 addText: 0 theVerb 34 1 0 0 16 init:) ; "This simple money pouch contains all the money you have with you."
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 8 1 0 2) ; "This pouch holds all your money."
+					)
 				)
 				(if amount
 					(Message msgGET 16 0 0 33 1 (temp1 data:)) ; "crowns: %d"
@@ -487,9 +501,38 @@
 							(if (and amount global395) 18 else 9)
 					)
 				else
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 0 15 12 1) ; "You have no money!"
+					)
 					(Print addText: 0 15 12 1 0 0 16) ; "You have no money!"
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 0 15 12 1) ; "You have no money!"
+					)
 				)
 				(Print y: 165 init:)
+			)
+			(37 ; theThrowdagger
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 8 37 0 1) ; "You need a hole in your money pouch like you need a hole in the head. (Of course, you probably already have one of the latter to even be trying this!)"
+				)
+				(Print y: 165 addText: 8 37 0 1 0 0 16 init:) ; "You need a hole in your money pouch like you need a hole in the head. (Of course, you probably already have one of the latter to even be trying this!)"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 8 37 0 1) ; "You need a hole in your money pouch like you need a hole in the head. (Of course, you probably already have one of the latter to even be trying this!)"
+				)
 			)
 			(101 ; ???
 				(Print y: 165 addText: 0 101 16 1 0 0 16 init:) ; "You need your money pouch."
@@ -514,6 +557,67 @@
 		mainCel 9
 		value 5
 	)
+
+	(method (doVerb theVerb &tmp temp0 temp1)
+		(= temp0 (Str new:))
+		(= temp1 (Str new:))
+		(switch theVerb
+			(1 ; Look
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 63 1 0 1 (temp0 data:)) ; "Mana Fruit"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 63 1 0 2) ; "This unusual-looking fruit came from the tree in Erana's Garden. You sense a tingling sensation from the magical energy stored in it."
+					)
+					(Print y: 165 addText: 63 1 0 2 0 0 16 init:) ; "This unusual-looking fruit came from the tree in Erana's Garden. You sense a tingling sensation from the magical energy stored in it."
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 63 1 0 2) ; "This unusual-looking fruit came from the tree in Erana's Garden. You sense a tingling sensation from the magical energy stored in it."
+					)
+				else
+					(Message msgGET 16 63 1 0 1 (temp0 data:)) ; "Mana Fruit"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 63 76 0 1) ; "You've never cared for cooked fruit."
+				)
+				(Print y: 165 addText: 63 76 0 1 0 0 16 init:) ; "You've never cared for cooked fruit."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 63 76 0 1) ; "You've never cared for cooked fruit."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+		(temp0 dispose:)
+		(temp1 dispose:)
+	)
 )
 
 (instance theCures of NumInvItem
@@ -524,6 +628,62 @@
 		mainLoop 2
 		mainCel 8
 		value 5
+	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(18 ; theHeals
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 59 18 0 1) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				)
+				(Print y: 165 addText: 59 18 0 1 0 0 16 init:) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 59 18 0 1) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				)
+			)
+			(25 ; theWater
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 62 25 0 1) ; "The potion probably won't work as well if you dilute it."
+				)
+				(Print y: 165 addText: 62 25 0 1 0 0 16 init:) ; "The potion probably won't work as well if you dilute it."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 62 25 0 1) ; "The potion probably won't work as well if you dilute it."
+				)
+			)
+			(51 ; theRehydrator
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 59 18 0 1) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				)
+				(Print y: 165 addText: 59 18 0 1 0 0 16 init:) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 59 18 0 1) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
 	)
 )
 
@@ -536,6 +696,99 @@
 		mainCel 6
 		value 5
 	)
+
+	(method (doVerb theVerb &tmp temp0 temp1)
+		(= temp0 (Str new:))
+		(= temp1 (Str new:))
+		(switch theVerb
+			(1 ; Look
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 62 1 0 1 (temp0 data:)) ; "Healing Potion"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 62 1 0 2) ; "It's a Healing Potion, just another of the wonders science has brought to modern medicine. (It's undoubtedly magical, but it would probably be best if you didn't mention that to Dr. Cranium.)"
+					)
+					(Print y: 165 addText: 62 1 0 2 0 0 16 init:) ; "It's a Healing Potion, just another of the wonders science has brought to modern medicine. (It's undoubtedly magical, but it would probably be best if you didn't mention that to Dr. Cranium.)"
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 62 1 0 2) ; "It's a Healing Potion, just another of the wonders science has brought to modern medicine. (It's undoubtedly magical, but it would probably be best if you didn't mention that to Dr. Cranium.)"
+					)
+				else
+					(Message msgGET 16 62 1 0 1 (temp0 data:)) ; "Healing Potion"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(17 ; theCures
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 59 18 0 1) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				)
+				(Print y: 165 addText: 59 18 0 1 0 0 16 init:) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 59 18 0 1) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				)
+			)
+			(25 ; theWater
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 62 25 0 1) ; "The potion probably won't work as well if you dilute it."
+				)
+				(Print y: 165 addText: 62 25 0 1 0 0 16 init:) ; "The potion probably won't work as well if you dilute it."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 62 25 0 1) ; "The potion probably won't work as well if you dilute it."
+				)
+			)
+			(51 ; theRehydrator
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 59 18 0 1) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				)
+				(Print y: 165 addText: 59 18 0 1 0 0 16 init:) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 59 18 0 1) ; "Mixing potions isn't a good idea. They have a bad habit of exploding when combined improperly."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+		(temp0 dispose:)
+		(temp1 dispose:)
+	)
 )
 
 (instance theRations of NumInvItem
@@ -545,6 +798,83 @@
 		mainView 905
 		mainCel 8
 		value 20
+	)
+
+	(method (doVerb theVerb &tmp temp0 temp1)
+		(= temp0 (Str new:))
+		(= temp1 (Str new:))
+		(switch theVerb
+			(1 ; Look
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 29 1 0 1 (temp0 data:)) ; "Rations"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 29 1 0 2) ; "These avocado and garlic sandwiches are the strangest adventuring meals you've encountered. Still, they do last a long time and will keep you from starving to death. (Of course, you may WISH you'd starved to death if you have to eat them too often.)"
+					)
+					(Print y: 165 addText: 29 1 0 2 0 0 16 init:) ; "These avocado and garlic sandwiches are the strangest adventuring meals you've encountered. Still, they do last a long time and will keep you from starving to death. (Of course, you may WISH you'd starved to death if you have to eat them too often.)"
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 29 1 0 2) ; "These avocado and garlic sandwiches are the strangest adventuring meals you've encountered. Still, they do last a long time and will keep you from starving to death. (Of course, you may WISH you'd starved to death if you have to eat them too often.)"
+					)
+				else
+					(Message msgGET 16 29 1 0 1 (temp0 data:)) ; "Rations"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(37 ; theThrowdagger
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 29 37 0 1) ; "Going on cut rations won't help you; being a Hero is hungry work!"
+				)
+				(Print y: 165 addText: 29 37 0 1 0 0 16 init:) ; "Going on cut rations won't help you; being a Hero is hungry work!"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 29 37 0 1) ; "Going on cut rations won't help you; being a Hero is hungry work!"
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 29 76 0 1) ; "Unbelievable as it may seem, these rations taste even WORSE when you cook them!"
+				)
+				(Print y: 165 addText: 29 76 0 1 0 0 16 init:) ; "Unbelievable as it may seem, these rations taste even WORSE when you cook them!"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 29 76 0 1) ; "Unbelievable as it may seem, these rations taste even WORSE when you cook them!"
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+		(temp0 dispose:)
+		(temp1 dispose:)
 	)
 )
 
@@ -557,6 +887,46 @@
 		mainCel 2
 		value 90
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(32 ; theOil
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 61 32 0 1) ; "You rub a bit of oil onto your weapon to keep it rust-free."
+				)
+				(Print y: 165 addText: 61 32 0 1 0 0 16 init:) ; "You rub a bit of oil onto your weapon to keep it rust-free."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 61 32 0 1) ; "You rub a bit of oil onto your weapon to keep it rust-free."
+				)
+			)
+			(39 ; theFlint
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 61 39 0 1) ; "Try that the other way around."
+				)
+				(Print y: 165 addText: 61 39 0 1 0 0 16 init:) ; "Try that the other way around."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 61 39 0 1) ; "Try that the other way around."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+	)
 )
 
 (instance theRocks of NumInvItem
@@ -568,6 +938,67 @@
 		mainCel 9
 		value 30
 	)
+
+	(method (doVerb theVerb &tmp temp0 temp1)
+		(= temp0 (Str new:))
+		(= temp1 (Str new:))
+		(switch theVerb
+			(1 ; Look
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 38 1 0 1 (temp0 data:)) ; "Rocks"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 38 1 0 2) ; "Igneous, sedimentary, or metamorphic -- you never can remember which is which."
+					)
+					(Print y: 165 addText: 38 1 0 2 0 0 16 init:) ; "Igneous, sedimentary, or metamorphic -- you never can remember which is which."
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 38 1 0 2) ; "Igneous, sedimentary, or metamorphic -- you never can remember which is which."
+					)
+				else
+					(Message msgGET 16 38 1 0 1 (temp0 data:)) ; "Rocks"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(37 ; theThrowdagger
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 38 37 0 1) ; "Whatever kind of rocks these are, they evidently AREN'T flint. No spark rewards you."
+				)
+				(Print y: 165 addText: 38 37 0 1 0 0 16 init:) ; "Whatever kind of rocks these are, they evidently AREN'T flint. No spark rewards you."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 38 37 0 1) ; "Whatever kind of rocks these are, they evidently AREN'T flint. No spark rewards you."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+		(temp0 dispose:)
+		(temp1 dispose:)
+	)
 )
 
 (instance theCandle of NumInvItem
@@ -577,6 +1008,46 @@
 		mainView 905
 		mainLoop 6
 		value 2
+	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(25 ; theWater
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 9 25 0 1) ; "Don't bother; it isn't lit."
+				)
+				(Print y: 165 addText: 9 25 0 1 0 0 16 init:) ; "Don't bother; it isn't lit."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 9 25 0 1) ; "Don't bother; it isn't lit."
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 9 76 0 1) ; "You try to light the candle with the magic torch, but it won't stay lit. Maybe if the candle had a wick it would work better."
+				)
+				(Print y: 165 addText: 9 76 0 1 0 0 16 init:) ; "You try to light the candle with the magic torch, but it won't stay lit. Maybe if the candle had a wick it would work better."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 9 76 0 1) ; "You try to light the candle with the magic torch, but it won't stay lit. Maybe if the candle had a wick it would work better."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
 	)
 )
 
@@ -589,6 +1060,30 @@
 		mainCel 4
 		value 2
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(45 ; theCorn
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 10 45 0 1) ; "Is that how you make "candy corn"? This doesn't seem quite right somehow."
+				)
+				(Print y: 165 addText: 10 45 0 1 0 0 16 init:) ; "Is that how you make "candy corn"? This doesn't seem quite right somehow."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 10 45 0 1) ; "Is that how you make "candy corn"? This doesn't seem quite right somehow."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+	)
 )
 
 (instance theFlask of NumInvItem
@@ -600,6 +1095,94 @@
 		mainCel 5
 		value 2
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(17 ; theCures
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 13 18 0 1) ; "You pour the potion into the empty flask."
+				)
+				(Print y: 165 addText: 13 18 0 1 0 0 16 init:) ; "You pour the potion into the empty flask."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 13 18 0 1) ; "You pour the potion into the empty flask."
+				)
+			)
+			(18 ; theHeals
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 13 18 0 1) ; "You pour the potion into the empty flask."
+				)
+				(Print y: 165 addText: 13 18 0 1 0 0 16 init:) ; "You pour the potion into the empty flask."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 13 18 0 1) ; "You pour the potion into the empty flask."
+				)
+			)
+			(26 ; theGruegoo
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 13 26 0 1) ; "No sense in ruining another flask!"
+				)
+				(Print y: 165 addText: 13 26 0 1 0 0 16 init:) ; "No sense in ruining another flask!"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 13 26 0 1) ; "No sense in ruining another flask!"
+				)
+			)
+			(27 ; theBonemeal
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 13 27 0 1) ; "You transfer the bone meal into another flask."
+				)
+				(Print y: 165 addText: 13 27 0 1 0 0 16 init:) ; "You transfer the bone meal into another flask."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 13 27 0 1) ; "You transfer the bone meal into another flask."
+				)
+			)
+			(51 ; theRehydrator
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 13 18 0 1) ; "You pour the potion into the empty flask."
+				)
+				(Print y: 165 addText: 13 18 0 1 0 0 16 init:) ; "You pour the potion into the empty flask."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 13 18 0 1) ; "You pour the potion into the empty flask."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+	)
 )
 
 (instance theWater of NumInvItem
@@ -609,6 +1192,83 @@
 		mainView 905
 		mainCel 11
 		value 20
+	)
+
+	(method (doVerb theVerb &tmp temp0 temp1)
+		(= temp0 (Str new:))
+		(= temp1 (Str new:))
+		(switch theVerb
+			(1 ; Look
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 64 1 0 1 (temp0 data:)) ; "Water"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 64 1 0 2) ; "It looks like water, smells like water, but it's actually... water."
+					)
+					(Print y: 165 addText: 64 1 0 2 0 0 16 init:) ; "It looks like water, smells like water, but it's actually... water."
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 64 1 0 2) ; "It looks like water, smells like water, but it's actually... water."
+					)
+				else
+					(Message msgGET 16 64 1 0 1 (temp0 data:)) ; "Water"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(51 ; theRehydrator
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 64 51 0 1) ; "The water is already quite wet enough."
+				)
+				(Print y: 165 addText: 64 51 0 1 0 0 16 init:) ; "The water is already quite wet enough."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 64 51 0 1) ; "The water is already quite wet enough."
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 64 76 0 1) ; "You boil some water. Why? Is someone having a baby?"
+				)
+				(Print y: 165 addText: 64 76 0 1 0 0 16 init:) ; "You boil some water. Why? Is someone having a baby?"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 64 76 0 1) ; "You boil some water. Why? Is someone having a baby?"
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+		(temp0 dispose:)
+		(temp1 dispose:)
 	)
 )
 
@@ -620,6 +1280,30 @@
 		mainLoop 6
 		mainCel 10
 		value 2
+	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(46 ; thePiepan
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 30 46 0 1) ; "Try that the other way around. The pie ingredients go in the pie pan, not the pie pan in the ingredients."
+				)
+				(Print y: 165 addText: 30 46 0 1 0 0 16 init:) ; "Try that the other way around. The pie ingredients go in the pie pan, not the pie pan in the ingredients."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 30 46 0 1) ; "Try that the other way around. The pie ingredients go in the pie pan, not the pie pan in the ingredients."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
 	)
 )
 
@@ -643,6 +1327,51 @@
 		mainCel 9
 		value 2
 	)
+
+	(method (doVerb theVerb &tmp temp0 temp1)
+		(= temp0 (Str new:))
+		(= temp1 (Str new:))
+		(switch theVerb
+			(1 ; Look
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 68 1 0 1 (temp0 data:)) ; "Lockpick"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 68 1 0 2) ; "This is a basic beginner's lockpick, only usable on common locks."
+					)
+					(Print y: 165 addText: 68 1 0 2 0 0 16 init:) ; "This is a basic beginner's lockpick, only usable on common locks."
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 68 1 0 2) ; "This is a basic beginner's lockpick, only usable on common locks."
+					)
+				else
+					(Message msgGET 16 68 1 0 1 (temp0 data:)) ; "Lockpick"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+		(temp0 dispose:)
+		(temp1 dispose:)
+	)
 )
 
 (instance theKeyRing of NumInvItem
@@ -655,33 +1384,157 @@
 		value 1
 	)
 
-	(method (doVerb theVerb &tmp temp0)
+	(method (doVerb theVerb &tmp temp0 temp1)
 		(= temp0 (Str new:))
+		(= temp1 (Str new:))
 		(switch theVerb
 			(1 ; Look
-				(Print y: 165 addText: 16 1 0 1 0 0 16 init:) ; "Key Ring"
-				(if (not maskCel)
-					(Print y: 165 addText: 0 29 12 1 0 0 16 init:) ; "You don't have any keys."
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 16 1 0 1 (temp0 data:)) ; "Key Ring"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (not maskCel)
+						(Print y: 165 addText: 0 29 12 1 0 0 16 init:) ; "You don't have any keys."
+					else
+						(if (IsFlag 400)
+							(= local0 (gGlory masterVolume:))
+							(if (>= local0 6)
+								(gGlory masterVolume: (- local0 6))
+							else
+								(gGlory masterVolume: 1)
+							)
+							(DoAudio audPLAY 16 16 1 0 2) ; "This ring contains the keys you've found during your quest."
+						)
+						(Print y: 165 addText: 16 1 0 2 0 0 16 init:) ; "This ring contains the keys you've found during your quest."
+						(if (IsFlag 400)
+							(gGlory masterVolume: local0)
+							(DoAudio audSTOP 16 16 1 0 2) ; "This ring contains the keys you've found during your quest."
+						)
+						(if (& maskCel $0001)
+							(if (IsFlag 400)
+								(= local0 (gGlory masterVolume:))
+								(if (>= local0 6)
+									(gGlory masterVolume: (- local0 6))
+								else
+									(gGlory masterVolume: 1)
+								)
+								(DoAudio audPLAY 16 16 1 21 1) ; "One of the keys opens the door to Dr. Cranium's laboratory."
+							)
+							(Print y: 165 addText: 16 1 21 1 0 0 16 init:) ; "One of the keys opens the door to Dr. Cranium's laboratory."
+							(if (IsFlag 400)
+								(gGlory masterVolume: local0)
+								(DoAudio audSTOP 16 16 1 21 1) ; "One of the keys opens the door to Dr. Cranium's laboratory."
+							)
+						)
+						(if (& maskCel $0002)
+							(if (IsFlag 400)
+								(= local0 (gGlory masterVolume:))
+								(if (>= local0 6)
+									(gGlory masterVolume: (- local0 6))
+								else
+									(gGlory masterVolume: 1)
+								)
+								(DoAudio audPLAY 16 16 1 56 1) ; "You have a key for your storage locker at the inn."
+							)
+							(Print y: 165 addText: 16 1 56 1 0 0 16 init:) ; "You have a key for your storage locker at the inn."
+							(if (IsFlag 400)
+								(gGlory masterVolume: local0)
+								(DoAudio audSTOP 16 16 1 56 1) ; "You have a key for your storage locker at the inn."
+							)
+						)
+						(if (& maskCel $0004)
+							(if (IsFlag 400)
+								(= local0 (gGlory masterVolume:))
+								(if (>= local0 6)
+									(gGlory masterVolume: (- local0 6))
+								else
+									(gGlory masterVolume: 1)
+								)
+								(DoAudio audPLAY 16 16 1 27 1) ; "The key to the Borgov's crypt is on the ring."
+							)
+							(Print y: 165 addText: 16 1 27 1 0 0 16 init:) ; "The key to the Borgov's crypt is on the ring."
+							(if (IsFlag 400)
+								(gGlory masterVolume: local0)
+								(DoAudio audSTOP 16 16 1 27 1) ; "The key to the Borgov's crypt is on the ring."
+							)
+						)
+						(if (& maskCel $0008)
+							(if (IsFlag 400)
+								(= local0 (gGlory masterVolume:))
+								(if (>= local0 6)
+									(gGlory masterVolume: (- local0 6))
+								else
+									(gGlory masterVolume: 1)
+								)
+								(DoAudio audPLAY 16 16 1 28 1) ; "You have the Adventurer's Guild key."
+							)
+							(Print y: 165 addText: 16 1 28 1 0 0 16 init:) ; "You have the Adventurer's Guild key."
+							(if (IsFlag 400)
+								(gGlory masterVolume: local0)
+								(DoAudio audSTOP 16 16 1 28 1) ; "You have the Adventurer's Guild key."
+							)
+						)
+						(if (& maskCel $0010)
+							(if (IsFlag 400)
+								(= local0 (gGlory masterVolume:))
+								(if (>= local0 6)
+									(gGlory masterVolume: (- local0 6))
+								else
+									(gGlory masterVolume: 1)
+								)
+								(DoAudio audPLAY 16 16 1 38 1) ; "One key opens the secret passageway in the crypt."
+							)
+							(Print y: 165 addText: 16 1 38 1 0 0 16 init:) ; "One key opens the secret passageway in the crypt."
+							(if (IsFlag 400)
+								(gGlory masterVolume: local0)
+								(DoAudio audSTOP 16 16 1 38 1) ; "One key opens the secret passageway in the crypt."
+							)
+						)
+						(if (& maskCel $0020)
+							(if (IsFlag 400)
+								(= local0 (gGlory masterVolume:))
+								(if (>= local0 6)
+									(gGlory masterVolume: (- local0 6))
+								else
+									(gGlory masterVolume: 1)
+								)
+								(DoAudio audPLAY 16 16 1 54 1) ; "You have a large iron key from the Burgomeister's desk."
+							)
+							(Print y: 165 addText: 16 1 54 1 0 0 16 init:) ; "You have a large iron key from the Burgomeister's desk."
+							(if (IsFlag 400)
+								(gGlory masterVolume: local0)
+								(DoAudio audSTOP 16 16 1 54 1) ; "You have a large iron key from the Burgomeister's desk."
+							)
+						)
+					)
 				else
-					(Print y: 165 addText: 16 1 0 2 0 0 16 init:) ; "This ring contains the keys you've found during your quest."
-					(if (& maskCel $0001)
-						(Print y: 165 addText: 16 1 21 1 0 0 16 init:) ; "One of the keys opens the door to Dr. Cranium's laboratory."
+					(Message msgGET 16 16 1 0 1 (temp0 data:)) ; "Key Ring"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(42 ; theToolkit
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
 					)
-					(if (& maskCel $0002)
-						(Print y: 165 addText: 16 1 38 1 0 0 16 init:) ; "One key opens the secret passageway in the crypt."
-					)
-					(if (& maskCel $0004)
-						(Print y: 165 addText: 16 1 27 1 0 0 16 init:) ; "The key to the Borgov's crypt is on the ring."
-					)
-					(if (& maskCel $0008)
-						(Print y: 165 addText: 16 1 28 1 0 0 16 init:) ; "You have the Adventurer's Guild key."
-					)
-					(if (& maskCel $0010)
-						(Print y: 165 addText: 16 1 38 1 0 0 16 init:) ; "One key opens the secret passageway in the crypt."
-					)
-					(if (& maskCel $0020)
-						(Print y: 165 addText: 16 1 54 1 0 0 16 init:) ; "You have a large iron key from the Burgomeister's desk."
-					)
+					(DoAudio audPLAY 16 16 42 0 1) ; "You could probably use the toolkit to get the keys off the ring, but why bother?"
+				)
+				(Print y: 165 addText: 16 42 0 1 0 0 16 init:) ; "You could probably use the toolkit to get the keys off the ring, but why bother?"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 16 42 0 1) ; "You could probably use the toolkit to get the keys off the ring, but why bother?"
 				)
 			)
 			(else
@@ -689,6 +1542,7 @@
 			)
 		)
 		(temp0 dispose:)
+		(temp1 dispose:)
 	)
 )
 
@@ -699,6 +1553,67 @@
 		mainView 905
 		mainCel 9
 		value 30
+	)
+
+	(method (doVerb theVerb &tmp temp0 temp1)
+		(= temp0 (Str new:))
+		(= temp1 (Str new:))
+		(switch theVerb
+			(1 ; Look
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 40 1 0 1 (temp0 data:)) ; "Oil"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 40 1 0 2) ; "The container's label reads "Squeaky Greaser (tm).""
+					)
+					(Print y: 165 addText: 40 1 0 2 0 0 16 init:) ; "The container's label reads "Squeaky Greaser (tm).""
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 40 1 0 2) ; "The container's label reads "Squeaky Greaser (tm).""
+					)
+				else
+					(Message msgGET 16 40 1 0 1 (temp0 data:)) ; "Oil"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 40 76 0 1) ; "You don't have enough oil to make a decent oil fire."
+				)
+				(Print y: 165 addText: 40 76 0 1 0 0 16 init:) ; "You don't have enough oil to make a decent oil fire."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 40 76 0 1) ; "You don't have enough oil to make a decent oil fire."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+		(temp0 dispose:)
+		(temp1 dispose:)
 	)
 )
 
@@ -736,7 +1651,16 @@
 		(= temp1 (Str new:))
 		(switch theVerb
 			(1 ; Look
-				(if (== local2 gEgo)
+				(if (== local3 gEgo)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 57 1 0 1) ; "Armor"
+					)
 					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
 					(if state
 						(Message msgGET 16 57 1 37 1 (temp0 data:)) ; "Platemail Armor"
@@ -751,6 +1675,10 @@
 						(temp1 format: (temp1 data:) (temp0 data:) value)
 					)
 					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 57 1 0 1) ; "Armor"
+					)
 					(if state
 						(Print addText: 57 theVerb 37 2 0 0 16) ; "The platemail armor consists of sections of metal plates welded to flexible chain links for superior protection. You wear leather padding underneath the armor."
 					else
@@ -766,6 +1694,38 @@
 					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
 					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
 					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(32 ; theOil
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 57 32 0 1) ; "You rub some of the oil into your armor. There's nothing like keeping your equipment in top shape."
+				)
+				(Print y: 165 addText: 57 32 0 1 0 0 16 init:) ; "You rub some of the oil into your armor. There's nothing like keeping your equipment in top shape."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 57 32 0 1) ; "You rub some of the oil into your armor. There's nothing like keeping your equipment in top shape."
+				)
+			)
+			(42 ; theToolkit
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 57 42 0 1) ; "Your armor doesn't need to be repaired right now."
+				)
+				(Print y: 165 addText: 57 42 0 1 0 0 16 init:) ; "Your armor doesn't need to be repaired right now."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 57 42 0 1) ; "Your armor doesn't need to be repaired right now."
 				)
 			)
 			(else
@@ -811,24 +1771,70 @@
 						(Message msgGET 16 11 theVerb 0 1 (temp0 data:))
 					)
 					(1
+						(if (IsFlag 400)
+							(= local0 (gGlory masterVolume:))
+							(if (>= local0 6)
+								(gGlory masterVolume: (- local0 6))
+							else
+								(gGlory masterVolume: 1)
+							)
+							(DoAudio audPLAY 16 11 1 50 1) ; "Piotyr's Shield"
+						)
 						(Message msgGET 16 11 theVerb 50 1 (temp0 data:))
 					)
 				)
-				(if (== local2 gEgo)
+				(if (== local3 gEgo)
 					(temp1 format: (temp1 data:) (temp0 data:) value)
 					(Print addText: (temp1 data:) y: 165 init:)
 					(switch state
 						(0
+							(if (IsFlag 400)
+								(= local0 (gGlory masterVolume:))
+								(if (>= local0 6)
+									(gGlory masterVolume: (- local0 6))
+								else
+									(gGlory masterVolume: 1)
+								)
+								(DoAudio audPLAY 16 11 1 0 2) ; "The best offense requires good defense. This shield helps keep you alive long enough to do both."
+							)
 							(Print addText: 11 theVerb 0 2 0 0 16 y: 165 init:) ; "The best offense requires good defense. This shield helps keep you alive long enough to do both."
+							(if (IsFlag 400)
+								(gGlory masterVolume: local0)
+								(DoAudio audSTOP 16 11 1 0 2) ; "The best offense requires good defense. This shield helps keep you alive long enough to do both."
+							)
 						)
 						(1
+							(if (IsFlag 400)
+								(DoAudio audSTOP 16 11 1 50 1) ; "Piotyr's Shield"
+								(DoAudio audPLAY 16 11 1 50 2) ; "Piotyr's shield glows faintly with the force of magical protection."
+							)
 							(Print addText: 11 theVerb 50 2 0 0 16 y: 165 init:) ; "Piotyr's shield glows faintly with the force of magical protection."
+							(if (IsFlag 400)
+								(gGlory masterVolume: local0)
+								(DoAudio audSTOP 16 11 1 50 2) ; "Piotyr's shield glows faintly with the force of magical protection."
+							)
 						)
 					)
 				else
 					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
 					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
 					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(171 ; theHammer
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 11 171 0 1) ; "You bang on the shield with the iron hammer. Ringo Starr you ain't."
+				)
+				(Print y: 165 addText: 11 171 0 1 0 0 16 init:) ; "You bang on the shield with the iron hammer. Ringo Starr you ain't."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 11 171 0 1) ; "You bang on the shield with the iron hammer. Ringo Starr you ain't."
 				)
 			)
 			(else
@@ -884,13 +1890,22 @@
 						(Message msgGET 16 0 1 18 1 (temp0 data:)) ; "Fine Sword"
 					)
 					(2
+						(if (IsFlag 400)
+							(= local0 (gGlory masterVolume:))
+							(if (>= local0 6)
+								(gGlory masterVolume: (- local0 6))
+							else
+								(gGlory masterVolume: 1)
+							)
+							(DoAudio audPLAY 16 0 1 35 1) ; "Battle Axe"
+						)
 						(Message msgGET 16 0 1 35 1 (temp0 data:)) ; "Battle Axe"
 					)
 					(3
 						(Message msgGET 16 0 1 49 1 (temp0 data:)) ; "Piotyr's Sword"
 					)
 				)
-				(if (== local2 gEgo)
+				(if (== local3 gEgo)
 					(temp1 format: (temp1 data:) (temp0 data:) value)
 					(Print addText: (temp1 data:) y: 165 init:)
 					(switch state
@@ -898,10 +1913,31 @@
 							(Print addText: 0 theVerb 19 2 0 0 16 y: 165 init:) ; "This sword is rather battered and worn; you can't get it to hold a proper temper. Still, it's better than fighting barehanded (or even with a dagger)."
 						)
 						(1
+							(if (IsFlag 400)
+								(= local0 (gGlory masterVolume:))
+								(if (>= local0 6)
+									(gGlory masterVolume: (- local0 6))
+								else
+									(gGlory masterVolume: 1)
+								)
+								(DoAudio audPLAY 16 54 1 0 2) ; "This is your trusty broadsword."
+							)
 							(Print addText: 0 theVerb 18 2 0 0 16 y: 165 init:) ; "You have a high-quality, well-balanced sword from the urgent care section of the Adventurers' Guild."
+							(if (IsFlag 400)
+								(gGlory masterVolume: local0)
+								(DoAudio audSTOP 16 54 1 0 2) ; "This is your trusty broadsword."
+							)
 						)
 						(2
+							(if (IsFlag 400)
+								(DoAudio audSTOP 16 0 1 35 1) ; "Battle Axe"
+								(DoAudio audPLAY 16 0 1 35 2) ; "You wrested this awesome battle axe from the barrow of a mighty Wraith."
+							)
 							(Print addText: 0 theVerb 35 2 0 0 16 y: 165 init:) ; "You wrested this awesome battle axe from the barrow of a mighty Wraith."
+							(if (IsFlag 400)
+								(gGlory masterVolume: local0)
+								(DoAudio audSTOP 16 0 1 35 2) ; "You wrested this awesome battle axe from the barrow of a mighty Wraith."
+							)
 						)
 						(3
 							(Print addText: 0 theVerb 49 2 0 0 16 y: 165 init:) ; "This magical sword has powerful combat and defensive abilities in the hands of a Paladin such as yourself."
@@ -911,6 +1947,22 @@
 					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
 					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
 					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(32 ; theOil
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 61 32 0 1) ; "You rub a bit of oil onto your weapon to keep it rust-free."
+				)
+				(Print y: 165 addText: 61 32 0 1 0 0 16 init:) ; "You rub a bit of oil onto your weapon to keep it rust-free."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 61 32 0 1) ; "You rub a bit of oil onto your weapon to keep it rust-free."
 				)
 			)
 			(else
@@ -930,6 +1982,46 @@
 		mainCel 1
 		value 2
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(32 ; theOil
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 61 32 0 1) ; "You rub a bit of oil onto your weapon to keep it rust-free."
+				)
+				(Print y: 165 addText: 61 32 0 1 0 0 16 init:) ; "You rub a bit of oil onto your weapon to keep it rust-free."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 61 32 0 1) ; "You rub a bit of oil onto your weapon to keep it rust-free."
+				)
+			)
+			(39 ; theFlint
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 61 39 0 1) ; "Try that the other way around."
+				)
+				(Print y: 165 addText: 61 39 0 1 0 0 16 init:) ; "Try that the other way around."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 61 39 0 1) ; "Try that the other way around."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+	)
 )
 
 (instance theFlint of NumInvItem
@@ -941,30 +2033,70 @@
 		value 2
 	)
 
-	(method (doVerb theVerb &tmp temp0 temp1 temp2)
-		(= temp0 (Str new:))
-		(= temp1 (Str new:))
-		(if (== theVerb 76) ; theTorch
-			(if (gEgo has: 5) ; theThrowdagger
-				((= temp2 (ScriptID 35 16)) cel: 10 state: 1) ; theTorch
-				(Print addText: 69 39 0 1 0 0 16 y: 165 init:) ; "You strike a spark with the flint and dagger to light the torch."
-				(Cursor loop: 8 cel: 10)
-				(SetCursor 905 8 10)
-				(UpdateScreenItem temp2)
-				((gTheIconBar at: 6) cursorCel: 10)
-				(= temp2 (ScriptID 36 1)) ; invItem
-				(temp2 cel: 10 show:)
-				(UpdateScreenItem temp2)
-				(gEgo solvePuzzle: 401 6)
-				(gCurRoom doTorch: 1)
-			else
-				(Print addText: 69 39 55 1 0 0 16 y: 165 init:) ; "It takes flint AND steel to make a spark. You only have the flint."
+	(method (doVerb theVerb &tmp temp0)
+		(switch theVerb
+			(37 ; theThrowdagger
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 20 37 0 1) ; "You scrape the flint with your dagger, creating a spark."
+				)
+				(Print addText: 20 37 0 1 0 0 16 y: 165 init:) ; "You scrape the flint with your dagger, creating a spark."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 20 37 0 1) ; "You scrape the flint with your dagger, creating a spark."
+				)
 			)
-		else
-			(super doVerb: theVerb)
+			(76 ; theTorch
+				(if (gEgo has: 5) ; theThrowdagger
+					((= temp0 (ScriptID 35 16)) cel: 10 state: 1) ; theTorch
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 69 39 0 1) ; "You strike a spark with the flint and dagger to light the torch."
+					)
+					(Print addText: 69 39 0 1 0 0 16 y: 165 init:) ; "You strike a spark with the flint and dagger to light the torch."
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 69 39 0 1) ; "You strike a spark with the flint and dagger to light the torch."
+					)
+					(Cursor loop: 8 cel: 10)
+					(SetCursor 905 8 10)
+					((gTheIconBar at: 6) cursorCel: 10)
+					((= temp0 (ScriptID 36 1)) cel: 10 show:) ; invItem
+					(gInventory drawInvItems:)
+					(FrameOut)
+					(gEgo solvePuzzle: 401 6)
+					(gCurRoom doTorch: 1)
+				else
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 69 39 55 1) ; "It takes flint AND steel to make a spark. You only have the flint."
+					)
+					(Print addText: 69 39 55 1 0 0 16 y: 165 init:) ; "It takes flint AND steel to make a spark. You only have the flint."
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 69 39 55 1) ; "It takes flint AND steel to make a spark. You only have the flint."
+					)
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
 		)
-		(temp0 dispose:)
-		(temp1 dispose:)
 	)
 )
 
@@ -976,6 +2108,46 @@
 		mainLoop 2
 		mainCel 1
 		value 2
+	)
+
+	(method (doVerb theVerb &tmp temp0)
+		(switch theVerb
+			(37 ; theThrowdagger
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 21 37 0 1) ; "Yes, that's the right way to dice garlic. But a master chef you're not."
+				)
+				(Print addText: 21 37 0 1 0 0 16 y: 165 init:) ; "Yes, that's the right way to dice garlic. But a master chef you're not."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 21 37 0 1) ; "Yes, that's the right way to dice garlic. But a master chef you're not."
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 21 76 0 1) ; "Aren't you getting enough cooked garlic at the Inn?"
+				)
+				(Print addText: 21 76 0 1 0 0 16 y: 165 init:) ; "Aren't you getting enough cooked garlic at the Inn?"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 21 76 0 1) ; "Aren't you getting enough cooked garlic at the Inn?"
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
 	)
 )
 
@@ -1010,6 +2182,30 @@
 		mainCel 5
 		value 2
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(56 ; theAmulet
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 24 56 0 1) ; "Sparks jump between the Undead Amulet and the Dark One Sign when you bring them close together; they don't seem to get along very well."
+				)
+				(Print y: 165 addText: 24 56 0 1 0 0 16 init:) ; "Sparks jump between the Undead Amulet and the Dark One Sign when you bring them close together; they don't seem to get along very well."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 24 56 0 1) ; "Sparks jump between the Undead Amulet and the Dark One Sign when you bring them close together; they don't seem to get along very well."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+	)
 )
 
 (instance theHat of NumInvItem
@@ -1021,6 +2217,83 @@
 		mainCel 7
 		value 2
 	)
+
+	(method (doVerb theVerb &tmp temp0 temp1)
+		(= temp0 (Str new:))
+		(= temp1 (Str new:))
+		(switch theVerb
+			(1 ; Look
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 25 1 0 1 (temp0 data:)) ; "Hat"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 25 1 0 2) ; "It's a faded, well-worn hat. If it's seen better days, they must have been years ago."
+					)
+					(Print y: 165 addText: 25 1 0 2 0 0 16 init:) ; "It's a faded, well-worn hat. If it's seen better days, they must have been years ago."
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 25 1 0 2) ; "It's a faded, well-worn hat. If it's seen better days, they must have been years ago."
+					)
+				else
+					(Message msgGET 16 25 1 0 1 (temp0 data:)) ; "Hat"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(55 ; theChicken
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 25 55 0 1) ; "Fortunately, you don't have any way to attach the rubber chicken to the hat. It really looks stupid there!"
+				)
+				(Print y: 165 addText: 25 55 0 1 0 0 16 init:) ; "Fortunately, you don't have any way to attach the rubber chicken to the hat. It really looks stupid there!"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 25 55 0 1) ; "Fortunately, you don't have any way to attach the rubber chicken to the hat. It really looks stupid there!"
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 74 76 0 1) ; "Why do you have this burning desire to immolate your possessions?"
+				)
+				(Print y: 165 addText: 74 76 0 1 0 0 16 init:) ; "Why do you have this burning desire to immolate your possessions?"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 74 76 0 1) ; "Why do you have this burning desire to immolate your possessions?"
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+		(temp0 dispose:)
+		(temp1 dispose:)
+	)
 )
 
 (instance theCorn of NumInvItem
@@ -1031,6 +2304,46 @@
 		mainLoop 6
 		mainCel 4
 		value 2
+	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(23 ; theCandy
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 10 45 0 1) ; "Is that how you make "candy corn"? This doesn't seem quite right somehow."
+				)
+				(Print y: 165 addText: 10 45 0 1 0 0 16 init:) ; "Is that how you make "candy corn"? This doesn't seem quite right somehow."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 10 45 0 1) ; "Is that how you make "candy corn"? This doesn't seem quite right somehow."
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 26 76 0 1) ; "Want to make popcorn? The kernel would disapprove."
+				)
+				(Print y: 165 addText: 26 76 0 1 0 0 16 init:) ; "Want to make popcorn? The kernel would disapprove."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 26 76 0 1) ; "Want to make popcorn? The kernel would disapprove."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
 	)
 )
 
@@ -1044,18 +2357,50 @@
 		value 2
 	)
 
-	(method (doVerb theVerb)
+	(method (doVerb theVerb &tmp temp0 temp1)
+		(= temp0 (Str new:))
+		(= temp1 (Str new:))
 		(switch theVerb
 			(1 ; Look
-				(super doVerb: 1)
-				(if (& maskCel $0001)
-					(Print addText: 27 1 15 0 0 0 16 y: 165 init:) ; "The pan is filled with a sickly red assemblage of poisonous Elderbury berries."
-				)
-				(if (& maskCel $0002)
-					(Print addText: 27 1 14 0 0 0 16 y: 165 init:) ; "The pan has been thoroughly greased with Grue Goo."
-				)
-				(if (& maskCel $0004)
-					(Print addText: 27 1 20 0 0 0 16 y: 165 init:) ; "Ground-up human bones make up the "flour" in the pan."
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 27 1 0 1 (temp0 data:)) ; "Pie Pan"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 27 1 0 2) ; "This is a metal pie tin, perfect for fruit pies."
+					)
+					(Print y: 165 addText: 27 1 0 2 0 0 16 init:) ; "This is a metal pie tin, perfect for fruit pies."
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 27 1 0 2) ; "This is a metal pie tin, perfect for fruit pies."
+					)
+					(if (& maskCel $0001)
+						(Print addText: 27 1 15 0 0 0 16 y: 165 init:) ; "The pan is filled with a sickly red assemblage of poisonous Elderbury berries."
+					)
+					(if (& maskCel $0002)
+						(Print addText: 27 1 14 0 0 0 16 y: 165 init:) ; "The pan has been thoroughly greased with Grue Goo."
+					)
+					(if (& maskCel $0004)
+						(Print addText: 27 1 20 0 0 0 16 y: 165 init:) ; "Ground-up human bones make up the "flour" in the pan."
+					)
+				else
+					(Message msgGET 16 27 1 0 1 (temp0 data:)) ; "Pie Pan"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
 				)
 			)
 			(48 ; theBerries
@@ -1082,6 +2427,7 @@
 					(localproc_0)
 				)
 				(theBonemeal amount: (- (theBonemeal amount:) 1))
+				(= loop (= cel 6))
 				(+= value (theBonemeal value:))
 				(if (< (theBonemeal amount:) 1)
 					(theBonemeal signal: 4)
@@ -1130,10 +2476,60 @@
 				(|= maskCel $0002)
 				(Print addText: noun 26 0 0 0 0 16 y: 165 init:) ; "After interminable minutes, the last of the gooey Grue goo splurches into the pie pan; you rub the slimy flask clean and put it away."
 			)
+			(53 ; theBlackbird
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 27 53 0 1) ; "What do you think this is, Mixed-Up Fairy Tales? Besides, you only have ONE black bird, not nearly enough to bake a proper pie."
+				)
+				(Print y: 165 addText: 27 53 0 1 0 0 16 init:) ; "What do you think this is, Mixed-Up Fairy Tales? Besides, you only have ONE black bird, not nearly enough to bake a proper pie."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 27 53 0 1) ; "What do you think this is, Mixed-Up Fairy Tales? Besides, you only have ONE black bird, not nearly enough to bake a proper pie."
+				)
+			)
+			(55 ; theChicken
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 27 55 0 1) ; "The pan's too small to make rubber chicken stew."
+				)
+				(Print y: 165 addText: 27 55 0 1 0 0 16 init:) ; "The pan's too small to make rubber chicken stew."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 27 55 0 1) ; "The pan's too small to make rubber chicken stew."
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 27 76 0 1) ; "The torch's flame isn't hot enough to cook the pie. You'll need to find a much more powerful heat source."
+				)
+				(Print y: 165 addText: 27 76 0 1 0 0 16 init:) ; "The torch's flame isn't hot enough to cook the pie. You'll need to find a much more powerful heat source."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 27 76 0 1) ; "The torch's flame isn't hot enough to cook the pie. You'll need to find a much more powerful heat source."
+				)
+			)
 			(else
 				(super doVerb: theVerb)
 			)
 		)
+		(temp0 dispose:)
+		(temp1 dispose:)
 	)
 )
 
@@ -1146,6 +2542,46 @@
 		mainCel 15
 		value 2
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(37 ; theThrowdagger
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 28 37 0 1) ; "Careful scraping reveals that the bones are indeed bones."
+				)
+				(Print y: 165 addText: 28 37 0 1 0 0 16 init:) ; "Careful scraping reveals that the bones are indeed bones."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 28 37 0 1) ; "Careful scraping reveals that the bones are indeed bones."
+				)
+			)
+			(56 ; theAmulet
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 45 47 0 1) ; "You test the Undead Amulet on the bones. Nothing happens since the bones aren't "undead.""
+				)
+				(Print y: 165 addText: 45 47 0 1 0 0 16 init:) ; "You test the Undead Amulet on the bones. Nothing happens since the bones aren't "undead.""
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 45 47 0 1) ; "You test the Undead Amulet on the bones. Nothing happens since the bones aren't "undead.""
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+	)
 )
 
 (instance theBerries of NumInvItem
@@ -1157,6 +2593,46 @@
 		mainCel 14
 		value 2
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(46 ; thePiepan
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 30 46 0 1) ; "Try that the other way around. The pie ingredients go in the pie pan, not the pie pan in the ingredients."
+				)
+				(Print y: 165 addText: 30 46 0 1 0 0 16 init:) ; "Try that the other way around. The pie ingredients go in the pie pan, not the pie pan in the ingredients."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 30 46 0 1) ; "Try that the other way around. The pie ingredients go in the pie pan, not the pie pan in the ingredients."
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 30 76 0 1) ; "You can't cook the loose berries; you have to make a pie first!"
+				)
+				(Print y: 165 addText: 30 76 0 1 0 0 16 init:) ; "You can't cook the loose berries; you have to make a pie first!"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 30 76 0 1) ; "You can't cook the loose berries; you have to make a pie first!"
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+	)
 )
 
 (instance theHumorbar of NumInvItem
@@ -1166,6 +2642,67 @@
 		mainView 905
 		mainLoop 4
 		value 2
+	)
+
+	(method (doVerb theVerb &tmp temp0 temp1)
+		(= temp0 (Str new:))
+		(= temp1 (Str new:))
+		(switch theVerb
+			(1 ; Look
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 31 1 0 1 (temp0 data:)) ; "Good Humor Bar"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 31 1 0 2) ; "While this bears a passing resemblance to an ice cream bar on a stick, it hasn't melted the whole time you've been carrying it. It feels kind of funny in your hand."
+					)
+					(Print y: 165 addText: 31 1 0 2 0 0 16 init:) ; "While this bears a passing resemblance to an ice cream bar on a stick, it hasn't melted the whole time you've been carrying it. It feels kind of funny in your hand."
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 31 1 0 2) ; "While this bears a passing resemblance to an ice cream bar on a stick, it hasn't melted the whole time you've been carrying it. It feels kind of funny in your hand."
+					)
+				else
+					(Message msgGET 16 31 1 0 1 (temp0 data:)) ; "Good Humor Bar"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 31 76 0 1) ; "Baked Alaska? O.k., Alaska. She says, "No thanks.""
+				)
+				(Print y: 165 addText: 31 76 0 1 0 0 16 init:) ; "Baked Alaska? O.k., Alaska. She says, "No thanks.""
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 31 76 0 1) ; "Baked Alaska? O.k., Alaska. She says, "No thanks.""
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+		(temp0 dispose:)
+		(temp1 dispose:)
 	)
 )
 
@@ -1177,6 +2714,83 @@
 		mainCel 11
 		value 2
 	)
+
+	(method (doVerb theVerb &tmp temp0 temp1)
+		(= temp0 (Str new:))
+		(= temp1 (Str new:))
+		(switch theVerb
+			(1 ; Look
+				(if (== local3 gEgo)
+					(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+					(Message msgGET 16 33 1 0 1 (temp0 data:)) ; "Rehydration Solution"
+					(if (> amount 1)
+						(Message msgGET 16 0 theVerb 1 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) amount value)
+					else
+						(Message msgGET 16 0 theVerb 2 1 (temp1 data:))
+						(temp1 format: (temp1 data:) (temp0 data:) value)
+					)
+					(Print addText: (temp1 data:) y: 165 init:)
+					(if (IsFlag 400)
+						(= local0 (gGlory masterVolume:))
+						(if (>= local0 6)
+							(gGlory masterVolume: (- local0 6))
+						else
+							(gGlory masterVolume: 1)
+						)
+						(DoAudio audPLAY 16 33 1 0 2) ; "Dr. Cranium's patented Rehydration Solution bears a suspicious resemblance to a flask of ordinary water."
+					)
+					(Print y: 165 addText: 33 1 0 2 0 0 16 init:) ; "Dr. Cranium's patented Rehydration Solution bears a suspicious resemblance to a flask of ordinary water."
+					(if (IsFlag 400)
+						(gGlory masterVolume: local0)
+						(DoAudio audSTOP 16 33 1 0 2) ; "Dr. Cranium's patented Rehydration Solution bears a suspicious resemblance to a flask of ordinary water."
+					)
+				else
+					(Message msgGET 16 33 1 0 1 (temp0 data:)) ; "Rehydration Solution"
+					(Message msgGET 16 0 theVerb 4 1 (temp1 data:))
+					(temp1 format: (temp1 data:) (temp0 data:) chestAmout)
+					(Print addText: (temp1 data:) y: 165 init:)
+				)
+			)
+			(25 ; theWater
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 62 25 0 1) ; "The potion probably won't work as well if you dilute it."
+				)
+				(Print y: 165 addText: 62 25 0 1 0 0 16 init:) ; "The potion probably won't work as well if you dilute it."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 62 25 0 1) ; "The potion probably won't work as well if you dilute it."
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 33 76 0 1) ; "Now look what you've done! You've made the Rehydration Potion boiling mad! (Or at least boiling.) Fortunately, its temper cools quickly."
+				)
+				(Print y: 165 addText: 33 76 0 1 0 0 16 init:) ; "Now look what you've done! You've made the Rehydration Potion boiling mad! (Or at least boiling.) Fortunately, its temper cools quickly."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 33 76 0 1) ; "Now look what you've done! You've made the Rehydration Potion boiling mad! (Or at least boiling.) Fortunately, its temper cools quickly."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+		(temp0 dispose:)
+		(temp1 dispose:)
+	)
 )
 
 (instance theDoll of NumInvItem
@@ -1186,6 +2800,62 @@
 		mainView 905
 		mainCel 7
 		value 2
+	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(36 ; theSword
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 34 37 0 1) ; "The doll wouldn't look as good without a head."
+				)
+				(Print y: 165 addText: 34 37 0 1 0 0 16 init:) ; "The doll wouldn't look as good without a head."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 34 37 0 1) ; "The doll wouldn't look as good without a head."
+				)
+			)
+			(37 ; theThrowdagger
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 34 37 0 1) ; "The doll wouldn't look as good without a head."
+				)
+				(Print y: 165 addText: 34 37 0 1 0 0 16 init:) ; "The doll wouldn't look as good without a head."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 34 37 0 1) ; "The doll wouldn't look as good without a head."
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 74 76 0 1) ; "Why do you have this burning desire to immolate your possessions?"
+				)
+				(Print y: 165 addText: 74 76 0 1 0 0 16 init:) ; "Why do you have this burning desire to immolate your possessions?"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 74 76 0 1) ; "Why do you have this burning desire to immolate your possessions?"
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
 	)
 )
 
@@ -1198,6 +2868,78 @@
 		mainCel 11
 		value 30
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(36 ; theSword
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 58 36 0 1) ; "You'd better not; you'd wreck the black bird sculpture."
+				)
+				(Print y: 165 addText: 58 36 0 1 0 0 16 init:) ; "You'd better not; you'd wreck the black bird sculpture."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 58 36 0 1) ; "You'd better not; you'd wreck the black bird sculpture."
+				)
+			)
+			(37 ; theThrowdagger
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 58 37 0 1) ; "Carefully scraping at the black falcon, you discover that it's just a cheap plaster sculpture. You still haven't found the one everyone's looking for."
+				)
+				(Print y: 165 addText: 58 37 0 1 0 0 16 init:) ; "Carefully scraping at the black falcon, you discover that it's just a cheap plaster sculpture. You still haven't found the one everyone's looking for."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 58 37 0 1) ; "Carefully scraping at the black falcon, you discover that it's just a cheap plaster sculpture. You still haven't found the one everyone's looking for."
+				)
+			)
+			(45 ; theCorn
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 58 45 0 1) ; "No thanks; the bird sculpture isn't hungry."
+				)
+				(Print y: 165 addText: 58 45 0 1 0 0 16 init:) ; "No thanks; the bird sculpture isn't hungry."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 58 45 0 1) ; "No thanks; the bird sculpture isn't hungry."
+				)
+			)
+			(171 ; theHammer
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 58 36 0 1) ; "You'd better not; you'd wreck the black bird sculpture."
+				)
+				(Print y: 165 addText: 58 36 0 1 0 0 16 init:) ; "You'd better not; you'd wreck the black bird sculpture."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 58 36 0 1) ; "You'd better not; you'd wreck the black bird sculpture."
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+	)
 )
 
 (instance theCloth of NumInvItem
@@ -1209,6 +2951,46 @@
 		mainCel 11
 		value 2
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(37 ; theThrowdagger
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 35 37 0 1) ; "It's small enough already."
+				)
+				(Print y: 165 addText: 35 37 0 1 0 0 16 init:) ; "It's small enough already."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 35 37 0 1) ; "It's small enough already."
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 74 76 0 1) ; "Why do you have this burning desire to immolate your possessions?"
+				)
+				(Print y: 165 addText: 74 76 0 1 0 0 16 init:) ; "Why do you have this burning desire to immolate your possessions?"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 74 76 0 1) ; "Why do you have this burning desire to immolate your possessions?"
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+	)
 )
 
 (instance theChicken of NumInvItem
@@ -1219,6 +3001,62 @@
 		mainLoop 4
 		mainCel 2
 		value 2
+	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(37 ; theThrowdagger
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 36 37 0 1) ; "Hey! No chicken sacrifices (even rubber ones) in this game!"
+				)
+				(Print y: 165 addText: 36 37 0 1 0 0 16 init:) ; "Hey! No chicken sacrifices (even rubber ones) in this game!"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 36 37 0 1) ; "Hey! No chicken sacrifices (even rubber ones) in this game!"
+				)
+			)
+			(45 ; theCorn
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 36 45 0 1) ; "Rubber chickens don't eat much."
+				)
+				(Print y: 165 addText: 36 45 0 1 0 0 16 init:) ; "Rubber chickens don't eat much."
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 36 45 0 1) ; "Rubber chickens don't eat much."
+				)
+			)
+			(76 ; theTorch
+				(if (IsFlag 400)
+					(= local0 (gGlory masterVolume:))
+					(if (>= local0 6)
+						(gGlory masterVolume: (- local0 6))
+					else
+						(gGlory masterVolume: 1)
+					)
+					(DoAudio audPLAY 16 36 76 0 1) ; "Phew! Burning rubber smells awful!"
+				)
+				(Print y: 165 addText: 36 76 0 1 0 0 16 init:) ; "Phew! Burning rubber smells awful!"
+				(if (IsFlag 400)
+					(gGlory masterVolume: local0)
+					(DoAudio audSTOP 16 36 76 0 1) ; "Phew! Burning rubber smells awful!"
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
 	)
 )
 

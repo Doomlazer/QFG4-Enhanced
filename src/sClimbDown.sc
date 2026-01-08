@@ -341,13 +341,7 @@
 				(= cycles 2)
 			)
 			(8
-				(gEgo
-					normalize: 3
-					setPri: 152
-					cycleSpeed: local0
-					x: 145
-					y: 240
-				)
+				(gEgo normalize: 3 setPri: 152 x: 145 y: 240)
 				((ScriptID 710 2) setPri: 152) ; torchEff
 				(gCurRoom
 					addObstacle:
@@ -542,7 +536,7 @@
 				(gEgo setPri: 180 setMotion: MoveTo 279 64 self)
 			)
 			(4
-				(gLongSong fade:)
+				(gLongSong2 fade:)
 				(sparklies dispose:)
 				(gEgo setPri: -1 setCycle: Beg self)
 			)

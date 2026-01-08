@@ -3,7 +3,7 @@
 (script# 87)
 (include sci.sh)
 (use Main)
-(use DeathIcon)
+(use DeathControls)
 (use Array)
 (use Motion)
 (use Actor)

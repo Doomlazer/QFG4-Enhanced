@@ -119,25 +119,25 @@
 			)
 			(gEgo actions: (myDist init: aKatrina 60 yourself:))
 		)
-		(fGate1 init: approachVerbs: 4) ; Do
-		(fPump1 init: approachVerbs: 4) ; Do
-		(fPump2 init: approachVerbs: 4) ; Do
-		(fPump3 init: approachVerbs: 4) ; Do
-		(fPump4 init: approachVerbs: 4) ; Do
-		(fScarecrow init: approachVerbs: 4) ; Do
-		(fCorn1 init: approachVerbs: 4) ; Do
-		(fCorn2 init: approachVerbs: 4) ; Do
-		(fCorn3 init: approachVerbs: 4) ; Do
-		(fGully init: approachVerbs: 4) ; Do
-		(fBridge1 init: approachVerbs: 4) ; Do
-		(fBridge2 init: approachVerbs: 4) ; Do
-		(fRocks1 init: approachVerbs: 4) ; Do
-		(fRocks2 init: approachVerbs: 4) ; Do
-		(fStump init: approachVerbs: 4) ; Do
-		(fTreeTop init: approachVerbs: 4) ; Do
-		(fTree2 init: approachVerbs: 4) ; Do
+		(unknown_290_35 init: approachVerbs: 4) ; Do
+		(unknown_290_26 init: approachVerbs: 4) ; Do
+		(unknown_290_27 init: approachVerbs: 4) ; Do
+		(unknown_290_28 init: approachVerbs: 4) ; Do
+		(unknown_290_29 init: approachVerbs: 4) ; Do
+		(unknown_290_30 init: approachVerbs: 4) ; Do
+		(unknown_290_31 init: approachVerbs: 4) ; Do
+		(unknown_290_32 init: approachVerbs: 4) ; Do
+		(unknown_290_33 init: approachVerbs: 4) ; Do
+		(unknown_290_34 init: approachVerbs: 4) ; Do
+		(unknown_290_37 init: approachVerbs: 4) ; Do
+		(unknown_290_38 init: approachVerbs: 4) ; Do
+		(unknown_290_40 init: approachVerbs: 4) ; Do
+		(unknown_290_41 init: approachVerbs: 4) ; Do
+		(unknown_290_42 init: approachVerbs: 4) ; Do
+		(unknown_290_43 init: approachVerbs: 4) ; Do
+		(unknown_290_44 init: approachVerbs: 4) ; Do
 		(if gNight
-			(gateTeller init: fGate1 290 5 125)
+			(gateTeller init: unknown_290_35 290 5 125)
 		else
 			(= north 270)
 		)
@@ -261,8 +261,8 @@
 		else
 			(= local9 1)
 		)
-		(fGate2 init: approachVerbs: 4) ; Do
-		(fTowers init: approachVerbs: 4) ; Do
+		(unknown_290_36 init: approachVerbs: 4) ; Do
+		(unknown_290_39 init: approachVerbs: 4) ; Do
 		(self
 			addPoly:
 				((Polygon new:)
@@ -274,6 +274,7 @@
 		(super init: &rest)
 		(cond
 			((gCast contains: aKatrina)
+				(SetFlag 4)
 				(gLongSong number: 110 setLoop: -1 play:)
 			)
 			(
@@ -338,12 +339,6 @@
 		)
 	)
 
-	(method (cue)
-		(if (== (gLongSong number:) 290)
-			(gLongSong number: 558 setLoop: -1 play:)
-		)
-	)
-
 	(method (doit)
 		(if (and (== (gCurRoom script:) (ScriptID 31 1)) (>= (gEgo z:) 60)) ; sLevitate
 			(gCurRoom setScript: sLevitating)
@@ -351,7 +346,26 @@
 		(super doit: &rest)
 	)
 
-	(method (doVerb theVerb &tmp temp0)
+	(method (dispose)
+		(if (or (IsFlag 80) (IsFlag 81))
+			(gLongSong2 fade: 0)
+		)
+		(if (and (!= gLongSong 557) (!= gLongSong 558))
+			(gLongSong fade:)
+		)
+		(gLongSong client: 0)
+		(DisposeScript 64969)
+		(DisposeScript 9)
+		(heroTeller dispose:)
+		(if (OneOf local2 1 2)
+			(katrinaTeller dispose:)
+			(katrinaTeller2 dispose:)
+		)
+		(ClearFlag 4)
+		(super dispose:)
+	)
+
+	(method (doVerb theVerb)
 		(switch theVerb
 			(89 ; levitateSpell
 				(if local9
@@ -364,7 +378,7 @@
 				(if (gEgo has: 27) ; theCorn
 					(gMessager say: 3 4 5) ; "You have enough corn for now."
 				else
-					(self setScript: (ScriptID 37) 0 fCorn1) ; castFetchScript
+					(self setScript: (ScriptID 37) 0 unknown_290_31) ; castFetchScript
 				)
 			)
 			(-87 ; fetchSpell (part 2)
@@ -384,28 +398,35 @@
 					(gMessager say: 2 1 3) ; "The walls of the town rise magestically above you."
 				)
 			)
+			(4 ; Do
+				(gMessager say: 6 4 0) ; "The stone walls feel strong and solid."
+			)
+			(14 ; theBonsai
+				(gMessager say: 0 14 0) ; "The bonsai bush would grow well here, but someone would probably just dig it up again."
+			)
+			(45 ; theCorn
+				(gMessager say: 0 45 0) ; "It's a little late in the year to be planting corn."
+			)
+			(21 ; theRocks
+				(gMessager say: 0 21 0) ; "As you can see, you're just a stone's throw away from the town."
+			)
+			(25 ; theWater
+				(gMessager say: 0 25 0) ; "These plants have already been harvested; you don't need to water them now."
+			)
 			(else
-				(super doVerb: theVerb)
+				(super doVerb: theVerb &rest)
 			)
 		)
 	)
 
-	(method (dispose)
-		(if (or (IsFlag 80) (IsFlag 81))
-			(gLongSong2 fade: 0)
+	(method (notify)
+		(gMessager say: 1 6 23) ; "Something about the young peasant girl makes all thought of magic swirl around in your head. You don't seem to be able to cast any of your spells."
+	)
+
+	(method (cue)
+		(if (== (gLongSong number:) 290)
+			(gLongSong number: 558 setLoop: -1 play:)
 		)
-		(if (and (!= gLongSong 557) (!= gLongSong 558))
-			(gLongSong fade:)
-		)
-		(gLongSong client: 0)
-		(DisposeScript 64969)
-		(DisposeScript 9)
-		(heroTeller dispose:)
-		(if (OneOf local2 1 2)
-			(katrinaTeller dispose:)
-			(katrinaTeller2 dispose:)
-		)
-		(super dispose:)
 	)
 )
 
@@ -521,7 +542,6 @@
 				)
 			)
 			(2
-				(gEgo castSpell: 29)
 				(if (OneOf local2 3 4)
 					(SetFlag 81)
 					((aNecrotaur1 new:)
@@ -559,6 +579,7 @@
 					setLoop: 2 1
 					setCel: 5
 					setPri: 0
+					useMana: 7
 					setMotion:
 						MoveTo
 						(+ (gEgo x:) 10)
@@ -769,6 +790,7 @@
 					(gMessager say: 1 6 25 0 self) ; "You watch her walk off before you think of doing anything else."
 				)
 				(aKatrina actions: 0 setCycle: 0 hide: dispose:)
+				(ClearFlag 4)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -813,7 +835,7 @@
 			)
 			(5
 				(gGlory handsOff:)
-				(if (< [gEgoStats 17] (gEgo maxHealth:)) ; health
+				(if (< global264 (gEgo maxHealth:))
 					(sndChanges play:)
 					(gEgo get: 3) ; theHeals
 					(if (== local2 1)
@@ -826,7 +848,7 @@
 				)
 			)
 			(6
-				(if [gEgoStats 12] ; magic
+				(if global259
 					(if (== local2 2)
 						(self cue:)
 					else
@@ -880,18 +902,15 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				(= ticks 120)
-			)
-			(1
 				(gEgo posn: 222 124 setMotion: MoveTo 193 124 self)
 			)
-			(2
+			(1
 				(gEgo setMotion: PolyPath 138 120 self)
 			)
-			(3
+			(2
 				(gEgo setMotion: PolyPath 132 151 self)
 			)
-			(4
+			(3
 				(= local0 0)
 				(= local1 0)
 				(switch local2
@@ -967,13 +986,15 @@
 			(1
 				(cond
 					(local7
-						(gEgo useSkill: 11 200) ; climbing
 						(gMessager say: 4 33 0 0 self) ; "You catch the top of the gate with your grapnel and clamber up the rope. A few moments later, you slip over the gate and into town."
 					)
 					(local9
-						(gEgo useSkill: 11 200) ; climbing
-						(if (> [gEgoStats 11] 200) ; climbing
-							(gMessager say: 5 125 10 0 self) ; "You deftly slip over the gate and into town."
+						(if (> global258 200)
+							(if local8
+								(gMessager say: 6 4 4 0 self) ; "You climb up over the wall and into town."
+							else
+								(gMessager say: 5 125 10 0 self) ; "You deftly slip over the gate and into town."
+							)
 						else
 							(gMessager say: 4 4 7 0 self) ; "You're getting some good practice in climbing. You'll need to keep practicing before you'll be able to make it over this wall; it was built to keep monsters out of town."
 						)
@@ -992,7 +1013,7 @@
 				)
 			)
 			(3
-				(if (> [gEgoStats 11] 200) ; climbing
+				(if (> global258 200)
 					(= local6 (gEgo moveSpeed:))
 					(= local5 (gEgo cycleSpeed:))
 					(gEgo
@@ -1226,18 +1247,26 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
+				(= local5 (gEgo cycleSpeed:))
+				(sparklies init: setCycle: Fwd)
 				(gEgo
 					view: 17
 					setLoop: 1 1
-					setCel: 5
+					setCel: 6
 					posn: 187 14
+					setSpeed: 6
 					setPri: 75
 					setCycle: 0
+					useMana: 7
 					setMotion: MoveTo 179 93 self
 				)
 			)
 			(1
-				(gEgo normalize: useMana: 10)
+				(sparklies dispose:)
+				(gEgo view: 17 loop: 1 cel: 6 setPri: 75 setCycle: Beg self)
+			)
+			(2
+				(gEgo normalize: setSpeed: local5)
 				(switch local2
 					(1
 						(self setScript: sKatrinaGreets)
@@ -1270,13 +1299,14 @@
 			)
 			(1
 				(if (== local2 1)
-					(gMessager say: 16 128 58 0 self) ; "Say Goodbye"
+					(gMessager say: 5 128 58 0 self) ; "You say goodbye to the lovely peasant girl."
 				else
-					(gMessager say: 17 128 59 0 self) ; "Say Goodbye"
+					(gMessager say: 5 128 59 0 self) ; "You say goodbye to Katrina."
 				)
 			)
 			(2
-				(self setScript: sKatrinaWalksAway)
+				(gCurRoom setScript: sKatrinaWalksAway)
+				(self dispose:)
 			)
 		)
 	)
@@ -1324,36 +1354,8 @@
 		loop 2
 	)
 
-	(method (doVerb theVerb &tmp [temp0 2])
+	(method (doVerb theVerb)
 		(cond
-			(
-				(OneOf
-					theVerb
-					85 ; calmSpell
-					83 ; dazzleSpell
-					81 ; detectMagicSpell
-					87 ; fetchSpell
-					86 ; flameDartSpell
-					88 ; forceBoltSpell
-					79 ; frostSpell
-					102 ; healingSpell
-					91 ; jugglingLightsSpell
-					89 ; levitateSpell
-					93 ; lightningBallSpell
-					80 ; openSpell
-					90 ; reversalSpell
-					94 ; ritualSpell
-					92 ; summonStaffSpell
-					82 ; triggerSpell
-					84 ; zapSpell
-					95 ; invisibleSpell
-					96 ; auraSpell
-					97 ; protectionSpell
-					98 ; resistanceSpell
-					11 ; glideSpell
-				)
-				(gMessager say: 1 6 23) ; "Something about the young peasant girl makes all thought of magic swirl around in your head. You don't seem to be able to cast any of your spells."
-			)
 			((== theVerb 37) ; theThrowdagger
 				(if (== (gEgo has: 5) 1) ; theThrowdagger
 					(gMessager say: 1 6 60) ; "You are down to your last dagger. You'd better hold on to it."
@@ -1384,6 +1386,27 @@
 	(properties)
 )
 
+(instance sparklies of Prop
+	(properties
+		priority 182
+		fixPriority 1
+		view 17
+		loop 4
+		signal 16385
+	)
+
+	(method (init)
+		(self setScaler: gEgo)
+		(super init: &rest)
+	)
+
+	(method (doit)
+		(= x (gEgo x:))
+		(= y (gEgo y:))
+		(super doit: &rest)
+	)
+)
+
 (instance vRope of View
 	(properties
 		x 189
@@ -1408,7 +1431,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(fPump1 doVerb: theVerb)
+		(unknown_290_26 doVerb: theVerb)
 	)
 )
 
@@ -1426,11 +1449,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(fGate1 doVerb: theVerb)
+		(unknown_290_35 doVerb: theVerb)
 	)
 )
 
-(instance fPump1 of Feature
+(instance unknown_290_26 of Feature
 	(properties
 		noun 7
 		nsLeft 168
@@ -1457,7 +1480,7 @@
 	)
 )
 
-(instance fPump2 of Feature
+(instance unknown_290_27 of Feature
 	(properties
 		noun 7
 		nsLeft 192
@@ -1472,11 +1495,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(fPump1 doVerb: theVerb)
+		(unknown_290_26 doVerb: theVerb)
 	)
 )
 
-(instance fPump3 of Feature
+(instance unknown_290_28 of Feature
 	(properties
 		noun 7
 		nsLeft 231
@@ -1491,11 +1514,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(fPump1 doVerb: theVerb)
+		(unknown_290_26 doVerb: theVerb)
 	)
 )
 
-(instance fPump4 of Feature
+(instance unknown_290_29 of Feature
 	(properties
 		noun 7
 		nsLeft 253
@@ -1510,11 +1533,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(fPump1 doVerb: theVerb)
+		(unknown_290_26 doVerb: theVerb)
 	)
 )
 
-(instance fScarecrow of Feature
+(instance unknown_290_30 of Feature
 	(properties
 		noun 8
 		nsLeft 258
@@ -1541,7 +1564,7 @@
 	)
 )
 
-(instance fCorn1 of Feature
+(instance unknown_290_31 of Feature
 	(properties
 		noun 3
 		nsLeft 158
@@ -1577,7 +1600,7 @@
 				(if (gEgo has: 27) ; theCorn
 					(gMessager say: 3 4 5) ; "You have enough corn for now."
 				else
-					(gCurRoom setScript: (ScriptID 37) 0 fCorn1) ; castFetchScript
+					(gCurRoom setScript: (ScriptID 37) 0 unknown_290_31) ; castFetchScript
 				)
 			)
 			(-87 ; fetchSpell (part 2)
@@ -1590,7 +1613,7 @@
 	)
 )
 
-(instance fCorn2 of Feature
+(instance unknown_290_32 of Feature
 	(properties
 		noun 3
 		nsLeft 196
@@ -1605,21 +1628,34 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(if (gEgo has: 27) ; theCorn
-				(gMessager say: 3 4 5) ; "You have enough corn for now."
-			else
-				(= local0 179)
-				(= local1 138)
-				(gCurRoom setScript: sGetCorn)
+		(cond
+			((== theVerb 4) ; Do
+				(if (gEgo has: 27) ; theCorn
+					(gMessager say: 3 4 5) ; "You have enough corn for now."
+				else
+					(= local0 179)
+					(= local1 138)
+					(gCurRoom setScript: sGetCorn)
+				)
 			)
-		else
-			(fCorn1 doVerb: theVerb)
+			((== theVerb 87) ; fetchSpell
+				(if (gEgo has: 27) ; theCorn
+					(gMessager say: 3 4 5) ; "You have enough corn for now."
+				else
+					(gCurRoom setScript: (ScriptID 37) 0 unknown_290_32) ; castFetchScript
+				)
+			)
+			((== theVerb -87) ; fetchSpell (part 2)
+				(gMessager say: 3 87 0 0) ; "Since you're far too sophisticated a spellcaster to do something mundane like walking over to a corn stalk and picking an ear, you try the Fetch spell instead."
+			)
+			(else
+				(unknown_290_31 doVerb: theVerb)
+			)
 		)
 	)
 )
 
-(instance fCorn3 of Feature
+(instance unknown_290_33 of Feature
 	(properties
 		noun 3
 		nsLeft 218
@@ -1634,21 +1670,34 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(if (gEgo has: 27) ; theCorn
-				(gMessager say: 3 4 5) ; "You have enough corn for now."
-			else
-				(= local0 207)
-				(= local1 169)
-				(gCurRoom setScript: sGetCorn)
+		(cond
+			((== theVerb 4) ; Do
+				(if (gEgo has: 27) ; theCorn
+					(gMessager say: 3 4 5) ; "You have enough corn for now."
+				else
+					(= local0 207)
+					(= local1 169)
+					(gCurRoom setScript: sGetCorn)
+				)
 			)
-		else
-			(fCorn1 doVerb: theVerb)
+			((== theVerb 87) ; fetchSpell
+				(if (gEgo has: 27) ; theCorn
+					(gMessager say: 3 4 5) ; "You have enough corn for now."
+				else
+					(gCurRoom setScript: (ScriptID 37) 0 unknown_290_33) ; castFetchScript
+				)
+			)
+			((== theVerb -87) ; fetchSpell (part 2)
+				(gMessager say: 3 87 0 0) ; "Since you're far too sophisticated a spellcaster to do something mundane like walking over to a corn stalk and picking an ear, you try the Fetch spell instead."
+			)
+			(else
+				(unknown_290_31 doVerb: theVerb)
+			)
 		)
 	)
 )
 
-(instance fGully of Feature
+(instance unknown_290_34 of Feature
 	(properties
 		noun 9
 		nsLeft 211
@@ -1662,48 +1711,30 @@
 		y 121
 	)
 
-	(method (init)
-		(super init: &rest)
-		(if (== gPrevRoomNum 340)
-			(= heading
-				(((ScriptID 49 0) new:) ; doorMat
-					init:
-						((Polygon new:)
-							type: PNearestAccess
-							init: 215 114 204 123 163 121 171 113
-							yourself:
-						)
-						0
-						4
-						6
-						sToGully
-					yourself:
+	(method (doVerb theVerb)
+		(switch theVerb
+			(1 ; Look
+				(if gNight
+					(gMessager say: 9 1 4) ; "You can't see the bottom of the gully; it's dark down there."
+				else
+					(gMessager say: 9 1 3) ; "The bottom of the gully is filled with water from the Autumn storms."
 				)
 			)
-		)
-	)
-
-	(method (dispose)
-		(if (and (== gPrevRoomNum 340) heading)
-			(heading dispose:)
-		)
-		(super dispose: &rest)
-	)
-
-	(method (doVerb theVerb)
-		(if (== theVerb 1) ; Look
-			(if gNight
-				(gMessager say: 9 1 4) ; "You can't see the bottom of the gully; it's dark down there."
-			else
-				(gMessager say: 9 1 3) ; "The bottom of the gully is filled with water from the Autumn storms."
+			(4 ; Do
+				(if (== gPrevRoomNum 340)
+					(gCurRoom setScript: sToGully)
+				else
+					(gMessager say: 9 4 0) ; "There isn't anything useful down in the gully."
+				)
 			)
-		else
-			(super doVerb: theVerb)
+			(else
+				(super doVerb: theVerb)
+			)
 		)
 	)
 )
 
-(instance fGate1 of Feature
+(instance unknown_290_35 of Feature
 	(properties
 		noun 4
 		nsLeft 168
@@ -1740,7 +1771,8 @@
 			)
 			(4 ; Do
 				(if local9
-					(if (== (gEgo trySkill: 11 150) 1) ; climbing
+					(if (== (gEgo trySkill: 11 200) 1) ; climbing
+						(= local8 1)
 						(gCurRoom setScript: sClimbTheGate)
 					else
 						(gMessager say: 4 4 7) ; "You're getting some good practice in climbing. You'll need to keep practicing before you'll be able to make it over this wall; it was built to keep monsters out of town."
@@ -1763,7 +1795,7 @@
 	)
 )
 
-(instance fGate2 of Feature
+(instance unknown_290_36 of Feature
 	(properties
 		noun 4
 		nsLeft 166
@@ -1785,11 +1817,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(fGate1 doVerb: theVerb)
+		(unknown_290_35 doVerb: theVerb)
 	)
 )
 
-(instance fBridge1 of Feature
+(instance unknown_290_37 of Feature
 	(properties
 		noun 10
 		nsLeft 79
@@ -1816,7 +1848,7 @@
 	)
 )
 
-(instance fBridge2 of Feature
+(instance unknown_290_38 of Feature
 	(properties
 		noun 10
 		nsLeft 189
@@ -1831,11 +1863,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(fBridge1 doVerb: theVerb)
+		(unknown_290_37 doVerb: theVerb)
 	)
 )
 
-(instance fTowers of Feature
+(instance unknown_290_39 of Feature
 	(properties
 		noun 6
 		nsLeft 103
@@ -1849,13 +1881,6 @@
 		y 23
 	)
 
-	(method (init)
-		(super init:)
-		(if gNight
-			(= actions gateTeller)
-		)
-	)
-
 	(method (doVerb theVerb)
 		(switch theVerb
 			(1 ; Look
@@ -1867,15 +1892,20 @@
 			)
 			(33 ; theGrapnel
 				(if local9
-					(fGate1 doVerb: theVerb)
-					(= local7 1)
+					(if (== (gEgo trySkill: 11 150) 1) ; climbing
+						(= local7 1)
+						(gCurRoom setScript: sClimbTheGate)
+					else
+						(gMessager say: 4 4 7) ; "You're getting some good practice in climbing. You'll need to keep practicing before you'll be able to make it over this wall; it was built to keep monsters out of town."
+					)
 				else
-					(gMessager say: 6 4 3) ; "It's considered poor form to climb the town walls during the day. Try using the gate."
+					(gMessager say: 4 4 3) ; "It's considered poor form to climb the town walls during the day. Try using the gate."
 				)
 			)
 			(4 ; Do
 				(if local9
 					(if (== (gEgo trySkill: 11 200) 1) ; climbing
+						(= local8 1)
 						(gCurRoom setScript: sClimbTheGate)
 					else
 						(gMessager say: 4 4 7) ; "You're getting some good practice in climbing. You'll need to keep practicing before you'll be able to make it over this wall; it was built to keep monsters out of town."
@@ -1891,7 +1921,7 @@
 	)
 )
 
-(instance fRocks1 of Feature
+(instance unknown_290_40 of Feature
 	(properties
 		noun 11
 		nsLeft 32
@@ -1918,7 +1948,7 @@
 	)
 )
 
-(instance fRocks2 of Feature
+(instance unknown_290_41 of Feature
 	(properties
 		noun 11
 		nsLeft 247
@@ -1933,11 +1963,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(fRocks1 doVerb: theVerb)
+		(unknown_290_40 doVerb: theVerb)
 	)
 )
 
-(instance fStump of Feature
+(instance unknown_290_42 of Feature
 	(properties
 		noun 12
 		nsLeft 19
@@ -1980,7 +2010,7 @@
 	)
 )
 
-(instance fTreeTop of Feature
+(instance unknown_290_43 of Feature
 	(properties
 		noun 13
 		nsTop -1
@@ -2006,7 +2036,7 @@
 	)
 )
 
-(instance fTree2 of Feature
+(instance unknown_290_44 of Feature
 	(properties
 		noun 13
 		nsTop 46
@@ -2020,17 +2050,13 @@
 	)
 
 	(method (doVerb theVerb)
-		(fTreeTop doVerb: theVerb)
+		(unknown_290_43 doVerb: theVerb)
 	)
 )
 
 (instance gateTeller of Teller
 	(properties
 		actionVerb 4
-	)
-
-	(method (showCases)
-		(super showCases: 10 (> [gEgoStats 11] 0)) ; Climb Over Gate, climbing
 	)
 
 	(method (sayMessage)
@@ -2054,6 +2080,10 @@
 			)
 		)
 	)
+
+	(method (showCases)
+		(super showCases: 10 (> global258 0)) ; Climb Over Gate
+	)
 )
 
 (instance katrinaTeller of Teller
@@ -2067,10 +2097,6 @@
 		(= talker (ScriptID 95 0)) ; katrinaHoodTalker
 	)
 
-	(method (showCases)
-		(super showCases: 28 (> [gEgoStats 12] 0)) ; Magic, magic
-	)
-
 	(method (sayMessage)
 		(if (== local3 3)
 			(self clean:)
@@ -2079,6 +2105,10 @@
 			(++ local3)
 			(super sayMessage: &rest)
 		)
+	)
+
+	(method (showCases)
+		(super showCases: 28 (> global259 0)) ; Magic
 	)
 )
 
@@ -2093,10 +2123,6 @@
 		(= talker (ScriptID 95 0)) ; katrinaHoodTalker
 	)
 
-	(method (showCases)
-		(super showCases: 28 (> [gEgoStats 12] 0)) ; magic
-	)
-
 	(method (sayMessage)
 		(if (== local3 3)
 			(self clean:)
@@ -2105,6 +2131,10 @@
 			(++ local3)
 			(super sayMessage: &rest)
 		)
+	)
+
+	(method (showCases)
+		(super showCases: 28 (> global259 0))
 	)
 )
 

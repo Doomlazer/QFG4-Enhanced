@@ -5,7 +5,7 @@
 (use Main)
 (use GloryRm)
 (use TargFeature)
-(use DeathIcon)
+(use DeathControls)
 (use Array)
 (use Scaler)
 (use PolyPath)
@@ -355,7 +355,7 @@
 		signal 26624
 		cycleSpeed 12
 		illegalBits 0
-		moveSpeed 0
+		moveSpeed 2
 		dead 0
 	)
 
@@ -840,13 +840,13 @@
 		(self setLoop: param1 1)
 		(if (< argc 2)
 			(self
-				x: temp0
 				y: temp1
 				moveSpeed: (Random 0 3)
 				cycleSpeed: 3
 				signal: (| (self signal:) $0001)
 				setScaler: Scaler 100 60 125 65
 				setCycle: Fwd
+				moveSpeed: 2
 				setMotion:
 					MoveTo
 					(+ temp0 (- 10 (Random 5 15)))
@@ -1203,7 +1203,7 @@
 				(gEgo hide:)
 			)
 			(3
-				(= cycles 12)
+				(= ticks 24)
 			)
 			(4
 				(EgoDead 23)
@@ -1231,7 +1231,7 @@
 		loop 6
 		signal 26624
 		origStep 20560
-		moveSpeed 0
+		moveSpeed 2
 	)
 )
 

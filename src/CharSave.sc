@@ -51,6 +51,7 @@
 	)
 
 	(method (init)
+		(gGlory setCursor: gNormalCursor)
 		(super init: &rest)
 		(= local64 (Str new:))
 		(= local65 (Str new:))

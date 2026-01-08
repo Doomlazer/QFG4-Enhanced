@@ -5,9 +5,11 @@
 (use Main)
 (use GloryRm)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use GloryTalker)
 (use Interface)
+(use Str)
+(use Print)
 (use Scaler)
 (use PolyPath)
 (use Polygon)
@@ -21,7 +23,7 @@
 (public
 	rm520 0
 	rusalkaTalkerYoung 1
-	rusalkaTalkerOld 2
+	unknown_520_38 2
 )
 
 (local
@@ -30,6 +32,7 @@
 	local2
 	local3
 	local4
+	local5
 )
 
 (instance rm520 of GloryRm
@@ -62,7 +65,7 @@
 						(and
 							(IsFlag 116)
 							(IsFlag 312)
-							(not (IsFlag 227))
+							(not (IsFlag 228))
 							(== gHeroType 3) ; Paladin
 						)
 						4
@@ -91,43 +94,74 @@
 					yourself:
 				)
 		)
-		(fBigTree init: approachVerbs: 4) ; Do
-		(fFlowers init: approachVerbs: 4) ; Do
-		(fSmallRock init: approachVerbs: 4) ; Do
-		(fBigRock init: approachVerbs: 4) ; Do
-		(fLilyPads init: approachVerbs: 4) ; Do
-		(fReflection init: approachVerbs: 4) ; Do
-		(fTrees init: approachVerbs: 4) ; Do
-		(fSky init: approachVerbs: 4) ; Do
-		(fLake1 init: approachVerbs: 4) ; Do
-		(fLake2 init: approachVerbs: 4) ; Do
+		(unknown_520_16 init: approachVerbs: 4) ; Do
+		(unknown_520_17 init: approachVerbs: 4) ; Do
+		(unknown_520_18 init: approachVerbs: 4) ; Do
+		(unknown_520_19 init: approachVerbs: 4) ; Do
+		(unknown_520_20 init: approachVerbs: 4) ; Do
+		(unknown_520_21 init: approachVerbs: 4) ; Do
+		(unknown_520_22 init: approachVerbs: 4) ; Do
+		(unknown_520_23 init: approachVerbs: 4) ; Do
+		(unknown_520_24 init: approachVerbs: 4) ; Do
+		(unknown_520_25 init: approachVerbs: 4) ; Do
 		(gCurRoom setScript: sComeOnIn)
 		(gGlory save: 1)
-	)
-
-	(method (doVerb theVerb)
-		(if (OneOf theVerb 83 87 86 88 79 11 91 93 21 36 37 82 84) ; dazzleSpell, fetchSpell, flameDartSpell, forceBoltSpell, frostSpell, glideSpell, jugglingLightsSpell, lightningBallSpell, theRocks, theSword, theThrowdagger, triggerSpell, zapSpell
-			(cond
-				(local3
-					(aRusalka setScript: sGoUnder)
-				)
-				((== theVerb 11) ; glideSpell
-					(gMessager say: 0 11 0) ; "The lake looks very calm... but also somehow deadly. It would be wise not to practice your Glide spell here."
-					(return 1)
-				)
-				(else
-					(gMessager say: 1 37 0 0) ; "This isn't a good place to do that."
-					(return 1)
-				)
-			)
-		else
-			(super doVerb: theVerb)
-		)
 	)
 
 	(method (dispose)
 		(gLongSong fade: 0)
 		(super dispose:)
+	)
+
+	(method (doVerb theVerb)
+		(cond
+			((OneOf theVerb 83 87 86 88 79 11 91 93 21 36 37 82 84) ; dazzleSpell, fetchSpell, flameDartSpell, forceBoltSpell, frostSpell, glideSpell, jugglingLightsSpell, lightningBallSpell, theRocks, theSword, theThrowdagger, triggerSpell, zapSpell
+				(cond
+					(local3
+						(aRusalka setScript: sGoUnder)
+					)
+					((== theVerb 11) ; glideSpell
+						(gMessager say: 0 11 0) ; "The lake looks very calm... but also somehow deadly. It would be wise not to practice your Glide spell here."
+						(return 1)
+					)
+					((and (== theVerb 37) (== (gEgo has: 5) 1)) ; theThrowdagger, theThrowdagger
+						(gMessager say: 12 6 70) ; "You are down to your last dagger. You'd better hold on to it."
+						(return 1)
+					)
+					(else
+						(gMessager say: 1 37 0 0) ; "This isn't a good place to do that."
+						(return 1)
+					)
+				)
+			)
+			((== theVerb 10) ; Jump
+				(gMessager say: 0 159 0) ; "You don't see a diving board."
+				(return 1)
+			)
+			((== theVerb 14) ; theBonsai
+				(gMessager say: 0 14 0) ; "The ground is too rocky and alkaline for the bush to thrive here."
+				(return 1)
+			)
+			((== theVerb 25) ; theWater
+				(gMessager say: 0 25 0) ; "There's plenty here already."
+				(return 1)
+			)
+			((== theVerb 59) ; theFlowers
+				(gMessager say: 0 59 0) ; "Try giving those to someone who might appreciate them."
+				(return 1)
+			)
+			((== theVerb 81) ; detectMagicSpell
+				(if (gCast contains: aRusalka)
+					(gMessager say: 0 81 0) ; "Only the woman in the lake is magical. Her enchantment seems to be a mixture of water and death magic."
+				else
+					(gMessager say: 0 0 1 0 0 12) ; "You sense no magic in this area."
+				)
+				(return 1)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
 	)
 )
 
@@ -572,6 +606,42 @@
 	)
 )
 
+(instance sGiveFlowers of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gGlory handsOff:)
+				(aRusalka setScript: 0)
+				(gEgo use: 40 1 addHonor: 5) ; theFlowers
+				(SetFlag 312)
+				(rusalkaTeller dispose:)
+				(heroTeller dispose:)
+				(rusalkaTeller init: aRusalka 520 20 172 19)
+				(heroTeller init: gEgo 520 20 128 19)
+				(= cycles 1)
+			)
+			(1
+				(= local5 (Str new:))
+				(Message msgGET 520 2 59 0 1 (local5 data:)) ; "You give the Rusalka some of the lovely flowers."
+				(Print addText: (local5 data:) y: 165 init: self)
+			)
+			(2
+				(local5 dispose:)
+				(gMessager say: 2 59 0 2 self) ; "Thank you for the beautiful flowers. No one has been so nice to me since I can remember."
+			)
+			(3
+				(gMessager say: 2 59 0 3 self) ; "I guess I shouldn't try to drown you now, since you've been so kind."
+			)
+			(4
+				(gGlory handsOn:)
+				(self dispose:)
+			)
+		)
+	)
+)
+
 (instance aRusalka of Actor
 	(properties
 		noun 2
@@ -613,45 +683,58 @@
 				)
 			)
 			(23 ; theCandy
-				(gEgo solvePuzzle: 444 6)
-				(if (IsFlag 312)
-					(gEgo addHonor: 5)
-					(gMessager say: 2 23 68) ; "That's really very nice of you, but I've been told that too much candy is bad for you."
-				else
-					(aRusalka setScript: 0)
-					(gEgo use: 8 1) ; theCandy
-					(SetFlag 312)
-					(rusalkaTeller dispose:)
-					(heroTeller dispose:)
-					(rusalkaTeller init: aRusalka 520 20 172 19)
-					(heroTeller init: gEgo 520 20 128 19)
-					(gMessager say: 2 23 0 0) ; "You offer the Rusalka some of the candy you purchased in town."
+				(if (not (IsFlag 228))
+					(gEgo solvePuzzle: 444 6)
+					(if (IsFlag 312)
+						(gEgo use: 8 1 addHonor: 5) ; theCandy
+						(gMessager say: 2 23 68) ; "That's really very nice of you, but I've been told that too much candy is bad for you."
+					else
+						(aRusalka setScript: 0)
+						(gEgo use: 8 1 addHonor: 5) ; theCandy
+						(SetFlag 312)
+						(rusalkaTeller dispose:)
+						(heroTeller dispose:)
+						(rusalkaTeller init: aRusalka 520 20 172 19)
+						(heroTeller init: gEgo 520 20 128 19)
+						(gMessager say: 2 23 0 0) ; "You offer the Rusalka some of the candy you purchased in town."
+					)
 				)
 			)
 			(59 ; theFlowers
-				(gEgo solvePuzzle: 444 6)
-				(if (IsFlag 312)
-					(gEgo addHonor: 5)
-					(gMessager say: 2 59 68) ; "Thank you. That's really very sweet. You are the kindest man I know."
-				else
-					(aRusalka setScript: 0)
-					(gEgo use: 40 1) ; theFlowers
-					(SetFlag 312)
-					(rusalkaTeller dispose:)
-					(heroTeller dispose:)
-					(rusalkaTeller init: aRusalka 520 20 172 19)
-					(heroTeller init: gEgo 520 20 128 19)
-					(gMessager say: 2 59 0 0) ; "I guess I shouldn't try to drown you now, since you've been so kind."
+				(if (not (IsFlag 228))
+					(gEgo solvePuzzle: 444 6)
+					(if (IsFlag 312)
+						(gEgo use: 40 1 addHonor: 5) ; theFlowers
+						(gMessager say: 2 59 68) ; "Thank you. That's really very sweet. You are the kindest man I know."
+					else
+						(gCurRoom setScript: sGiveFlowers)
+					)
+				)
+			)
+			(19 ; theRations
+				(if (not (IsFlag 228))
+					(gMessager say: 2 19 0) ; "Garlic and avocado? Oh, yuck!"
+				)
+			)
+			(56 ; theAmulet
+				(gMessager say: 0 56 0) ; "The water spirit won't be able to drain your life, but that probably won't help you much while she's drowning you!"
+			)
+			(58 ; theBroom
+				(gMessager say: 0 58 0) ; "You think the broom may have something to do with the Rusalka, but this isn't the place to use it."
+			)
+			(60 ; theWillowisp
+				(if (not (IsFlag 228))
+					(gMessager say: 0 60 0) ; "Oh, you've got a Will o' Wisp! Make sure you free it before daylight, or it will perish."
 				)
 			)
 			(else
-				(super doVerb: theVerb)
+				(super doVerb: theVerb &rest)
 			)
 		)
 	)
 )
 
-(instance fBigTree of Feature
+(instance unknown_520_16 of Feature
 	(properties
 		noun 3
 		nsLeft 262
@@ -691,7 +774,7 @@
 	)
 )
 
-(instance fFlowers of Feature
+(instance unknown_520_17 of Feature
 	(properties
 		noun 4
 		nsLeft 220
@@ -704,7 +787,7 @@
 	)
 )
 
-(instance fSmallRock of Feature
+(instance unknown_520_18 of Feature
 	(properties
 		noun 5
 		nsLeft 151
@@ -717,7 +800,7 @@
 	)
 )
 
-(instance fBigRock of Feature
+(instance unknown_520_19 of Feature
 	(properties
 		noun 6
 		nsLeft 269
@@ -728,35 +811,9 @@
 		x 294
 		y 153
 	)
-
-	(method (init)
-		(super init: &rest)
-		(= heading
-			(((ScriptID 49 0) new:) ; doorMat
-				init:
-					((Polygon new:)
-						type: PNearestAccess
-						init: 103 126 170 126 167 133 96 133
-						yourself:
-					)
-					2
-					4
-					5
-					sDies
-				yourself:
-			)
-		)
-	)
-
-	(method (dispose)
-		(if heading
-			(heading dispose:)
-		)
-		(super dispose: &rest)
-	)
 )
 
-(instance fLilyPads of Feature
+(instance unknown_520_20 of Feature
 	(properties
 		noun 7
 		nsTop 136
@@ -768,7 +825,7 @@
 	)
 )
 
-(instance fReflection of Feature
+(instance unknown_520_21 of Feature
 	(properties
 		noun 8
 		nsTop 69
@@ -780,7 +837,7 @@
 	)
 )
 
-(instance fTrees of Feature
+(instance unknown_520_22 of Feature
 	(properties
 		noun 9
 		nsTop 22
@@ -794,7 +851,7 @@
 	)
 )
 
-(instance fSky of Feature
+(instance unknown_520_23 of Feature
 	(properties
 		noun 10
 		nsRight 262
@@ -807,7 +864,7 @@
 	)
 )
 
-(instance fLake1 of Feature
+(instance unknown_520_24 of Feature
 	(properties
 		noun 11
 		nsTop 101
@@ -819,7 +876,7 @@
 	)
 )
 
-(instance fLake2 of Feature
+(instance unknown_520_25 of Feature
 	(properties
 		noun 11
 		nsLeft 63
@@ -834,6 +891,11 @@
 	(method (init)
 		(super init: &rest)
 		(gWalkHandler addToFront: self)
+	)
+
+	(method (dispose)
+		(gWalkHandler delete: self)
+		(super dispose:)
 	)
 
 	(method (doVerb theVerb)
@@ -860,11 +922,6 @@
 			(super doVerb: theVerb)
 		)
 	)
-
-	(method (dispose)
-		(gWalkHandler delete: self)
-		(super dispose:)
-	)
 )
 
 (instance rusalkaTeller of Teller
@@ -876,7 +933,7 @@
 	(method (init)
 		(super init: &rest)
 		(if (== local0 6)
-			(= talker rusalkaTalkerOld)
+			(= talker unknown_520_38)
 		else
 			(= talker rusalkaTalkerYoung)
 		)
@@ -1006,7 +1063,7 @@
 	)
 )
 
-(instance rusalkaTalkerOld of GloryTalker
+(instance unknown_520_38 of GloryTalker
 	(properties
 		x 124
 		y 1

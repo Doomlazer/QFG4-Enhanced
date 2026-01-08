@@ -6,7 +6,7 @@
 (use GloryRm)
 (use DistObj)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use Scaler)
 (use Polygon)
 (use Feature)
@@ -153,18 +153,18 @@
 		)
 		(shield init: approachVerbs: 4) ; Do
 		(if (IsFlag 43)
-			(shield setCel: 1)
+			(shield setCel: 1 noun: 5)
 		)
-		(bedroomDoor init: approachVerbs: 4) ; Do
-		(chair init: approachVerbs: 4) ; Do
-		(desk init: approachVerbs: 4 42 28 80) ; Do, theToolkit, theLockpick, openSpell
-		(cellDoor init: approachVerbs: 4 29 42 28 80) ; Do, theKeyRing, theToolkit, theLockpick, openSpell
-		(stairs init: approachVerbs: 4) ; Do
-		(spears init: approachVerbs: 4) ; Do
-		(burgoWindow init: approachVerbs: 4) ; Do
-		(mainDoor init: approachVerbs: 4) ; Do
+		(unknown_300_19 init: approachVerbs: 4) ; Do
+		(unknown_300_20 init: approachVerbs: 4) ; Do
+		(unknown_300_21 init: approachVerbs: 4 42 28 80) ; Do, theToolkit, theLockpick, openSpell
+		(unknown_300_22 init: approachVerbs: 4 29 42 28 80) ; Do, theKeyRing, theToolkit, theLockpick, openSpell
+		(unknown_300_23 init: approachVerbs: 4) ; Do
+		(unknown_300_24 init: approachVerbs: 4) ; Do
+		(unknown_300_25 init: approachVerbs: 4) ; Do
+		(unknown_300_18 init: approachVerbs: 4) ; Do
 		(if (IsFlag 70)
-			(mainDoor cel: 0)
+			(unknown_300_18 cel: 0)
 		)
 		(if (OneOf local0 4 5 6)
 			(gypsy init: approachVerbs: 4 2 29 42 28 80) ; Do, Talk, theKeyRing, theToolkit, theLockpick, openSpell
@@ -205,6 +205,12 @@
 		)
 	)
 
+	(method (dispose)
+		(DisposeScript 9)
+		(heroTeller dispose:)
+		(super dispose: &rest)
+	)
+
 	(method (doVerb theVerb)
 		(switch theVerb
 			(81 ; detectMagicSpell
@@ -227,10 +233,21 @@
 					(super doVerb: theVerb &rest)
 				)
 			)
+			(104 ; Sleep all night
+				(gMessager say: 0 104 0) ; "Oh, you'll get a chance to sleep here if the Burgomeister catches you committing any crimes!"
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "Are you trying to "jump bail"?"
+			)
 			(else
 				(super doVerb: theVerb &rest)
 			)
 		)
+	)
+
+	(method (newRoom)
+		(gLongSong fade: 0)
+		(super newRoom: &rest)
 	)
 
 	(method (leaveRoom)
@@ -268,17 +285,6 @@
 			)
 		)
 	)
-
-	(method (newRoom)
-		(gLongSong fade: 0)
-		(super newRoom: &rest)
-	)
-
-	(method (dispose)
-		(DisposeScript 9)
-		(heroTeller dispose:)
-		(super dispose: &rest)
-	)
 )
 
 (instance sEnterScr of Script
@@ -294,13 +300,21 @@
 				(gEgo setMotion: MoveTo 279 184 self)
 			)
 			(2
-				(mainDoor setCycle: Beg self)
+				(if (not (IsFlag 357))
+					(SetFlag 357)
+					(gMessager say: 11 6 1 1 self) ; "You've entered the Burgomeister's sparsely-appointed office. The scanty light filtering in through the open window casts grim shadows on the room's scant furnishings."
+				else
+					(= cycles 1)
+				)
 			)
 			(3
+				(unknown_300_18 setCycle: Beg self)
+			)
+			(4
 				(gLongSong2 number: 961 loop: 1 play:)
 				(= seconds 1)
 			)
-			(4
+			(5
 				(switch local0
 					(1
 						(gMessager say: 15 6 14 0 self) ; "This is my office. What are you looking for?"
@@ -330,7 +344,7 @@
 					)
 				)
 			)
-			(5
+			(6
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -348,7 +362,6 @@
 				(= cycles 2)
 			)
 			(1
-				(SetFlag 358)
 				(ClearFlag 70)
 				(= local1 (gEgo cycleSpeed:))
 				(gEgo cycleSpeed: 9 setCycle: Beg self)
@@ -364,6 +377,14 @@
 				)
 			)
 			(3
+				(if (not (IsFlag 358))
+					(SetFlag 358)
+					(gMessager say: 11 6 1 2 self) ; "The place looks dark and grim at night. It reminds you of the Burgomeister in that way."
+				else
+					(= cycles 1)
+				)
+			)
+			(4
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -450,7 +471,7 @@
 				(= cycles 1)
 			)
 			(1
-				(mainDoor setCycle: End self)
+				(unknown_300_18 setCycle: End self)
 			)
 			(2
 				(gLongSong2 number: 960 loop: 1 play:)
@@ -502,11 +523,11 @@
 				(gMessager say: 15 6 34 0 self) ; "That is the sword of my grandfather, Piotyr. I do not know how I can tell, but somehow I am sure of it. He was supposed to have deserted my grandmother. This means Piotyr did not run off. He was killed instead."
 			)
 			(1
-				(shield setCel: 1)
+				(shield noun: 5 setCel: 1)
 				(SetFlag 43)
 				(gEgo addHonor: 250)
 				(gEgo solvePuzzle: 529 15 8)
-				((gInventory at: 18) state: 1) ; theShield
+				((gInventory at: 18) state: 1 loop: 8 cel: 13) ; theShield
 				((burgoMeister actions:) dispose:)
 				((gEgo actions:) dispose:)
 				(= cycles 2)
@@ -549,16 +570,13 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(= seconds 3)
 			)
 			(1
-				1
 				(burgoMeister setLoop: 1 1)
 				(= seconds (Random 2 8))
 			)
 			(2
-				2
 				(burgoMeister
 					setCel:
 						(if (== (burgoMeister cel:) 3)
@@ -573,11 +591,9 @@
 				(= cycles 1)
 			)
 			(3
-				3
 				(self changeState: 0)
 			)
 			(4
-				4
 				(= local2 (= state 0))
 				(burgoMeister setLoop: 2 1 setCycle: End self)
 			)
@@ -604,18 +620,6 @@
 (instance heroTeller of Teller
 	(properties)
 
-	(method (showCases)
-		(super
-			showCases:
-				34 ; Tell About Sword
-				(and
-					(not (IsFlag 43))
-					(gEgo has: 19) ; theSword
-					(== ((gInventory at: 19) state:) 3) ; theSword
-				)
-		)
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(34 ; Tell About Sword
@@ -625,6 +629,18 @@
 			(else
 				(super sayMessage: &rest)
 			)
+		)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				34 ; Tell About Sword
+				(if (and (not (IsFlag 43)) (gEgo has: 19)) ; theSword
+					(== ((gInventory at: 19) state:) 3) ; theSword
+				else
+					0
+				)
 		)
 	)
 )
@@ -692,16 +708,6 @@
 		(= talker (ScriptID 65 0)) ; burgoTalker
 	)
 
-	(method (showCases)
-		(super
-			showCases:
-				55 ; Adventurers' Guild
-				(and (OneOf local0 2 3) (not (IsFlag 183)))
-				56 ; Adventurers' Guild
-				(and (OneOf local0 2 3) (IsFlag 183))
-		)
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(55 ; Adventurers' Guild
@@ -710,6 +716,24 @@
 			)
 		)
 		(super sayMessage: &rest)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				55 ; Adventurers' Guild
+				(if (OneOf local0 2 3)
+					(not (IsFlag 183))
+				else
+					0
+				)
+				56 ; Adventurers' Guild
+				(if (OneOf local0 2 3)
+					(IsFlag 183)
+				else
+					0
+				)
+		)
 	)
 )
 
@@ -755,7 +779,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(cellDoor doVerb: theVerb &rest)
+		(unknown_300_22 doVerb: theVerb &rest)
 	)
 )
 
@@ -863,7 +887,7 @@
 	)
 )
 
-(instance mainDoor of Prop
+(instance unknown_300_18 of Prop
 	(properties
 		noun 10
 		nsLeft 293
@@ -904,6 +928,13 @@
 		)
 	)
 
+	(method (dispose)
+		(if heading
+			(heading dispose:)
+		)
+		(super dispose: &rest)
+	)
+
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
@@ -914,16 +945,9 @@
 			)
 		)
 	)
-
-	(method (dispose)
-		(if heading
-			(heading dispose:)
-		)
-		(super dispose: &rest)
-	)
 )
 
-(instance bedroomDoor of Feature
+(instance unknown_300_19 of Feature
 	(properties
 		noun 1
 		nsLeft 5
@@ -941,7 +965,7 @@
 	)
 )
 
-(instance chair of Feature
+(instance unknown_300_20 of Feature
 	(properties
 		noun 3
 		nsLeft 54
@@ -954,7 +978,7 @@
 	)
 )
 
-(instance desk of Feature
+(instance unknown_300_21 of Feature
 	(properties
 		noun 4
 		nsLeft 72
@@ -1036,7 +1060,7 @@
 	)
 )
 
-(instance cellDoor of Feature
+(instance unknown_300_22 of Feature
 	(properties
 		noun 6
 		nsLeft 116
@@ -1083,6 +1107,8 @@
 				)
 			)
 			((== theVerb -80) ; openSpell (part 2)
+				(gCurRoom setScript: 0)
+				(gGlory handsOn:)
 				(if (== local0 6)
 					(gMessager say: 6 80 10) ; "Your Open spell unlocks the cell door."
 					(gCurRoom setScript: sLetGypsyOut)
@@ -1097,7 +1123,7 @@
 	)
 )
 
-(instance stairs of Feature
+(instance unknown_300_23 of Feature
 	(properties
 		noun 7
 		nsTop 123
@@ -1109,7 +1135,7 @@
 	)
 )
 
-(instance spears of Feature
+(instance unknown_300_24 of Feature
 	(properties
 		noun 8
 		nsLeft 188
@@ -1124,7 +1150,7 @@
 	)
 )
 
-(instance burgoWindow of Feature
+(instance unknown_300_25 of Feature
 	(properties
 		noun 9
 		nsLeft 261

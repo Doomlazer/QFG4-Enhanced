@@ -5,7 +5,7 @@
 (use Main)
 (use GloryRm)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use OccCyc)
 (use Array)
 (use Scaler)
@@ -98,7 +98,7 @@
 					15
 				)
 				((and (not (IsFlag 127)) (OneOf gTime 4 5)) 2)
-				((and (>= gTime 6) (not (IsFlag 128)) (not (IsFlag 136))) 3)
+				((and (>= gTime 6) (not (IsFlag 128))) 3)
 				(
 					(and
 						(IsFlag 127)
@@ -170,32 +170,32 @@
 				)
 			)
 		)
-		(innkeepDoor init: approachVerbs: 4) ; Do
+		(unknown_320_40 init: approachVerbs: 4) ; Do
 		(railing init: approachVerbs: 4) ; Do
-		((ScriptID 325 0) init: approachVerbs: 4) ; barrel, Do
-		((ScriptID 325 1) init: approachVerbs: 4) ; stool, Do
-		((ScriptID 325 2) init: approachVerbs: 4) ; chair1, Do
-		((ScriptID 325 3) init: approachVerbs: 4) ; chair2, Do
-		((ScriptID 325 4) init: approachVerbs: 4) ; chair3, Do
-		(chair4 init:)
-		((ScriptID 325 5) init: approachVerbs: 4) ; leftTable, Do
-		((ScriptID 325 6) init: approachVerbs: 4) ; rightTable, Do
-		((ScriptID 325 7) init: approachVerbs: 4) ; firePlace, Do
-		((ScriptID 325 8) init: approachVerbs: 4) ; chandelier1, Do
-		((ScriptID 325 9) init: approachVerbs: 4) ; chandelier2, Do
-		((ScriptID 325 10) init: approachVerbs: 4) ; boarHead, Do
-		((ScriptID 325 11) init: approachVerbs: 4) ; plates, Do
-		((ScriptID 325 12) init: approachVerbs: 4) ; garlic1, Do
-		(cabinet init: approachVerbs: 4 1) ; Do, Look
-		((ScriptID 325 13) init: approachVerbs: 4) ; ashPot, Do
+		((ScriptID 325 0) init: approachVerbs: 4) ; unknown_325_0, Do
+		((ScriptID 325 1) init: approachVerbs: 4) ; unknown_325_1, Do
+		((ScriptID 325 2) init: approachVerbs: 4) ; unknown_325_2, Do
+		((ScriptID 325 3) init: approachVerbs: 4) ; unknown_325_3, Do
+		((ScriptID 325 4) init: approachVerbs: 4) ; unknown_325_4, Do
+		(unknown_320_38 init:)
+		((ScriptID 325 5) init: approachVerbs: 4) ; unknown_325_5, Do
+		((ScriptID 325 6) init: approachVerbs: 4) ; unknown_325_6, Do
+		((ScriptID 325 7) init: approachVerbs: 4) ; unknown_325_7, Do
+		((ScriptID 325 8) init: approachVerbs: 4) ; unknown_325_8, Do
+		((ScriptID 325 9) init: approachVerbs: 4) ; unknown_325_9, Do
+		((ScriptID 325 10) init: approachVerbs: 4) ; unknown_325_10, Do
+		((ScriptID 325 11) init: approachVerbs: 4) ; unknown_325_11, Do
+		((ScriptID 325 12) init: approachVerbs: 4) ; unknown_325_12, Do
+		(unknown_320_39 init: approachVerbs: 4 1) ; Do, Look
+		((ScriptID 325 13) init: approachVerbs: 4) ; unknown_325_13, Do
 		(bedroomDoor init: approachVerbs: 4) ; Do
-		((ScriptID 325 14) init: approachVerbs: 4) ; door2, Do
+		((ScriptID 325 14) init: approachVerbs: 4) ; unknown_325_14, Do
 		(gnomeDoor init: approachVerbs: 4 28 42) ; Do, theLockpick, theToolkit
-		((ScriptID 325 15) init: approachVerbs: 4) ; pillar1, Do
-		((ScriptID 325 16) init: approachVerbs: 4) ; pillar2, Do
-		((ScriptID 325 17) init: approachVerbs: 4) ; garlic2, Do
-		((ScriptID 325 18) init: approachVerbs: 4) ; garlic3, Do
-		((ScriptID 325 19) init: approachVerbs: 4) ; garlic4, Do
+		((ScriptID 325 15) init: approachVerbs: 4) ; unknown_325_15, Do
+		((ScriptID 325 16) init: approachVerbs: 4) ; unknown_325_16, Do
+		((ScriptID 325 17) init: approachVerbs: 4) ; unknown_325_17, Do
+		((ScriptID 325 18) init: approachVerbs: 4) ; unknown_325_18, Do
+		((ScriptID 325 19) init: approachVerbs: 4) ; unknown_325_19, Do
 		(fire init: setCycle: Fwd)
 		(fireplaceSlab init: setCycle: Fwd)
 		(woodFloor init: setCycle: Fwd)
@@ -287,6 +287,19 @@
 		(super doit: &rest)
 	)
 
+	(method (dispose)
+		(PalVary 3) ; PalVaryKill
+		(DisposeScript 321)
+		(DisposeScript 322)
+		(DisposeScript 323)
+		(DisposeScript 324)
+		(DisposeScript 325)
+		(gWalkHandler delete: self)
+		(local8 dispose:)
+		(local9 dispose:)
+		(super dispose: &rest)
+	)
+
 	(method (doVerb theVerb)
 		(switch theVerb
 			(3 ; Walk
@@ -301,23 +314,16 @@
 					(gEgo setMotion: PolyPath gMouseX (- gMouseY 10))
 				)
 			)
+			(81 ; detectMagicSpell
+				(gMessager say: 0 81 0) ; "The only magic you sense here is coming from the door of the last room at the top of the stairs."
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "Usually folks around here don't start jumping on the tables until they've had a bit more to drink."
+			)
 			(else
 				(super doVerb: theVerb)
 			)
 		)
-	)
-
-	(method (dispose)
-		(PalVary 3) ; PalVaryKill
-		(DisposeScript 321)
-		(DisposeScript 322)
-		(DisposeScript 323)
-		(DisposeScript 324)
-		(DisposeScript 325)
-		(gWalkHandler delete: self)
-		(local8 dispose:)
-		(local9 dispose:)
-		(super dispose: &rest)
 	)
 )
 
@@ -365,7 +371,15 @@
 						(= local7
 							(/ (+ (* (+ (- gDay global469) 1) 15) 99) 100)
 						)
-						(> local7 global468)
+						(>
+							(= local7
+								(/
+									(+ (* (+ (- gDay global469) 1) 15) 99)
+									100
+								)
+							)
+							global468
+						)
 						(gCast contains: innKeeper)
 						(or (>= ((gInventory at: 0) amount:) 1) (>= global395 100)) ; thePurse
 					)
@@ -797,7 +811,6 @@
 				)
 			)
 			(4
-				4
 				(if (== local2 4)
 					(gMessager say: 25 6 36 0 self) ; "Whew! The Gnome has stopped speaking. Maybe he's finished telling his joke. You think about applauding, but you're not quite sure if you've heard the punchline yet."
 				else
@@ -1227,15 +1240,14 @@
 			(2
 				2
 				(cond
-					((<= 4 gTime 5)
+					((and (<= 4 gTime) (<= 2 5))
 						(self changeState: 3)
 					)
-					((<= 6 gTime 7)
+					((and (<= 6 gTime) (<= gTime 7))
 						(if (gCast contains: innKeeper)
 							(self changeState: 3)
 						else
-							(= state 6)
-							(gMessager say: 22 6 16 0 self) ; "You've never seen so many locks and bars on a door; you can't find any way to open it."
+							(gMessager say: 22 (= state 6) 16 0 self)
 						)
 					)
 					(else
@@ -1252,7 +1264,6 @@
 				(gMessager say: 12 6 100 0 self) ; "It is very dangerous in Mordavia at night. We always keep things locked up when it gets dark. I will let you out for now."
 			)
 			(5
-				5
 				(if (== local2 5)
 					(self setScript: sGnomeLeaves self)
 				else
@@ -1291,7 +1302,7 @@
 				)
 				(+= global468 local7)
 				(= global469 gDay)
-				(gEgo setMotion: PolyPath 186 183 self)
+				(gEgo get: 59 setMotion: PolyPath 186 183 self) ; invSelect
 			)
 			(1
 				(gEgo setHeading: 0 self)
@@ -1356,10 +1367,6 @@
 		)
 	)
 
-	(method (showCases)
-		(super showCases: 12 (or (gEgo has: 13) (gEgo has: 24))) ; Pick Lock, theLockpick, theToolkit
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(9 ; Knock on Door
@@ -1379,6 +1386,17 @@
 			)
 		)
 	)
+
+	(method (showCases)
+		(super
+			showCases:
+				12 ; Pick Lock
+				(if (gEgo has: 13) ; theLockpick
+				else
+					(gEgo has: 24) ; theToolkit
+				)
+		)
+	)
 )
 
 (instance innKeepDoorTeller of Teller
@@ -1386,23 +1404,33 @@
 		actionVerb 4
 	)
 
-	(method (showCases)
-		(super
-			showCases:
-				12 ; Pick Lock
-				(or (gEgo has: 13) (gEgo has: 24)) ; theLockpick, theToolkit
-				10 ; Listen at Door
-				(or (<= local2 13) (>= local2 15))
-				17 ; Listen at Door
-				(and (== local2 14) (not (IsFlag 137)))
-		)
-	)
-
 	(method (sayMessage)
 		(if (== iconValue 17) ; Listen at Door
 			(SetFlag 137)
 		)
 		(super sayMessage: &rest)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				12 ; Pick Lock
+				(if (gEgo has: 13) ; theLockpick
+				else
+					(gEgo has: 24) ; theToolkit
+				)
+				10 ; Listen at Door
+				(if (<= local2 13)
+				else
+					(>= local2 15)
+				)
+				17 ; Listen at Door
+				(if (== local2 14)
+					(not (IsFlag 137))
+				else
+					0
+				)
+		)
 	)
 )
 
@@ -1538,7 +1566,15 @@
 						(= local7
 							(/ (+ (* (+ (- gDay global469) 1) 15) 99) 100)
 						)
-						(> local7 global468)
+						(>
+							(= local7
+								(/
+									(+ (* (+ (- gDay global469) 1) 15) 99)
+									100
+								)
+							)
+							global468
+						)
 					)
 					(gMessager say: 12 15 105) ; "Although you are a bit short, you offer all of your remaining cash to the innkeeper."
 				else
@@ -1747,6 +1783,11 @@
 		)
 	)
 
+	(method (dispose)
+		(heading dispose:)
+		(super dispose: &rest)
+	)
+
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
@@ -1756,11 +1797,6 @@
 				(super doVerb: theVerb &rest)
 			)
 		)
-	)
-
-	(method (dispose)
-		(heading dispose:)
-		(super dispose: &rest)
 	)
 )
 
@@ -1919,7 +1955,7 @@
 	)
 )
 
-(instance chair4 of Feature
+(instance unknown_320_38 of Feature
 	(properties
 		noun 6
 		nsLeft 204
@@ -1967,7 +2003,7 @@
 	)
 )
 
-(instance cabinet of Feature
+(instance unknown_320_39 of Feature
 	(properties
 		noun 5
 		nsLeft 52
@@ -2010,7 +2046,7 @@
 	)
 )
 
-(instance innkeepDoor of Feature
+(instance unknown_320_40 of Feature
 	(properties
 		noun 13
 		nsLeft 260
@@ -2032,29 +2068,6 @@
 
 (instance myLooper of Grooper
 	(properties)
-
-	(method (cue &tmp temp0)
-		(cond
-			((not (client mover:))
-				(client mover: oldMover)
-			)
-			(oldMover
-				(oldMover dispose:)
-			)
-		)
-		(if oldCycler
-			(if (client cycler:)
-				(oldCycler dispose:)
-			else
-				(client cycler: oldCycler)
-			)
-		)
-		(= temp0 caller)
-		(= caller (= oldMover (= oldCycler 0)))
-		(if temp0
-			(temp0 cue: &rest)
-		)
-	)
 
 	(method (doit param1 param2 param3 param4 &tmp temp0 temp1)
 		(if (and (gEgo cycler:) ((gEgo cycler:) isKindOf: StopWalk))
@@ -2136,6 +2149,29 @@
 			mover: 0
 			setMotion: 0
 			setCycle: myGradualCycler self temp0
+		)
+	)
+
+	(method (cue &tmp temp0)
+		(cond
+			((not (client mover:))
+				(client mover: oldMover)
+			)
+			(oldMover
+				(oldMover dispose:)
+			)
+		)
+		(if oldCycler
+			(if (client cycler:)
+				(oldCycler dispose:)
+			else
+				(client cycler: oldCycler)
+			)
+		)
+		(= temp0 caller)
+		(= caller (= oldMover (= oldCycler 0)))
+		(if temp0
+			(temp0 cue: &rest)
 		)
 	)
 )

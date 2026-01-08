@@ -6,11 +6,10 @@
 (use GloryRm)
 (use TargFeature)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use forest)
 (use GloryTalker)
 (use Interface)
-(use Str)
 (use PolyPath)
 (use Polygon)
 (use Sound)
@@ -33,12 +32,10 @@
 	local5
 	local6
 	local7
-	local8
-	local9
+	[local8 2]
 	local10
 	local11
-	local12
-	local13
+	[local12 2]
 )
 
 (procedure (localproc_0)
@@ -98,11 +95,11 @@
 				(
 					(and
 						(IsFlag 269)
-						[gEgoStats 34] ; frostSpell
-						[gEgoStats 40] ; glideSpell
-						[gEgoStats 38] ; protectionSpell
-						[gEgoStats 36] ; invisibilitySpell
-						[gEgoStats 37] ; auraSpell
+						global281
+						global287
+						global285
+						global283
+						global284
 						(not (IsFlag 364))
 					)
 					(= local0 2)
@@ -115,12 +112,12 @@
 						(IsFlag 450)
 						(!= gPrevRoomNum 440)
 						(!= gPrevRoomNum 587)
-						[gEgoStats 34] ; frostSpell
-						[gEgoStats 35] ; ritualOfReleaseSpell
-						[gEgoStats 40] ; glideSpell
-						[gEgoStats 38] ; protectionSpell
-						[gEgoStats 36] ; invisibilitySpell
-						[gEgoStats 37] ; auraSpell
+						global281
+						global282
+						global287
+						global285
+						global283
+						global284
 					)
 					(SetFlag 365)
 					(= local0 3)
@@ -213,10 +210,26 @@
 		)
 	)
 
+	(method (doit)
+		(super doit:)
+		(if
+			(and
+				(gCast contains: queenFairy)
+				(!= local0 0)
+				(== (gTheIconBar curIcon:) (gTheIconBar at: 0))
+			)
+			(gTheIconBar advanceCurIcon:)
+		)
+	)
+
 	(method (doVerb theVerb)
 		(cond
 			((== theVerb 1) ; Look
-				(gMessager say: 0 1 0) ; "You are in the forest somewhere southeast of the town. To the north you can see a beautiful garden and a gently-flowing stream."
+				(if (gCast contains: fountain)
+					(gMessager say: 1 1 1) ; "You have entered a beautiful clearing dominated by a fountain of sparkling, clear water. The entire area tingles with magical energy."
+				else
+					(gMessager say: 0 1 0) ; "You are in the forest somewhere southeast of the town. To the north you can see a beautiful garden and a gently-flowing stream."
+				)
 			)
 			(local0
 				(cond
@@ -323,22 +336,30 @@
 
 (instance atp1 of ForestView
 	(properties
+		noun 11
 		x 251
 		y 7
 		view 414
 	)
 
 	(method (doVerb theVerb)
-		(if (and (== local0 3) (OneOf theVerb 37 21 86 88 93 79)) ; theThrowdagger, theRocks, flameDartSpell, forceBoltSpell, lightningBallSpell, frostSpell
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(cond
+			((and (== local0 3) (OneOf theVerb 37 21 86 88 93 79)) ; theThrowdagger, theRocks, flameDartSpell, forceBoltSpell, lightningBallSpell, frostSpell
+				(gCurRoom doVerb: theVerb)
+			)
+			((== theVerb 1) ; Look
+				(gMessager say: 11 1 0) ; "From the reddish bark of this tree you surmise that it might be a somewhat rusty irontree. (You never were too good at tree identification.)"
+			)
+			(else
+				(super doVerb: theVerb)
+			)
 		)
 	)
 )
 
 (instance atp2 of ForestView
 	(properties
+		noun 13
 		x 155
 		y 91
 		view 415
@@ -346,16 +367,26 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (and (== local0 3) (OneOf theVerb 37 21 86 88 93 79)) ; theThrowdagger, theRocks, flameDartSpell, forceBoltSpell, lightningBallSpell, frostSpell
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(cond
+			((and (== local0 3) (OneOf theVerb 37 21 86 88 93 79)) ; theThrowdagger, theRocks, flameDartSpell, forceBoltSpell, lightningBallSpell, frostSpell
+				(gCurRoom doVerb: theVerb)
+			)
+			((== theVerb 1) ; Look
+				(gMessager say: 13 1 0) ; "To the north you can see a beautiful garden surrounded by a gentle brook and a small pond."
+			)
+			((== theVerb 4) ; Do
+				(gCurRoom doVerb: theVerb)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
 		)
 	)
 )
 
 (instance atp3 of ForestView
 	(properties
+		noun 8
 		x 175
 		y 167
 		view 415
@@ -363,16 +394,27 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (and (== local0 3) (OneOf theVerb 37 21 86 88 93 79)) ; theThrowdagger, theRocks, flameDartSpell, forceBoltSpell, lightningBallSpell, frostSpell
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(cond
+			((and (== local0 3) (OneOf theVerb 37 21 86 88 93 79)) ; theThrowdagger, theRocks, flameDartSpell, forceBoltSpell, lightningBallSpell, frostSpell
+				(gCurRoom doVerb: theVerb)
+			)
+			((== theVerb 1) ; Look
+				(gMessager say: 8 1 0) ; "Lovely spring flowers bloom in profusion in this airy meadow."
+			)
+			((== theVerb 4) ; Do
+				(gMessager say: 8 4 0) ; "You pick a few flowers for fun."
+				(gEgo get: 40) ; theFlowers
+			)
+			(else
+				(super doVerb: theVerb)
+			)
 		)
 	)
 )
 
 (instance atp4 of ForestView
 	(properties
+		noun 12
 		x 71
 		y 6
 		view 414
@@ -380,10 +422,19 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (and (== local0 3) (OneOf theVerb 37 21 86 88 93 79)) ; theThrowdagger, theRocks, flameDartSpell, forceBoltSpell, lightningBallSpell, frostSpell
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(cond
+			((and (== local0 3) (OneOf theVerb 37 21 86 88 93 79)) ; theThrowdagger, theRocks, flameDartSpell, forceBoltSpell, lightningBallSpell, frostSpell
+				(gCurRoom doVerb: theVerb)
+			)
+			((== theVerb 1) ; Look
+				(gMessager say: 12 1 0) ; "A rock group plays in the foreground."
+			)
+			((== theVerb 4) ; Do
+				(gMessager say: 12 4 0) ; "You're more into classical adventuring."
+			)
+			(else
+				(super doVerb: theVerb)
+			)
 		)
 	)
 )
@@ -407,6 +458,7 @@
 
 (instance atp5 of ForestView
 	(properties
+		noun 9
 		x 210
 		y 119
 		view 414
@@ -414,10 +466,19 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (and (== local0 3) (OneOf theVerb 37 21 86 88 93 79)) ; theThrowdagger, theRocks, flameDartSpell, forceBoltSpell, lightningBallSpell, frostSpell
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(cond
+			((and (== local0 3) (OneOf theVerb 37 21 86 88 93 79)) ; theThrowdagger, theRocks, flameDartSpell, forceBoltSpell, lightningBallSpell, frostSpell
+				(gCurRoom doVerb: theVerb)
+			)
+			((== theVerb 1) ; Look
+				(gMessager say: 9 1 0) ; "This huge, old-growth tree reminds you that the clearcutters have stayed, well, "clear" of this forest."
+			)
+			((== theVerb 4) ; Do
+				(gMessager say: 9 4 0) ; "It doesn't look particularly climbable."
+			)
+			(else
+				(super doVerb: theVerb)
+			)
 		)
 	)
 )
@@ -482,14 +543,6 @@
 		signal 16384
 	)
 
-	(method (cue)
-		(gCurRoom setScript: sEvent2)
-	)
-
-	(method (getHurt)
-		(self setScript: sStaffHurt)
-	)
-
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
@@ -519,32 +572,23 @@
 			)
 		)
 	)
+
+	(method (cue)
+		(gCurRoom setScript: sEvent2)
+	)
+
+	(method (getHurt)
+		(self setScript: sStaffHurt)
+	)
 )
 
-(class FairySpell of Actor
+(class Class_580_0 of Actor
 	(properties
 		view 21
 		signal 16385
 		cuedOnce 0
 		whichType 0
 		curDamage 0
-	)
-
-	(method (cue)
-		(if (not cuedOnce)
-			(= cuedOnce 1)
-			(self setScript: (sCheckLoop new:) self)
-		else
-			(if global454
-				(gEgo takeDamage: 2)
-			else
-				(gEgo takeDamage: curDamage)
-			)
-			(if (<= [gEgoStats 17] 0) ; health
-				(EgoDead 25 580 43 End) ; "Do we have to spell it out for you? Hostile magic can be harmful to your health! Maybe you'd do better if you had a staff of assistants like the Faerie Queen... or even if you used a staff to assist you."
-			)
-			(self setMotion: 0 dispose:)
-		)
 	)
 
 	(method (init param1 param2 param3)
@@ -568,6 +612,23 @@
 			setMotion: MoveTo (gEgo x:) (- (gEgo y:) 40) self
 		)
 		(super init: &rest)
+	)
+
+	(method (cue)
+		(if (not cuedOnce)
+			(= cuedOnce 1)
+			(self setScript: (sCheckLoop new:) self)
+		else
+			(if global454
+				(gEgo takeDamage: 2)
+			else
+				(gEgo takeDamage: curDamage)
+			)
+			(if (<= global264 0)
+				(EgoDead 25 580 43 End) ; "Do we have to spell it out for you? Hostile magic can be harmful to your health! Maybe you'd do better if you had a staff of assistants like the Faerie Queen... or even if you used a staff to assist you."
+			)
+			(self setMotion: 0 dispose:)
+		)
 	)
 )
 
@@ -603,7 +664,7 @@
 				)
 			)
 			(else
-				((FairySpell new:) init: param1 param2 self)
+				((Class_580_0 new:) init: param1 param2 self)
 			)
 		)
 	)
@@ -629,7 +690,7 @@
 			((and (not local5) (OneOf param1 21 37 33))
 				(gMessager say: 14 6 22) ; "That doesn't seem to affect the Faeries."
 			)
-			((and (-= local4 param2) (<= local4 0))
+			((and (-= local4 param2) (<= (-= local4 param2) 0))
 				(= local4 3000)
 				(self
 					setScript: 0
@@ -663,7 +724,7 @@
 			((and (not local5) (OneOf param1 21 37 33))
 				(gMessager say: 14 6 22) ; "That doesn't seem to affect the Faeries."
 			)
-			((and (-= local3 param2) (<= local3 0))
+			((and (-= local3 param2) (<= (-= local3 param2) 0))
 				(= local3 3000)
 				(self
 					setScript: 0
@@ -854,6 +915,7 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
+				(SetFlag 364)
 				(aStaff
 					signal: (| (aStaff signal:) $0001)
 					setCel: 11
@@ -905,6 +967,9 @@
 				)
 			)
 			(1
+				(gMessager say: 5 87 0 0 self) ; "The Staff doesn't seem to be going anywhere, so you line up a good angle from which to cast Fetch on it."
+			)
+			(2
 				((User curEvent:) x: (aStaff x:))
 				((User curEvent:) y: (- (- (aStaff y:) 15) (aStaff z:)))
 				(gCurRoom setScript: (ScriptID 37) aStaff aStaff) ; castFetchScript
@@ -1075,6 +1140,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
+				(gGlory handsOff:)
 				(if (not (gCast contains: water))
 					(water approachVerbs: 4 init:) ; Do
 				)
@@ -1147,7 +1213,7 @@
 					(Palette 2 0 255 register) ; PalIntensity
 				)
 				(SetFlag 269)
-				(if (>= global474 5)
+				(if (and global281 global287 global285 global283 global284)
 					(gMessager say: 2 6 7 0 self) ; "This one has great magic. This one at last may well be he who shall gain the Staff. Let us go and prepare ourselves. We shall soon have that for which we have worked for all these many years!"
 				else
 					(gMessager say: 2 6 8 0 self) ; "There is power here, but it has much to learn. It will probably be killed before it can be of use. Still, there is much magic to learn in Mordavia. Perhaps it may yet serve our purposes."
@@ -1310,9 +1376,9 @@
 				(= ticks 30)
 			)
 			(22
-				(= [gEgoStats 17] (gEgo maxHealth:)) ; health
-				(= [gEgoStats 18] (gEgo maxStamina:)) ; stamina
-				(= [gEgoStats 19] (gEgo maxMana:)) ; mana
+				(= global264 (gEgo maxHealth:))
+				(= global265 (gEgo maxStamina:))
+				(= global266 (gEgo maxMana:))
 				(gMessager say: 14 6 18 0 self) ; "You feel an incredible rush of magical energy filling you. It tickles."
 			)
 			(23
@@ -1328,31 +1394,9 @@
 				(gMessager say: 5 6 17 1 self) ; "You hear a voice in your head."
 			)
 			(26
-				(= local8 (Str new:))
-				(Message msgGET 580 5 6 29 1 (local8 data:)) ; "I am now the Staff of the Hero."
-				(= local9 (Str new:))
-				(local9 format: {%s} gHeroName)
-				(local8 format: (local8 data:) local9)
-				(if (& gMsgType $0001)
-					(= local12 1)
-				else
-					(|= gMsgType $0001)
-				)
-				(if (& gMsgType $0002)
-					(^= gMsgType $0002)
-					(= local13 1)
-				)
-				(gNarrator say: local8 self)
+				(gMessager say: 5 6 29 1 self) ; "I am now the Staff of the Hero."
 			)
 			(27
-				(if (not local12)
-					(^= gMsgType $0001)
-				)
-				(if local13
-					(|= gMsgType $0002)
-				)
-				(local8 dispose:)
-				(local9 dispose:)
 				(gEgo learn: 32 200 learn: 39 100) ; summonStaffSpell, resistanceSpell
 				(gMessager say: 5 6 30 1 self) ; "He is the hand of destiny, and shall restore the spirit of Erana."
 			)
@@ -1512,7 +1556,7 @@
 				)
 			)
 			(2
-				(if (and (== client queenFairy) (< [gEgoStats 19] 5)) ; mana
+				(if (and (== client queenFairy) (< global266 5))
 					(gCurRoom setScript: sHelpless)
 				)
 				(client setLoop: (+ register 3) 1 setCycle: Fwd)
@@ -1522,7 +1566,7 @@
 					else
 						(= temp0 36)
 					)
-					((FairySpell new:) init: 79 temp0 client)
+					((Class_580_0 new:) init: 79 temp0 client)
 					(= ticks
 						(switch global439
 							(1
@@ -1542,7 +1586,7 @@
 					else
 						(= temp0 30)
 					)
-					((FairySpell new:) init: 86 temp0 client)
+					((Class_580_0 new:) init: 86 temp0 client)
 					(= ticks
 						(switch global439
 							(1
@@ -1603,7 +1647,7 @@
 				(= seconds 2)
 			)
 			(3
-				(EgoDead 25 580 43 End) ; "Do we have to spell it out for you? Hostile magic can be harmful to your health! Maybe you'd do better if you had a staff of assistants like the Faerie Queen... or even if you used a staff to assist you."
+				(EgoDead 24 580 43 End) ; "The Queen has been at this far longer than you. When it comes to a spell-to-spell battle, it's obvious who will run out of spells first. Maybe you should find a way to do some of your spelling without using up your Mana."
 			)
 		)
 	)

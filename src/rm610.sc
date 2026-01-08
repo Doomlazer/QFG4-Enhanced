@@ -55,19 +55,30 @@
 		(pFlicker1 setCycle: Fwd init:)
 		(pFlicker2 setCycle: Fwd init:)
 		(super init: &rest)
-		(fLeftTorch init: approachVerbs: 4) ; Do
-		(fRightTorch init: approachVerbs: 4) ; Do
-		(fWriting init: approachVerbs: 4) ; Do
-		(fHoles init: approachVerbs: 4) ; Do
-		(fGargoyle1 init: approachVerbs: 4) ; Do
-		(fGargoyleArm init: approachVerbs: 4) ; Do
-		(fGargoyle2 init: approachVerbs: 4) ; Do
+		(unknown_610_13 init: approachVerbs: 4) ; Do
+		(unknown_610_14 init: approachVerbs: 4) ; Do
+		(unknown_610_15 init: approachVerbs: 4) ; Do
+		(unknown_610_16 init: approachVerbs: 4) ; Do
+		(unknown_610_17 init: approachVerbs: 4) ; Do
+		(unknown_610_18 init: approachVerbs: 4) ; Do
+		(unknown_610_19 init: approachVerbs: 4) ; Do
 		(doorTeller init: pDoor 610 2 125)
 	)
 
 	(method (dispose)
 		(gLongSong fade: 0)
 		(super dispose:)
+	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "Yes, those gargoyles DO make you feel jumpy, but you can't reach the parapet that way. It's too high."
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
 	)
 )
 
@@ -177,16 +188,19 @@
 				(pDoor setPri: 119 setCycle: End self)
 			)
 			(1
-				(gEgo setMotion: MoveTo 221 113 self)
+				(gMessager say: 2 125 1 1 self) ; "The massive doors open at your touch. As you make your way into the dark and forbidding castle you wonder whether it will be as easy to get back out as it was to enter."
 			)
 			(2
-				(pDoor setCycle: Beg self)
+				(gEgo setMotion: MoveTo 221 113 self)
 			)
 			(3
+				(pDoor setCycle: Beg self)
+			)
+			(4
 				(doorCloseSound play:)
 				(= ticks 12)
 			)
-			(4
+			(5
 				(gCurRoom newRoom: 630)
 			)
 		)
@@ -315,7 +329,7 @@
 	)
 )
 
-(instance fLeftTorch of Feature
+(instance unknown_610_13 of Feature
 	(properties
 		noun 5
 		nsLeft 162
@@ -330,7 +344,7 @@
 	)
 )
 
-(instance fRightTorch of Feature
+(instance unknown_610_14 of Feature
 	(properties
 		noun 5
 		nsLeft 221
@@ -346,7 +360,7 @@
 	)
 )
 
-(instance fWriting of Feature
+(instance unknown_610_15 of Feature
 	(properties
 		noun 3
 		nsLeft 183
@@ -362,7 +376,7 @@
 	)
 )
 
-(instance fHoles of Feature
+(instance unknown_610_16 of Feature
 	(properties
 		noun 4
 		nsLeft 241
@@ -375,7 +389,7 @@
 	)
 )
 
-(instance fGargoyle1 of Feature
+(instance unknown_610_17 of Feature
 	(properties
 		noun 6
 		nsLeft 14
@@ -388,7 +402,7 @@
 	)
 )
 
-(instance fGargoyleArm of Feature
+(instance unknown_610_18 of Feature
 	(properties
 		noun 8
 		nsLeft 12
@@ -401,7 +415,7 @@
 	)
 )
 
-(instance fGargoyle2 of Feature
+(instance unknown_610_19 of Feature
 	(properties
 		noun 7
 		nsLeft 241

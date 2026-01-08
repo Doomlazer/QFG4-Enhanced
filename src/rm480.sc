@@ -6,7 +6,7 @@
 (use GloryRm)
 (use DistObj)
 (use Teller)
-(use DeathIcon)
+(use DeathControls)
 (use GloryTalker)
 (use Scaler)
 (use PolyPath)
@@ -51,9 +51,9 @@
 		)
 		(theHut init: approachVerbs: 4 45) ; Do, theCorn
 		(pestle init: setPri: 107 approachVerbs: 4 47 24) ; Do, theBones, theFlask
-		(mortar init: approachVerbs: 4 47 24) ; Do, theBones, theFlask
+		(unknown_480_27 init: approachVerbs: 4 47 24) ; Do, theBones, theFlask
 		(theBody init: setPri: 138 approachVerbs: 4 2) ; Do, Talk
-		(boneHead init: approachVerbs: 4 2 44) ; Do, Talk, theHat
+		(unknown_480_28 init: approachVerbs: 4 2 44) ; Do, Talk, theHat
 		(theHat
 			init:
 			setCel: (if (IsFlag 151) 1 else 0)
@@ -94,17 +94,17 @@
 					(else 26)
 				)
 		)
-		(hutPerch init: approachVerbs: 4 45) ; Do, theCorn
-		(laserSkull1 init:)
-		(gateSkull init:)
-		(laserSkull2 init:)
-		(threeSkulls init: approachVerbs: 4 46) ; Do, thePiepan
-		(fourSkulls init: approachVerbs: 4 46) ; Do, thePiepan
-		(treeTop init:)
-		(treeTrunk init:)
-		(eggRock init:)
-		(exitArea init:)
-		(cliff init:)
+		(unknown_480_39 init: approachVerbs: 4 45) ; Do, theCorn
+		(unknown_480_29 init:)
+		(unknown_480_30 init:)
+		(unknown_480_31 init:)
+		(unknown_480_32 init: approachVerbs: 4 46) ; Do, thePiepan
+		(unknown_480_33 init: approachVerbs: 4 46) ; Do, thePiepan
+		(unknown_480_34 init:)
+		(unknown_480_35 init:)
+		(unknown_480_36 init:)
+		(unknown_480_37 init:)
+		(unknown_480_38 init:)
 		(if (== gPrevRoomNum 593)
 			(self setScript: from593Scr)
 		else
@@ -318,6 +318,12 @@
 			(81 ; detectMagicSpell
 				(gMessager say: 0 81 0) ; "Instant sensory overload! Several of the skulls are magical (particularly the ones with the glowing eyes) and the hut itself is "artifact-level" magic (you know, the kind for which wizards go around challenging each other to magical duels)."
 			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "End it all, shall we? Take a mighty acrobatic leap over the cliff edge, perhaps? Yeah, that's the ticket!"
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
 		)
 	)
 
@@ -333,30 +339,6 @@
 (instance heroTeller of Teller
 	(properties)
 
-	(method (showCases)
-		(super
-			showCases:
-				74 ; Tell About Gnome
-				(and
-					(not (IsFlag 336))
-					(OneOf global348 0 1 2)
-					(IsFlag 159)
-				)
-				83 ; Tell About Gnome
-				(and
-					(not (IsFlag 336))
-					(OneOf global348 0 1 2)
-					(IsFlag 159)
-				)
-				75 ; Ask About Useful Thing
-				local8
-				76 ; Ask About Fry Guys
-				local8
-				77 ; Ask About "Big B"
-				local8
-		)
-	)
-
 	(method (sayMessage)
 		(switch iconValue
 			(83 ; Tell About Gnome
@@ -367,6 +349,30 @@
 			)
 		)
 		(super sayMessage: &rest)
+	)
+
+	(method (showCases)
+		(super
+			showCases:
+				74 ; Tell About Gnome
+				(if (and (not (IsFlag 336)) (OneOf global348 0 1 2))
+					(IsFlag 159)
+				else
+					0
+				)
+				83 ; Tell About Gnome
+				(if (and (not (IsFlag 336)) (OneOf global348 0 1 2))
+					(IsFlag 159)
+				else
+					0
+				)
+				75 ; Ask About Useful Thing
+				local8
+				76 ; Ask About Fry Guys
+				local8
+				77 ; Ask About "Big B"
+				local8
+		)
 	)
 )
 
@@ -541,7 +547,6 @@
 				)
 			)
 			(2
-				(theLaser signal: (& (theLaser signal:) $fffe))
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -653,6 +658,12 @@
 				(gEgo setCycle: Beg self)
 			)
 			(2
+				(= seconds 3)
+			)
+			(3
+				(gMessager say: 4 4 0 1 self) ; "Ah, you don't want to go redoing Baba Yaga's exterior decoration now, do you?"
+			)
+			(4
 				(gEgo normalize: 7 setSpeed: register)
 				(gGlory handsOn:)
 				(self dispose:)
@@ -790,7 +801,7 @@
 					curNoun: 20
 					rootNoun: 20
 				)
-				(localCorn x: 58 y: 49 init:)
+				(unknown_480_26 x: 58 y: 49 init:)
 				(gEgo setCycle: Beg self)
 			)
 			(2
@@ -843,7 +854,7 @@
 	)
 )
 
-(instance sGrindBones of Script
+(instance unknown_480_18 of Script
 	(properties)
 
 	(method (changeState newState)
@@ -963,6 +974,8 @@
 					setCycle: CT 9 1 self
 				)
 				((gInventory at: 28) ; thePiepan
+					loop: 8
+					cel: 1
 					maskCel: (| ((gInventory at: 28) maskCel:) $0008) ; thePiepan
 				)
 			)
@@ -1024,6 +1037,9 @@
 
 (instance theHut of Actor
 	(properties
+		noun 30
+		approachX 54
+		approachY 57
 		x 54
 		y 56
 		view 480
@@ -1034,13 +1050,20 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(45 ; theCorn
-				(hutPerch doVerb: 45)
+				(unknown_480_39 doVerb: 45)
+			)
+			(55 ; theChicken
+				(gMessager say: 0 55 0) ; "The hut looks vaguely interested for a moment, then decides that the rubber chicken really isn't its "type.""
 			)
 			(4 ; Do
-				(return 1)
+				(if (== (theHut x:) 124)
+					(super doVerb: theVerb &rest)
+				else
+					(return 1)
+				)
 			)
 			(else
-				(super doVerb: theVerb)
+				(super doVerb: theVerb &rest)
 			)
 		)
 	)
@@ -1076,16 +1099,6 @@
 		signal 16384
 	)
 
-	(method (cue)
-		(if local0
-			(= local0 0)
-			(self setLoop: 2 1 signal: (& (self signal:) $fffe))
-		else
-			(= local0 1)
-			(self setCycle: End self)
-		)
-	)
-
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
@@ -1094,6 +1107,16 @@
 			(else
 				(super doVerb: theVerb)
 			)
+		)
+	)
+
+	(method (cue)
+		(if local0
+			(= local0 0)
+			(self setLoop: 2 1 signal: (& (self signal:) $fffe))
+		else
+			(= local0 1)
+			(self setCycle: End self)
 		)
 	)
 )
@@ -1194,13 +1217,13 @@
 				(super doVerb: theVerb)
 			)
 			(else
-				(mortar doVerb: theVerb)
+				(unknown_480_27 doVerb: theVerb)
 			)
 		)
 	)
 )
 
-(instance localCorn of View
+(instance unknown_480_26 of View
 	(properties
 		view 480
 		cel 2
@@ -1208,7 +1231,7 @@
 	)
 )
 
-(instance mortar of Feature
+(instance unknown_480_27 of Feature
 	(properties
 		noun 13
 		nsLeft 155
@@ -1235,7 +1258,7 @@
 					((IsFlag 157)
 						(ClearFlag 157)
 						(SetFlag 158)
-						(gCurRoom setScript: sGrindBones)
+						(gCurRoom setScript: unknown_480_18)
 					)
 					((IsFlag 158)
 						(gMessager say: 13 4 110) ; "The fine bone meal slips between your fingers. You'll need a container in which to carry it."
@@ -1279,7 +1302,7 @@
 	)
 )
 
-(instance boneHead of Feature
+(instance unknown_480_28 of Feature
 	(properties
 		noun 5
 		nsLeft 158
@@ -1298,9 +1321,9 @@
 	)
 )
 
-(instance laserSkull1 of Feature
+(instance unknown_480_29 of Feature
 	(properties
-		noun 11
+		noun 10
 		nsLeft 17
 		nsTop 84
 		nsRight 27
@@ -1311,7 +1334,7 @@
 	)
 )
 
-(instance gateSkull of Feature
+(instance unknown_480_30 of Feature
 	(properties
 		noun 10
 		nsLeft 42
@@ -1324,7 +1347,7 @@
 	)
 )
 
-(instance laserSkull2 of Feature
+(instance unknown_480_31 of Feature
 	(properties
 		noun 12
 		nsLeft 147
@@ -1337,7 +1360,7 @@
 	)
 )
 
-(instance threeSkulls of Feature
+(instance unknown_480_32 of Feature
 	(properties
 		noun 15
 		nsLeft 52
@@ -1377,7 +1400,7 @@
 	)
 )
 
-(instance fourSkulls of Feature
+(instance unknown_480_33 of Feature
 	(properties
 		noun 9
 		nsLeft 38
@@ -1393,14 +1416,14 @@
 
 	(method (doVerb theVerb)
 		(if (== theVerb 46) ; thePiepan
-			(threeSkulls doVerb: theVerb)
+			(unknown_480_32 doVerb: theVerb)
 		else
 			(super doVerb: theVerb)
 		)
 	)
 )
 
-(instance treeTop of Feature
+(instance unknown_480_34 of Feature
 	(properties
 		noun 16
 		nsLeft 90
@@ -1413,7 +1436,7 @@
 	)
 )
 
-(instance treeTrunk of Feature
+(instance unknown_480_35 of Feature
 	(properties
 		noun 16
 		nsLeft 168
@@ -1426,7 +1449,7 @@
 	)
 )
 
-(instance eggRock of Feature
+(instance unknown_480_36 of Feature
 	(properties
 		noun 7
 		nsLeft 209
@@ -1439,7 +1462,7 @@
 	)
 )
 
-(instance exitArea of Feature
+(instance unknown_480_37 of Feature
 	(properties
 		noun 8
 		nsLeft 302
@@ -1452,7 +1475,7 @@
 	)
 )
 
-(instance cliff of Feature
+(instance unknown_480_38 of Feature
 	(properties
 		noun 6
 		nsLeft 65
@@ -1465,7 +1488,7 @@
 	)
 )
 
-(instance hutPerch of Feature
+(instance unknown_480_39 of Feature
 	(properties
 		noun 30
 		nsTop 46

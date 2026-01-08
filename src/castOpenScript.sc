@@ -106,12 +106,14 @@
 				(cond
 					(
 						(not
+							; COMPILER BUG: GAME WILL CRASH
 							(OneOf
 								gCurRoomNum
 								250
 								260
 								270
 								340
+								360
 								440
 								500
 								510

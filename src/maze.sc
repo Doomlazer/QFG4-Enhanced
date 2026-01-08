@@ -514,12 +514,13 @@
 			)
 			(3
 				(= temp0 (localproc_8))
+				(gEgo moveSpeed:)
 				(ant
 					x: (= temp1 (localproc_4 local5))
 					y: (= temp2 (localproc_6 local4))
 					setLoop: 1 1
 					cel: 0
-					moveSpeed: (/ (+ (gEgo moveSpeed:) 1) 2)
+					moveSpeed: (/ (+ 5 1) 2)
 					setMotion: (bounceTo new:) temp1 (- (- temp2 temp0) 2)
 				)
 				(self dispose:)
@@ -560,8 +561,9 @@
 	(method (cue)
 		(maze noHands: 0)
 		(+= local4 local13)
+		(gEgo moveSpeed:)
 		(self
-			moveSpeed: (/ (+ (gEgo moveSpeed:) 1) 2)
+			moveSpeed: (/ (+ 5 1) 2)
 			setCycle: 0
 			setMotion: (bounceTo new:) x (- (- y (localproc_8)) 2)
 		)
@@ -675,8 +677,9 @@
 				(ant x: temp1 y: temp2)
 				(cond
 					(temp0
+						(gEgo moveSpeed:)
 						(ant
-							moveSpeed: (/ (+ (gEgo moveSpeed:) 1) 2)
+							moveSpeed: (/ (+ 5 1) 2)
 							setCycle: 0
 							setMotion:
 								(bounceTo new:)
@@ -780,8 +783,9 @@
 				(ant x: temp1 y: temp2 cel: 0)
 				(cond
 					(temp0
+						(gEgo moveSpeed:)
 						(ant
-							moveSpeed: (/ (+ (gEgo moveSpeed:) 1) 2)
+							moveSpeed: (/ (+ 5 1) 2)
 							setCycle: 0
 							setMotion:
 								(bounceTo new:)
