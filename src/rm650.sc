@@ -60,7 +60,7 @@
 		)
 		(if
 			(or
-				(and (IsFlag 144) (== gHeroType 1) (> [gEgoStats 35] 0)) ; Magic User, ritualOfReleaseSpell
+				(and (IsFlag 144) (== gHeroType 1) (> global282 0)) ; Magic User
 				(and (!= gHeroType 1) (IsFlag 144)) ; Magic User
 			)
 			(= local1 1)
@@ -154,22 +154,15 @@
 	)
 
 	(method (doVerb theVerb)
-		(cond
-			((IsFlag 115)
-				(if (== theVerb 4) ; Do
-					(gMessager say: 27 4 47 0 self) ; "The toys look forlorn with the little girl gone."
-				else
-					(super doVerb: theVerb)
-				)
-			)
-			((== theVerb 4) ; Do
+		(switch theVerb
+			(4 ; Do
 				(if (not (IsFlag 143))
-					(gMessager say: 27 4 42 0 self) ; "You can't reach anything from here."
+					(gMessager say: 27 4 42) ; "You can't reach anything from here."
 				else
-					(gMessager say: 27 4 43 0 self) ; "That belongs to the little girl."
+					(super doVerb: theVerb &rest)
 				)
 			)
-			((== theVerb 37) ; theThrowdagger
+			(37 ; theThrowdagger
 				(if (== (gEgo has: 5) 1) ; theThrowdagger
 					(gMessager say: 28 6 46) ; "You are down to your last dagger. You'd better hold on to it."
 				else
@@ -181,16 +174,17 @@
 					)
 				)
 			)
-			((OneOf theVerb 21 83 86 88 79 93 82) ; theRocks, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
-				(SetFlag 145)
-				(if (IsFlag 143)
-					(gCurRoom setScript: sNotNice)
-				else
-					(gCurRoom setScript: sStayOut)
-				)
-			)
 			(else
-				(super doVerb: theVerb)
+				(if (OneOf theVerb 21 83 86 88 79 93 82) ; theRocks, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(SetFlag 145)
+					(if (IsFlag 143)
+						(gCurRoom setScript: sNotNice)
+					else
+						(gCurRoom setScript: sStayOut)
+					)
+				else
+					(super doVerb: theVerb &rest)
+				)
 			)
 		)
 	)
@@ -356,6 +350,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
+				(gGlory handsOff:)
 				(ClearFlag 145)
 				(gMessager say: 1 6 3 0 self) ; "You're not a very nice person. You tried to hurt us. I don't like you. You should hug me and make me feel better."
 			)
@@ -611,10 +606,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -654,10 +660,18 @@
 				(gCurRoom setScript: sGiveDoll)
 			)
 			(4 ; Do
-				(gCurRoom doVerb: theVerb)
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
 			)
 			(else
-				(super doVerb: theVerb)
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
 			)
 		)
 	)
@@ -734,10 +748,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -755,10 +780,27 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(cond
+					((not (IsFlag 143))
+						(gCurRoom doVerb: theVerb)
+					)
+					((IsFlag 115)
+						(gMessager say: 27 4 47) ; "The toys look forlorn with the little girl gone."
+					)
+					(else
+						(gMessager say: 27 4 43) ; "That belongs to the little girl."
+					)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -776,10 +818,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -797,10 +850,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -818,10 +882,27 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(cond
+					((not (IsFlag 143))
+						(gCurRoom doVerb: theVerb)
+					)
+					((IsFlag 115)
+						(gMessager say: 27 4 47) ; "The toys look forlorn with the little girl gone."
+					)
+					(else
+						(gMessager say: 27 4 43) ; "That belongs to the little girl."
+					)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -838,10 +919,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -859,10 +951,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -880,10 +983,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -900,10 +1014,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -921,10 +1046,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -942,11 +1078,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
-		)
+		(fCastle1 doVerb: theVerb &rest)
 	)
 )
 
@@ -963,10 +1095,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -984,10 +1127,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -1072,10 +1226,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -1093,10 +1258,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -1114,10 +1290,27 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(cond
+					((not (IsFlag 143))
+						(gCurRoom doVerb: theVerb)
+					)
+					((IsFlag 115)
+						(gMessager say: 27 4 47) ; "The toys look forlorn with the little girl gone."
+					)
+					(else
+						(gMessager say: 27 4 43) ; "That belongs to the little girl."
+					)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -1134,10 +1327,21 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(if (not (IsFlag 143))
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )
@@ -1155,10 +1359,27 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(gCurRoom doVerb: theVerb)
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(4 ; Do
+				(cond
+					((not (IsFlag 143))
+						(gCurRoom doVerb: theVerb)
+					)
+					((IsFlag 115)
+						(gMessager say: 27 4 47) ; "The toys look forlorn with the little girl gone."
+					)
+					(else
+						(gMessager say: 27 4 43) ; "That belongs to the little girl."
+					)
+				)
+			)
+			(else
+				(if (OneOf theVerb 21 37 83 86 88 79 93 82) ; theRocks, theThrowdagger, dazzleSpell, flameDartSpell, forceBoltSpell, frostSpell, lightningBallSpell, triggerSpell
+					(gCurRoom doVerb: theVerb)
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
 		)
 	)
 )

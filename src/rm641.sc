@@ -386,7 +386,7 @@
 				)
 			)
 			(4
-				(if (<= [gEgoStats 17] 0) ; health
+				(if (<= global264 0)
 					(EgoDead 16 640) ; "You opened the case; the trap shut your eyes. It's hard to make a living when you're dying."
 				else
 					(gEgo setMotion: PolyPath 144 140 self)
@@ -857,11 +857,19 @@
 		(super
 			showCases:
 				13 ; Look for Traps
-				(and (gEgo has: 24) (IsFlag 242) (not local1)) ; theToolkit
+				(if (and (gEgo has: 24) (IsFlag 242)) ; theToolkit
+					(not local1)
+				else
+					0
+				)
 				4 ; Open Chest
 				(not local1)
 				26 ; Pick Lock
-				(and [gEgoStats 9] (not local1)) ; pick locks
+				(if (and global256 (gEgo has: 24)) ; theToolkit
+					(not local1)
+				else
+					0
+				)
 				25 ; Bash Chest Open
 				(not local1)
 		)
@@ -927,9 +935,17 @@
 		(super
 			showCases:
 				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
 				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 

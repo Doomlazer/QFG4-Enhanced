@@ -318,6 +318,12 @@
 			(81 ; detectMagicSpell
 				(gMessager say: 0 81 0) ; "Instant sensory overload! Several of the skulls are magical (particularly the ones with the glowing eyes) and the hut itself is "artifact-level" magic (you know, the kind for which wizards go around challenging each other to magical duels)."
 			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "End it all, shall we? Take a mighty acrobatic leap over the cliff edge, perhaps? Yeah, that's the ticket!"
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
 		)
 	)
 
@@ -337,16 +343,16 @@
 		(super
 			showCases:
 				74 ; Tell About Gnome
-				(and
-					(not (IsFlag 336))
-					(OneOf global348 0 1 2)
+				(if (and (not (IsFlag 336)) (OneOf global348 0 1 2))
 					(IsFlag 159)
+				else
+					0
 				)
 				83 ; Tell About Gnome
-				(and
-					(not (IsFlag 336))
-					(OneOf global348 0 1 2)
+				(if (and (not (IsFlag 336)) (OneOf global348 0 1 2))
 					(IsFlag 159)
+				else
+					0
 				)
 				75 ; Ask About Useful Thing
 				local8
@@ -541,7 +547,6 @@
 				)
 			)
 			(2
-				(theLaser signal: (& (theLaser signal:) $fffe))
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -653,6 +658,12 @@
 				(gEgo setCycle: Beg self)
 			)
 			(2
+				(= seconds 3)
+			)
+			(3
+				(gMessager say: 4 4 0 1 self) ; "Ah, you don't want to go redoing Baba Yaga's exterior decoration now, do you?"
+			)
+			(4
 				(gEgo normalize: 7 setSpeed: register)
 				(gGlory handsOn:)
 				(self dispose:)
@@ -963,6 +974,8 @@
 					setCycle: CT 9 1 self
 				)
 				((gInventory at: 28) ; thePiepan
+					loop: 8
+					cel: 1
 					maskCel: (| ((gInventory at: 28) maskCel:) $0008) ; thePiepan
 				)
 			)
@@ -1024,6 +1037,9 @@
 
 (instance theHut of Actor
 	(properties
+		noun 30
+		approachX 54
+		approachY 57
 		x 54
 		y 56
 		view 480
@@ -1036,11 +1052,18 @@
 			(45 ; theCorn
 				(hutPerch doVerb: 45)
 			)
+			(55 ; theChicken
+				(gMessager say: 0 55 0) ; "The hut looks vaguely interested for a moment, then decides that the rubber chicken really isn't its "type.""
+			)
 			(4 ; Do
-				(return 1)
+				(if (== (theHut x:) 124)
+					(super doVerb: theVerb &rest)
+				else
+					(return 1)
+				)
 			)
 			(else
-				(super doVerb: theVerb)
+				(super doVerb: theVerb &rest)
 			)
 		)
 	)
@@ -1300,7 +1323,7 @@
 
 (instance laserSkull1 of Feature
 	(properties
-		noun 11
+		noun 10
 		nsLeft 17
 		nsTop 84
 		nsRight 27

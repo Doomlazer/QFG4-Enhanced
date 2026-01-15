@@ -172,6 +172,17 @@
 		(gGlory save: 1)
 	)
 
+	(method (doVerb theVerb)
+		(switch theVerb
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "You practice your acrobatics and jumping techniques."
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
+	)
+
 	(method (notify)
 		(gMessager say: 0 8 0) ; "Use of magic is strictly forbidden in Thieves' Guildhalls, as you know. It's considered to be bad form and to interfere with the mental and physical training process of building your skills."
 	)
@@ -235,6 +246,13 @@
 				)
 			)
 			(6
+				(if (== local3 5)
+					(gMessager say: 32 6 59 0 self) ; "There is no longer any trace of the Chief's body (except maybe a little leftover slug slime (no, it's not useful)). You suddenly remember that Master Thieves often receive training in feigning death in desperate situations. You hope you don't meet up with the Chief again any time soon!"
+				else
+					(= cycles 1)
+				)
+			)
+			(7
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -395,7 +413,7 @@
 					(gasTrap hide:)
 					(= cycles 1)
 				else
-					(EgoDead 3 0 974 1 912)
+					(EgoDead 3 0 977 1 912)
 				)
 			)
 			(4
@@ -411,7 +429,6 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(if (and (== (barrel x:) 116) (not (IsFlag 254)))
 					(self changeState: 6)
@@ -420,7 +437,6 @@
 				)
 			)
 			(1
-				1
 				(= local4 (gEgo cycleSpeed:))
 				(gEgo
 					view: 4
@@ -433,7 +449,6 @@
 				)
 			)
 			(2
-				2
 				(if register
 					(gMessager say: 6 4 18 0 self) ; "You slide the barrel back into place covering the lock mechanism."
 				else
@@ -441,7 +456,6 @@
 				)
 			)
 			(3
-				3
 				(barrel setLoop:)
 				(if register
 					(barrel setMotion: MoveTo 132 148 self)
@@ -450,36 +464,31 @@
 				)
 			)
 			(4
-				4
 				(gEgo setCycle: Beg self)
 			)
 			(5
-				5
 				(gEgo
 					normalize:
 					cycleSpeed: local4
 					posn: (if register 149 else 159) 131
 				)
 				(if register
-					(= state 11)
+					(= state 12)
 				)
 				(= cycles 1)
 			)
 			(6
-				6
 				(gMessager say: 28 6 14 0 self) ; "This is a door unlocking mechanism. To operate it, push each of the tiles until all nine tiles have been set to the correct pattern to open the door."
 			)
 			(7
-				7
 				(gGlory handsOn:)
 				(if ((ScriptID 341 0) init: show: dispose:) ; barrelPuz
 					(= cycles 1)
 				else
-					(self changeState: 12)
+					(self changeState: 14)
 				)
 			)
 			(8
-				8
 				(gGlory handsOff:)
 				(SetFlag 254)
 				(gEgo solvePuzzle: 513 2 4)
@@ -495,21 +504,32 @@
 				(secretDoor setMotion: MoveTo 236 52 self)
 			)
 			(9
-				9
-				(secretDoor setMotion: MoveTo 294 60 self)
+				(gMessager say: 28 6 25 1 self) ; "As you push the last tile, you hear a grinding sound to your right. A section of the wall has slid aside, revealing a long dark secret passageway."
 			)
 			(10
-				10
-				(secretDoor dispose:)
-				(secretPassage init:)
-				(chiefThief setMotion: MoveTo 307 117 self)
+				(secretDoor setMotion: MoveTo 294 60 self)
 			)
 			(11
-				11
-				(gMessager say: 10 6 21 0 self) ; "So... You found my secret passageway. You must excuse me... I am not quite myself any more. Heh, heh, heh."
+				(secretDoor dispose:)
+				(secretPassage init:)
+				(secritExit init:)
+				(gCurRoom
+					addObstacle:
+						((Polygon new:)
+							type: PContainedAccess
+							init: 117 134 91 134 91 112 95 112 95 110 88 110 88 103 52 103 52 112 69 112 69 137 38 137 26 149 65 149 65 171 206 156 227 177 208 183 208 189 319 189 319 163 282 153 260 158 238 154 280 131 314 137 314 128 273 128 273 124 319 124 319 122 227 122 260 128 223 153 211 148 211 136 192 130 117 130
+							yourself:
+						)
+				)
+				(chiefThief setMotion: MoveTo 307 117 self)
 			)
 			(12
-				12
+				(gMessager say: 28 6 25 2 self) ; "Blocking the passage is a strange creature. From the waist up, it looks human, with sharp features and piercing eyes. Below the waist it looks like some sort of spider or horrible insect. The sight fills you with a nameless dread and loathing."
+			)
+			(13
+				(gMessager say: 10 6 21 0 self) ; "So... You found my secret passageway. You must excuse me... I am not quite myself any more. Heh, heh, heh."
+			)
+			(14
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -523,7 +543,6 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(ClearFlag 182)
 				(if (== (CueObj client:) frame1)
@@ -533,7 +552,6 @@
 				)
 			)
 			(1
-				1
 				(gGlory handsOn:)
 				(if ((ScriptID 648 0) init: show: dispose:) ; ticTacPuz
 					(DisposeScript 648)
@@ -554,21 +572,18 @@
 				)
 			)
 			(2
-				2
 				(gGlory handsOff:)
 				(explosion dispose:)
 				(gMessager say: 16 4 3 0 self) ; "You set off a spike trap on the safe! Ouch! You're not sure whether it's safe now or if the trap has rearmed itself."
 			)
 			(3
-				3
 				(if (gEgo takeDamage: 5)
 					(= cycles 1)
 				else
-					(EgoDead 3 0 974 1 912)
+					(EgoDead 2 0 974 1 912)
 				)
 			)
 			(4
-				4
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -582,7 +597,6 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(if
 					(or
@@ -595,20 +609,17 @@
 				)
 			)
 			(1
-				1
 				(explosion dispose:)
 				(gMessager say: 16 4 3 0 self) ; "You set off a spike trap on the safe! Ouch! You're not sure whether it's safe now or if the trap has rearmed itself."
 			)
 			(2
-				2
 				(if (not (gEgo takeDamage: 30))
-					(EgoDead 3 0 974 1 912)
+					(EgoDead 2 0 974 1 912)
 				else
 					(= cycles 1)
 				)
 			)
 			(3
-				3
 				(if (== (CueObj client:) frame1)
 					(SetFlag 366)
 					(+= global154 6)
@@ -622,7 +633,6 @@
 				)
 			)
 			(4
-				4
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -732,9 +742,12 @@
 				(chiefThief setLoop: 1 1 setCycle: End self)
 			)
 			(1
-				(gEgo view: 43 loop: 2 cel: 0 setCycle: End self)
+				(gMessager say: 32 6 1 0 self) ; "The "Chief Monster" flicks a tentacle towards you, providing you with a free acid bath. Don't worry; it only hurts for a moment."
 			)
 			(2
+				(gEgo view: 43 loop: 2 cel: 0 setCycle: End self)
+			)
+			(3
 				(EgoDead 1 0 960 1 912)
 			)
 		)
@@ -749,7 +762,7 @@
 			(0
 				(gGlory handsOff:)
 				(SetFlag 244)
-				(= [gEgoStats 14] 0) ; honor
+				(= global261 0)
 				(if (gEgo actions:)
 					((gEgo actions:) dispose:)
 				)
@@ -972,6 +985,12 @@
 			)
 			(3
 				(gEgo cycleSpeed: local4 normalize: 7)
+				(= cycles 2)
+			)
+			(4
+				(gMessager say: 35 173 40 1 self) ; "You detach the plastic Thieves' Guild membership card from the poster and put it away. You've always wanted to steal one of these!"
+			)
+			(5
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -1029,9 +1048,17 @@
 		(super
 			showCases:
 				75 ; Search for Traps
-				(and (not (IsFlag 247)) (not (IsFlag 241)) (IsFlag 242))
+				(if (and (not (IsFlag 247)) (not (IsFlag 241)))
+					(IsFlag 242)
+				else
+					0
+				)
 				76 ; Pick Lock
-				(and (not (IsFlag 241)) (gEgo has: 13)) ; theLockpick
+				(if (not (IsFlag 241))
+					(gEgo has: 13) ; theLockpick
+				else
+					0
+				)
 		)
 	)
 
@@ -1077,29 +1104,30 @@
 		(super
 			showCases:
 				50 ; Disarm Trap
-				(and
-					(IsFlag 242)
-					(gEgo has: 24) ; theToolkit
-					(or
-						(and
-							(== (CueObj client:) frame1)
-							(not (IsFlag 308))
-							(not (IsFlag 366))
-						)
-						(and
-							(== (CueObj client:) frame2)
-							(not (IsFlag 309))
-							(not (IsFlag 367))
+				(if
+					(and
+						(IsFlag 242)
+						(gEgo has: 24) ; theToolkit
+						(or
+							(and
+								(== (CueObj client:) frame1)
+								(not (IsFlag 308))
+								(not (IsFlag 366))
+							)
+							(and
+								(== (CueObj client:) frame2)
+								(not (IsFlag 309))
+								(not (IsFlag 367))
+							)
 						)
 					)
+				else
+					0
 				)
 				49 ; Crack Safe
-				(and
-					(gEgo has: 24) ; theToolkit
-					(or
-						(== (CueObj client:) frame1)
-						(== (CueObj client:) frame2)
-					)
+				(if (or (not (gEgo has: 24)) (== (CueObj client:) frame1)) ; theToolkit
+				else
+					(== (CueObj client:) frame2)
 				)
 		)
 	)
@@ -1112,20 +1140,27 @@
 			)
 			(49 ; Crack Safe
 				(self clean:)
-				(if
-					(or
-						(and (IsFlag 366) (== (CueObj client:) frame1))
-						(and (IsFlag 367) (== (CueObj client:) frame2))
+				(cond
+					((not (gEgo has: 24)) ; theToolkit
+						(gMessager say: 16 28 0) ; "This lock is much too complex for a simple lockpick. You need more tools."
 					)
-					(gEgo useSkill: 9 100) ; pick locks
-					(gMessager say: 16 4 27) ; "You've already cracked this one. There's nothing else in it."
-				else
-					(gCurRoom setScript: sOpenSafe)
+					(
+						(or
+							(and (IsFlag 366) (== (CueObj client:) frame1))
+							(and (IsFlag 367) (== (CueObj client:) frame2))
+						)
+						(gEgo useSkill: 9 100) ; pick locks
+						(gMessager say: 16 4 27) ; "You've already cracked this one. There's nothing else in it."
+					)
+					(else
+						(gCurRoom setScript: sOpenSafe)
+					)
 				)
 			)
 			(78 ; Cover Safe
 				(self clean:)
 				((CueObj client:) setCel: 0)
+				(gMessager say: 16 4 18) ; "You move the frame back to cover up the safe for the next Thief who wanders by. (Besides, maybe someone will add some more valuables to it.)"
 			)
 			(else
 				(super sayMessage: &rest)
@@ -1429,10 +1464,16 @@
 				)
 			)
 			(1 ; Look
-				(if (== ((CueObj client:) cel:) 1)
-					(gMessager say: 40 1 111) ; "You can see a safe hidden behind the picture."
-				else
-					(super doVerb: theVerb &rest)
+				(cond
+					((== ((CueObj client:) cel:) 1)
+						(gMessager say: 40 1 111) ; "You can see a safe hidden behind the picture."
+					)
+					((== (CueObj client:) frame2)
+						(gMessager say: 17 1 0) ; "It's a cheap reproduction of a little-known painting by one of the Old Masters. (Of course, around here that term means "a Master Thief who's too old to climb in windows anymore.")"
+					)
+					(else
+						(super doVerb: theVerb &rest)
+					)
 				)
 			)
 			(42 ; theToolkit

@@ -477,6 +477,13 @@
 
 	(method (doVerb theVerb)
 		(switch theVerb
+			(1 ; Look
+				(if local1
+					(gMessager say: 37 1 4 1 0 640) ; "Now the crest is crooked in the other direction! Some days, you just can't win. On the other hand, you DID manage to open the secret passage!"
+				else
+					(gMessager say: 37 1 0 1 0 640) ; "The Boyar's crest looks slightly crooked."
+				)
+			)
 			(4 ; Do
 				(if local1
 					(= local1 0)
@@ -665,9 +672,17 @@
 		(super
 			showCases:
 				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
 				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 

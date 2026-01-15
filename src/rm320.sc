@@ -98,7 +98,7 @@
 					15
 				)
 				((and (not (IsFlag 127)) (OneOf gTime 4 5)) 2)
-				((and (>= gTime 6) (not (IsFlag 128)) (not (IsFlag 136))) 3)
+				((and (>= gTime 6) (not (IsFlag 128))) 3)
 				(
 					(and
 						(IsFlag 127)
@@ -301,6 +301,12 @@
 					(gEgo setMotion: PolyPath gMouseX (- gMouseY 10))
 				)
 			)
+			(81 ; detectMagicSpell
+				(gMessager say: 0 81 0) ; "The only magic you sense here is coming from the door of the last room at the top of the stairs."
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "Usually folks around here don't start jumping on the tables until they've had a bit more to drink."
+			)
 			(else
 				(super doVerb: theVerb)
 			)
@@ -365,7 +371,15 @@
 						(= local7
 							(/ (+ (* (+ (- gDay global469) 1) 15) 99) 100)
 						)
-						(> local7 global468)
+						(>
+							(= local7
+								(/
+									(+ (* (+ (- gDay global469) 1) 15) 99)
+									100
+								)
+							)
+							global468
+						)
 						(gCast contains: innKeeper)
 						(or (>= ((gInventory at: 0) amount:) 1) (>= global395 100)) ; thePurse
 					)
@@ -797,7 +811,6 @@
 				)
 			)
 			(4
-				4
 				(if (== local2 4)
 					(gMessager say: 25 6 36 0 self) ; "Whew! The Gnome has stopped speaking. Maybe he's finished telling his joke. You think about applauding, but you're not quite sure if you've heard the punchline yet."
 				else
@@ -1212,7 +1225,6 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(if (< (gEgo y:) 105)
 					(= state 6)
 					(gEgo setMotion: PolyPath 268 51 self)
@@ -1221,21 +1233,18 @@
 				)
 			)
 			(1
-				1
 				(Face gEgo 193 189 self)
 			)
 			(2
-				2
 				(cond
-					((<= 4 gTime 5)
+					((and (<= 4 gTime) (<= 2 5))
 						(self changeState: 3)
 					)
-					((<= 6 gTime 7)
+					((and (<= 6 gTime) (<= gTime 7))
 						(if (gCast contains: innKeeper)
 							(self changeState: 3)
 						else
-							(= state 6)
-							(gMessager say: 22 6 16 0 self) ; "You've never seen so many locks and bars on a door; you can't find any way to open it."
+							(gMessager say: 22 (= state 6) 16 0 self)
 						)
 					)
 					(else
@@ -1244,15 +1253,12 @@
 				)
 			)
 			(3
-				3
 				(gMessager say: 22 6 16 0 self) ; "You've never seen so many locks and bars on a door; you can't find any way to open it."
 			)
 			(4
-				4
 				(gMessager say: 12 6 100 0 self) ; "It is very dangerous in Mordavia at night. We always keep things locked up when it gets dark. I will let you out for now."
 			)
 			(5
-				5
 				(if (== local2 5)
 					(self setScript: sGnomeLeaves self)
 				else
@@ -1260,14 +1266,12 @@
 				)
 			)
 			(6
-				6
 				(ClearFlag 162)
 				(gGlory handsOff:)
 				(gCurRoom south: 260)
 				(gEgo setMotion: ((ScriptID 17) new:) 193 189 self) ; pOffMover
 			)
 			(7
-				7
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -1291,7 +1295,7 @@
 				)
 				(+= global468 local7)
 				(= global469 gDay)
-				(gEgo setMotion: PolyPath 186 183 self)
+				(gEgo get: 59 setMotion: PolyPath 186 183 self) ; invSelect
 			)
 			(1
 				(gEgo setHeading: 0 self)
@@ -1357,7 +1361,14 @@
 	)
 
 	(method (showCases)
-		(super showCases: 12 (or (gEgo has: 13) (gEgo has: 24))) ; Pick Lock, theLockpick, theToolkit
+		(super
+			showCases:
+				12 ; Pick Lock
+				(if (gEgo has: 13) ; theLockpick
+				else
+					(gEgo has: 24) ; theToolkit
+				)
+		)
 	)
 
 	(method (sayMessage)
@@ -1390,11 +1401,21 @@
 		(super
 			showCases:
 				12 ; Pick Lock
-				(or (gEgo has: 13) (gEgo has: 24)) ; theLockpick, theToolkit
+				(if (gEgo has: 13) ; theLockpick
+				else
+					(gEgo has: 24) ; theToolkit
+				)
 				10 ; Listen at Door
-				(or (<= local2 13) (>= local2 15))
+				(if (<= local2 13)
+				else
+					(>= local2 15)
+				)
 				17 ; Listen at Door
-				(and (== local2 14) (not (IsFlag 137)))
+				(if (== local2 14)
+					(not (IsFlag 137))
+				else
+					0
+				)
 		)
 	)
 
@@ -1538,7 +1559,15 @@
 						(= local7
 							(/ (+ (* (+ (- gDay global469) 1) 15) 99) 100)
 						)
-						(> local7 global468)
+						(>
+							(= local7
+								(/
+									(+ (* (+ (- gDay global469) 1) 15) 99)
+									100
+								)
+							)
+							global468
+						)
 					)
 					(gMessager say: 12 15 105) ; "Although you are a bit short, you offer all of your remaining cash to the innkeeper."
 				else

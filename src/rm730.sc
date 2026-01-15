@@ -9,6 +9,7 @@
 (use GloryTalker)
 (use Scaler)
 (use Feature)
+(use Sound)
 (use Jump)
 (use Motion)
 (use User)
@@ -43,6 +44,7 @@
 	local10
 	local11
 	local12
+	local13
 )
 
 (instance rm730 of GloryRm
@@ -114,21 +116,28 @@
 			(script dispose:)
 		)
 		(SetFlag 373)
-		(DisposeScript 731)
 		(super dispose:)
 	)
 
 	(method (doit)
+		(if (< (Abs (- gGameTime local13)) 2)
+			(return)
+		)
+		(= local13 gGameTime)
 		(super doit:)
 		(if
 			(and
 				(IsFlag 360)
 				(not (gCurRoom script:))
+				(not local2)
 				(not local5)
 				(!= gHeroType 1) ; Magic User
 			)
 			(= local5 1)
 			(gCurRoom setScript: sDoTheStaff)
+		)
+		(if (== (gTheIconBar curIcon:) (gTheIconBar at: 0))
+			(gTheIconBar advanceCurIcon:)
 		)
 	)
 
@@ -226,7 +235,7 @@
 				)
 			)
 			(92 ; summonStaffSpell
-				(if (== (gEgo view:) 20)
+				(if local8
 					(gMessager say: 0 92 38) ; "You've already summoned the staff."
 					(return 1)
 				else
@@ -248,9 +257,9 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(= [gEgoStats 17] (gEgo maxHealth:)) ; health
-				(= [gEgoStats 18] (gEgo maxStamina:)) ; stamina
-				(= [gEgoStats 19] (gEgo maxMana:)) ; mana
+				(= global264 (gEgo maxHealth:))
+				(= global265 (gEgo maxStamina:))
+				(= global266 (gEgo maxMana:))
 				(if (or local4 local8)
 					(self cue:)
 				else
@@ -284,7 +293,7 @@
 				)
 			)
 			(2
-				(if (== local1 0)
+				(if (> local1 0)
 					(gMessager say: 5 6 5 0 self) ; "You think I haven't arranged protections against all of your spells? I know what puny magics the Wizards teach such as you!"
 				else
 					(gMessager say: 5 6 10 0 self) ; "Ha! There are advantages to being a Vampire. Those puny mundane weapons can do nothing to me!"
@@ -307,12 +316,13 @@
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(1
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -324,19 +334,22 @@
 			(3
 				(local0 dispose:)
 				(cond
-					((and (> (gEgo view:) 17) (< (gEgo view:) 21))
+					(
+						(and
+							(> (gEgo view:) 17)
+							(< (gEgo view:) 21)
+							(< (gEgo view:) 21)
+						)
 						(gEgo takeDamage: 23)
 					)
 					((> global454 0)
-						(gEgo
-							takeDamage: (- 50 (/ (* [gEgoStats 26] 15) 100)) ; flameDartSpell
-						)
+						(gEgo takeDamage: (- 50 (/ (* global273 15) 100)))
 					)
 					(else
 						(gEgo takeDamage: 50)
 					)
 				)
-				(if (== [gEgoStats 17] 0) ; health
+				(if (== global264 0)
 					(self setScript: sEgoDies)
 				else
 					(self cue:)
@@ -346,8 +359,12 @@
 				(proc0_17 5 6 13 sCastASpell 730)
 			)
 			(5
+				(if (not local8)
+					(gEgo view: 5 setLoop: 5 1)
+				)
 				(gGlory handsOn:)
 				(gTheIconBar disable: 0)
+				(sMessages dispose:)
 				(self dispose:)
 			)
 		)
@@ -378,7 +395,7 @@
 				(gEgo
 					posn: 146 162
 					setCel: 5
-					moveSpeed: 0
+					moveSpeed: 2
 					setMotion: MoveTo 146 162 self
 				)
 			)
@@ -428,8 +445,12 @@
 				)
 				(gLongSong number: 440 loop: -1 play:)
 				(crystal signal: (| (crystal signal:) $0001) setCycle: Fwd)
+				(= local8 0)
 				(gGlory handsOn:)
 				(gTheIconBar disable: 0)
+				(if (gCurRoom script:)
+					((gCurRoom script:) cue:)
+				)
 				(self dispose:)
 			)
 		)
@@ -452,13 +473,14 @@
 				(avis view: 677 setLoop: 0 1 cel: 0 setCycle: CT 5 1 self)
 			)
 			(2
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					setLoop: 1 1
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -509,15 +531,17 @@
 				)
 			)
 			(1
+				(gGlory handsOff:)
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(2
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -540,6 +564,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
+				(sTimeItOut dispose:)
 				(gMessager say: 9 128 20 0 self) ; "You tell the Ultimate Joke about the Wizard and the farmer's daughter."
 			)
 			(1
@@ -566,12 +591,13 @@
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(5
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -765,13 +791,14 @@
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(2
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					setLoop: 1 1
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -785,7 +812,7 @@
 				(aSpear
 					init:
 					setLoop: 1
-					moveSpeed: 0
+					moveSpeed: 2
 					setMotion: JumpTo 209 189 self
 				)
 				(gEgo view: 5 setLoop: 5)
@@ -798,12 +825,13 @@
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(7
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 176 60 self
 				)
@@ -963,12 +991,13 @@
 				(avis view: 677 setLoop: 0 1 setCel: 0 setCycle: CT 5 1 self)
 			)
 			(1
+				(spellSoundFX number: 933 play:)
 				((= local0 (fireBall new:))
 					view: 747
 					x: 91
 					y: 101
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 124 77 self
 				)
@@ -1192,7 +1221,7 @@
 		yStep 15
 		signal 16385
 		xStep 15
-		moveSpeed 0
+		moveSpeed 2
 	)
 )
 
@@ -1215,7 +1244,7 @@
 		y 38
 		view 745
 		signal 16385
-		moveSpeed 0
+		moveSpeed 2
 	)
 )
 
@@ -1491,9 +1520,6 @@
 
 	(method (respond)
 		(super respond: &rest)
-		(if (or (not iconValue) (== iconValue -999))
-			(gEgo view: 5 setLoop: 5 1)
-		)
 		(return 1)
 	)
 
@@ -1663,5 +1689,9 @@
 		view 736
 		loop 7
 	)
+)
+
+(instance spellSoundFX of Sound
+	(properties)
 )
 

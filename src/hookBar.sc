@@ -26,7 +26,7 @@
 					((diamond new:)
 						value: temp0
 						nsLeft: (= temp1 (+ 30 (* temp0 35)))
-						x: temp1
+						x: (= temp1 (+ 30 (* temp0 35)))
 						init: self
 						yourself:
 					)
@@ -183,6 +183,7 @@
 							(== (hook3 cel:) 2)
 							(== (hook4 cel:) 1)
 						)
+						(gMessager say: 6 6 41 1) ; "You hear a "Click!" somewhere in the distance."
 						(self cue:)
 					)
 					(register

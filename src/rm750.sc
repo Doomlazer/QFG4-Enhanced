@@ -321,8 +321,56 @@
 					(super doVerb: theVerb)
 				)
 			)
+			(14 ; theBonsai
+				(gMessager say: 0 14 0) ; "You should have planted that earlier. It will never survive in this cave."
+				(return 1)
+			)
+			(33 ; theGrapnel
+				(gMessager say: 0 33 0) ; "You missed."
+				(return 1)
+			)
+			(47 ; theBones
+				(gMessager say: 0 47 0) ; "This is no fit place for a burial."
+				(return 1)
+			)
+			(56 ; theAmulet
+				(gMessager say: 0 56 0) ; "That won't help you here."
+				(return 1)
+			)
+			(60 ; theWillowisp
+				(gMessager say: 0 60 0) ; "The tiny creature cringes in its flask. It will have nothing to do with this place!"
+				(return 1)
+			)
+			(67 ; theBoneRit
+				(gMessager say: 0 67 0) ; "This is not the proper place for that Ritual."
+				(return 1)
+			)
+			(69 ; theBloodRit
+				(gMessager say: 0 69 0) ; "This is not the proper place for that Ritual."
+				(return 1)
+			)
+			(70 ; theBreathRit
+				(gMessager say: 0 70 0) ; "The Breath Ritual must be used on the Altar of Darkness."
+				(return 1)
+			)
+			(72 ; theSenseRit
+				(gMessager say: 0 72 0) ; "This is not the proper place for that Ritual."
+				(return 1)
+			)
+			(74 ; theHeartRit
+				(gMessager say: 0 74 0) ; "This is not the proper place for that Ritual."
+				(return 1)
+			)
+			(104 ; Sleep all night
+				(gMessager say: 0 104 0) ; "To fall asleep here would surely mean your death!"
+				(return 1)
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "Jumping's not easy in a place that's this breezy!"
+				(return 1)
+			)
 			(else
-				(super doVerb: theVerb)
+				(super doVerb: theVerb &rest)
 			)
 		)
 	)
@@ -339,7 +387,11 @@
 				(= seconds 2)
 			)
 			(1
-				(gMessager say: 11 6 9 0 self) ; "Your spell has no effect."
+				(if (== register 942)
+					(gMessager say: 0 81 0 0 self) ; "The entire cave is suffused with dark, eldritch magic. The focus seems to be the tentacle-laden altar on the left side of the chamber."
+				else
+					(gMessager say: 11 6 9 0 self) ; "Your spell has no effect."
+				)
 			)
 			(2
 				(gGlory handsOn:)

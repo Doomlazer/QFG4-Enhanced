@@ -106,12 +106,23 @@
 				(cond
 					(
 						(not
+							; COMPILER BUG: GAME WILL CRASH
+							;
+							; [Note below added from Sluicebox's SCI-Tools' workaround file - DL]
+							;  // QFG4CD Fan Patch has an invalid function call.
+							;  // Normally there are 43 parameters passed to OneOf.
+							;  // A room number (360) was added, but the parameter count
+							;  // and the calle stack size weren't updated.
+							;  // (Companion asm'd the original function, so the author
+							;  // had to edit that asm output to make their mod, but
+							;	// they didn't update all the necessary instructions.)
 							(OneOf
 								gCurRoomNum
 								250
 								260
 								270
 								340
+								360
 								440
 								500
 								510

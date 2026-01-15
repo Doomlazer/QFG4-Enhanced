@@ -69,6 +69,17 @@
 		(gLongSong fade: 0)
 		(super dispose:)
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "Yes, those gargoyles DO make you feel jumpy, but you can't reach the parapet that way. It's too high."
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
+	)
 )
 
 (instance sComeOnIn of Script
@@ -177,16 +188,19 @@
 				(pDoor setPri: 119 setCycle: End self)
 			)
 			(1
-				(gEgo setMotion: MoveTo 221 113 self)
+				(gMessager say: 2 125 1 1 self) ; "The massive doors open at your touch. As you make your way into the dark and forbidding castle you wonder whether it will be as easy to get back out as it was to enter."
 			)
 			(2
-				(pDoor setCycle: Beg self)
+				(gEgo setMotion: MoveTo 221 113 self)
 			)
 			(3
+				(pDoor setCycle: Beg self)
+			)
+			(4
 				(doorCloseSound play:)
 				(= ticks 12)
 			)
-			(4
+			(5
 				(gCurRoom newRoom: 630)
 			)
 		)

@@ -724,6 +724,7 @@
 
 (instance openSpell of SpellItem
 	(properties
+		name {openSpell}
 		noun 5
 		mainView 906
 		value 2
@@ -734,7 +735,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 80)
 					)
 					((super doVerb: 4)
@@ -760,6 +768,7 @@
 
 (instance detectMagicSpell of SpellItem
 	(properties
+		name {detectMagicSpell}
 		noun 6
 		mainView 906
 		mainCel 1
@@ -771,7 +780,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 81)
 					)
 					((super doVerb: 4)
@@ -788,6 +804,7 @@
 
 (instance triggerSpell of SpellItem
 	(properties
+		name {triggerSpell}
 		noun 7
 		mainView 906
 		mainCel 2
@@ -799,7 +816,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 82)
 					)
 					((super doVerb: 4)
@@ -825,6 +849,7 @@
 
 (instance dazzleSpell of SpellItem
 	(properties
+		name {dazzleSpell}
 		noun 8
 		mainView 906
 		mainCel 3
@@ -836,7 +861,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 83)
 					)
 					((super doVerb: 4)
@@ -889,7 +921,9 @@
 									593
 									270
 									340
+									360
 									460
+									510
 									520
 									545
 									600
@@ -927,6 +961,7 @@
 
 (instance zapSpell of SpellItem
 	(properties
+		name {zapSpell}
 		noun 9
 		mainView 906
 		mainCel 4
@@ -938,7 +973,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 84)
 					)
 					((super doVerb: 4)
@@ -949,7 +991,7 @@
 							((or (gEgo has: 19) (gEgo has: 5)) ; theSword, theThrowdagger
 								(soundFX number: 932 play:)
 								(gMessager say: 0 0 8 1 0 21) ; "Your weapon is now magically charged."
-								(= global142 (+ 5 (/ [gEgoStats 24] 10))) ; zapSpell
+								(= global142 (+ 5 (/ global271 10)))
 								((ScriptID 0 21) doit:) ; statusCode
 							)
 							(else
@@ -971,6 +1013,7 @@
 
 (instance calmSpell of SpellItem
 	(properties
+		name {calmSpell}
 		noun 10
 		mainView 906
 		mainCel 5
@@ -982,7 +1025,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 85)
 					)
 					((super doVerb: 4)
@@ -1002,6 +1052,7 @@
 
 (instance flameDartSpell of SpellItem
 	(properties
+		name {flameDartSpell}
 		noun 11
 		mainView 906
 		mainCel 6
@@ -1013,7 +1064,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 86)
 					)
 					((super doVerb: 4)
@@ -1039,6 +1097,7 @@
 
 (instance fetchSpell of SpellItem
 	(properties
+		name {fetchSpell}
 		noun 12
 		mainView 906
 		mainCel 7
@@ -1050,7 +1109,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 87)
 					)
 					((super doVerb: 4)
@@ -1076,6 +1142,7 @@
 
 (instance forceBoltSpell of SpellItem
 	(properties
+		name {forceBoltSpell}
 		noun 13
 		mainView 906
 		mainCel 8
@@ -1087,7 +1154,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 88)
 					)
 					((super doVerb: 4)
@@ -1113,18 +1187,26 @@
 
 (instance levitateSpell of SpellItem
 	(properties
+		name {levitateSpell}
 		noun 14
 		mainView 906
 		mainCel 9
 		value 7
 	)
 
-	(method (doVerb theVerb &tmp temp0 temp1)
+	(method (doVerb theVerb &tmp temp0)
 		(switch theVerb
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 89)
 					)
 					(
@@ -1137,90 +1219,86 @@
 						((gEgo script:) cue:)
 					)
 					((super doVerb: 4)
-						(if
-							(OneOf
-								gCurRoomNum
-								551
-								552
-								553
-								554
-								555
-								556
-								557
-								558
-								559
-								560
-								561
-								562
-								563
-								564
-								565
-								566
-								567
-								568
-								569
-								570
-								571
-								572
-								573
-								574
-								575
-								576
-								577
-								578
-								579
-								580
-								581
-								582
-								583
-								584
-								585
-								586
-								587
-								588
-								589
-								590
-								591
-								592
-								593
-								250
-								260
-								270
-								280
-								290
-								330
-								340
-								600
-								710
-								720
-								800
-								740
-								750
-								730
-							)
-							((= temp0 (Event new:)) type: evMOUSEBUTTON message: KEY_Y)
-							(if (not (gMouseDownHandler handleEvent: temp0))
-								(gRegions handleEvent: temp0)
-							)
-							(temp0 dispose:)
-							(return 1)
-						else
-							(= temp1 (Str new:))
-							(cond
-								((> (gEgo view:) 5)
-									(Message msgGET 21 0 0 14 1 (temp1 data:)) ; "This isn't a good place to use that spell."
-									(Print addText: (temp1 data:) init:)
+						(cond
+							(
+								(OneOf
+									gCurRoomNum
+									551
+									552
+									553
+									554
+									555
+									556
+									557
+									558
+									559
+									560
+									561
+									562
+									563
+									564
+									565
+									566
+									567
+									568
+									569
+									570
+									571
+									572
+									573
+									574
+									575
+									576
+									577
+									578
+									579
+									580
+									581
+									582
+									583
+									584
+									585
+									586
+									587
+									588
+									589
+									590
+									591
+									592
+									593
+									250
+									260
+									270
+									280
+									290
+									330
+									340
+									360
+									380
+									600
+									710
+									720
+									800
+									740
+									750
+									730
 								)
-								(((ScriptID gCurRoomNum) script:)
-									(Message msgGET 21 0 0 15 1 (temp1 data:)) ; "This is definitely not an appropriate time to cast your Levitate spell."
-									(Print addText: (temp1 data:) init:)
+								((= temp0 (Event new:)) type: evMOUSEBUTTON message: KEY_Y)
+								(if (not (gMouseDownHandler handleEvent: temp0))
+									(gRegions handleEvent: temp0)
 								)
-								(else
-									(Message msgGET 21 21 6 21 1 (temp1 data:)) ; "Now is not a good time to cast your Levitate spell."
-									(Print addText: (temp1 data:) init:)
-								)
+								(temp0 dispose:)
+								(return 1)
 							)
-							(temp1 dispose:)
+							((> (gEgo view:) 5)
+								(gMessager say: 0 0 14 0 0 21) ; "This isn't a good place to use that spell."
+							)
+							(((ScriptID gCurRoomNum) script:)
+								(gMessager say: 0 0 15 0 0 21) ; "This is definitely not an appropriate time to cast your Levitate spell."
+							)
+							(else
+								(gMessager say: 21 6 21 0 0 21) ; "Now is not a good time to cast your Levitate spell."
+							)
 						)
 					)
 					(else
@@ -1237,6 +1315,7 @@
 
 (instance reversalSpell of SpellItem
 	(properties
+		name {reversalSpell}
 		noun 15
 		mainView 906
 		mainCel 10
@@ -1248,7 +1327,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 90)
 					)
 					((super doVerb: 4)
@@ -1256,7 +1342,7 @@
 							(gCurRoom doVerb: 90)
 						else
 							(SetFlag 8)
-							(= global440 (/ [gEgoStats 30] 2)) ; reversalSpell
+							(= global440 (/ global277 2))
 							(gMessager say: 0 0 27 0 0 21) ; "You cast the Reversal spell."
 							((ScriptID 0 21) doit:) ; statusCode
 						)
@@ -1275,6 +1361,7 @@
 
 (instance jugglingLightsSpell of SpellItem
 	(properties
+		name {jugglingLightsSpell}
 		noun 16
 		mainView 906
 		mainCel 11
@@ -1286,12 +1373,24 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 91)
 					)
 					((super doVerb: 4)
 						(cond
-							((and (> (gEgo view:) 17) (< (gEgo view:) 21))
+							(
+								(and
+									(> (gEgo view:) 17)
+									(< (gEgo view:) 21)
+									(< (gEgo view:) 21)
+								)
 								(gMessager say: 21 6 33 0 0 21) ; "You find that you are unable to cast that spell while holding Erana's Staff."
 							)
 							(
@@ -1300,6 +1399,7 @@
 									270
 									340
 									390
+									510
 									520
 									530
 									535
@@ -1338,6 +1438,7 @@
 
 (instance summonStaffSpell of SpellItem
 	(properties
+		name {summonStaffSpell}
 		noun 17
 		mainView 906
 		mainCel 12
@@ -1349,7 +1450,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 92)
 					)
 					((or (IsFlag 450) gDebugging)
@@ -1359,6 +1467,7 @@
 									(and
 										(> (gEgo view:) 17)
 										(< (gEgo view:) 21)
+										(!= gCurRoomNum 730)
 									)
 									(gEgo
 										normalize:
@@ -1410,6 +1519,7 @@
 
 (instance lightningBallSpell of SpellItem
 	(properties
+		name {lightningBallSpell}
 		noun 18
 		mainView 906
 		mainCel 13
@@ -1421,7 +1531,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 93)
 					)
 					((super doVerb: 4)
@@ -1447,6 +1564,7 @@
 
 (instance healingSpell of SpellItem
 	(properties
+		name {healingSpell}
 		noun 20
 		mainView 906
 		mainCel 14
@@ -1461,10 +1579,17 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 102)
 					)
-					((< [gEgoStats 18] 10) ; stamina
+					((< global265 10)
 						(gMessager say: 21 6 20 0 0 21) ; "Your stamina is too low for you to cast this spell."
 					)
 					(else
@@ -1487,6 +1612,7 @@
 
 (instance frostSpell of SpellItem
 	(properties
+		name {frostSpell}
 		noun 24
 		mainView 906
 		mainLoop 1
@@ -1504,7 +1630,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 79)
 					)
 					((super doVerb: 4)
@@ -1530,6 +1663,7 @@
 
 (instance ritualSpell of SpellItem
 	(properties
+		name {ritualSpell}
 		noun 26
 		mainView 906
 		mainLoop 1
@@ -1547,7 +1681,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 94)
 					)
 					((super doVerb: 4)
@@ -1573,6 +1714,7 @@
 
 (instance invisibleSpell of SpellItem
 	(properties
+		name {invisibleSpell}
 		noun 27
 		mainView 906
 		mainLoop 1
@@ -1585,7 +1727,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 95)
 					)
 					(
@@ -1599,7 +1748,20 @@
 						(gMessager say: 0 0 32 1 0 21) ; "You have to stand still to use the Hide spell."
 					)
 					((super doVerb: 4)
-						(if (OneOf gCurRoomNum 270 340 545 750 730 545)
+						(if
+							(OneOf
+								gCurRoomNum
+								270
+								340
+								360
+								380
+								390
+								545
+								750
+								730
+								710
+								545
+							)
 							(gCurRoom doVerb: 95)
 						else
 							(soundFX number: 934 play:)
@@ -1620,6 +1782,7 @@
 
 (instance protectionSpell of SpellItem
 	(properties
+		name {protectionSpell}
 		noun 31
 		mainView 906
 		mainLoop 1
@@ -1632,14 +1795,21 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 97)
 					)
 					((super doVerb: 4)
 						(if (OneOf gCurRoomNum 270 340 750)
 							(gCurRoom doVerb: 97)
 						else
-							(= global453 (* [gEgoStats 38] 4)) ; protectionSpell
+							(= global453 (* global285 4))
 							(soundFX number: 934 play:)
 							(gMessager say: 0 0 29 1 0 21) ; "You cast the Protection spell. It gives you a warm, safe feeling."
 							((ScriptID 0 21) doit:) ; statusCode
@@ -1659,6 +1829,7 @@
 
 (instance auraSpell of SpellItem
 	(properties
+		name {auraSpell}
 		noun 29
 		mainView 906
 		mainLoop 1
@@ -1670,14 +1841,21 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 96)
 					)
 					((super doVerb: 4)
 						(if (OneOf gCurRoomNum 270 340 750)
 							(gCurRoom doVerb: 96)
 						else
-							(= global449 (* [gEgoStats 37] 4)) ; auraSpell
+							(= global449 (* global284 4))
 							(soundFX number: 934 play:)
 							(gMessager say: 0 0 26 1 0 21) ; "You cast the Aura spell. A gentle glow suffuses your body."
 							((ScriptID 0 21) doit:) ; statusCode
@@ -1697,6 +1875,7 @@
 
 (instance resistanceSpell of SpellItem
 	(properties
+		name {resistanceSpell}
 		noun 30
 		mainView 906
 		mainLoop 1
@@ -1709,7 +1888,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 98)
 					)
 					((super doVerb: 4)
@@ -1736,6 +1922,7 @@
 
 (instance glideSpell of SpellItem
 	(properties
+		name {glideSpell}
 		noun 28
 		mainView 906
 		mainCel 15
@@ -1752,7 +1939,14 @@
 			(4 ; Do
 				(glorySpells hide:)
 				(cond
-					((or (== gCurRoomNum 750) (== gCurRoomNum 340))
+					(
+						(or
+							(== gCurRoomNum 750)
+							(== gCurRoomNum 340)
+							(== gCurRoomNum 350)
+							(and (IsFlag 4) (== gCurRoomNum 290))
+							(and (IsFlag 4) (== gCurRoomNum 600))
+						)
 						(gCurRoom notify: 11)
 					)
 					((super doVerb: 4)

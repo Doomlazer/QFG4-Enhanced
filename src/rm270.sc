@@ -188,7 +188,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(85 ; calmSpell
-				(gMessager say: 2 6 27) ; "You were told that you shouldn't use magic in Mordavia. Someone might see you here."
+				(gMessager say: 0 85 0) ; "Your spell seems to resonate with the feeling of magic in the air to create an even greater feeling of peace and gentleness here."
 				(return 1)
 			)
 			(86 ; flameDartSpell
@@ -236,7 +236,11 @@
 				(return 1)
 			)
 			(87 ; fetchSpell
-				(gMessager say: 2 6 27) ; "You were told that you shouldn't use magic in Mordavia. Someone might see you here."
+				(if (IsFlag 115)
+					(gMessager say: 2 6 27) ; "You were told that you shouldn't use magic in Mordavia. Someone might see you here."
+				else
+					(gMessager say: 5 87 0) ; "There is some form of magical protection around the staff -- it resists your spell completely."
+				)
 				(return 1)
 			)
 			(82 ; triggerSpell
@@ -274,11 +278,7 @@
 			(89 ; levitateSpell
 				(if gNight
 					(= global423 2)
-					(if (gEgo castSpell: 29)
-						(gCurRoom setScript: sClimbTheGate)
-					else
-						(return 0)
-					)
+					(gCurRoom setScript: sClimbTheGate)
 				else
 					(gMessager say: 2 6 27) ; "You were told that you shouldn't use magic in Mordavia. Someone might see you here."
 				)
@@ -362,9 +362,9 @@
 				)
 			)
 			(2
-				(= [gEgoStats 19] (gEgo maxMana:)) ; mana
-				(= [gEgoStats 18] (gEgo maxStamina:)) ; stamina
-				(= [gEgoStats 17] (gEgo maxHealth:)) ; health
+				(= global266 (gEgo maxMana:))
+				(= global265 (gEgo maxStamina:))
+				(= global264 (gEgo maxHealth:))
 				(if (< global345 10)
 					(++ global345)
 					(gCurRoom newRoom: 110) ; dreamer
@@ -398,7 +398,7 @@
 				(gEgo
 					setLoop: 2 1
 					setCycle: Rev
-					setMotion: PolyPath (gEgo x:) (- (gEgo y:) 6) self
+					setMotion: PolyPath (gEgo x:) (- (gEgo y:) 9) self
 				)
 			)
 			(2
@@ -413,7 +413,7 @@
 	)
 )
 
-(instance sTo260 of Script
+(instance sTo260 of Script ; UNUSED
 	(properties)
 
 	(method (changeState newState)
@@ -492,13 +492,14 @@
 			(1
 				(Palette 2 0 255 100) ; PalIntensity
 				((ScriptID 7 4) init: 8) ; fixTime
-				(= [gEgoStats 19] (gEgo maxMana:)) ; mana
-				(= [gEgoStats 18] (gEgo maxStamina:)) ; stamina
-				(= [gEgoStats 17] (gEgo maxHealth:)) ; health
+				(= global266 (gEgo maxMana:))
+				(= global265 (gEgo maxStamina:))
+				(= global264 (gEgo maxHealth:))
 				(gEgo setCycle: 0)
 				(= seconds 5)
 			)
 			(2
+				(= local2 0)
 				(gateTeller dispose:)
 				(fSouth actions: 0)
 				(if (fSouth heading:)
@@ -571,7 +572,7 @@
 				(aStaff setLoop: 3 1 setCel: 0 setCycle: End self)
 			)
 			(3
-				(if (> [gEgoStats 35] 0) ; ritualOfReleaseSpell
+				(if (> global282 0)
 					(gMessager say: 2 6 20 0 self) ; "You cast the "Ritual of Release.""
 				else
 					(self cue:)
@@ -606,7 +607,7 @@
 				(gMessager say: 6 6 1 0 self) ; "It feels weird here. Kind of happy and icky. I'm scared."
 			)
 			(2
-				(if (> [gEgoStats 12] 5) ; magic
+				(if (== gHeroType 1) ; Magic User
 					(gMessager say: 2 6 20 0 self) ; "You cast the "Ritual of Release.""
 				else
 					(self changeState: 5)
@@ -625,7 +626,7 @@
 				(gEgo setCycle: Beg self)
 			)
 			(5
-				(if (> [gEgoStats 12] 5) ; magic
+				(if (== gHeroType 1) ; Magic User
 					(gEgo normalize: setLoop: 6 1)
 					(self cue:)
 				else
@@ -1053,9 +1054,20 @@
 				)
 				(gCurRoom doVerb: theVerb)
 			)
-			((OneOf theVerb 4 33) ; Do, theGrapnel
+			((== theVerb 4) ; Do
 				(if gNight
 					(if (== (gEgo trySkill: 11 200) 1) ; climbing
+						(gCurRoom setScript: sClimbTheTree)
+					else
+						(gMessager say: 13 4 0 0) ; "These trees look too difficult for an unskilled person like yourself to climb."
+					)
+				else
+					(gMessager say: 13 4 28) ; "It's much easier to just walk through the gate."
+				)
+			)
+			((== theVerb 33) ; theGrapnel
+				(if gNight
+					(if (== (gEgo trySkill: 11 150) 1) ; climbing
 						(gCurRoom setScript: sClimbTheTree)
 					else
 						(gMessager say: 13 4 0 0) ; "These trees look too difficult for an unskilled person like yourself to climb."
@@ -1094,47 +1106,7 @@
 	)
 
 	(method (doVerb theVerb)
-		(cond
-			(
-				(OneOf
-					theVerb
-					85 ; calmSpell
-					86 ; flameDartSpell
-					88 ; forceBoltSpell
-					79 ; frostSpell
-					95 ; invisibleSpell
-					91 ; jugglingLightsSpell
-					93 ; lightningBallSpell
-					80 ; openSpell
-					98 ; resistanceSpell
-					83 ; dazzleSpell
-					90 ; reversalSpell
-					84 ; zapSpell
-					87 ; fetchSpell
-					82 ; triggerSpell
-					92 ; summonStaffSpell
-					97 ; protectionSpell
-					96 ; auraSpell
-					11 ; glideSpell
-					102 ; healingSpell
-				)
-				(gCurRoom doVerb: theVerb)
-			)
-			((OneOf theVerb 4 33) ; Do, theGrapnel
-				(if gNight
-					(if (== (gEgo trySkill: 11 200) 1) ; climbing
-						(gCurRoom setScript: sClimbTheTree)
-					else
-						(gMessager say: 13 4 0 0) ; "These trees look too difficult for an unskilled person like yourself to climb."
-					)
-				else
-					(gMessager say: 13 4 28) ; "It's much easier to just walk through the gate."
-				)
-			)
-			(else
-				(super doVerb: theVerb)
-			)
-		)
+		(fTreeLeft doVerb: theVerb &rest)
 	)
 
 	(method (init)
@@ -1213,25 +1185,11 @@
 		nsRight 30
 		nsBottom 45
 		sightAngle 180
-		approachX 28
-		approachY 52
+		approachX 60
+		approachY 102
+		approachDist 156
 		x 27
 		y 33
-	)
-
-	(method (init)
-		(super init: &rest)
-		(= heading
-			(((ScriptID 49 0) new:) ; doorMat
-				init:
-					((Polygon new:) type: PNearestAccess init: 49 52 12 71 8 46 yourself:)
-					1
-					7
-					5
-					sTo260
-				yourself:
-			)
-		)
 	)
 
 	(method (doVerb theVerb)
@@ -1262,13 +1220,6 @@
 		else
 			(super doVerb: theVerb)
 		)
-	)
-
-	(method (dispose)
-		(if heading
-			(heading dispose:)
-		)
-		(super dispose: &rest)
 	)
 )
 
@@ -1434,13 +1385,21 @@
 	)
 
 	(method (onMe param1 param2)
-		(if (and (<= nsLeft param1 nsRight) (<= nsTop param2 nsBottom))
+		(if
+			(and
+				(<= nsLeft param1)
+				(<= param1 name)
+				(<= nsTop param2)
+				(<= param2 nsBottom)
+			)
 			(gGlory handsOff:)
 			(if (and approachX approachY)
 				(gCurRoom north: 280)
 				(gEgo setMotion: ((ScriptID 17) new:) approachX approachY) ; pOffMover
 			)
 			(return 1)
+		else
+			0
 		)
 	)
 
@@ -1455,7 +1414,7 @@
 	)
 
 	(method (showCases)
-		(super showCases: 11 (> [gEgoStats 11] 5) 12 (> [gEgoStats 29] 5)) ; Climb Over Gate, climbing, Levitate Over Gate, levitateSpell
+		(super showCases: 11 (> global258 5) 12 (> global276 5)) ; Climb Over Gate, Levitate Over Gate
 	)
 
 	(method (respond)

@@ -104,7 +104,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				(gGlory handsOn:)
+				(gGlory handsOff:)
 				(doorSound play:)
 				(switch gPrevRoomNum
 					(621
@@ -1185,9 +1185,17 @@
 		(super
 			showCases:
 				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
 				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 
@@ -1225,9 +1233,17 @@
 		(super
 			showCases:
 				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
 				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 
@@ -1265,9 +1281,17 @@
 		(super
 			showCases:
 				13 ; Look for Traps
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
 				7 ; Pick the Lock
-				(and [gEgoStats 9] (gEgo has: 24)) ; pick locks, theToolkit
+				(if global256
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 		)
 	)
 

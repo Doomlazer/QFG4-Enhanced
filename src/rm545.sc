@@ -28,6 +28,8 @@
 	local2
 	local3
 	local4
+	local5
+	local6
 )
 
 (procedure (localproc_0)
@@ -1455,6 +1457,10 @@
 	)
 
 	(method (doit &tmp temp0)
+		(if (< (Abs (- gGameTime local5)) 2)
+			(return)
+		)
+		(= local5 gGameTime)
 		(if
 			(and
 				(not (& signal $0800))
@@ -1540,6 +1546,10 @@
 	)
 
 	(method (doit)
+		(if (< (Abs (- gGameTime local6)) 2)
+			(return)
+		)
+		(= local6 gGameTime)
 		(if
 			(and
 				(not (& signal $0800))
@@ -1682,7 +1692,7 @@
 				)
 			setStep: 8 5
 			setLoop: 4 1
-			moveSpeed: 0
+			moveSpeed: 1
 			setScaler: Scaler 100 60 125 65
 			setCycle: Fwd
 			setMotion: MoveTo (+ (gEgo x:) temp0) (- (gEgo y:) 25) self
@@ -1719,7 +1729,7 @@
 			y: (param2 y:)
 			setStep: 8 5
 			setLoop: 4 1
-			moveSpeed: 0
+			moveSpeed: 1
 			setScaler: Scaler 100 60 125 65
 			setCycle: Fwd
 			setMotion: MoveTo (param1 x:) (- (param1 y:) 25) self

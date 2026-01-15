@@ -39,6 +39,7 @@
 		(= local0
 			(cond
 				((== gPrevRoomNum 270) 8)
+				((== global427 8) 9)
 				((== global427 4) 5)
 				((and (IsFlag 39) (< global427 4)) 4)
 				(
@@ -143,7 +144,7 @@
 		(chest init: approachVerbs: 4) ; Do
 		(chestLid init: setPri: 120)
 		(if (IsFlag 152)
-			(if (and (IsFlag 82) (< global427 9))
+			(if (and (IsFlag 82) (< global427 10))
 				(ClearFlag 152)
 			else
 				(note init: approachVerbs: 4) ; Do
@@ -414,7 +415,6 @@
 	(method (changeState newState &tmp temp0)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(gMouseDownHandler addToFront: self)
 				(gKeyDownHandler addToFront: self)
@@ -434,7 +434,6 @@
 				)
 			)
 			(1
-				1
 				(= local3 (gEgo cycleSpeed:))
 				(gEgo
 					view: 57
@@ -446,7 +445,6 @@
 				)
 			)
 			(2
-				2
 				(if register
 					(if (== register 2)
 						(self changeState: 9)
@@ -460,7 +458,6 @@
 				)
 			)
 			(3
-				3
 				(gGlory handsOff:)
 				(for ((= temp0 100)) (>= temp0 0) ((-= temp0 5))
 					(Palette 2 0 85 temp0) ; PalIntensity
@@ -503,11 +500,18 @@
 									(>= gDay (+ gPrevKatrinaDayNumber 3))
 									(not (IsFlag 115))
 								)
-								(and (== global427 8) (IsFlag 161))
+								(and
+									(or (== global427 8) (== global427 9))
+									(IsFlag 161)
+								)
 							)
 							(if (not (gCast contains: note))
-								(if (and (== global427 8) (IsFlag 161))
-									(= global427 9)
+								(if
+									(and
+										(or (== global427 8) (== global427 9))
+										(IsFlag 161)
+									)
+									(= global427 10)
 								)
 								(SetFlag 152)
 								(note hide: init:)
@@ -540,6 +544,10 @@
 									(= global427 8)
 									(= cycles 1)
 								)
+								(9
+									(= global427 9)
+									(gMessager say: 10 6 19 0 self) ; "You find yourself hearing voices again in your sleep."
+								)
 								(10
 									(SetFlag 153)
 									(gMessager say: 10 6 20 0 self) ; "You have another dream."
@@ -553,7 +561,6 @@
 				)
 			)
 			(5
-				5
 				(gCast eachElementDo: #show)
 				(if local4
 					(domovoi init: setPri: 238)
@@ -566,18 +573,16 @@
 				(= cycles 2)
 			)
 			(6
-				6
 				(if (and (not local4) (not local5))
 					(++ global428)
-					(= [gEgoStats 19] (gEgo maxMana:)) ; mana
-					(= [gEgoStats 18] (gEgo maxStamina:)) ; stamina
-					(= [gEgoStats 17] (gEgo maxHealth:)) ; health
+					(= global266 (gEgo maxMana:))
+					(= global265 (gEgo maxStamina:))
+					(= global264 (gEgo maxHealth:))
 					((ScriptID 7 7) init: 7) ; egoSleeps
 				)
 				(= cycles 1)
 			)
 			(7
-				7
 				(cond
 					(local4
 						(switch local0
@@ -610,7 +615,6 @@
 				)
 			)
 			(8
-				8
 				(if local4
 					(= gPrevDomoTalkDayNumber gDay)
 					(switch local0
@@ -636,7 +640,6 @@
 				)
 			)
 			(9
-				9
 				(if (and (not (gCast contains: winPatch)) (>= gTime 4))
 					(winPatch init: approachVerbs: 4) ; Do
 				)
@@ -651,7 +654,6 @@
 				)
 			)
 			(10
-				10
 				(gEgo
 					normalize: 1
 					cycleSpeed: local3
@@ -659,7 +661,6 @@
 				)
 			)
 			(11
-				11
 				(if local4
 					(= local4 0)
 					(domovoi dispose:)
@@ -724,7 +725,7 @@
 				(ClearFlag 152)
 				(SetFlag 399)
 				(self hide:)
-				(if (< global427 9)
+				(if (< global427 10)
 					(gMessager say: 11 4 5) ; "The note reads "Please meet me tonight outside the town gates. I will be waiting." It's signed, "Your friend, Katrina.""
 				else
 					(SetFlag 34)

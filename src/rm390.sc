@@ -165,6 +165,16 @@
 					(super doVerb: theVerb &rest)
 				)
 			)
+			(85 ; calmSpell
+				(if (== local6 2)
+					(gMessager say: 20 6 44) ; "You think about it, and decide that casting that spell would attract too much attention to your location."
+				else
+					(super doVerb: theVerb &rest)
+				)
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "You're making enough noise already without jumping all over the place!"
+			)
 			(else
 				(super doVerb: theVerb &rest)
 			)
@@ -275,7 +285,7 @@
 				(gMessager say: 18 6 23 0 self) ; "What has happened to me? I do not understand."
 			)
 			(4
-				(EgoDead 24 0 0 0 912)
+				(EgoDead 24 390) ; "If dead men tell no tales, then why did this one do so much talking? Next time, leave the murdering to the BAD guys, eh?"
 			)
 		)
 	)
@@ -534,7 +544,7 @@
 			(1
 				(cond
 					((IsFlag 348)
-						(= [gEgoStats 14] 0) ; honor
+						(= global261 0)
 						(gMessager say: 20 6 40 0 self) ; "You have no morals, do you? Tsk, tsk."
 					)
 					(register

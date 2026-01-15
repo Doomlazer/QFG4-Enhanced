@@ -77,7 +77,7 @@
 					(= local8 1)
 				)
 				(if (= temp0 (myList firstTrue: #onMe event))
-					(temp0 doVerb:)
+					((= temp0 (myList firstTrue: #onMe event)) doVerb:)
 				)
 				(event claimed: 1)
 				(return)
@@ -95,7 +95,6 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(UpdatePlane ((gCurRoom plane:) back: 0 picture: -1 yourself:))
 				(SetFlag 147)
@@ -104,7 +103,6 @@
 				(= cycles 2)
 			)
 			(1
-				1
 				(safe init:)
 				(if (IsFlag 240)
 					(dial init:)
@@ -114,7 +112,6 @@
 				(= cycles 2)
 			)
 			(2
-				2
 				(if (IsFlag 240)
 					(myList add: dial comboLetter)
 				)
@@ -139,10 +136,7 @@
 					(= cycles 1)
 				)
 			)
-			(3
-				3
-				0
-			)
+			(3 0)
 		)
 	)
 
@@ -175,13 +169,11 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(= local6 (localproc_0 local0 local1))
 				(= cycles 1)
 			)
 			(1
-				1
 				(cond
 					(local4
 						(if (== (dial cel:) (dial lastCel:))
@@ -200,7 +192,6 @@
 				(= cycles 1)
 			)
 			(2
-				2
 				(if (== (dial cel:) local6)
 					(= local6 0)
 					(if
@@ -216,8 +207,7 @@
 							(and (== local5 4) (== local4 1) (== (dial cel:) 7))
 						)
 						(if (>= (++ local5) 5)
-							(SetFlag 248)
-							(gEgo solvePuzzle: 510 2 4)
+							(dial setScript: sSolvePuz)
 						)
 					else
 						(= local5 0)
@@ -228,6 +218,24 @@
 				else
 					(self changeState: 1)
 				)
+			)
+		)
+	)
+)
+
+(instance sSolvePuz of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gEgo solvePuzzle: 510 2 4)
+				(gMessager say: 25 6 25 0 self) ; "The last tumbler slips into place and you open the large safe. Could it be full of jewelry? Negotiable bonds? Or maybe something REALLY priceless -- a complete collection of Sierra On-Line games?"
+			)
+			(1
+				(SetFlag 248)
+				(gGlory handsOn:)
+				(self dispose:)
 			)
 		)
 	)

@@ -27,12 +27,6 @@
 	local3
 )
 
-(procedure (localproc_0 &tmp temp0) ; UNUSED
-	(for ((= temp0 100)) (>= temp0 0) ((-- temp0))
-		(Palette 2 0 255 temp0) ; PalIntensity
-	)
-)
-
 (instance rm630 of GloryRm
 	(properties
 		noun 1
@@ -134,10 +128,55 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 91) ; jugglingLightsSpell
-			(gMessager say: 17 91 0 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
-		else
-			(super doVerb: theVerb)
+		(switch theVerb
+			(21 ; theRocks
+				(gMessager say: 0 21 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(22 ; theCandle
+				(gMessager say: 0 22 0) ; "The candle doesn't belong there."
+			)
+			(39 ; theFlint
+				(gMessager say: 0 39 0) ; "That won't burn."
+			)
+			(42 ; theToolkit
+				(gMessager say: 0 42 0) ; "You can't open that."
+			)
+			(58 ; theBroom
+				(gMessager say: 0 58 0) ; "You take out the broom and do a little castle-sweeping. It's a hopeless task -- there's dust everywhere."
+			)
+			(60 ; theWillowisp
+				(gMessager say: 0 60 0) ; "Will o' Wisps don't like the indoors."
+			)
+			(76 ; theTorch
+				(gMessager say: 0 76 0) ; "That won't burn."
+			)
+			(79 ; frostSpell
+				(gMessager say: 0 79 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(80 ; openSpell
+				(gMessager say: 0 80 0) ; "You can't open that."
+			)
+			(81 ; detectMagicSpell
+				(gMessager say: 0 81 0) ; "There is a weak general ambiance of magic throughout the castle, but nothing you can specifically pinpoint."
+			)
+			(83 ; dazzleSpell
+				(gMessager say: 0 83 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(86 ; flameDartSpell
+				(gMessager say: 0 86 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(88 ; forceBoltSpell
+				(gMessager say: 0 88 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(91 ; jugglingLightsSpell
+				(gMessager say: 17 91 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(93 ; lightningBallSpell
+				(gMessager say: 0 93 0) ; "You'd better not do that. You're trying to avoid attracting attention, remember?"
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
 		)
 	)
 

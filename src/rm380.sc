@@ -806,6 +806,104 @@
 		(LoadMany 0 80 81 83 64956 64942)
 		(super dispose:)
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(13 ; theBag
+				(gMessager say: 0 13 0) ; "You'll never catch an Antwerp that way!"
+			)
+			(19 ; theRations
+				(gMessager say: 0 19 0) ; "Don't leave your sandwiches lying around -- they might attract ants."
+			)
+			(21 ; theRocks
+				(gMessager say: 0 21 0) ; "Aw, you want to ROCK the cute baby Antwerps to sleep? Sorry, the Society for the Prevention of Cruelty to Antwerps forbids that."
+			)
+			(23 ; theCandy
+				(gMessager say: 0 23 0) ; "Candy isn't good for baby Antwerps."
+			)
+			(33 ; theGrapnel
+				(gMessager say: 0 33 0) ; "You'll have to be faster than that to fetch an Antwerp! (Actually, it's impossible.)"
+			)
+			(36 ; theSword
+				(gMessager say: 0 36 0) ; "Watch out! Sharp objects and Antwerps are a BAD combination (as you learned back in Spielburg)."
+			)
+			(37 ; theThrowdagger
+				(gMessager say: 0 37 0) ; "Watch out! Sharp objects and Antwerps are a BAD combination (as you learned back in Spielburg)."
+			)
+			(39 ; theFlint
+				(gMessager say: 0 39 0) ; "Dr. Cranium's facilities are fireproof. So are Antwerps."
+			)
+			(40 ; theGarlic
+				(gMessager say: 0 40 0) ; "Antwerps aren't enamored of garlic."
+			)
+			(45 ; theCorn
+				(gMessager say: 0 45 0) ; "So you think they have you CORNered? Hmm, you may be right."
+			)
+			(48 ; theBerries
+				(gMessager say: 0 48 0) ; "Don't leave those around! If you've ever seen what happens to an Antwerp when it gets stabbed, you can just IMAGINE what would happen if one got poisoned!"
+			)
+			(49 ; theHumorbar
+				(gMessager say: 0 49 0) ; "This place is quite silly enough without that!"
+			)
+			(55 ; theChicken
+				(gMessager say: 0 55 0) ; "That'll never fool an Antwerp."
+			)
+			(56 ; theAmulet
+				(gMessager say: 0 56 0) ; "Antwerps aren't Undead. (Now say that five times quickly.)"
+			)
+			(58 ; theBroom
+				(gMessager say: 0 58 0) ; "The Curling championships are NEXT month."
+			)
+			(60 ; theWillowisp
+				(gMessager say: 0 60 0) ; "Antwerps and Will o' Wisps don't get along very well together."
+			)
+			(76 ; theTorch
+				(gMessager say: 0 76 0) ; "Dr. Cranium's facilities are fireproof. So are Antwerps."
+			)
+			(79 ; frostSpell
+				(gMessager say: 0 79 0) ; "That was pretty cool!"
+			)
+			(80 ; openSpell
+				(gMessager say: 0 80 0) ; "Maybe that would be more useful if you aimed it at a door?"
+			)
+			(81 ; detectMagicSpell
+				(gMessager say: 0 81 0) ; "Your spell reacts oddly. There are a lot of effects here that should classify as "magical," but the magic is not of a familiar form. The Antwerps are of course actually magical; everything else is just weird!"
+			)
+			(82 ; triggerSpell
+				(gMessager say: 0 82 0) ; "You wait hopefully, but no "trigger treat" is forthcoming."
+			)
+			(85 ; calmSpell
+				(gMessager say: 0 85 0) ; "That won't help. Even relaxed Antwerps love to bounce!"
+			)
+			(86 ; flameDartSpell
+				(gMessager say: 0 86 0) ; "Dr. Cranium's facilities are fireproof. So are Antwerps."
+			)
+			(87 ; fetchSpell
+				(gMessager say: 0 87 0) ; "You'll have to be faster than that to fetch an Antwerp! (Actually, it's impossible.)"
+			)
+			(88 ; forceBoltSpell
+				(gMessager say: 0 88 0) ; "There's no need to use force; there's a straightforward solution to everything here."
+			)
+			(89 ; levitateSpell
+				(gMessager say: 0 89 0) ; "You won't get far that way. (There's the slight matter of the ceiling to contend with, after all.)"
+			)
+			(93 ; lightningBallSpell
+				(gMessager say: 0 93 0) ; "Don't compete with Dr. Cranium's special effects; he gets terribly jealous."
+			)
+			(95 ; invisibleSpell
+				(gMessager say: 0 95 0) ; "You can't hide from an Antwerp -- they're so stupid they'll knock you over whether you're hiding or not!"
+			)
+			(104 ; Sleep all night
+				(gMessager say: 0 104 0) ; "You can't sleep here -- besides the garish color combinations and lightning, you'd probably get squashed by an amorous Antwerp!"
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "Imitation is the sincerest form of flattery, but probably won't make the baby Antwerps respect you any more in the morning."
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
+	)
 )
 
 (instance from370 of Script
@@ -990,7 +1088,6 @@
 					setCycle: End self
 				)
 			)
-			(6)
 			(7
 				(= seconds 4)
 			)

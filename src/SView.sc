@@ -9,6 +9,17 @@
 (use Actor)
 (use System)
 
+(local
+	local0
+)
+
+(procedure (FrameOut)
+	(while (< (Abs (- (GetTime) local0)) 1)
+	)
+	(= local0 (GetTime))
+	(FrameOut)
+)
+
 (class SView of View
 	(properties)
 
@@ -182,29 +193,7 @@
 	(method (move))
 
 	(method (init)
-		(cond
-			((> global191 200)
-				(= global190 12)
-			)
-			((> global191 160)
-				(= global190 10)
-			)
-			((> global191 100)
-				(= global190 9)
-			)
-			((> global191 70)
-				(= global190 9)
-			)
-			((> global191 40)
-				(= global190 8)
-			)
-			((> global191 30)
-				(= global190 4)
-			)
-			(else
-				(= global190 1)
-			)
-		)
+		(= global190 8)
 		(= extraCast (Cast new:))
 		(super init: &rest)
 	)

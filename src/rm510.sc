@@ -14,6 +14,7 @@
 (use PolyPath)
 (use Polygon)
 (use Feature)
+(use Sound)
 (use Jump)
 (use Motion)
 (use Actor)
@@ -24,13 +25,16 @@
 )
 
 (local
-	local0
+	local0 = 100
 	local1
 	local2
 	local3
 	local4
 	local5
 	local6
+	local7
+	local8
+	local9
 )
 
 (procedure (localproc_0)
@@ -83,6 +87,10 @@
 				(gEgo x: 318 y: 110)
 				(gCurRoom setScript: sFrom662)
 			)
+			(810 ; combat
+				(gEgo x: 65 y: 170 setHeading: 215)
+				(gCurRoom setScript: sFromCombat)
+			)
 			(else
 				(gEgo x: 160 y: 170)
 			)
@@ -118,6 +126,9 @@
 		(grate init: approachVerbs: 4 1) ; Do, Look
 		(windowFeat init:)
 		(exitReaper init: setPri: 116 approachVerbs: 4 1) ; Do, Look
+		(sarcophagus init: approachVerbs: 4 1) ; Do, Look
+		(unknown_510_58 init: approachVerbs: 4 1) ; Do, Look
+		(sarcophagusTeller init: unknown_510_58 510 18 155 19)
 		(gCurRoom
 			addObstacle:
 				((Polygon new:)
@@ -144,6 +155,77 @@
 		(super dispose:)
 	)
 
+	(method (doVerb theVerb)
+		(switch theVerb
+			(14 ; theBonsai
+				(gMessager say: 0 14 0) ; "Bushes don't grow very well in lightless stone crypts."
+			)
+			(27 ; theBonemeal
+				(gMessager say: 0 27 0) ; "The bones of the dead aren't particularly hungry -- save your meal for later."
+			)
+			(33 ; theGrapnel
+				(gMessager say: 0 33 0) ; "You missed."
+			)
+			(47 ; theBones
+				(gMessager say: 0 47 0) ; "That's rather like taking coals to Newcastle -- there are quite enough bones here already."
+			)
+			(56 ; theAmulet
+				(gMessager say: 0 56 0) ; "The touch of the amulet against your chest reassures you. If there are Undead present, it may help keep you safe."
+			)
+			(58 ; theBroom
+				(gMessager say: 0 58 0) ; "Crypts are SUPPOSED to be dusty!"
+			)
+			(60 ; theWillowisp
+				(gMessager say: 0 60 0) ; "The tiny creature cringes in its flask. Will o' Wisps hate to be trapped indoors!"
+			)
+			(67 ; theBoneRit
+				(gMessager say: 0 67 0) ; "You still can't read the Ritual. This must not be the right place for it."
+			)
+			(69 ; theBloodRit
+				(gMessager say: 0 69 0) ; "You still can't read the Ritual. This must not be the right place for it."
+			)
+			(70 ; theBreathRit
+				(gMessager say: 0 70 0) ; "You still can't read the Ritual. This must not be the right place for it."
+			)
+			(72 ; theSenseRit
+				(gMessager say: 0 72 0) ; "You still can't read the Ritual. This must not be the right place for it."
+			)
+			(74 ; theHeartRit
+				(gMessager say: 0 67 0) ; "You still can't read the Ritual. This must not be the right place for it."
+			)
+			(79 ; frostSpell
+				(gMessager say: 0 79 0) ; "Be careful where you throw those spells around in here!"
+			)
+			(83 ; dazzleSpell
+				(gCurRoom setScript: sCastDazzle)
+			)
+			(85 ; calmSpell
+				(gMessager say: 0 85 0) ; "There's nothing alive in here for you to calm."
+			)
+			(86 ; flameDartSpell
+				(gMessager say: 0 86 0) ; "Be careful where you throw those spells around in here!"
+			)
+			(88 ; forceBoltSpell
+				(gMessager say: 0 88 0) ; "Be careful where you throw those spells around in here!"
+			)
+			(91 ; jugglingLightsSpell
+				(gCurRoom setScript: sDoJuggling)
+			)
+			(93 ; lightningBallSpell
+				(gMessager say: 0 93 0) ; "Be careful where you throw those spells around in here!"
+			)
+			(104 ; Sleep all night
+				(gMessager say: 0 104 0) ; "To fall asleep here would surely mean your death!"
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "You're right... this place DOES make you jumpy!"
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
+	)
+
 	(method (newRoom newRoomNumber)
 		(ClearFlag 373)
 		(gEgo changeGait: gEgoGait)
@@ -164,7 +246,15 @@
 	)
 
 	(method (showCases)
-		(super showCases: 8 (and (== gHeroType 2) (IsFlag 242))) ; Examine Relief Closely, Thief
+		(super
+			showCases:
+				8 ; Examine Relief Closely
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
+		)
 	)
 
 	(method (sayMessage)
@@ -188,7 +278,10 @@
 		(super
 			showCases:
 				12 ; Examine Relief Closely
-				(or (and (== gHeroType 2) (IsFlag 242)) (== gHeroType 3)) ; Thief, Paladin
+				(if (and (== gHeroType 2) (IsFlag 242)) ; Thief
+				else
+					(== gHeroType 3) ; Paladin
+				)
 		)
 	)
 
@@ -216,7 +309,15 @@
 	)
 
 	(method (showCases)
-		(super showCases: 16 (and (== gHeroType 2) (IsFlag 242))) ; Examine Relief Closely, Thief
+		(super
+			showCases:
+				16 ; Examine Relief Closely
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
+		)
 	)
 
 	(method (sayMessage)
@@ -236,7 +337,15 @@
 	)
 
 	(method (showCases)
-		(super showCases: 20 (and (== gHeroType 2) (IsFlag 242))) ; Examine Relief Closely, Thief
+		(super
+			showCases:
+				20 ; Examine Relief Closely
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
+		)
 	)
 
 	(method (sayMessage)
@@ -259,7 +368,11 @@
 		(super
 			showCases:
 				25 ; Examine Relief Closely
-				(and (== gHeroType 2) (IsFlag 242)) ; Thief
+				(if (== gHeroType 2) ; Thief
+					(IsFlag 242)
+				else
+					0
+				)
 				24 ; Pick Lock
 				(gEgo has: 24) ; theToolkit
 				26 ; Unlock Relief
@@ -275,7 +388,7 @@
 				(if (> (gEgo trySkill: 9 250) 0) ; pick locks
 					(gCurRoom setScript: sTo662 0 1)
 				else
-					(gMessager say: 11 42 49) ; "You try to pick the lock hidden in the bas relief, but there is something strange about it. You suspect that the lock may be magical rather than mechanical."
+					(gMessager say: 11 42 49 0 self) ; "You try to pick the lock hidden in the bas relief, but there is something strange about it. You suspect that the lock may be magical rather than mechanical."
 				)
 			)
 			((== iconValue 26) ; Unlock Relief
@@ -414,9 +527,7 @@
 
 	(method (doVerb theVerb)
 		(if (OneOf theVerb 4 1) ; Do, Look
-			(gCast eachElementDo: #perform (ScriptID 90 0) 1) ; ZCode
-			(UpdatePlane ((gCurRoom plane:) back: 0 picture: -1 yourself:))
-			(crestPuzzle init: show: dispose:)
+			(gCurRoom setScript: sDoCrest)
 		else
 			(super doVerb: theVerb)
 		)
@@ -443,15 +554,10 @@
 				(relief1Teller doVerb: theVerb)
 			)
 			(80 ; openSpell
-				(= global441 x)
-				(= global442 y)
-				(gCurRoom setScript: (ScriptID 13) 0 self) ; castOpenScript
-			)
-			(-80 ; openSpell (part 2)
-				(gCurRoom setScript: sOpenRelief1 0 1)
+				(gMessager say: 7 80 0) ; "It isn't locked."
 			)
 			(else
-				(super doVerb: theVerb)
+				(super doVerb: theVerb &rest)
 			)
 		)
 	)
@@ -511,6 +617,17 @@
 
 	(method (doVerb theVerb)
 		(switch theVerb
+			(1 ; Look
+				(if (not (IsFlag 252))
+					(if (IsFlag 253)
+						(gMessager say: 16 1 0) ; "The old knight's skeleton looks particularly thin and fragile."
+					else
+						(super doVerb: theVerb &rest)
+					)
+				else
+					(gMessager say: 1 1 0) ; "Nothing now remains of the former resident of this chamber."
+				)
+			)
 			(4 ; Do
 				(if (not (IsFlag 252))
 					(if (IsFlag 253)
@@ -522,24 +639,14 @@
 					(gMessager say: 1 4 0) ; "Nothing now remains of the former resident of this chamber."
 				)
 			)
-			(80 ; openSpell
-				(= global441 x)
-				(= global442 y)
-				(gCurRoom setScript: (ScriptID 13) 0 self) ; castOpenScript
+			(29 ; theKeyRing
+				(gMessager say: 1 29 0) ; "There's no lock on the closet."
 			)
-			(-80 ; openSpell (part 2)
-				(if (IsFlag 253)
-					(if (gCurRoom script:)
-						(gCurRoom setScript: 0)
-					)
-					(gGlory handsOn:)
-					(self doVerb: 4)
-				else
-					(gCurRoom setScript: sOpenRelief3 0 1)
-				)
+			(80 ; openSpell
+				(gMessager say: 1 80 0) ; "The closet isn't locked."
 			)
 			(else
-				(super doVerb: theVerb)
+				(super doVerb: theVerb &rest)
 			)
 		)
 	)
@@ -565,15 +672,10 @@
 				(relief4Teller doVerb: theVerb)
 			)
 			(80 ; openSpell
-				(= global441 x)
-				(= global442 y)
-				(gCurRoom setScript: (ScriptID 13) 0 self) ; castOpenScript
-			)
-			(-80 ; openSpell (part 2)
-				(gCurRoom setScript: sOpenRelief4 0 1)
+				(gMessager say: 7 80 0) ; "It isn't locked."
 			)
 			(else
-				(super doVerb: theVerb)
+				(super doVerb: theVerb &rest)
 			)
 		)
 	)
@@ -742,6 +844,17 @@
 		x 165
 		y 178
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(1 ; Look
+				(gMessager say: 199 1 0) ; "There's a small grating on the floor for drainage."
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
+	)
 )
 
 (instance windowFeat of Feature
@@ -764,6 +877,7 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
+				(gMessager say: 3 1 0) ; "You can just barely see the door through which you entered in the gloom. It's closed tightly."
 				(gMessager say: 3 4 0 0 self) ; "The door will not budge; it appears to be magically sealed. There is no obvious way to open it."
 			)
 			(1
@@ -832,7 +946,7 @@
 
 	(method (init)
 		((ScriptID 0 21) doit: 100) ; statusCode
-		(= local6 1)
+		(= local9 1)
 		(= local1 (IntArray with: 6 2 4 1 2 5))
 		(= local2 (IntArray with: 0 0 0 0 0 0))
 		(theKey setLoop: 7 1 setCel: 0 x: 178 y: 152)
@@ -855,11 +969,11 @@
 	(method (addIcons))
 
 	(method (helpYou)
-		(gMessager say: 24 9 0 local6 0)
-		(if (== local6 5)
+		(gMessager say: 24 9 0 local9 0)
+		(if (== local9 5)
 			(self setScript: sCrest)
 		else
-			(++ local6)
+			(++ local9)
 		)
 	)
 
@@ -880,7 +994,15 @@
 			)
 		)
 		(self
-			add: dummyIcon helpIcon red1 orange2 yellow3 green4 blue5 violet6
+			add:
+				dummyIcon
+				helpIcon
+				red1
+				orange2
+				yellow3
+				green4
+				blue5
+				violet6
 			eachElementDo: #init self
 			eachElementDo: #show
 		)
@@ -1094,7 +1216,7 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(= local5 (gEgo cycleSpeed:))
+				(= local6 (gEgo cycleSpeed:))
 				(gEgo
 					view: 31
 					setLoop: 0
@@ -1119,7 +1241,7 @@
 			)
 			(4
 				(gEgo
-					cycleSpeed: local5
+					cycleSpeed: local6
 					normalize:
 					setMotion: PolyPath 120 100 self
 				)
@@ -1181,7 +1303,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				(= local5 (gEgo cycleSpeed:))
+				(= local6 (gEgo cycleSpeed:))
 				(gGlory handsOff:)
 				(if register
 					(self cue:)
@@ -1254,7 +1376,7 @@
 			(11
 				(guy4 signal: (& (guy4 signal:) $fffe))
 				(= register 0)
-				(gEgo setSpeed: local5)
+				(gEgo setSpeed: local6)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -1268,7 +1390,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				(= local5 (gEgo cycleSpeed:))
+				(= local6 (gEgo cycleSpeed:))
 				(gGlory handsOff:)
 				(guy4 signal: (| (guy4 signal:) $0001) setCycle: End self)
 				(if (not register)
@@ -1340,7 +1462,7 @@
 			)
 			(10
 				(= register 0)
-				(gEgo setSpeed: local5)
+				(gEgo setSpeed: local6)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -1369,7 +1491,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				(= local5 (gEgo cycleSpeed:))
+				(= local6 (gEgo cycleSpeed:))
 				(gGlory handsOff:)
 				(guy2 signal: (| (guy2 signal:) $0001) setCycle: End self)
 			)
@@ -1410,7 +1532,7 @@
 				(gMessager say: 20 6 45 0 self) ; "Ouch! That axe felt like it was designed to take your head right off your shoulders. Fortunately, you're buff."
 			)
 			(6
-				(gEgo setSpeed: local5)
+				(gEgo setSpeed: local6)
 				(if (not register)
 					(gEgo normalize: 5)
 				else
@@ -1541,7 +1663,7 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				(= local5 (gEgo cycleSpeed:))
+				(= local6 (gEgo cycleSpeed:))
 				(gGlory handsOff:)
 				(if (== register 2)
 					(self cue:)
@@ -1589,7 +1711,7 @@
 			)
 			(7
 				(guy5 signal: (& (guy5 signal:) $fffe))
-				(gEgo setSpeed: local5)
+				(gEgo setSpeed: local6)
 				(gCurRoom newRoom: 662)
 			)
 		)
@@ -1637,6 +1759,280 @@
 	)
 )
 
+(instance sDoCrest of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gMessager say: 24 1 0 0 self) ; "There is a brightly-colored version of the Crest of the Borgovs on the floor. A few of the crystals that form the crest seem to be loose."
+			)
+			(1
+				(gCast eachElementDo: #perform (ScriptID 90 0) 1) ; ZCode
+				(UpdatePlane ((gCurRoom plane:) back: 0 picture: -1 yourself:))
+				(crestPuzzle init: show: dispose:)
+				(gEgo normalize:)
+				(self dispose:)
+			)
+		)
+	)
+)
+
+(instance sCastDazzle of Script
+	(properties)
+
+	(method (changeState newState &tmp temp0 temp1)
+		(switch (= state newState)
+			(0
+				(gGlory handsOff:)
+				(if (gEgo mover:)
+					(gEgo setMotion: 0)
+				)
+				(= temp0 (IntArray with: 2 3 0 3 0 1 2 3))
+				(= temp1 (IntArray with: 0 0 0 1 0 0 2 3))
+				(= local6 (gEgo cycleSpeed:))
+				(= local7 (gEgo loop:))
+				(soundFX number: 940 play:)
+				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+					(= local8 (gEgo cel:))
+					(gEgo view: 19 loop: (temp1 at: local7))
+				else
+					(gEgo view: 15 loop: (temp0 at: local7))
+				)
+				(gEgo setMotion: 0 cycleSpeed: global433 setCycle: End self)
+				(temp0 dispose:)
+				(temp1 dispose:)
+			)
+			(1
+				(gEgo setCycle: Beg self)
+			)
+			(2
+				(gEgo cycleSpeed: local6)
+				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+					(gEgo view: 20 loop: local7 cel: local8)
+				else
+					(gEgo normalize: local7)
+				)
+				(Palette 2 0 255 200) ; PalIntensity
+				(FrameOut)
+				(= cycles 6)
+			)
+			(3
+				(Palette 2 0 255 local0) ; PalIntensity
+				(gMessager say: 0 83 0 0 self) ; "In the brief flash of light you can see a brightly-colored version of the Borgov family crest on the floor near the bottom of the stairs. Nothing else happens."
+			)
+			(4
+				(gGlory handsOn:)
+				(self dispose:)
+			)
+		)
+	)
+)
+
+(instance sDoJuggling of Script
+	(properties)
+
+	(method (doit &tmp temp0)
+		(switch state
+			(3
+				(for ((= temp0 local4)) (<= temp0 260) ((+= temp0 5))
+					(= gGameTime (+ gTickOffset (GetTime)))
+					(Palette 2 112 173 temp0) ; PalIntensity
+					((local5 cycler:) doit:)
+					(UpdateScreenItem local5)
+					(FrameOut)
+				)
+				(self cue:)
+			)
+			(5
+				(for ((= temp0 260)) (>= temp0 local0) ((-= temp0 8))
+					(Palette 2 112 173 temp0) ; PalIntensity
+					(FrameOut)
+				)
+				(self cue:)
+			)
+			(else
+				(super doit:)
+			)
+		)
+	)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gGlory handsOff:)
+				(if (gEgo mover:)
+					(gEgo setMotion: 0)
+				)
+				(gLongSong2 number: 934 setLoop: 1 1 play:)
+				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+					(gEgo view: 19 loop: 5 cel: 0 setCycle: End self)
+				else
+					(gEgo view: 15 loop: 0 setCycle: End self)
+				)
+			)
+			(1
+				((= local5 (Prop new:))
+					view: 99
+					loop: 0
+					cel: 0
+					x: (gEgo x:)
+					y:
+						(-
+							(gEgo y:)
+							(+
+								(/ (* 55 (gEgo scaleY:)) (gEgo maxScale:))
+								20
+							)
+						)
+					setPri: (+ (gEgo priority:) 1)
+					init:
+					setScale:
+					scaleX: (gEgo scaleX:)
+					scaleY: (gEgo scaleY:)
+					setCycle: Fwd
+				)
+				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+					(self cue:)
+				else
+					(gEgo setCycle: CT 4 -1 self)
+				)
+			)
+			(2
+				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+					(self cue:)
+				else
+					(gEgo setCycle: CT 2 -1 self)
+				)
+			)
+			(3
+				(ClearFlag 6)
+			)
+			(4
+				(= seconds 2)
+			)
+			(5
+				(local5 dispose:)
+			)
+			(6
+				(gEgo setCycle: CT 0 -1 self)
+			)
+			(7
+				(gMessager say: 0 91 0 0 self) ; "Your lights make a pretty display, but do nothing to dispel the gloom in here. You do spot an interesting crest on the floor at the base of the stairs."
+			)
+			(8
+				(gGlory handsOn:)
+				(gEgo normalize: 4)
+				(self dispose:)
+			)
+		)
+	)
+)
+
+(instance sFromCombat of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gGlory handsOff:)
+				(wraith setCel: 13 init:)
+				(if (== gCombatResult 2)
+					(soundFX number: 854 play:)
+					(wraith setCycle: Beg self)
+				else
+					(wraith setLoop: 2 setCycle: Fwd)
+					(gEgo
+						view: 43
+						setLoop: 3
+						cel: 0
+						cycleSpeed: 12
+						setCycle: End self
+					)
+				)
+			)
+			(1
+				(switch gCombatResult
+					(1
+						(EgoDead 2 510) ; "When racing with a Wraith, it's wise to be the swiftest. The Wraith greedily devours you as it adds your life energy to its own."
+					)
+					(2
+						(SetFlag 245)
+						(wraith dispose:)
+						(gMessager say: 20 6 48 0 self) ; "You have destroyed the Crypt Wraith. Some of the sense of danger and oppression lifts from your spirit."
+					)
+				)
+			)
+			(2
+				(gGlory handsOn:)
+				(self dispose:)
+			)
+		)
+	)
+)
+
+(instance sOpenSarcophagus of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gGlory handsOff:)
+				(sarcophagus
+					signal: (| (sarcophagus signal:) $0001)
+					setCycle: End self
+				)
+			)
+			(1
+				(+= global252 20)
+				(gMessager say: 18 4 29 0 self) ; "As you open the sarcophagus, a mysterious glow rises from it to surround you and your possessions."
+			)
+			(2
+				(soundFX number: 854 play:)
+				(wraith init: setCycle: End self)
+			)
+			(3
+				(gMessager say: 2 1 0 0 self) ; "A fearsome Wraith has risen from the sarcophagus and now seeks to drag you into it!"
+			)
+			(4
+				(SetFlag 378)
+				(= gCombatMonsterNum 850) ; wraith
+				(gCurRoom newRoom: 810) ; combat
+			)
+		)
+	)
+)
+
+(instance sSarcophagusPaladin of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gMessager say: 20 6 47 0 self) ; "Beware! The sense of the unquiet dead comes to you much more strongly as you approach the sarcophagus."
+			)
+			(1
+				(sarcophagusTeller doVerb: 4)
+			)
+		)
+	)
+)
+
+(instance wraith of Actor
+	(properties
+		x 40
+		y 170
+		priority 200
+		fixPriority 1
+		view 850
+		signal 16385
+	)
+)
+
+(instance soundFX of Sound
+	(properties)
+)
+
 (instance aDoorMat of Polygon
 	(properties)
 
@@ -1645,3 +2041,91 @@
 	)
 )
 
+(instance unknown_510_58 of Feature
+	(properties
+		noun 18
+		nsTop 140
+		nsRight 90
+		nsBottom 190
+		sightAngle 90
+		approachX 45
+		approachY 160
+		x 40
+		y 170
+	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(1 ; Look
+				(gMessager say: 12 1 0) ; "There is a long, deadly-looking spear planted firmly through the heart of this sarcophagus."
+			)
+			(4 ; Do
+				(cond
+					((IsFlag 245)
+						(gMessager say: 1 4 0) ; "Nothing now remains of the former resident of this chamber."
+					)
+					((== gHeroType 3) ; Paladin
+						(gCurRoom setScript: sSarcophagusPaladin)
+					)
+					(else
+						(sarcophagusTeller doVerb: theVerb)
+					)
+				)
+			)
+			(else
+				(super doVerb: theVerb)
+			)
+		)
+	)
+)
+
+(instance sarcophagusTeller of Teller
+	(properties
+		actionVerb 4
+	)
+
+	(method (sayMessage)
+		(ClearFlag 51)
+		(cond
+			((== iconValue 27) ; Knock on Sarcophagus
+				(ClearFlag 51)
+				(gMessager say: 2 125 4 0 self 610) ; "No one answers your knock. This could be fortunate."
+			)
+			((== iconValue 28) ; Listen to Sarcophagus
+				(ClearFlag 51)
+				(gMessager say: 21 155 6 0 self) ; "You hear nothing but the hollow echo of your own heartbeat."
+			)
+			((or (== iconValue 30) (== iconValue 32)) ; Open Sarcophagus, Remove Spear
+				(ClearFlag 51)
+				(gCurRoom setScript: sOpenSarcophagus)
+			)
+			(else
+				(super sayMessage: &rest)
+			)
+		)
+	)
+
+	(method (showCases)
+		(gCurRoom setScript: 0)
+		(super showCases:)
+	)
+)
+
+(instance sarcophagus of Prop
+	(properties
+		noun 18
+		approachX 45
+		approachY 160
+		x 40
+		y 170
+		priority 140
+		fixPriority 1
+		view 511
+		loop 3
+		signal 16384
+	)
+
+	(method (doVerb theVerb)
+		(unknown_510_58 doVerb: theVerb)
+	)
+)

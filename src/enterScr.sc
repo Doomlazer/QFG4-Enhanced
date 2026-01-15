@@ -3,6 +3,7 @@
 (script# 731)
 (include sci.sh)
 (use Main)
+(use Sound)
 (use Motion)
 (use System)
 
@@ -21,12 +22,17 @@
 	local7
 	local8
 	local9 = 100
+	local10
 )
 
 (instance enterScr of Script
 	(properties)
 
 	(method (doit)
+		(if (< (Abs (- gGameTime local10)) 2)
+			(return)
+		)
+		(= local10 gGameTime)
 		(super doit:)
 		(if (and local0 (not (-- local1)))
 			(Palette 2 0 255 local9) ; PalIntensity
@@ -148,11 +154,12 @@
 				)
 			)
 			(12
+				(spellSoundFX number: 933 play:)
 				((= local8 ((ScriptID 730 5) new:)) ; fireBall
 					x: 91
 					y: 101
 					setLoop: 3 1
-					moveSpeed: 0
+					moveSpeed: 2
 					setCycle: Fwd
 					init:
 					setMotion: MoveTo 176 87 self
@@ -160,9 +167,11 @@
 				((ScriptID 730 2) setCycle: End) ; avis
 			)
 			(13
+				(spellSoundFX number: 930 play:)
 				(local8 setLoop: 5 1 cel: 0 setCycle: End self)
 			)
 			(14
+				(spellSoundFX number: 971 play:)
 				(local8 dispose:)
 				((ScriptID 730 6) init: setCycle: End) ; midBlast
 				(gEgo view: 7 posn: 170 79 setLoop: 5 1 setCel: 0)
@@ -180,18 +189,20 @@
 				)
 			)
 			(17
+				(spellSoundFX number: 974 play:)
 				((ScriptID 730 3) setCel: 0) ; katrina
 				((= local8 ((ScriptID 730 5) new:)) ; fireBall
 					x: 190
 					y: 65
 					setLoop: 1 1
 					setCycle: Fwd
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 76 100 self
 				)
 			)
 			(18
+				(spellSoundFX number: 971 play:)
 				((ScriptID 730 7) init: setCycle: End) ; leftBlast
 				(local8 setLoop: 2 1 cel: 0 setCycle: End self)
 			)
@@ -216,20 +227,27 @@
 				)
 			)
 			(22
+				(spellSoundFX number: 933 play:)
 				((= local8 ((ScriptID 730 5) new:)) ; fireBall
 					x: 91
 					y: 101
 					setLoop: 3 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 237 70 self
 				)
 				((ScriptID 730 2) setCycle: End) ; avis
 			)
 			(23
+				(spellSoundFX number: 971 play:)
 				(local8 setLoop: 5 1 cel: 0 setCycle: End self)
 				((ScriptID 730 8) init: setCycle: End) ; rightBlast
-				((ScriptID 730 3) setLoop: 1 1 setCel: 0 setCycle: End) ; katrina
+				((ScriptID 730 3) ; katrina
+					setLoop: 1 1
+					setCel: 0
+					setPri: 221
+					setCycle: End
+				)
 			)
 			(24
 				(local8 dispose:)
@@ -243,16 +261,18 @@
 				((ScriptID 730 3) setCycle: End self) ; katrina
 			)
 			(27
+				(spellSoundFX number: 974 play:)
 				((= local8 ((ScriptID 730 5) new:)) ; fireBall
 					x: 190
 					y: 65
 					setLoop: 1 1
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setMotion: MoveTo 76 100 self
 				)
 			)
 			(28
+				(spellSoundFX number: 930 play:)
 				((ScriptID 730 3) setLoop: 0 1 setCel: 0) ; katrina
 				(local8 setLoop: 2 1 cel: 0 setCycle: End self)
 			)
@@ -274,11 +294,12 @@
 				)
 			)
 			(31
+				(spellSoundFX number: 933 play:)
 				((= local8 ((ScriptID 730 5) new:)) ; fireBall
 					x: 91
 					y: 101
 					setLoop: 3 1
-					moveSpeed: 0
+					moveSpeed: 2
 					setCycle: Fwd
 					init:
 					setMotion: MoveTo 237 70 self
@@ -286,6 +307,7 @@
 				((ScriptID 730 2) setCycle: End) ; avis
 			)
 			(32
+				(spellSoundFX number: 930 play:)
 				(local8 setLoop: 5 1 cel: 0 setCycle: End self)
 			)
 			(33
@@ -300,6 +322,7 @@
 				((ScriptID 730 3) setCel: 3 setCycle: End self) ; katrina
 			)
 			(36
+				(spellSoundFX number: 974 play:)
 				((= local8 ((ScriptID 730 5) new:)) ; fireBall
 					x: 190
 					y: 65
@@ -310,6 +333,7 @@
 				)
 			)
 			(37
+				(spellSoundFX number: 930 play:)
 				((ScriptID 730 3) setLoop: 0 1 setCel: 0) ; katrina
 				(local8 setLoop: 2 1 cel: 0 setCycle: End self)
 			)
@@ -330,6 +354,7 @@
 				(gMessager say: 4 6 6 0 self) ; "No! I will not let him die!"
 			)
 			(41
+				(spellSoundFX number: 1005 play:)
 				((ScriptID 730 2) ; avis
 					view: 738
 					setLoop: 0 1
@@ -355,6 +380,7 @@
 				)
 			)
 			(43
+				(spellSoundFX number: 1006 play:)
 				((ScriptID 730 2) setLoop: 1 1 setCel: 0 setCycle: CT 1 1 self) ; avis
 			)
 			(44
@@ -377,12 +403,13 @@
 				)
 			)
 			(48
+				(spellSoundFX number: 933 play:)
 				((= local8 ((ScriptID 730 5) new:)) ; fireBall
 					view: 747
 					setLoop: 1 1
 					x: 91
 					y: 101
-					moveSpeed: 0
+					moveSpeed: 2
 					init:
 					setCycle: Fwd
 					setMotion: MoveTo 176 87 self
@@ -423,5 +450,9 @@
 			)
 		)
 	)
+)
+
+(instance spellSoundFX of Sound
+	(properties)
 )
 

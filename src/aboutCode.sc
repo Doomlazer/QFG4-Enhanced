@@ -13,11 +13,12 @@
 
 (local
 	local0
+	local1
 )
 
 (procedure (localproc_0 param1 param2 &tmp temp0 temp1 temp2)
 	(if (= temp2 (Message msgSIZE 19 param1 0 0 param2))
-		(= temp1 (Str new: temp2))
+		(= temp1 (Str new: (= temp2 (Message msgSIZE 19 param1 0 0 param2))))
 		(Message msgGET 19 param1 0 0 param2 (temp1 data:))
 		(Print font: 0 largeAlp: 0 mode: 1 addText: (temp1 data:) init:)
 		(temp1 dispose:)
@@ -28,8 +29,7 @@
 	(properties)
 
 	(method (doit &tmp temp0 [temp1 2])
-		(= temp0 (= local0 (gTheIconBar getCursor:)))
-		(temp0 view: 999)
+		((= temp0 (= local0 (gTheIconBar getCursor:))) view: 999)
 		(gGlory setCursor: temp0)
 		(localproc_0 2 1)
 		(localproc_0 2 2)
@@ -56,7 +56,20 @@
 		(localproc_0 1 9)
 		(localproc_0 1 10)
 		(localproc_0 1 11)
+		(if (IsFlag 400)
+			(= local1 (gGlory masterVolume:))
+			(if (>= local1 6)
+				(gGlory masterVolume: (- local1 6))
+			else
+				(gGlory masterVolume: 1)
+			)
+			(DoAudio audPLAY 19 3 0 0 1) ; "And now back to the Land of Mordavia and Shadows of Darkness."
+		)
 		(localproc_0 3 1)
+		(if (IsFlag 400)
+			(gGlory masterVolume: local1)
+			(DoAudio audSTOP 19 3 0 0 1) ; "And now back to the Land of Mordavia and Shadows of Darkness."
+		)
 		(self dispose:)
 	)
 

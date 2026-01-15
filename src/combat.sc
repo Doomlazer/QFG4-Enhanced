@@ -70,7 +70,7 @@
 		(<=
 			(= temp0
 				(-
-					(+ (/ [gEgoStats 5] 10) global142 local7) ; weapon-use
+					(+ (/ global252 10) global142 local7)
 					(+ local8 (Random 1 10))
 				)
 			)
@@ -300,6 +300,7 @@
 					670
 					680
 					610
+					510
 				)
 				(= picture 690)
 			)
@@ -313,7 +314,61 @@
 				(= picture 430)
 			)
 		)
-		(if (< 2700 gClock 2801)
+		(if
+			(and
+				(< 2700 gClock)
+				(<
+					(cond
+						((== gCombatMonsterNum 855) ; horror
+							(= picture 700)
+						)
+						(
+							(OneOf
+								gPrevRoomNum
+								620
+								621
+								622
+								623
+								624
+								625
+								626
+								627
+								628
+								629
+								630
+								631
+								632
+								633
+								634
+								640
+								641
+								642
+								644
+								660
+								661
+								662
+								663
+								664
+								670
+								680
+								610
+								510
+							)
+							(= picture 690)
+						)
+						((OneOf gPrevRoomNum 530 535 541 542 543 545) ; swamp1, swamp2, swamp3
+							(= picture 550)
+						)
+						((== gPrevRoomNum 720)
+							(= picture 700)
+						)
+						(else
+							(= picture 430)
+						)
+					)
+					2801
+				)
+			)
 			(PalVary 9 (+ picture 1)) ; PalVaryMergeSource
 		)
 		(proc0_16)
@@ -328,12 +383,12 @@
 					yourself:
 				)
 		)
-		(= local2 (/ (+ [gEgoStats 2] [gEgoStats 3]) 2)) ; agility, vitality
-		(= local3 (/ (+ [gEgoStats 1] [gEgoStats 12] [gEgoStats 12]) 3)) ; intelligence, magic, magic
-		(= local4 (/ (+ [gEgoStats 0] [gEgoStats 3] [gEgoStats 3]) 3)) ; strength, vitality, vitality
+		(= local2 (/ (+ global249 global250) 2))
+		(= local3 (/ (+ global248 global259 global259) 3))
+		(= local4 (/ (+ gEgoStats global250 global250) 3))
 		(= local1 local2)
 		(= local9 0)
-		(if (== gPrevRoomNum 575)
+		(if (or (== gPrevRoomNum 510) (== gPrevRoomNum 575))
 			(SetFlag 381)
 		)
 		(= global167 0)
@@ -347,7 +402,7 @@
 		(= global175 0)
 		(ClearFlag 376)
 		(= local10 ((gInventory at: 5) amount:)) ; theThrowdagger
-		(= temp0 (/ [gEgoStats 3] 100)) ; vitality
+		(= temp0 (/ global250 100))
 		(= local0 (= local15 (- 19 (* temp0 temp0))))
 		(= global193 0)
 		(= gDagger 0)
@@ -493,14 +548,14 @@
 				(DisposeScript 825)
 			)
 		)
-		(if (< [gEgoStats 18] 0) ; stamina
-			(= [gEgoStats 18] 0) ; stamina
+		(if (< global265 0)
+			(= global265 0)
 		)
-		(if (< [gEgoStats 19] 0) ; mana
-			(= [gEgoStats 19] 0) ; mana
+		(if (< global266 0)
+			(= global266 0)
 		)
-		(if (and (IsFlag 14) (> [gEgoStats 17] 0) (< [gEgoStats 17] 10)) ; health, health
-			(= [gEgoStats 17] 10) ; health
+		(if (and (IsFlag 14) (> global264 0) (< global264 10))
+			(= global264 10)
 		)
 		(ClearFlag 378)
 		(if (== gCombatMonsterNum 825) ; badder
@@ -538,7 +593,7 @@
 			)
 		)
 		(if (not gCombatResult)
-			(if (<= [gEgoStats 17] 0) ; health
+			(if (<= global264 0)
 				(= gCombatResult 1)
 			else
 				(= gCombatResult 2)
@@ -567,7 +622,7 @@
 		(egoSpell init: self)
 		(bloodDrop init: self)
 		((ScriptID 40 3) init: self) ; xStaminaPart
-		(if [gEgoStats 12] ; magic
+		(if global259
 			((ScriptID 40 4) init: self) ; xMagicPart
 		)
 		((ScriptID 40 5) init: self) ; xHealthPart
@@ -579,27 +634,27 @@
 		(if (not (IsFlag 378))
 			(self add: (ScriptID 40 7)) ; xRunButton
 		)
-		(if [gEgoStats 24] ; zapSpell
+		(if global271
 			(self add: (ScriptID 40 8)) ; xZapButton
 		)
-		(if [gEgoStats 26] ; flameDartSpell
+		(if global273
 			(self add: (ScriptID 40 9)) ; xFlameButton
 		)
-		(if [gEgoStats 33] ; lightningSpell
+		(if global280
 			(self add: (ScriptID 40 10)) ; xLitButton
 		)
-		(if [gEgoStats 28] ; forceSpell
+		(if global275
 			(self add: (ScriptID 40 11)) ; xForceButton
 		)
-		(if [gEgoStats 34] ; frostSpell
+		(if global281
 			(self add: (ScriptID 40 12)) ; xFrostButton
 		)
 		(self add: (ScriptID 40 14)) ; xModeButton
 	)
 
 	(method (dispatchEvent &tmp temp0)
-		(if (and (< [gEgoStats 18] local1) (not (-- local0))) ; stamina
-			(++ [gEgoStats 18]) ; stamina
+		(if (and (< global265 local1) (not (-- local0)))
+			(++ global265)
 			(= local0 local15)
 			(= temp0 (proc810_1 18))
 			(UpdateScreenItem
@@ -659,7 +714,7 @@
 						)
 					)
 					(4
-						(if (and (not (ego1 script:)) (> [gEgoStats 18] 7)) ; stamina
+						(if (and (not (ego1 script:)) (> global265 7))
 							(switch gCombatMonsterNum
 								(820
 									(ego1 setScript: lowSlash)
@@ -674,7 +729,7 @@
 						)
 					)
 					(3
-						(if (and (not (ego1 script:)) (> [gEgoStats 18] 7)) ; stamina
+						(if (and (not (ego1 script:)) (> global265 7))
 							(SetNowSeen ego1)
 							(SetNowSeen gCombatMonsterActor)
 							(if (< (+ (ego1 nsRight:) 25) (gCombatMonsterActor nsLeft:))
@@ -718,11 +773,11 @@
 						(if
 							(and
 								(not (dagger active:))
-								(> [gEgoStats 18] 0) ; stamina
+								(> global265 0)
 								(not (ego1 script:))
 								(> ((gInventory at: 5) amount:) 1) ; theThrowdagger
 							)
-							(-= [gEgoStats 18] (Random 6 12)) ; stamina
+							(-= global265 (Random 6 12))
 							(= temp0 (proc810_1 18))
 							(UpdateScreenItem
 								((ScriptID 40 3) ; xStaminaPart
@@ -736,7 +791,7 @@
 						)
 					)
 					(2
-						(if (and (> [gEgoStats 18] 0) (not (ego1 script:))) ; stamina
+						(if (and (> global265 0) (not (ego1 script:)))
 							(ego1 setScript: jumpUp)
 						)
 					)
@@ -764,7 +819,7 @@
 						)
 					)
 					(17
-						(if (and (> [gEgoStats 18] 0) (not (ego1 script:))) ; stamina
+						(if (and (> global265 0) (not (ego1 script:)))
 							(SetNowSeen ego1)
 							(SetNowSeen gCombatMonsterActor)
 							(if (< (+ (ego1 nsRight:) 42) (gCombatMonsterActor nsLeft:))
@@ -775,7 +830,7 @@
 						)
 					)
 					(18
-						(if (and (> [gEgoStats 18] 0) (> (ego1 x:) 50)) ; stamina
+						(if (and (> global265 0) (> (ego1 x:) 50))
 							(if (> (gEgo x:) 40)
 								(ego1 setScript: flipBack)
 							else
@@ -949,14 +1004,14 @@
 			(if
 				(and
 					(== gHeroType 2) ; Thief
-					(> [gEgoStats 18] 35) ; stamina
+					(> global265 35)
 					(gCombatMonsterActor
 						onMe:
 							((pCombat combatEvent:) x:)
 							((pCombat combatEvent:) y:)
 					)
 				)
-				(-= [gEgoStats 18] 35) ; stamina
+				(-= global265 35)
 				(= temp0 (proc810_1 18))
 				(UpdateScreenItem
 					((ScriptID 40 3) ; xStaminaPart
@@ -1143,7 +1198,7 @@
 				(ego1 setCycle: End self)
 			)
 			(4
-				(-= [gEgoStats 18] (Random 5 15)) ; stamina
+				(-= global265 (Random 5 15))
 				(= temp0 (proc810_1 18))
 				(UpdateScreenItem
 					((ScriptID 40 3) ; xStaminaPart
@@ -1234,7 +1289,7 @@
 				(ego1 setCycle: End self)
 			)
 			(3
-				(-= [gEgoStats 18] (Random 5 15)) ; stamina
+				(-= global265 (Random 5 15))
 				(= temp0 (proc810_1 18))
 				(UpdateScreenItem
 					((ScriptID 40 3) ; xStaminaPart
@@ -1302,7 +1357,7 @@
 			)
 			(3
 				(= global184 0)
-				(-= [gEgoStats 18] (Random 5 15)) ; stamina
+				(-= global265 (Random 5 15))
 				(= temp0 (proc810_1 18))
 				(UpdateScreenItem
 					((ScriptID 40 3) ; xStaminaPart
@@ -1324,8 +1379,8 @@
 
 	(method (doit &tmp temp0)
 		(super doit:)
-		(if (and (OneOf state 1 2) (> [gEgoStats 18] 0)) ; stamina
-			(-- [gEgoStats 18]) ; stamina
+		(if (and (OneOf state 1 2) (> global265 0))
+			(-- global265)
 			(= temp0 (proc810_1 18))
 			(UpdateScreenItem
 				((ScriptID 40 3) ; xStaminaPart
@@ -1402,8 +1457,8 @@
 
 	(method (doit &tmp temp0)
 		(super doit:)
-		(if (and (OneOf state 1 2) (> [gEgoStats 18] 0)) ; stamina
-			(-- [gEgoStats 18]) ; stamina
+		(if (and (OneOf state 1 2) (> global265 0))
+			(-- global265)
 			(= temp0 (proc810_1 18))
 			(UpdateScreenItem
 				((ScriptID 40 3) ; xStaminaPart
@@ -1479,8 +1534,8 @@
 
 	(method (doit &tmp temp0)
 		(super doit:)
-		(if (and (OneOf state 0 1) (> [gEgoStats 18] 0)) ; stamina
-			(-- [gEgoStats 18]) ; stamina
+		(if (and (OneOf state 0 1) (> global265 0))
+			(-- global265)
 			(= temp0 (proc810_1 18))
 			(UpdateScreenItem
 				((ScriptID 40 3) ; xStaminaPart
@@ -1526,8 +1581,8 @@
 
 	(method (doit &tmp temp0)
 		(super doit:)
-		(if (and (== state 1) (> [gEgoStats 18] 0)) ; stamina
-			(-- [gEgoStats 18]) ; stamina
+		(if (and (== state 1) (> global265 0))
+			(-- global265)
 			(= temp0 (proc810_1 18))
 			(UpdateScreenItem
 				((ScriptID 40 3) ; xStaminaPart
@@ -1577,8 +1632,8 @@
 
 	(method (doit &tmp temp0)
 		(super doit:)
-		(if (and (== state 1) (> [gEgoStats 18] 0)) ; stamina
-			(-- [gEgoStats 18]) ; stamina
+		(if (and (== state 1) (> global265 0))
+			(-- global265)
 			(= temp0 (proc810_1 18))
 			(UpdateScreenItem
 				((ScriptID 40 3) ; xStaminaPart
@@ -1723,8 +1778,8 @@
 		(if global453
 			(/= temp1 2)
 		)
-		(if (<= (-= [gEgoStats 17] temp1) 0) ; health
-			(= [gEgoStats 17] 0) ; health
+		(if (<= (-= global264 temp1) 0)
+			(= global264 0)
 			(= gCombatResult 1)
 			(pCombat noHands: 1)
 			(SetFlag 386)
@@ -1814,7 +1869,7 @@
 
 	(method (setMotion param1 &tmp temp0)
 		(if param1
-			(-= [gEgoStats 19] local5) ; mana
+			(-= global266 local5)
 			(= temp0 (proc810_1 19))
 			(UpdateScreenItem
 				((ScriptID 40 4) ; xMagicPart
@@ -1880,6 +1935,13 @@
 				)
 			)
 		)
+	)
+
+	(method (setCycle param1)
+		(if (== param1 End)
+			(proc810_13 2 944)
+		)
+		(super setCycle: param1 &rest)
 	)
 
 	(method (cue)
@@ -1975,7 +2037,7 @@
 			(<=
 				(= temp1
 					(-
-						(+ (/ [gEgoStats 5] 10) global142 local7) ; weapon-use
+						(+ (/ global252 10) global142 local7)
 						(+ local8 (Random 1 10))
 					)
 				)

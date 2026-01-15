@@ -274,6 +274,7 @@
 		(super init: &rest)
 		(cond
 			((gCast contains: aKatrina)
+				(SetFlag 4)
 				(gLongSong number: 110 setLoop: -1 play:)
 			)
 			(
@@ -351,7 +352,7 @@
 		(super doit: &rest)
 	)
 
-	(method (doVerb theVerb &tmp temp0)
+	(method (doVerb theVerb)
 		(switch theVerb
 			(89 ; levitateSpell
 				(if local9
@@ -384,8 +385,23 @@
 					(gMessager say: 2 1 3) ; "The walls of the town rise magestically above you."
 				)
 			)
+			(4 ; Do
+				(gMessager say: 6 4 0) ; "The stone walls feel strong and solid."
+			)
+			(14 ; theBonsai
+				(gMessager say: 0 14 0) ; "The bonsai bush would grow well here, but someone would probably just dig it up again."
+			)
+			(45 ; theCorn
+				(gMessager say: 0 45 0) ; "It's a little late in the year to be planting corn."
+			)
+			(21 ; theRocks
+				(gMessager say: 0 21 0) ; "As you can see, you're just a stone's throw away from the town."
+			)
+			(25 ; theWater
+				(gMessager say: 0 25 0) ; "These plants have already been harvested; you don't need to water them now."
+			)
 			(else
-				(super doVerb: theVerb)
+				(super doVerb: theVerb &rest)
 			)
 		)
 	)
@@ -405,7 +421,12 @@
 			(katrinaTeller dispose:)
 			(katrinaTeller2 dispose:)
 		)
+		(ClearFlag 4)
 		(super dispose:)
+	)
+
+	(method (notify)
+		(gMessager say: 1 6 23) ; "Something about the young peasant girl makes all thought of magic swirl around in your head. You don't seem to be able to cast any of your spells."
 	)
 )
 
@@ -521,7 +542,6 @@
 				)
 			)
 			(2
-				(gEgo castSpell: 29)
 				(if (OneOf local2 3 4)
 					(SetFlag 81)
 					((aNecrotaur1 new:)
@@ -559,6 +579,7 @@
 					setLoop: 2 1
 					setCel: 5
 					setPri: 0
+					useMana: 7
 					setMotion:
 						MoveTo
 						(+ (gEgo x:) 10)
@@ -769,6 +790,7 @@
 					(gMessager say: 1 6 25 0 self) ; "You watch her walk off before you think of doing anything else."
 				)
 				(aKatrina actions: 0 setCycle: 0 hide: dispose:)
+				(ClearFlag 4)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -813,7 +835,7 @@
 			)
 			(5
 				(gGlory handsOff:)
-				(if (< [gEgoStats 17] (gEgo maxHealth:)) ; health
+				(if (< global264 (gEgo maxHealth:))
 					(sndChanges play:)
 					(gEgo get: 3) ; theHeals
 					(if (== local2 1)
@@ -826,7 +848,7 @@
 				)
 			)
 			(6
-				(if [gEgoStats 12] ; magic
+				(if global259
 					(if (== local2 2)
 						(self cue:)
 					else
@@ -880,18 +902,15 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				(= ticks 120)
-			)
-			(1
 				(gEgo posn: 222 124 setMotion: MoveTo 193 124 self)
 			)
-			(2
+			(1
 				(gEgo setMotion: PolyPath 138 120 self)
 			)
-			(3
+			(2
 				(gEgo setMotion: PolyPath 132 151 self)
 			)
-			(4
+			(3
 				(= local0 0)
 				(= local1 0)
 				(switch local2
@@ -967,13 +986,15 @@
 			(1
 				(cond
 					(local7
-						(gEgo useSkill: 11 200) ; climbing
 						(gMessager say: 4 33 0 0 self) ; "You catch the top of the gate with your grapnel and clamber up the rope. A few moments later, you slip over the gate and into town."
 					)
 					(local9
-						(gEgo useSkill: 11 200) ; climbing
-						(if (> [gEgoStats 11] 200) ; climbing
-							(gMessager say: 5 125 10 0 self) ; "You deftly slip over the gate and into town."
+						(if (> global258 200)
+							(if local8
+								(gMessager say: 6 4 4 0 self) ; "You climb up over the wall and into town."
+							else
+								(gMessager say: 5 125 10 0 self) ; "You deftly slip over the gate and into town."
+							)
 						else
 							(gMessager say: 4 4 7 0 self) ; "You're getting some good practice in climbing. You'll need to keep practicing before you'll be able to make it over this wall; it was built to keep monsters out of town."
 						)
@@ -992,7 +1013,7 @@
 				)
 			)
 			(3
-				(if (> [gEgoStats 11] 200) ; climbing
+				(if (> global258 200)
 					(= local6 (gEgo moveSpeed:))
 					(= local5 (gEgo cycleSpeed:))
 					(gEgo
@@ -1226,18 +1247,26 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
+				(= local5 (gEgo cycleSpeed:))
+				(sparklies init: setCycle: Fwd)
 				(gEgo
 					view: 17
 					setLoop: 1 1
-					setCel: 5
+					setCel: 6
 					posn: 187 14
+					setSpeed: 6
 					setPri: 75
 					setCycle: 0
+					useMana: 7
 					setMotion: MoveTo 179 93 self
 				)
 			)
 			(1
-				(gEgo normalize: useMana: 10)
+				(sparklies dispose:)
+				(gEgo view: 17 loop: 1 cel: 6 setPri: 75 setCycle: Beg self)
+			)
+			(2
+				(gEgo normalize: setSpeed: local5)
 				(switch local2
 					(1
 						(self setScript: sKatrinaGreets)
@@ -1270,13 +1299,14 @@
 			)
 			(1
 				(if (== local2 1)
-					(gMessager say: 16 128 58 0 self) ; "Say Goodbye"
+					(gMessager say: 5 128 58 0 self) ; "You say goodbye to the lovely peasant girl."
 				else
-					(gMessager say: 17 128 59 0 self) ; "Say Goodbye"
+					(gMessager say: 5 128 59 0 self) ; "You say goodbye to Katrina."
 				)
 			)
 			(2
-				(self setScript: sKatrinaWalksAway)
+				(gCurRoom setScript: sKatrinaWalksAway)
+				(self dispose:)
 			)
 		)
 	)
@@ -1324,36 +1354,8 @@
 		loop 2
 	)
 
-	(method (doVerb theVerb &tmp [temp0 2])
+	(method (doVerb theVerb)
 		(cond
-			(
-				(OneOf
-					theVerb
-					85 ; calmSpell
-					83 ; dazzleSpell
-					81 ; detectMagicSpell
-					87 ; fetchSpell
-					86 ; flameDartSpell
-					88 ; forceBoltSpell
-					79 ; frostSpell
-					102 ; healingSpell
-					91 ; jugglingLightsSpell
-					89 ; levitateSpell
-					93 ; lightningBallSpell
-					80 ; openSpell
-					90 ; reversalSpell
-					94 ; ritualSpell
-					92 ; summonStaffSpell
-					82 ; triggerSpell
-					84 ; zapSpell
-					95 ; invisibleSpell
-					96 ; auraSpell
-					97 ; protectionSpell
-					98 ; resistanceSpell
-					11 ; glideSpell
-				)
-				(gMessager say: 1 6 23) ; "Something about the young peasant girl makes all thought of magic swirl around in your head. You don't seem to be able to cast any of your spells."
-			)
 			((== theVerb 37) ; theThrowdagger
 				(if (== (gEgo has: 5) 1) ; theThrowdagger
 					(gMessager say: 1 6 60) ; "You are down to your last dagger. You'd better hold on to it."
@@ -1382,6 +1384,27 @@
 
 (instance pProp of Prop
 	(properties)
+)
+
+(instance sparklies of Prop
+	(properties
+		priority 182
+		fixPriority 1
+		view 17
+		loop 4
+		signal 16385
+	)
+
+	(method (init)
+		(self setScaler: gEgo)
+		(super init: &rest)
+	)
+
+	(method (doit)
+		(= x (gEgo x:))
+		(= y (gEgo y:))
+		(super doit: &rest)
+	)
 )
 
 (instance vRope of View
@@ -1605,16 +1628,29 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(if (gEgo has: 27) ; theCorn
-				(gMessager say: 3 4 5) ; "You have enough corn for now."
-			else
-				(= local0 179)
-				(= local1 138)
-				(gCurRoom setScript: sGetCorn)
+		(cond
+			((== theVerb 4) ; Do
+				(if (gEgo has: 27) ; theCorn
+					(gMessager say: 3 4 5) ; "You have enough corn for now."
+				else
+					(= local0 179)
+					(= local1 138)
+					(gCurRoom setScript: sGetCorn)
+				)
 			)
-		else
-			(fCorn1 doVerb: theVerb)
+			((== theVerb 87) ; fetchSpell
+				(if (gEgo has: 27) ; theCorn
+					(gMessager say: 3 4 5) ; "You have enough corn for now."
+				else
+					(gCurRoom setScript: (ScriptID 37) 0 fCorn2) ; castFetchScript
+				)
+			)
+			((== theVerb -87) ; fetchSpell (part 2)
+				(gMessager say: 3 87 0 0) ; "Since you're far too sophisticated a spellcaster to do something mundane like walking over to a corn stalk and picking an ear, you try the Fetch spell instead."
+			)
+			(else
+				(fCorn1 doVerb: theVerb)
+			)
 		)
 	)
 )
@@ -1634,16 +1670,29 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (== theVerb 4) ; Do
-			(if (gEgo has: 27) ; theCorn
-				(gMessager say: 3 4 5) ; "You have enough corn for now."
-			else
-				(= local0 207)
-				(= local1 169)
-				(gCurRoom setScript: sGetCorn)
+		(cond
+			((== theVerb 4) ; Do
+				(if (gEgo has: 27) ; theCorn
+					(gMessager say: 3 4 5) ; "You have enough corn for now."
+				else
+					(= local0 207)
+					(= local1 169)
+					(gCurRoom setScript: sGetCorn)
+				)
 			)
-		else
-			(fCorn1 doVerb: theVerb)
+			((== theVerb 87) ; fetchSpell
+				(if (gEgo has: 27) ; theCorn
+					(gMessager say: 3 4 5) ; "You have enough corn for now."
+				else
+					(gCurRoom setScript: (ScriptID 37) 0 fCorn3) ; castFetchScript
+				)
+			)
+			((== theVerb -87) ; fetchSpell (part 2)
+				(gMessager say: 3 87 0 0) ; "Since you're far too sophisticated a spellcaster to do something mundane like walking over to a corn stalk and picking an ear, you try the Fetch spell instead."
+			)
+			(else
+				(fCorn1 doVerb: theVerb)
+			)
 		)
 	)
 )
@@ -1662,43 +1711,25 @@
 		y 121
 	)
 
-	(method (init)
-		(super init: &rest)
-		(if (== gPrevRoomNum 340)
-			(= heading
-				(((ScriptID 49 0) new:) ; doorMat
-					init:
-						((Polygon new:)
-							type: PNearestAccess
-							init: 215 114 204 123 163 121 171 113
-							yourself:
-						)
-						0
-						4
-						6
-						sToGully
-					yourself:
+	(method (doVerb theVerb)
+		(switch theVerb
+			(1 ; Look
+				(if gNight
+					(gMessager say: 9 1 4) ; "You can't see the bottom of the gully; it's dark down there."
+				else
+					(gMessager say: 9 1 3) ; "The bottom of the gully is filled with water from the Autumn storms."
 				)
 			)
-		)
-	)
-
-	(method (dispose)
-		(if (and (== gPrevRoomNum 340) heading)
-			(heading dispose:)
-		)
-		(super dispose: &rest)
-	)
-
-	(method (doVerb theVerb)
-		(if (== theVerb 1) ; Look
-			(if gNight
-				(gMessager say: 9 1 4) ; "You can't see the bottom of the gully; it's dark down there."
-			else
-				(gMessager say: 9 1 3) ; "The bottom of the gully is filled with water from the Autumn storms."
+			(4 ; Do
+				(if (== gPrevRoomNum 340)
+					(gCurRoom setScript: sToGully)
+				else
+					(gMessager say: 9 4 0) ; "There isn't anything useful down in the gully."
+				)
 			)
-		else
-			(super doVerb: theVerb)
+			(else
+				(super doVerb: theVerb)
+			)
 		)
 	)
 )
@@ -1740,7 +1771,8 @@
 			)
 			(4 ; Do
 				(if local9
-					(if (== (gEgo trySkill: 11 150) 1) ; climbing
+					(if (== (gEgo trySkill: 11 200) 1) ; climbing
+						(= local8 1)
 						(gCurRoom setScript: sClimbTheGate)
 					else
 						(gMessager say: 4 4 7) ; "You're getting some good practice in climbing. You'll need to keep practicing before you'll be able to make it over this wall; it was built to keep monsters out of town."
@@ -1849,13 +1881,6 @@
 		y 23
 	)
 
-	(method (init)
-		(super init:)
-		(if gNight
-			(= actions gateTeller)
-		)
-	)
-
 	(method (doVerb theVerb)
 		(switch theVerb
 			(1 ; Look
@@ -1867,15 +1892,20 @@
 			)
 			(33 ; theGrapnel
 				(if local9
-					(fGate1 doVerb: theVerb)
-					(= local7 1)
+					(if (== (gEgo trySkill: 11 150) 1) ; climbing
+						(= local7 1)
+						(gCurRoom setScript: sClimbTheGate)
+					else
+						(gMessager say: 4 4 7) ; "You're getting some good practice in climbing. You'll need to keep practicing before you'll be able to make it over this wall; it was built to keep monsters out of town."
+					)
 				else
-					(gMessager say: 6 4 3) ; "It's considered poor form to climb the town walls during the day. Try using the gate."
+					(gMessager say: 4 4 3) ; "It's considered poor form to climb the town walls during the day. Try using the gate."
 				)
 			)
 			(4 ; Do
 				(if local9
 					(if (== (gEgo trySkill: 11 200) 1) ; climbing
+						(= local8 1)
 						(gCurRoom setScript: sClimbTheGate)
 					else
 						(gMessager say: 4 4 7) ; "You're getting some good practice in climbing. You'll need to keep practicing before you'll be able to make it over this wall; it was built to keep monsters out of town."
@@ -2030,7 +2060,7 @@
 	)
 
 	(method (showCases)
-		(super showCases: 10 (> [gEgoStats 11] 0)) ; Climb Over Gate, climbing
+		(super showCases: 10 (> global258 0)) ; Climb Over Gate
 	)
 
 	(method (sayMessage)
@@ -2068,7 +2098,7 @@
 	)
 
 	(method (showCases)
-		(super showCases: 28 (> [gEgoStats 12] 0)) ; Magic, magic
+		(super showCases: 28 (> global259 0)) ; Magic
 	)
 
 	(method (sayMessage)
@@ -2094,7 +2124,7 @@
 	)
 
 	(method (showCases)
-		(super showCases: 28 (> [gEgoStats 12] 0)) ; magic
+		(super showCases: 28 (> global259 0))
 	)
 
 	(method (sayMessage)

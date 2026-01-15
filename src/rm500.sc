@@ -176,6 +176,27 @@
 		)
 		(super dispose:)
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(1 ; Look
+				(if gNight
+					(gMessager say: 26 1 39) ; "Death seems to lurk among the dread gravestones of this grim cemetery. Beware, for the spirits of the dead may come forth by night!"
+				else
+					(gMessager say: 26 1 0) ; "The majestic mountains in the background provide a beautiful contrast to the grim gravestones and crypts of the cemetery."
+				)
+			)
+			(74 ; theHeartRit
+				(gMessager say: 0 67 0) ; "You still can't read the Ritual. This must not be the right place for it."
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "You're right; this place DOES make you jumpy!"
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
+	)
 )
 
 (instance sEgosGone of Script
@@ -265,14 +286,14 @@
 						(if (not (IsFlag 230))
 							(SetFlag 230)
 							(= register 1)
-							(gMessager say: 37 6 20 0 self) ; "You have entered an eerie deserted graveyard. Strange moans wail through the trees, and mysterious lights seem to flicker and fade among the tombstones. Two large crypts dominate the cemetery."
+							(gMessager say: 26 1 39 0 self) ; "Death seems to lurk among the dread gravestones of this grim cemetery. Beware, for the spirits of the dead may come forth by night!"
 						else
 							(self cue:)
 						)
 					)
 					((not (IsFlag 229))
 						(SetFlag 229)
-						(gMessager say: 37 6 18 0 self) ; "The majestic mountains in the background provide a beautiful contrast to the grim gravestones and crypts of the cemetery."
+						(gMessager say: 37 6 20 0 self) ; "You have entered an eerie deserted graveyard. Strange moans wail through the trees, and mysterious lights seem to flicker and fade among the tombstones. Two large crypts dominate the cemetery."
 					)
 					(else
 						(self cue:)
@@ -342,14 +363,14 @@
 						(if (not (IsFlag 230))
 							(SetFlag 230)
 							(= register 1)
-							(gMessager say: 37 6 20 0 self) ; "You have entered an eerie deserted graveyard. Strange moans wail through the trees, and mysterious lights seem to flicker and fade among the tombstones. Two large crypts dominate the cemetery."
+							(gMessager say: 26 1 39 0 self) ; "Death seems to lurk among the dread gravestones of this grim cemetery. Beware, for the spirits of the dead may come forth by night!"
 						else
 							(self cue:)
 						)
 					)
 					((not (IsFlag 229))
 						(SetFlag 229)
-						(gMessager say: 37 6 18 0 self) ; "The majestic mountains in the background provide a beautiful contrast to the grim gravestones and crypts of the cemetery."
+						(gMessager say: 37 6 20 0 self) ; "You have entered an eerie deserted graveyard. Strange moans wail through the trees, and mysterious lights seem to flicker and fade among the tombstones. Two large crypts dominate the cemetery."
 					)
 					(else
 						(self cue:)
@@ -1168,8 +1189,8 @@
 					(= global156 200)
 					(gMessager say: 21 4 10 0 self) ; "Ligeia's Ghost comes forth... and she looks MAD! This could turn into a really bad day."
 				else
-					(= ticks 1)
 					(= global156 300)
+					(gMessager say: 33 58 15 0 self) ; "You beat the grave three times with your broom. On the third strike, a horrible moan arises from the grave."
 				)
 			)
 			(1
@@ -1738,7 +1759,7 @@
 					)
 					(gCurRoom setScript: sWraithRise)
 				else
-					(super doVerb: theVerb)
+					(gMessager say: 33 58 14) ; "You sweep the grave clean. Nothing else seems to happen. This seems like the right place, but as though you're missing something."
 				)
 			)
 			(else
@@ -2016,7 +2037,7 @@
 					((or (!= local0 4) (not (headStone cel:)))
 						(super doVerb: theVerb)
 					)
-					((not [gEgoStats 11]) ; climbing
+					((not global258)
 						(gMessager say: 30 4 42) ; "It's at times like this you wish you'd signed up for that course in "Vertical Mobility: How to be a Social Climber." But you didn't, so you'll have to find another approach."
 					)
 					(else
@@ -2052,7 +2073,7 @@
 					((or (!= local0 4) (not (headStone cel:)))
 						(gCurRoom setScript: sTryTree2)
 					)
-					((not [gEgoStats 11]) ; climbing
+					((not global258)
 						(gMessager say: 30 4 42) ; "It's at times like this you wish you'd signed up for that course in "Vertical Mobility: How to be a Social Climber." But you didn't, so you'll have to find another approach."
 					)
 					(else
@@ -2065,7 +2086,7 @@
 					((or (!= local0 4) (not (headStone cel:)))
 						(super doVerb: theVerb)
 					)
-					((not [gEgoStats 11]) ; climbing
+					((not global258)
 						(gMessager say: 30 4 42) ; "It's at times like this you wish you'd signed up for that course in "Vertical Mobility: How to be a Social Climber." But you didn't, so you'll have to find another approach."
 					)
 					(else

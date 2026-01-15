@@ -22,6 +22,7 @@
 	local3
 	local4 = 1
 	local5
+	local6
 )
 
 (procedure (EgoDead param1 param2 param3 param4 &tmp [temp0 2])
@@ -60,6 +61,16 @@
 	(DeathControls init: show: dispose:)
 )
 
+(procedure (FrameOut)
+	(while 1
+		(FrameOut)
+		(if (> (Abs (- (GetTime) local6)) 0)
+			(break)
+		)
+	)
+	(= local6 (GetTime))
+)
+
 (class DeathIcon of IconI
 	(properties
 		nsTop 15
@@ -92,7 +103,16 @@
 
 	(method (onMe param1)
 		(return
-			(and (< nsLeft (param1 x:) nsRight) (< nsTop (param1 y:) nsBottom))
+			(if
+				(and
+					(< nsLeft (param1 x:))
+					(< (param1 x:) nsRight)
+					(< nsTop (param1 y:))
+				)
+				(< (param1 y:) nsBottom)
+			else
+				0
+			)
 		)
 	)
 
@@ -209,8 +229,11 @@
 
 (class DeathControls of IconBar
 	(properties
+		name {DeathControls}
 		state 0
 		deathCast 0
+		curVolume 0
+		ticks 0
 	)
 
 	(method (select param1 param2)
@@ -220,6 +243,8 @@
 					(= curIcon param1)
 				)
 				1
+			else
+				0
 			)
 		)
 	)
@@ -229,6 +254,14 @@
 	(method (swapCurIcon))
 
 	(method (init &tmp temp0 temp1)
+		(if (and (IsFlag 400) (& gMsgType $0002))
+			(= curVolume (gGlory masterVolume:))
+			(if (>= curVolume 6)
+				(gGlory masterVolume: (- curVolume 6))
+			else
+				(gGlory masterVolume: 1)
+			)
+		)
 		(= local5 0)
 		(if (not deathCast)
 			(= deathCast (Cast new:))
@@ -260,8 +293,7 @@
 		(Message msgGET 26 1 0 5 1 ((deathIconQuit text:) data:)) ; "Quit"
 		(self add: deathIconQuit)
 		(self eachElementDo: #init self)
-		(= temp1 (gTheIconBar getCursor:))
-		(temp1 view: 999 loop: 0 cel: 0)
+		((= temp1 (gTheIconBar getCursor:)) view: 999 loop: 0 cel: 0)
 		(gGlory setCursor: temp1)
 		(gLongSong number: 106 setLoop: 1 play:)
 	)
@@ -271,7 +303,7 @@
 		(= temp3 (event message:))
 		(= temp5 (event claimed:))
 		(if (= temp4 (self firstTrue: #onMe event))
-			(= temp6 (temp4 signal:))
+			(= temp6 ((= temp4 (self firstTrue: #onMe event)) signal:))
 			(= temp7 (== temp4 helpIconItem))
 		)
 		(if
@@ -405,6 +437,16 @@
 	)
 
 	(method (doit &tmp temp0 temp1 temp2 temp3 temp4)
+		(if (IsFlag 400)
+			(if (and (!= ticks -1) (> (- gGameTime ticks) 0))
+				(and
+					(& gMsgType $0002)
+					(== (DoAudio audPLAY local1 0 100 local0 1) -1)
+				)
+			else
+				(DoAudio audPLAY local1 0 100 local0 1)
+			)
+		)
 		(while (and (& state $0020) (= temp0 ((gUser curEvent:) new:)))
 			(= gGameTime (+ gTickOffset (GetTime)))
 			(FrameOut)
@@ -419,14 +461,23 @@
 				(= temp1 4)
 				(= temp2 (if (& temp3 $0003) 27 else 13))
 				(= temp3 0)
-				(temp0 type: temp1 message: temp2 modifiers: 0)
+				(temp0 type: temp1 message: temp2 modifiers: temp3)
 			)
 			(MapKeyToDir temp0)
-			(breakif (self dispatchEvent: temp0))
+			(if (self dispatchEvent: temp0)
+				(break)
+			)
 		)
 	)
 
 	(method (dispose)
+		(= ticks -1)
+		(if (& gMsgType $0002)
+			(DoAudio audSTOP local1 0 100 local0 1)
+		)
+		(if (& gMsgType $0002)
+			(gGlory masterVolume: curVolume)
+		)
 		(plane deleteCast: self dispose:)
 		(= deathCast (= plane 0))
 		(if elements
@@ -472,6 +523,7 @@
 
 (instance deathIconView of DeathIcon
 	(properties
+		name {deathIconView}
 		nsLeft 16
 		nsTop 82
 		x 40
@@ -500,6 +552,7 @@
 
 (instance deathIconTitle of DeathIcon
 	(properties
+		name {deathIconTitle}
 		nsLeft 70
 		nsTop 10
 		x 8
@@ -553,6 +606,7 @@
 
 (instance deathIconText of DeathIcon
 	(properties
+		name {deathIconText}
 		nsLeft 70
 		nsTop 23
 		x 8
@@ -609,6 +663,7 @@
 
 (instance deathIconRestore of DeathIcon
 	(properties
+		name {deathIconRestore}
 		nsLeft 20
 		nsTop 105
 		x 8
@@ -624,6 +679,7 @@
 
 (instance deathIconRestart of DeathIcon
 	(properties
+		name {deathIconRestart}
 		nsLeft 90
 		nsTop 105
 		x 8
@@ -639,6 +695,7 @@
 
 (instance deathIconQuit of DeathIcon
 	(properties
+		name {deathIconQuit}
 		nsLeft 160
 		nsTop 105
 		x 8
@@ -665,8 +722,7 @@
 		(if (self isNotHidden:)
 			(DeleteScreenItem self)
 		)
-		(= temp0 (plane casts:))
-		(temp0 eachElementDo: #delete self)
+		((= temp0 (plane casts:)) eachElementDo: #delete self)
 		(= plane 0)
 		(DisposeClone self)
 		(if temp1

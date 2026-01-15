@@ -4,6 +4,7 @@
 (include sci.sh)
 (use Main)
 (use GloryRm)
+(use TargFeature)
 (use Scaler)
 (use Osc)
 (use PolyPath)
@@ -47,8 +48,12 @@
 		(gEgo init: setScaler: Scaler 105 32 180 31 normalize:)
 		((ScriptID 633 0) init:) ; rm620Code
 		(super init: &rest)
-		(theGhost init: setScaler: Scaler 103 43 117 33 hide:)
-		(gGlory handsOn:)
+		(theGhost
+			init:
+			signal: (| (theGhost signal:) $0001)
+			setScaler: Scaler 103 43 117 33
+			hide:
+		)
 		(theGhost setScript: doMyThing)
 	)
 
@@ -79,14 +84,11 @@
 				(gCurRoom setScript: sThrowIt)
 			)
 			((== theVerb 83) ; dazzleSpell
-				(Palette 2 0 255 500) ; PalIntensity
-				(Palette 2 0 255 100) ; PalIntensity
-				(gMessager say: 4 6 28 1 0 620) ; "Your actions have no effect."
-				(return 1)
+				(gCurRoom setScript: sCastDazzle)
 			)
 			((== theVerb 37) ; theThrowdagger
 				(if (== (gEgo has: 5) 1) ; theThrowdagger
-					(gMessager say: 4 6 34) ; MISSING MESSAGE
+					(gMessager say: 4 6 34 0 0 620) ; "You are down to your last dagger. You'd better hold on to it."
 				else
 					(gEgo use: 5 1) ; theThrowdagger
 					(= local3 1)
@@ -119,18 +121,34 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(gEgo setMotion: PolyPath (theGhost x:) (theGhost y:) self)
+				(gEgo
+					setMotion:
+						PolyPath
+						(+ (theGhost x:) 30)
+						(+ (theGhost y:) 30)
+						self
+				)
 			)
 			(1
-				(Face gEgo theGhost self)
+				(Face gEgo (theGhost x:) (theGhost y:) self)
 			)
 			(2
-				(gEgo
-					view: 38
-					setLoop: 1
-					setCel: 0
-					posn: (- (gEgo x:) 1) (+ (gEgo y:) 2)
-					setCycle: End self
+				(if (== ((gInventory at: 19) state:) 2) ; theSword
+					(gEgo
+						view: 55
+						setLoop: 1
+						setCel: 0
+						posn: (- (gEgo x:) 1) (+ (gEgo y:) 2)
+						setCycle: End self
+					)
+				else
+					(gEgo
+						view: 38
+						setLoop: 1
+						setCel: 0
+						posn: (- (gEgo x:) 1) (+ (gEgo y:) 2)
+						setCycle: End self
+					)
 				)
 			)
 			(3
@@ -173,7 +191,7 @@
 				(switch local3
 					(1
 						(if (== (gEgo has: 5) 1) ; theThrowdagger
-							(gMessager say: 4 6 34) ; MISSING MESSAGE
+							(gMessager say: 4 6 34 0 0 620) ; "You are down to your last dagger. You'd better hold on to it."
 						else
 							(self setScript: (ScriptID 32) self 37) ; project
 						)
@@ -196,14 +214,28 @@
 				)
 			)
 			(1
-				(= seconds 8)
+				(gGlory handsOn:)
+				(self dispose:)
+			)
+		)
+	)
+)
+
+(instance sCastDazzle of Script
+	(properties)
+
+	(method (changeState newState)
+		(switch (= state newState)
+			(0
+				(gGlory handsOff:)
+				(self setScript: (ScriptID 12) self 83) ; castAreaScript
+			)
+			(1
+				(Palette 2 0 255 500) ; PalIntensity
+				(Palette 2 0 255 100) ; PalIntensity
+				(gMessager say: 4 6 28 0 self 620) ; "Your actions have no effect."
 			)
 			(2
-				(gEgo normalize:)
-				(gMessager say: 4 6 28 1 self 620) ; "Your actions have no effect."
-			)
-			(3
-				(= local3 0)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -280,7 +312,7 @@
 	)
 )
 
-(instance theGhost of Actor
+(instance theGhost of TargActor
 	(properties
 		noun 9
 		modNum 620
@@ -312,15 +344,9 @@
 				(= local3 2)
 				(gCurRoom setScript: sThrowIt)
 			)
-			((== theVerb 83) ; dazzleSpell
-				(Palette 2 0 255 500) ; PalIntensity
-				(Palette 2 0 255 100) ; PalIntensity
-				(gMessager say: 4 6 28 1 0 620) ; "Your actions have no effect."
-				(return 1)
-			)
 			((== theVerb 37) ; theThrowdagger
 				(if (== (gEgo has: 5) 1) ; theThrowdagger
-					(gMessager say: 4 6 34) ; MISSING MESSAGE
+					(gMessager say: 4 6 34 0 0 620) ; "You are down to your last dagger. You'd better hold on to it."
 				else
 					(gEgo use: 5 1) ; theThrowdagger
 					(= local3 1)
@@ -328,6 +354,7 @@
 				)
 			)
 			((== theVerb 36) ; theSword
+				(= local3 0)
 				(gCurRoom setScript: sSlash)
 			)
 			(else
@@ -335,11 +362,19 @@
 			)
 		)
 	)
+
+	(method (getHurt)
+		(if (< local3 3)
+			(gMessager say: 9 21 0 1 0 620) ; "It passes right through the ghost without any apparent effect."
+		else
+			(gMessager say: 9 86 0 1 0 620) ; "Your spell passes right through the ghost as if it isn't there."
+		)
+	)
 )
 
 (instance sndSwish of Sound
 	(properties
-		number 967
+		number 901
 		loop -1
 	)
 )

@@ -32,7 +32,6 @@
 		(gEgo init: setScaler: Scaler 105 32 180 31 normalize:)
 		((ScriptID 633 0) init:) ; rm620Code
 		(super init: &rest)
-		(gGlory handsOn:)
 	)
 
 	(method (doVerb theVerb)

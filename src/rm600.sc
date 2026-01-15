@@ -4,6 +4,7 @@
 (include sci.sh)
 (use Main)
 (use GloryRm)
+(use TargFeature)
 (use Teller)
 (use DeathIcon)
 (use Interface)
@@ -70,7 +71,8 @@
 					(
 						(and
 							(== gPrevRoomNum 552)
-							(< 4 gTime 6)
+							(< 4 gTime)
+							(< gTime 6)
 							(IsFlag 124)
 							(IsFlag 395)
 						)
@@ -93,7 +95,8 @@
 					(
 						(and
 							(== gPrevRoomNum 552)
-							(<= 4 gTime 6)
+							(<= 4 gTime)
+							(<= gTime 6)
 							(< gPrevKatrinaDayNumber (- gDay 2))
 							(IsFlag 124)
 							(not (IsFlag 395))
@@ -105,7 +108,8 @@
 						(and
 							(== gPrevRoomNum 552)
 							gNight
-							(<= 4 gTime 6)
+							(<= 4 gTime)
+							(<= gTime 6)
 							(< gPrevKatrinaDayNumber gDay)
 							(IsFlag 82)
 							(not (IsFlag 124))
@@ -156,9 +160,14 @@
 			(gEgo init: normalize: setScaler: Scaler 130 45 189 109)
 		)
 		(if (or (OneOf gPrevRoomNum 810 610 630) (== local0 10)) ; combat
-			(aGate posn: -30 105 setPri: 163 init:)
+			(aGate
+				posn: -30 105
+				setPri: 163
+				init:
+				signal: (| (aGate signal:) $0001)
+			)
 		else
-			(aGate init: approachVerbs: 4) ; Do
+			(aGate init: approachVerbs: 4 signal: (| (aGate signal:) $0001)) ; Do
 			(cond
 				((== local0 10)
 					(aGate posn: -30 105)
@@ -305,6 +314,7 @@
 						(katrinaTeller init: aKatrina 600 14 127 21)
 						(heroTeller init: gEgo 600 14 128 21)
 						(= local7 1)
+						(SetFlag 4)
 						(gCurRoom setScript: sEvent8)
 					)
 					(9
@@ -312,6 +322,7 @@
 						(katrinaTeller init: aKatrina 600 14 127 22)
 						(heroTeller init: gEgo 600 14 128 22)
 						(= local7 1)
+						(SetFlag 4)
 						(SetFlag 395)
 						(gCurRoom setScript: sEvent9)
 					)
@@ -333,7 +344,10 @@
 				gNight
 			)
 			(pNec1 init:)
-			(pNec2 init: setScript: sRandomRoars)
+			(pNec2 init:)
+			(if (not (gCast contains: aKatrina))
+				(pNec2 setScript: sRandomRoars)
+			)
 		)
 		(cond
 			((OneOf local0 8 9)
@@ -379,6 +393,7 @@
 					)
 			)
 			(= local1 1)
+			(SetFlag 4)
 			(gateKeeper init: setScript: sKeeperIncidental approachVerbs: 4 2) ; Do, Talk
 			(keeperTeller
 				init:
@@ -410,6 +425,14 @@
 		(fArchWay init: approachVerbs: 4) ; Do
 		(if (and (IsFlag 380) (!= gPrevRoomNum 810)) ; combat
 			(gGlory save: 1)
+		)
+	)
+
+	(method (notify)
+		(if (gCast contains: aKatrina)
+			(gMessager say: 12 6 28) ; "Something about being with Katrina makes all thought of magic swirl around in your head. You don't seem to be able to cast any of your spells."
+		else
+			(gMessager say: 10 4 3) ; "You'd better not; the gatekeeper is watching."
 		)
 	)
 
@@ -488,7 +511,6 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(89 ; levitateSpell
-				(gEgo trySkill: 29) ; levitateSpell
 				(cond
 					(gNight
 						((ScriptID 31 0) init: 108 166 125 0 3) ; leviCode
@@ -517,66 +539,52 @@
 				)
 			)
 			(83 ; dazzleSpell
-				(= global441 ((User curEvent:) x:))
-				(= global442 ((User curEvent:) y:))
-				(if local7
-					(gMessager say: 12 6 28 0) ; "Something about being with Katrina makes all thought of magic swirl around in your head. You don't seem to be able to cast any of your spells."
-				else
-					(gEgo trySkill: 12) ; magic
-					(= local5 3)
-					(gCurRoom setScript: sThrowIt)
-				)
+				(gMessager say: 0 86 0) ; "Be careful! Your spells can probably be seen from the castle!"
 			)
 			(86 ; flameDartSpell
-				(= global441 ((User curEvent:) x:))
-				(= global442 ((User curEvent:) y:))
-				(if local7
-					(gMessager say: 12 6 28 0) ; "Something about being with Katrina makes all thought of magic swirl around in your head. You don't seem to be able to cast any of your spells."
-				else
-					(gEgo trySkill: 12) ; magic
-					(= local5 5)
-					(gCurRoom setScript: sThrowIt)
-				)
+				(= local5 5)
+				(gCurRoom setScript: sThrowIt)
 			)
 			(88 ; forceBoltSpell
-				(= global441 ((User curEvent:) x:))
-				(= global442 ((User curEvent:) y:))
-				(if local7
-					(gMessager say: 12 6 28 0) ; "Something about being with Katrina makes all thought of magic swirl around in your head. You don't seem to be able to cast any of your spells."
-				else
-					(gEgo trySkill: 12) ; magic
-					(= local5 6)
-					(gCurRoom setScript: sThrowIt)
-				)
+				(= local5 6)
+				(gCurRoom setScript: sThrowIt)
 			)
 			(91 ; jugglingLightsSpell
-				(= global441 ((User curEvent:) x:))
-				(= global442 ((User curEvent:) y:))
-				(if local7
-					(gMessager say: 12 6 28 0) ; "Something about being with Katrina makes all thought of magic swirl around in your head. You don't seem to be able to cast any of your spells."
-				else
-					(gEgo trySkill: 12) ; magic
-					(= local5 7)
-					(gCurRoom setScript: sThrowIt)
-				)
+				(gCurRoom setScript: (ScriptID 62)) ; castJuggle
 			)
 			(93 ; lightningBallSpell
-				(= global441 ((User curEvent:) x:))
-				(= global442 ((User curEvent:) y:))
-				(if local7
-					(gMessager say: 12 6 28 0) ; "Something about being with Katrina makes all thought of magic swirl around in your head. You don't seem to be able to cast any of your spells."
+				(= local5 8)
+				(gCurRoom setScript: sThrowIt)
+			)
+			(81 ; detectMagicSpell
+				(gMessager say: 0 81 0) ; "The gate seems to be magically enchanted."
+			)
+			(79 ; frostSpell
+				(= local5 7)
+				(gCurRoom setScript: sThrowIt)
+			)
+			(80 ; openSpell
+				(gMessager say: 0 86 0) ; "Be careful! Your spells can probably be seen from the castle!"
+			)
+			(82 ; triggerSpell
+				(gMessager say: 0 86 0) ; "Be careful! Your spells can probably be seen from the castle!"
+			)
+			(21 ; theRocks
+				(gMessager say: 0 21 0) ; "You toss a rock into the ravine. It falls for a long, long time."
+			)
+			(37 ; theThrowdagger
+				(if (== (gEgo has: 5) 1) ; theThrowdagger
+					(gMessager say: 12 6 116) ; "You are down to your last dagger. You'd better hold on to it."
 				else
-					(gEgo trySkill: 12) ; magic
-					(= local5 9)
+					(= local5 1)
 					(gCurRoom setScript: sThrowIt)
 				)
 			)
-			(81 ; detectMagicSpell
-				(gEgo trySkill: 21) ; detectSpell
-				(gMessager say: 0 81 0 0) ; "The gate seems to be magically enchanted."
+			(56 ; theAmulet
+				(gMessager say: 0 56 0) ; "Save it for combat."
 			)
-			(21 ; theRocks
-				(self setScript: (ScriptID 32) 0 21) ; project
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "Don't leap to conclusions -- that gorge is deep!"
 			)
 			(else
 				(super doVerb: theVerb &rest)
@@ -587,6 +595,7 @@
 	(method (dispose)
 		(gLongSong fade: 0)
 		(zappedSound dispose:)
+		(ClearFlag 4)
 		(super dispose:)
 	)
 )
@@ -657,7 +666,7 @@
 				(gEgo setCycle: End self)
 			)
 			(4
-				(EgoDead 10 600 0 0 912) ; "You climbed the gate just fine. You climbed down just fine too. The Necrotaurs killed you quite nicely before you could reach the ground. Isn't that nice?"
+				(EgoDead 10 600) ; "You climbed the gate just fine. You climbed down just fine too. The Necrotaurs killed you quite nicely before you could reach the ground. Isn't that nice?"
 			)
 		)
 	)
@@ -722,6 +731,8 @@
 			)
 			(4
 				(= gPrevKatrinaDayNumber gDay)
+				(ClearFlag 4)
+				(pNec2 setScript: sRandomRoars)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -736,47 +747,34 @@
 		(switch (= state newState)
 			(0
 				(gGlory handsOff:)
-				(switch local5
-					(1
-						(if (== (gEgo has: 5) 1) ; theThrowdagger
-							(gMessager say: 12 6 116) ; "You are down to your last dagger. You'd better hold on to it."
-						else
+				(if local1
+					(gMessager say: 2 21 0 0 self) ; "If you dare throw that at me, young man, I'll sic my Necrotaurs on you!"
+				else
+					(switch local5
+						(1
+							(gEgo use: 5 1) ; theThrowdagger
 							(self setScript: (ScriptID 32) self 37) ; project
 						)
-					)
-					(2
-						(self setScript: (ScriptID 32) self 21) ; project
-					)
-					(5
-						(self setScript: (ScriptID 32) self 86) ; project
-					)
-					(6
-						(self setScript: (ScriptID 32) self 88) ; project
-					)
-					(7
-						(self setScript: (ScriptID 62) self) ; castJuggle
-					)
-					(8
-						(self setScript: (ScriptID 32) self 93) ; project
-					)
-					(else
-						(self cue:)
+						(2
+							(gEgo use: 6 1) ; theRocks
+							(self setScript: (ScriptID 32) self 21) ; project
+						)
+						(5
+							(self setScript: (ScriptID 32) self 86) ; project
+						)
+						(6
+							(self setScript: (ScriptID 32) self 88) ; project
+						)
+						(7
+							(self setScript: (ScriptID 32) self 79) ; project
+						)
+						(8
+							(self setScript: (ScriptID 32) self 93) ; project
+						)
 					)
 				)
 			)
 			(1
-				(gEgo normalize:)
-				(= seconds 2)
-			)
-			(2
-				(if (OneOf local5 1 2)
-					(gMessager say: 12 6 6 0 self) ; "Your missile vanishes as if by magic. (In fact, it probably IS by magic.)"
-				else
-					(gMessager say: 12 6 7 0 self) ; "Your spell dissipates as if blocked by magic. It does not seem to have had any effect."
-				)
-			)
-			(3
-				(= local5 0)
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -852,7 +850,7 @@
 				(gEgo setCycle: End self)
 			)
 			(10
-				(EgoDead 10 600 0 0 912) ; "You climbed the gate just fine. You climbed down just fine too. The Necrotaurs killed you quite nicely before you could reach the ground. Isn't that nice?"
+				(EgoDead 10 600) ; "You climbed the gate just fine. You climbed down just fine too. The Necrotaurs killed you quite nicely before you could reach the ground. Isn't that nice?"
 			)
 		)
 	)
@@ -871,12 +869,22 @@
 				(Face gEgo 123 168 self)
 			)
 			(2
-				(gEgo
-					view: 38
-					setLoop: 1 1
-					setCel: 0
-					posn: 113 169
-					setCycle: End self
+				(if (== ((gInventory at: 19) state:) 2) ; theSword
+					(gEgo
+						view: 55
+						setLoop: 1 1
+						setCel: 0
+						posn: 113 169
+						setCycle: End self
+					)
+				else
+					(gEgo
+						view: 38
+						setLoop: 1 1
+						setCel: 0
+						posn: 113 169
+						setCycle: End self
+					)
 				)
 			)
 			(3
@@ -887,6 +895,7 @@
 				(gEgo setCel: 8 setCycle: Beg self)
 			)
 			(5
+				(sndSwish stop:)
 				(gEgo setLoop: 1 1 setCel: 10 x: 113 setCycle: Beg self)
 			)
 			(6
@@ -894,13 +903,6 @@
 				(gMessager say: 12 6 8 0 self) ; "You wouldn't accomplish anything but dulling your blade."
 			)
 			(7
-				(if local1
-					(gMessager say: 2 6 8 0 self) ; "Please do not try to force the gate. It is my duty to keep strangers away from the castle."
-				else
-					(self cue:)
-				)
-			)
-			(8
 				(gGlory handsOn:)
 				(self dispose:)
 			)
@@ -930,8 +932,8 @@
 			(4
 				(zappedSound stop:)
 				(aZap dispose:)
-				(if (< (-= [gEgoStats 17] 50) 0) ; health
-					(EgoDead 9 600 0 0 912) ; "Your whole life flashes before your eyes (along with lots of other bright lights) as the gate spell zaps you into oblivion. Touchy, these homeowners."
+				(if (< (-= global264 50) 0)
+					(EgoDead 9 600 961 1 912) ; "Your whole life flashes before your eyes (along with lots of other bright lights) as the gate spell zaps you into oblivion. Touchy, these homeowners."
 				else
 					(gEgo setCycle: CT 0 -1 self)
 				)
@@ -958,7 +960,7 @@
 				(= seconds 5)
 			)
 			(1
-				(EgoDead 12 600 0 0 912) ; "You heroically slaughtered one of the guardian Necrotaurs. Unfortunately, the second one unheroically made mincemeat of you. You'll need to work up to this encounter in your next life."
+				(EgoDead 12 600) ; "You heroically slaughtered one of the guardian Necrotaurs. Unfortunately, the second one unheroically made mincemeat of you. You'll need to work up to this encounter in your next life."
 			)
 		)
 	)
@@ -974,7 +976,7 @@
 				(= seconds 5)
 			)
 			(1
-				(EgoDead 11 600 0 0 912) ; "The Necrotaurs are having you for a midnight snack. You might want to leave frontal assaults for later, or at least prepare for combat better."
+				(EgoDead 11 600) ; "The Necrotaurs are having you for a midnight snack. You might want to leave frontal assaults for later, or at least prepare for combat better."
 			)
 		)
 	)
@@ -1052,16 +1054,13 @@
 			(1
 				(sndMetalGate play:)
 				(aGate setLoop: 0 1 setCel: 0 setMotion: MoveTo -30 103 self)
-				(= cycles 5)
 			)
 			(2
 				(= gCombatMonsterNum 870) ; nectar
 				(= global156 350)
-				(sndMetalGate stop:)
 				(gEgo setMotion: MoveTo 107 155 self)
 			)
-			(3)
-			(4
+			(3
 				(SetFlag 102)
 				(SetFlag 378)
 				(gCurRoom newRoom: 810) ; combat
@@ -1084,10 +1083,19 @@
 				(gEgo setMotion: PolyPath 121 181 self)
 			)
 			(1
-				(if gNight
-					(if (== gHeroType 3) ; Paladin
-						(gMessager say: 12 6 118) ; "Death waits beyond those gates (at least for those not tough enough for the challenge). It comes in the form of two slavering Necrotaurs."
+				(if
+					(and
+						gNight
+						(or (gCast contains: pNec1) (gCast contains: pNec2))
+						(== gHeroType 3) ; Paladin
 					)
+					(gMessager say: 12 6 118 0 self) ; "Death waits beyond those gates (at least for those not tough enough for the challenge). It comes in the form of two slavering Necrotaurs."
+				else
+					(self cue:)
+				)
+			)
+			(2
+				(if gNight
 					(sndLightning play:)
 				)
 				(if (not (gCurRoom script:))
@@ -1324,7 +1332,7 @@
 				(Face gEgo 61 174 self)
 			)
 			(3
-				(if (> [gEgoStats 17] (gEgo maxHealth:)) ; health
+				(if (> global264 (gEgo maxHealth:))
 					(gEgo get: 3) ; theHeals
 					(gMessager say: 16 6 39 1 self) ; "You're hurt again! Please, you need to take better care of yourself. There are many things in Mordavia that are attracted to the scent of blood. Please take this potion and use it quickly."
 				else
@@ -1472,7 +1480,7 @@
 	)
 )
 
-(instance aGate of Actor
+(instance aGate of TargActor
 	(properties
 		noun 11
 		approachX 123
@@ -1488,7 +1496,7 @@
 		(switch theVerb
 			(1 ; Look
 				(cond
-					((IsFlag 122)
+					((< (self x:) 27)
 						(gMessager say: 11 1 5) ; "The gate is standing open, its lock broken."
 					)
 					((and (!= local0 10) gNight)
@@ -1506,53 +1514,67 @@
 				(if (== (gEgo has: 5) 1) ; theThrowdagger
 					(gMessager say: 12 6 116) ; "You are down to your last dagger. You'd better hold on to it."
 				else
-					(gEgo trySkill: 10) ; throwing
-					(gEgo use: 5 1) ; theThrowdagger
 					(= local5 1)
 					(gCurRoom setScript: sThrowIt)
 				)
 			)
 			(21 ; theRocks
-				(gEgo trySkill: 10) ; throwing
-				(gEgo use: 6 1) ; theRocks
 				(= local5 2)
 				(gCurRoom setScript: sThrowIt)
 			)
 			(82 ; triggerSpell
-				(if local7
-					(gMessager say: 12 6 28) ; "Something about being with Katrina makes all thought of magic swirl around in your head. You don't seem to be able to cast any of your spells."
-				else
-					(= global441 ((User curEvent:) x:))
-					(= global442 ((User curEvent:) y:))
-					(= local5 9)
-					(gCurRoom setScript: (ScriptID 11) 0 self) ; castTriggerScript
-				)
+				(gCurRoom setScript: (ScriptID 11) 0 self) ; castTriggerScript
 			)
 			(-82 ; triggerSpell (part 2)
-				(gEgo trySkill: 22) ; triggerSpell
-				(gCurRoom setScript: sThrowIt)
+				(gGlory handsOn:)
+				(gCurRoom setScript: 0)
+				(gMessager say: 12 6 7) ; "Your spell dissipates as if blocked by magic. It does not seem to have had any effect."
 			)
 			(4 ; Do
 				(gCurRoom setScript: sZapTheGate)
 			)
 			(36 ; theSword
-				(gCurRoom setScript: sSlash)
+				(if local1
+					(gMessager say: 2 6 8) ; "Please do not try to force the gate. It is my duty to keep strangers away from the castle."
+				else
+					(gCurRoom setScript: sSlash)
+				)
 			)
 			(80 ; openSpell
-				(= global441 ((User curEvent:) x:))
-				(= global442 ((User curEvent:) y:))
-				(gEgo trySkill: 20) ; openSpell
 				(gCurRoom setScript: (ScriptID 13) 0 aGate) ; castOpenScript
 			)
 			(-80 ; openSpell (part 2)
 				(gGlory handsOn:)
 				(gCurRoom setScript: 0)
-				(gEgo trySkill: 20) ; openSpell
-				(gMessager say: 12 6 7) ; "Your spell dissipates as if blocked by magic. It does not seem to have had any effect."
+				(gMessager say: 11 80 0) ; "Your spell should have been powerful enough to open the gate, but nothing happened. There must be some sort of magical protection on it."
+			)
+			(79 ; frostSpell
+				(= local5 7)
+				(gCurRoom setScript: sThrowIt)
+			)
+			(86 ; flameDartSpell
+				(= local5 5)
+				(gCurRoom setScript: sThrowIt)
+			)
+			(88 ; forceBoltSpell
+				(= local5 6)
+				(gCurRoom setScript: sThrowIt)
+			)
+			(93 ; lightningBallSpell
+				(= local5 8)
+				(gCurRoom setScript: sThrowIt)
 			)
 			(else
-				(super doVerb: theVerb)
+				(super doVerb: theVerb &rest)
 			)
+		)
+	)
+
+	(method (getHurt)
+		(if (< local5 3)
+			(gMessager say: 12 6 6) ; "Your missile vanishes as if by magic. (In fact, it probably IS by magic.)"
+		else
+			(gMessager say: 11 88 0) ; "Your spell glances off the gate without effect."
 		)
 	)
 )
@@ -1573,20 +1595,122 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (and (== theVerb 1) (IsFlag 119)) ; Look
-			(gMessager say: 3 1 0) ; "The recently-deceased gate guardians are Necrotaurs. They don't look much better in death."
-			(return 1)
-		else
-			(gMessager say: 3 1 117) ; "The heavy gate blocks access to the castle road. Fortunately, it also blocks the path of the two slavering Necrotaurs on the other side. They look hungry to see you."
-			(return 1)
-		)
-		(return
-			(if (and (== theVerb 4) (IsFlag 119)) ; Do
-				(= local3 53)
-				(= local4 136)
-				(gCurRoom setScript: sCheckNecs)
-			else
-				(super doVerb: theVerb)
+		(= global441 ((User curEvent:) x:))
+		(= global442 ((User curEvent:) y:))
+		(switch theVerb
+			(1 ; Look
+				(if (IsFlag 119)
+					(gMessager say: 3 1 0) ; "The recently-deceased gate guardians are Necrotaurs. They don't look much better in death."
+				else
+					(gMessager say: 3 1 117) ; "The heavy gate blocks access to the castle road. Fortunately, it also blocks the path of the two slavering Necrotaurs on the other side. They look hungry to see you."
+				)
+			)
+			(4 ; Do
+				(if (IsFlag 119)
+					(= local3 53)
+					(= local4 136)
+					(gCurRoom setScript: sCheckNecs)
+				else
+					(super doVerb: theVerb)
+				)
+			)
+			(21 ; theRocks
+				(if (IsFlag 119)
+					(gMessager say: 3 88 0) ; "Don't worry about it; they're already dead."
+				else
+					(gEgo use: 6 1) ; theRocks
+					(= local5 2)
+					(gCurRoom setScript: sThrowIt)
+				)
+			)
+			(36 ; theSword
+				(if (IsFlag 119)
+					(gMessager say: 3 88 0) ; "Don't worry about it; they're already dead."
+				else
+					(gCurRoom setScript: sSlash)
+				)
+			)
+			(37 ; theThrowdagger
+				(cond
+					((== (gEgo has: 5) 1) ; theThrowdagger
+						(gMessager say: 12 6 116) ; "You are down to your last dagger. You'd better hold on to it."
+					)
+					((IsFlag 119)
+						(gMessager say: 3 88 0) ; "Don't worry about it; they're already dead."
+					)
+					(else
+						(gEgo use: 5 1) ; theThrowdagger
+						(= local5 1)
+						(gCurRoom setScript: sThrowIt)
+					)
+				)
+			)
+			(79 ; frostSpell
+				(if (IsFlag 119)
+					(gMessager say: 3 79 0) ; "It won't taste any better after being frozen and recooked."
+				else
+					(= local5 7)
+					(gCurRoom setScript: sThrowIt)
+				)
+			)
+			(80 ; openSpell
+				(if (IsFlag 119)
+					(super doVerb: theVerb)
+				else
+					(gCurRoom setScript: (ScriptID 13) 0 aGate) ; castOpenScript
+				)
+			)
+			(-80 ; openSpell (part 2)
+				(if (IsFlag 119)
+					(super doVerb: theVerb)
+				else
+					(gGlory handsOn:)
+					(gCurRoom setScript: 0)
+					(gMessager say: 11 80 0) ; "Your spell should have been powerful enough to open the gate, but nothing happened. There must be some sort of magical protection on it."
+				)
+			)
+			(82 ; triggerSpell
+				(if (IsFlag 119)
+					(super doVerb: theVerb)
+				else
+					(gCurRoom setScript: (ScriptID 11) 0 self) ; castTriggerScript
+				)
+			)
+			(-82 ; triggerSpell (part 2)
+				(if (IsFlag 119)
+					(super doVerb: theVerb)
+				else
+					(gGlory handsOn:)
+					(gCurRoom setScript: 0)
+					(gMessager say: 12 6 7) ; "Your spell dissipates as if blocked by magic. It does not seem to have had any effect."
+				)
+			)
+			(86 ; flameDartSpell
+				(if (IsFlag 119)
+					(gMessager say: 3 86 0) ; "There isn't enough flesh on these things to be worth cooking."
+				else
+					(= local5 5)
+					(gCurRoom setScript: sThrowIt)
+				)
+			)
+			(88 ; forceBoltSpell
+				(if (IsFlag 119)
+					(gMessager say: 3 88 0) ; "Don't worry about it; they're already dead."
+				else
+					(= local5 6)
+					(gCurRoom setScript: sThrowIt)
+				)
+			)
+			(93 ; lightningBallSpell
+				(if (IsFlag 119)
+					(gMessager say: 3 93 0) ; "The Necrotaurs don't look especially conductive."
+				else
+					(= local5 8)
+					(gCurRoom setScript: sThrowIt)
+				)
+			)
+			(else
+				(super doVerb: theVerb &rest)
 			)
 		)
 	)
@@ -1608,20 +1732,20 @@
 	)
 
 	(method (doVerb theVerb)
-		(if (and (== theVerb 1) (IsFlag 119)) ; Look
-			(gMessager say: 3 1 0) ; "The recently-deceased gate guardians are Necrotaurs. They don't look much better in death."
-			(return 1)
-		else
-			(gMessager say: 3 1 117) ; "The heavy gate blocks access to the castle road. Fortunately, it also blocks the path of the two slavering Necrotaurs on the other side. They look hungry to see you."
-			(return 1)
-		)
-		(return
-			(if (and (== theVerb 4) (IsFlag 119)) ; Do
-				(= local3 252)
-				(= local4 163)
-				(gCurRoom setScript: sCheckNecs)
-			else
-				(super doVerb: theVerb)
+		(= global441 ((User curEvent:) x:))
+		(= global442 ((User curEvent:) y:))
+		(switch theVerb
+			(4 ; Do
+				(if (IsFlag 119)
+					(= local3 252)
+					(= local4 163)
+					(gCurRoom setScript: sCheckNecs)
+				else
+					(super doVerb: theVerb)
+				)
+			)
+			(else
+				(pNec1 doVerb: theVerb &rest)
 			)
 		)
 	)
@@ -1878,7 +2002,7 @@
 
 	(method (doVerb theVerb)
 		(if (== theVerb 1) ; Look
-			(if [gEgoStats 11] ; climbing
+			(if global258
 				(gMessager say: 10 1 4) ; "The archway above the gate is tall, but looks climbable."
 			else
 				(gMessager say: 10 1 0 0) ; "A broad stone archway spans the gate."
@@ -1905,31 +2029,83 @@
 				43 ; Name
 				(not (IsFlag 86))
 				47 ; Boris
-				(and (IsFlag 86) (not (IsFlag 122)) (== local2 1))
+				(if (and (IsFlag 86) (not (IsFlag 122)))
+					(== local2 1)
+				else
+					0
+				)
 				44 ; Boris
-				(and (IsFlag 122) (IsFlag 86))
+				(if (IsFlag 122)
+					(IsFlag 86)
+				else
+					0
+				)
 				45
-				(and (not (IsFlag 122)) (IsFlag 86) (== local2 3))
+				(if (and (not (IsFlag 122)) (IsFlag 86))
+					(== local2 3)
+				else
+					0
+				)
 				46 ; Boris
-				(and (not (IsFlag 122)) (IsFlag 86) (== local2 2))
+				(if (and (not (IsFlag 122)) (IsFlag 86))
+					(== local2 2)
+				else
+					0
+				)
 				48 ; Wife
-				(and (== global418 1) (not local8))
+				(if (== global418 1)
+					(not local8)
+				else
+					0
+				)
 				49 ; Wife
-				(or (== global418 2) (and (== global418 3) local10))
+				(if (and (not (== global418 2)) (== global418 3))
+					local10
+				else
+					0
+				)
 				86 ; Wife
-				(and (== global418 3) (not local10))
+				(if (== global418 3)
+					(not local10)
+				else
+					0
+				)
 				50 ; Wife
-				(or (== global418 4) (and local10 (== global418 5)))
+				(if (and (not (== global418 4)) local10)
+					(== global418 5)
+				else
+					0
+				)
 				87 ; Wife
-				(and (== global418 5) (not local10))
+				(if (== global418 5)
+					(not local10)
+				else
+					0
+				)
 				51 ; Wife
-				(or (== global418 6) (and local10 (== global418 7)))
+				(if (and (not (== global418 6)) local10)
+					(== global418 7)
+				else
+					0
+				)
 				88 ; Wife
-				(and (== global418 7) (not local10))
+				(if (== global418 7)
+					(not local10)
+				else
+					0
+				)
 				52 ; Wife
-				(or (== global418 8) (and local10 (== global418 9)))
+				(if (and (not (== global418 8)) local10)
+					(== global418 9)
+				else
+					0
+				)
 				53 ; Wife
-				(and (== global418 9) (not local10))
+				(if (== global418 9)
+					(not local10)
+				else
+					0
+				)
 		)
 	)
 
@@ -2002,21 +2178,50 @@
 		(super
 			showCases:
 				48 ; Talk About Olga
-				(and (== global418 1) (not local8))
+				(if (== global418 1)
+					(not local8)
+				else
+					0
+				)
 				49 ; Talk About Olga
-				(and (== global418 2) (IsFlag 85))
+				(if (== global418 2)
+					(IsFlag 85)
+				else
+					0
+				)
 				50 ; Talk About Olga
-				(and (== global418 4) (IsFlag 85))
+				(if (== global418 4)
+					(IsFlag 85)
+				else
+					0
+				)
 				51 ; Talk About Olga
-				(and (== global418 6) (IsFlag 85))
+				(if (== global418 6)
+					(IsFlag 85)
+				else
+					0
+				)
 				52 ; Talk About Olga
-				(and (== global418 8) (IsFlag 85))
+				(if (== global418 8)
+					(IsFlag 85)
+				else
+					0
+				)
 				59 ; Tell About Yourself
-				(or (== local0 2) (== local0 3))
+				(if (== local0 2)
+				else
+					(== local0 3)
+				)
 				65 ; Talk About Yourself
-				(or (== local0 4) (== local0 5))
+				(if (== local0 4)
+				else
+					(== local0 5)
+				)
 				60
-				(or (== local0 4) (== local0 5))
+				(if (== local0 4)
+				else
+					(== local0 5)
+				)
 				33 ; Confess to Break-In
 				(IsFlag 122)
 				58
@@ -2064,17 +2269,31 @@
 		(super
 			showCases:
 				19 ; Climb Over Gate
-				[gEgoStats 11] ; climbing
+				global258
 				10 ; Climb Over Gate
-				[gEgoStats 11] ; climbing
+				global258
 				23 ; Pick Lock on Gate
-				(and (== gHeroType 2) [gEgoStats 9] (gEgo has: 24)) ; Thief, pick locks, theToolkit
+				(if (and (== gHeroType 2) global256) ; Thief
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 				18 ; Pick Lock on Gate
-				(and (== gHeroType 2) [gEgoStats 9] (gEgo has: 24)) ; Thief, pick locks, theToolkit
+				(if (and (== gHeroType 2) global256) ; Thief
+					(gEgo has: 24) ; theToolkit
+				else
+					0
+				)
 				17 ; Force Gate Open
-				(or (== gHeroType 3) (== gHeroType 0)) ; Paladin, Fighter
+				(if (== gHeroType 3) ; Paladin
+				else
+					(== gHeroType 0) ; Fighter
+				)
 				20 ; Force Gate Open
-				(or (== gHeroType 3) (== gHeroType 0)) ; Paladin, Fighter
+				(if (== gHeroType 3) ; Paladin
+				else
+					(== gHeroType 0) ; Fighter
+				)
 		)
 	)
 
@@ -2113,7 +2332,7 @@
 	)
 
 	(method (showCases)
-		(super showCases: 66 [gEgoStats 12]) ; magic
+		(super showCases: 66 global259)
 	)
 
 	(method (sayMessage)
@@ -2138,12 +2357,20 @@
 	)
 
 	(method (onMe param1 param2)
-		(if (and (<= nsLeft param1 nsRight) (<= nsTop param2 nsBottom))
+		(if
+			(and
+				(<= nsLeft param1)
+				(<= param1 name)
+				(<= nsTop param2)
+				(<= param2 nsBottom)
+			)
 			(if (and approachX approachY)
 				(gCurRoom south: 552)
 				(gEgo setMotion: ((ScriptID 17) new:) approachX approachY) ; pOffMover
 			)
 			(return 1)
+		else
+			0
 		)
 	)
 
@@ -2167,7 +2394,8 @@
 
 (instance sndSwish of Sound
 	(properties
-		number 967
+		number 901
+		loop -1
 	)
 )
 

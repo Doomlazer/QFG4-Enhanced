@@ -207,6 +207,20 @@
 		x 34
 		y 152
 	)
+
+	(method (doVerb theVerb)
+		(switch theVerb
+			(1 ; Look
+				(gMessager say: 1 1 0 1) ; "The large pot near the fire is used to hold ashes until they can be taken out to the garden compost pile."
+			)
+			(4 ; Do
+				(gMessager say: 1 1 0 2) ; "Don't make an ash of yourself."
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
+	)
 )
 
 (instance door2 of Feature

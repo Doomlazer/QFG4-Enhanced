@@ -58,8 +58,7 @@
 		(= temp1 ((gTheIconBar getCursor:) view:))
 		(= local2 120)
 		(sleepControls init: show: dispose:)
-		(= temp5 (gTheIconBar getCursor:))
-		(temp5 view: local7 loop: local8 cel: local9)
+		((= temp5 (gTheIconBar getCursor:)) view: local7 loop: local8 cel: local9)
 		(gGlory setCursor: temp5)
 		(switch local1
 			(1
@@ -75,18 +74,37 @@
 				(if
 					(OneOf
 						gCurRoomNum
-						440
+						240
+						250
+						260
 						270
+						280
+						300
 						330
 						350
-						740
-						730
+						360
+						370
+						380
+						390
+						440
+						480
+						500
+						510
 						530
 						535
 						541 ; swamp1
 						542 ; swamp2
 						543 ; swamp3
 						545
+						710
+						720
+						730
+						740
+						750
+						760
+						770
+						780
+						790
 					)
 					((= temp0 (Event new:)) type: evMOUSEBUTTON message: KEY_h)
 					(= temp3 0)
@@ -141,7 +159,7 @@
 				)
 			)
 			(= temp0 (/ (mod (- (+ gClock 3600) temp1) 3600) 150))
-			(= [gEgoStats 18] (gEgo maxStamina:)) ; stamina
+			(= global265 (gEgo maxStamina:))
 			(if
 				(and
 					(not
@@ -155,14 +173,16 @@
 				(EgoDead 27 28 977 1 912) ; "You are completely strychnine by poison. No curare for you now. Next time, take some poison cure pills before it's too late."
 				(return)
 			)
-			(= [gEgoStats 19] (gEgo maxMana:)) ; mana
+			(= global266 (gEgo maxMana:))
 			(if (and (> temp1 gClock) (IsFlag 11))
 				(NextDay)
 			)
 			(ClearFlag 8)
 			(= global440 0)
 			(= global449 0)
-			(= global453 0)
+			(if (not (IsFlag 21))
+				(= global453 0)
+			)
 			(= global454 0)
 			((ScriptID 0 21) doit:) ; statusCode
 			(cond
@@ -336,7 +356,16 @@
 
 	(method (onMe param1)
 		(return
-			(and (< nsLeft (param1 x:) nsRight) (< nsTop (param1 y:) nsBottom))
+			(if
+				(and
+					(< nsLeft (param1 x:))
+					(< (param1 x:) nsRight)
+					(< nsTop (param1 y:))
+				)
+				(< (param1 y:) nsBottom)
+			else
+				0
+			)
 		)
 	)
 
@@ -463,6 +492,8 @@
 					(= curIcon param1)
 				)
 				1
+			else
+				0
 			)
 		)
 	)
@@ -506,8 +537,7 @@
 		(= local7 (gTheCursor view:))
 		(= local8 (gTheCursor loop:))
 		(= local9 (gTheCursor cel:))
-		(= temp1 (gTheIconBar getCursor:))
-		(temp1 view: 999 loop: 0 cel: 0)
+		((= temp1 (gTheIconBar getCursor:)) view: 999 loop: 0 cel: 0)
 		(gGlory setCursor: temp1)
 	)
 
@@ -516,7 +546,7 @@
 		(= temp3 (event message:))
 		(= temp5 (event claimed:))
 		(if (= temp4 (self firstTrue: #onMe event))
-			(= temp6 (temp4 signal:))
+			(= temp6 ((= temp4 (self firstTrue: #onMe event)) signal:))
 			(= temp7 (== temp4 helpIconItem))
 		)
 		(switch temp2
@@ -629,10 +659,12 @@
 				(= temp1 4)
 				(= temp2 (if (& temp3 $0003) 27 else 13))
 				(= temp3 0)
-				(temp0 type: temp1 message: temp2 modifiers: 0)
+				(temp0 type: temp1 message: temp2 modifiers: temp3)
 			)
 			(MapKeyToDir temp0)
-			(breakif (self dispatchEvent: temp0))
+			(if (self dispatchEvent: temp0)
+				(break)
+			)
 		)
 	)
 
@@ -675,6 +707,7 @@
 
 (instance sleepIconPrompt of SleepIcon
 	(properties
+		name {sleepIconPrompt}
 		nsLeft 2
 		nsTop 5
 		x 8
@@ -737,6 +770,7 @@
 
 (instance sleepIcon10 of SleepIcon
 	(properties
+		name {sleepIcon10}
 		nsLeft 2
 		nsTop 25
 		x 8
@@ -758,6 +792,7 @@
 
 (instance sleepIcon30 of SleepIcon
 	(properties
+		name {sleepIcon30}
 		nsLeft 2
 		nsTop 40
 		x 8
@@ -779,6 +814,7 @@
 
 (instance sleepIcon60 of SleepIcon
 	(properties
+		name {sleepIcon60}
 		nsLeft 2
 		nsTop 55
 		x 8
@@ -800,6 +836,7 @@
 
 (instance sleepIconMorn of SleepIcon
 	(properties
+		name {sleepIconMorn}
 		nsLeft 2
 		nsTop 70
 		x 8
@@ -821,6 +858,7 @@
 
 (instance sleepIconLater of SleepIcon
 	(properties
+		name {sleepIconLater}
 		nsLeft 2
 		nsTop 85
 		x 8
@@ -852,8 +890,7 @@
 		(if (self isNotHidden:)
 			(DeleteScreenItem self)
 		)
-		(= temp0 (plane casts:))
-		(temp0 eachElementDo: #delete self)
+		((= temp0 (plane casts:)) eachElementDo: #delete self)
 		(= plane 0)
 		(DisposeClone self)
 		(if temp1

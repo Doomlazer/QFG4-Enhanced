@@ -172,6 +172,9 @@
 			(104 ; Sleep all night
 				(gMessager say: 23 6 50) ; "The dust is far too thick here for you to sleep without having an asthma attack."
 			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "This isn't a very good place to practice Acrobatics; you'd probably trip over the stair-stepper and see stairs, um, stars."
+			)
 			(else
 				(super doVerb: theVerb &rest)
 			)
@@ -188,6 +191,10 @@
 		(local3 dispose:)
 		(local4 dispose:)
 		(super dispose: &rest)
+	)
+
+	(method (notify)
+		(gMessager say: 0 8 0) ; "They only allow spell-casting in the Guild Hall during spelling bees."
 	)
 )
 
@@ -228,6 +235,7 @@
 			)
 			(2
 				(if (not (IsFlag 438))
+					(gMessager say: 23 6 3) ; "You've entered a run-down room that looks like a cross between an office and a gym. One end is dominated by exercise equipment, the other by a desk and bookshelf. The whole affair looks abandoned and generally in poor condition."
 					(gEgo solvePuzzle: 438 6)
 				)
 				(gEgo normalize:)
@@ -272,8 +280,7 @@
 				(SetFlag 168)
 				(SetFlag 169)
 				(emptyCase loop: 0 cel: 0)
-				(= temp0 (gInventory at: 19)) ; theSword
-				(temp0 state: 1 loop: 0 cel: 0)
+				((= temp0 (gInventory at: 19)) state: 1 loop: 0 cel: 0) ; theSword
 				(gEgo get: 19) ; theSword
 				(temp0 amount: 1)
 				(gEgo setCycle: CT 0 -1 self)
@@ -334,6 +341,7 @@
 			)
 			(7 0)
 			(8
+				(gMessager say: 4 33 0) ; "You heft the grapnel and throw it up in the air. Luckily, it catches the big ring instead of the top of your head."
 				(rope approachVerbs: 4) ; Do
 				(gEgo posn: 68 140 normalize: 0 cycleSpeed: local6)
 				(= local6 0)
@@ -350,10 +358,13 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
+				(gMessager say: 6 6 42 1 self) ; "These hooks are loose; you can turn them. Strangely, when you turn one hook, sometimes several of the hooks move at the same time."
+			)
+			(1
 				((ScriptID 86 0) init: show: dispose:) ; hookBar
 				(= cycles 1)
 			)
-			(1
+			(2
 				(DisposeScript 86)
 				(if (IsFlag 181)
 					(gGlory handsOff:)
@@ -362,7 +373,7 @@
 					(= cycles 1)
 				)
 			)
-			(2
+			(3
 				(if (IsFlag 181)
 					(secretDoor loop: 3)
 					(gGlory handsOn:)
@@ -419,7 +430,6 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(SetFlag 50)
 				(= local6 (gEgo cycleSpeed:))
@@ -434,21 +444,18 @@
 				)
 			)
 			(1
-				1
 				(gEgo useSkill: 11 160) ; climbing
 				(gEgo useStamina: 10)
-				(if (< [gEgoStats 11] 200) ; climbing
+				(if (< global258 200)
 					(= state 11)
 				)
 				(gEgo loop: 1 cel: 0 posn: 139 137 setCycle: End self)
 			)
 			(2
-				2
 				(gEgo cel: 0 posn: 139 122 setCycle: End self)
 			)
 			(3
-				3
-				(if (and [gEgoStats 9] [gEgoStats 8] (not (IsFlag 181))) ; pick locks, stealth
+				(if (and global256 global255 (not (IsFlag 181)))
 					(if (IsFlag 170)
 						(self changeState: 7)
 					else
@@ -468,7 +475,6 @@
 				)
 			)
 			(4
-				4
 				(if local9
 					(SetFlag 170)
 					(gGlory handsOn:)
@@ -479,7 +485,6 @@
 				)
 			)
 			(5
-				5
 				(if local9
 					(gNarrator y: -1)
 					(gKeyDownHandler addToFront: ceilingMark)
@@ -489,7 +494,6 @@
 				)
 			)
 			(6
-				6
 				(if local9
 					(gGlory handsOff:)
 					(gKeyDownHandler delete: ceilingMark)
@@ -500,7 +504,6 @@
 				)
 			)
 			(7
-				7
 				(if (and local9 (gCast contains: ceilingMark))
 					(= local9 0)
 					(ceilingMark dispose:)
@@ -508,19 +511,15 @@
 				(gEgo setCycle: Beg self)
 			)
 			(8
-				8
 				(gEgo cel: 5 posn: 139 137 setCycle: Beg self)
 			)
 			(9
-				9
 				(gEgo cel: 5 posn: 139 154 setCycle: Beg self)
 			)
 			(10
-				10
 				(gEgo loop: 0 cel: 4 setCycle: Beg self)
 			)
 			(11
-				11
 				(gEgo normalize: 3 setSpeed: local6)
 				(= local6 0)
 				(gGlory handsOn:)
@@ -528,7 +527,6 @@
 				(self dispose:)
 			)
 			(12
-				12
 				(= state 7)
 				(gMessager say: 29 4 21 0 self) ; "That was good climbing practice, but you haven't quite got it yet. Keep trying."
 			)
@@ -624,7 +622,6 @@
 	(method (changeState newState)
 		(switch (= state newState)
 			(0
-				0
 				(gGlory handsOff:)
 				(= local6 (gEgo cycleSpeed:))
 				(switch gHeroType
@@ -642,7 +639,6 @@
 				(gEgo setPri: 162 setMotion: MoveTo 50 159 self)
 			)
 			(1
-				1
 				(gGlory handsOn:)
 				(cond
 					((IsFlag 204)
@@ -657,11 +653,11 @@
 						(= local10 1)
 						(gMessager say: 14 4 10 0 self) ; "You think you've done about as much stair-stepping as your body can handle."
 					)
-					((< [gEgoStats 18] 65) ; stamina
+					((< global265 65)
 						(= local10 1)
 						(gMessager say: 14 4 12 0 self) ; "Your legs are too stiff and sore to use this right now."
 					)
-					((< [gEgoStats 0] 200) ; strength
+					((< gEgoStats 200)
 						(= local10 1)
 						(gMessager say: 14 4 5 0 self) ; "Hmm, you always thought those stair-stepper things were supposed to go down when you stepped on them. Maybe you'd better take a little weight out of the baskets."
 					)
@@ -682,7 +678,6 @@
 				)
 			)
 			(2
-				2
 				(if local10
 					(= local10 0)
 					(self changeState: 6)
@@ -691,7 +686,6 @@
 				)
 			)
 			(3
-				3
 				(gEgo
 					view: 351
 					setLoop: 3 1
@@ -707,20 +701,17 @@
 				(= cycles (+ local7 10))
 			)
 			(4
-				4
 				(++ global451)
 				(gEgo useStamina: (+ (* local7 5) 12))
-				(if (< [gEgoStats 0] 400) ; strength
-					(++ [gEgoStats 0]) ; strength
+				(if (< gEgoStats 400)
+					(++ gEgoStats)
 				)
 				(gEgo setCycle: End self)
 			)
 			(5
-				5
 				(self changeState: 1)
 			)
 			(6
-				6
 				(gGlory handsOff:)
 				(weightsOnFloor1 setCycle: 0)
 				(weightsOnFloor2 setCycle: 0)
@@ -733,7 +724,6 @@
 				)
 			)
 			(7
-				7
 				(gEgo setPri: -1)
 				(gGlory handsOn:)
 				(self dispose:)
@@ -861,57 +851,87 @@
 				7 ; Examine Case
 				(not (IsFlag 168))
 				5 ; Force Case Open
-				(and
+				(if
 					(not
 						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
 					)
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
+					(and
+						(not
+							(and
+								(gEgo has: 19) ; theSword
+								(== ((gInventory at: 19) state:) 2) ; theSword
+							)
+						)
+						(< gEgoStats 300)
 					)
-					(< [gEgoStats 0] 300) ; strength
+				else
+					0
 				)
 				6 ; Break Case Open
-				(and
+				(if
 					(not
 						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
 					)
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
+					(if
+						(and
+							(not
+								(and
+									(gEgo has: 19) ; theSword
+									(== ((gInventory at: 19) state:) 3) ; theSword
+								)
+							)
+							(not (IsFlag 168))
+						)
+						(OneOf gHeroType 0 3) ; Fighter, Paladin
 					)
-					(not (IsFlag 168))
-					(OneOf gHeroType 0 3) ; Fighter, Paladin
+				else
+					0
 				)
 				4 ; Pry Case Open
-				(and
+				(if
 					(not
 						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
 					)
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
+					(if
+						(not
+							(and
+								(gEgo has: 19) ; theSword
+								(== ((gInventory at: 19) state:) 3) ; theSword
+							)
+						)
+						(OneOf gHeroType 2 1) ; Thief, Magic User
 					)
-					(OneOf gHeroType 2 1) ; Thief, Magic User
+				else
+					0
 				)
 				9 ; Open Case
-				(and
+				(if
 					(not
 						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
 					)
-					(not
-						(and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
+					(if
+						(not
+							(and
+								(gEgo has: 19) ; theSword
+								(== ((gInventory at: 19) state:) 2) ; theSword
+							)
+						)
+						(not (IsFlag 168))
 					)
-					(not (IsFlag 168))
+				else
+					0
 				)
 				43 ; Open Case
-				(and
-					(gEgo has: 19) ; theSword
-					(== ((gInventory at: 19) state:) 2) ; theSword
+				(if (and (gEgo has: 19) (== ((gInventory at: 19) state:) 2)) ; theSword, theSword
 					(not (IsFlag 168))
+				else
+					0
 				)
 				47 ; Open Case
-				(and
-					(gEgo has: 19) ; theSword
-					(== ((gInventory at: 19) state:) 3) ; theSword
+				(if (and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
 					(not (IsFlag 168))
+				else
+					0
 				)
 		)
 	)
@@ -946,7 +966,11 @@
 		(super
 			showCases:
 				24 ; Search Under Desk
-				(and (IsFlag 170) (not (IsFlag 181)))
+				(if (IsFlag 170)
+					(not (IsFlag 181))
+				else
+					0
+				)
 				25 ; Sign Logbook
 				(not (IsFlag 171))
 		)
@@ -987,11 +1011,23 @@
 				38 ; Read "Creative Casting" Again
 				(IsFlag 175)
 				35 ; Read "Essential Exercise"
-				(and (not (IsFlag 173)) (OneOf gHeroType 0 3)) ; Fighter, Paladin
+				(if (not (IsFlag 173))
+					(OneOf gHeroType 0 3) ; Fighter, Paladin
+				else
+					0
+				)
 				2 ; Read "Climbing Skills"
-				(and (OneOf gHeroType 0 3) (== [gEgoStats 11] 0)) ; Fighter, Paladin, climbing
+				(if (not (IsFlag 174))
+					(OneOf gHeroType 0 3) ; Fighter, Paladin
+				else
+					0
+				)
 				33 ; Read "Creative Casting"
-				(and [gEgoStats 12] (not (IsFlag 175))) ; magic
+				(if global259
+					(not (IsFlag 175))
+				else
+					0
+				)
 		)
 	)
 
@@ -1015,17 +1051,21 @@
 						(gEgo solvePuzzle: 476 2 1)
 					)
 				)
-				(+= [gEgoStats 11] 100) ; climbing
+				(if (> global258 0)
+					(+= global258 20)
+				else
+					(+= global258 100)
+				)
 				(super sayMessage: &rest) ; You read the book entitled "Climbing Skills for Upwardly-Mobile Adventurers." It's written entirely in one-syllable words, obviously intended for Fighters. It's absolutely fascinating.
 			)
 			(35 ; Read "Essential Exercise"
 				(SetFlag 173)
-				(+= [gEgoStats 0] 20) ; strength
+				(+= gEgoStats 20)
 				(super sayMessage: &rest) ; This book teaches you how to use the stair-stepper to build strong leg muscles and talks about the importance of whole-body development. It says to build up your strength gradually by adding weights to the baskets.
 			)
 			(33 ; Read "Creative Casting"
 				(SetFlag 175)
-				(+= [gEgoStats 12] 25) ; magic
+				(+= global259 25)
 				(super sayMessage: &rest) ; The book is all about using spells in unusual and creative ways, such as "Calming" a fire, using alternating Flame and Frost spells to make something brittle and break, and so on. You pick up a number of useful tips which will improve your spellcasting.
 			)
 			(31 ; Read "HERO" Magazine
@@ -1052,9 +1092,10 @@
 				(gEgo get: 16) ; theGrapnel
 				(ClearFlag 190)
 				(rope dispose:)
+				(gMessager say: 28 165 19) ; "You shake the grapnel loose from the ceiling ring and tie the rope back onto your pack."
 			)
 			(2 ; Climb Rope
-				(if [gEgoStats 11] ; climbing
+				(if global258
 					(self clean:)
 					(gCurRoom setScript: sClimbRope)
 				else
@@ -1493,7 +1534,7 @@
 	(method (doVerb theVerb)
 		(switch theVerb
 			(4 ; Do
-				(if [gEgoStats 9] ; pick locks
+				(if global256
 					(if (IsFlag 181)
 						(gMessager say: 6 4 40) ; "You've already opened the secret passage."
 					else
@@ -1529,6 +1570,7 @@
 					(gMessager say: 7 4 44) ; "Signature only, please. Only the Guildmaster is allowed to make other logbook entries."
 				else
 					(SetFlag 171)
+					(gEgo solvePuzzle: 439 2)
 					(gMessager say: 7 4 25) ; "You sign your name into the Adventurers' Logbook with a flourish; it's almost become a habit by now."
 				)
 			)
@@ -1600,7 +1642,7 @@
 					((and (gEgo has: 19) (== ((gInventory at: 19) state:) 3)) ; theSword, theSword
 						(gMessager say: 11 171 47) ; "You think about retrieving the sword from the case, but then you realize that the weapon you already brandish is MUCH more extravagant."
 					)
-					((< [gEgoStats 0] 300) ; strength
+					((< gEgoStats 300)
 						(gEgo trySkill: 0 300) ; strength
 						(gMessager say: 11 171 5) ; "The heavy iron hammer ought to be pretty good for breaking glass, but somehow you aren't quite getting it. You think you should be able to manage it once you build up your strength some more."
 					)
@@ -1646,9 +1688,15 @@
 		y 118
 	)
 
-	(method (init)
-		(super init: &rest)
-		(= actions bookTeller)
+	(method (doVerb theVerb)
+		(switch theVerb
+			(4 ; Do
+				(bookTeller doVerb: 4)
+			)
+			(else
+				(super doVerb: theVerb &rest)
+			)
+		)
 	)
 )
 

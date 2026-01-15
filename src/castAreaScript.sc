@@ -43,7 +43,11 @@
 						(soundFX number: 934 play:)
 					)
 				)
-				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+				(if
+					(and
+						(> (gEgo view:) 17)
+						(< (gEgo view:) 21)
+					)
 					(= local1 (gEgo cel:))
 					(gEgo view: 19 loop: (local3 at: local0))
 				else
@@ -111,7 +115,11 @@
 				(gEgo setCycle: Beg self)
 			)
 			(2
-				(if (and (> (gEgo view:) 17) (< (gEgo view:) 21))
+				(if
+					(and
+						(> (gEgo view:) 17)
+						(< (gEgo view:) 21)
+					)
 					(gEgo view: 20 loop: local0 cel: local1)
 				else
 					(gEgo normalize: local0)
@@ -223,8 +231,13 @@
 									593
 									270
 									340
+									360
+									380
+									390
 									460
+									510
 									545
+									610
 									710
 									750
 									730
@@ -241,34 +254,66 @@
 						(if
 							(OneOf
 								gCurRoomNum
+								240
 								250
 								270
+								280
 								290
 								300
 								320
+								330
 								340
 								360
-								780
+								370
+								380
+								390
 								440
 								480
+								500
 								510
-								545
-								579
-								580
-								593
-								600
-								800
-								720
-								740
-								750
-								770
-								730
+								520
 								530
 								535
 								541 ; swamp1
 								542 ; swamp2
 								543 ; swamp3
 								545
+								579
+								580
+								593
+								600
+								610
+								620
+								621
+								622
+								623
+								624
+								625
+								626
+								627
+								629
+								630
+								631
+								632
+								640
+								641
+								642
+								643
+								644
+								650
+								660
+								661
+								662
+								663
+								720
+								730
+								740
+								750
+								760
+								770
+								780
+								790
+								800
 							)
 							(gCurRoom doVerb: register)
 						else

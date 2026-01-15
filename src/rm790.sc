@@ -5,8 +5,6 @@
 (use Main)
 (use GloryRm)
 (use Interface)
-(use Str)
-(use Print)
 (use Scaler)
 (use PolyPath)
 (use Polygon)
@@ -34,7 +32,7 @@
 
 (instance rm790 of GloryRm
 	(properties
-		noun 14
+		noun 17
 		picture 790
 		west 800
 	)
@@ -184,8 +182,51 @@
 				(gGlory handsOff:)
 				(self setScript: (ScriptID 37) 0 vDarkOneSign) ; castFetchScript
 			)
+			(81 ; detectMagicSpell
+				(if (IsFlag 354)
+					(gMessager say: 0 81 0) ; "You sense powerful restraining magic from the mouth of the cave. It doesn't look as though you'll be going back in there without help!"
+				else
+					(gMessager say: 0 81 6) ; "You sense powerful restraining magic from the mouth of the cave. It doesn't look as though you'll be going back in there without help! An equally potent magic emanates from the six-pointed starfish-like symbol on the archway."
+				)
+			)
+			(74 ; theHeartRit
+				(gMessager say: 0 67 0) ; "The Rituals will be useful only when you are once again inside the cave."
+			)
+			(72 ; theSenseRit
+				(gMessager say: 0 72 0) ; "The Rituals will be useful only when you are once again inside the cave."
+			)
+			(70 ; theBreathRit
+				(gMessager say: 0 70 0) ; "The Rituals will be useful only when you are once again inside the cave."
+			)
+			(69 ; theBloodRit
+				(gMessager say: 0 69 0) ; "The Rituals will be useful only when you are once again inside the cave."
+			)
+			(67 ; theBoneRit
+				(gMessager say: 0 67 0) ; "The Rituals will be useful only when you are once again inside the cave."
+			)
+			(60 ; theWillowisp
+				(gMessager say: 0 60 0) ; "The tiny creature cringes in its flask. It will have nothing to do with this place!"
+			)
+			(56 ; theAmulet
+				(gMessager say: 0 56 0) ; "That won't help you here."
+			)
+			(47 ; theBones
+				(gMessager say: 0 47 0) ; "This is no fit place for a burial. Would YOU like to be buried in that goop?"
+			)
+			(33 ; theGrapnel
+				(gMessager say: 0 33 0) ; "There's nothing for you to climb here."
+			)
+			(14 ; theBonsai
+				(gMessager say: 0 14 0) ; "The bonsai would thrive much better in a nice garden somewhere."
+			)
+			(104 ; Sleep all night
+				(gMessager say: 0 104 0) ; "To fall asleep here would surely mean your death!"
+			)
 			(11 ; glideSpell
 				(gMessager say: 0 11 0) ; "You could find better places to practice your Glide spell -- if it wears off here you'll find yourself stuck in the goo for goo'd."
+			)
+			(10 ; Jump
+				(gMessager say: 0 159 0) ; "You can't jump there."
 			)
 			(else
 				(super doVerb: theVerb)
@@ -299,7 +340,7 @@
 (instance sFrom630 of Script
 	(properties)
 
-	(method (changeState newState &tmp temp0 temp1 temp2)
+	(method (changeState newState &tmp [temp0 3])
 		(switch (= state newState)
 			(0
 				(= seconds 3)
@@ -321,16 +362,7 @@
 				(= ticks 90)
 			)
 			(6
-				(= temp0 (Str new:))
-				(= temp2 (Str new:))
-				(Message msgGET 790 1 6 3 1 (temp2 data:)) ; ""That is all I can do for you,"
-				(Message msgGET 790 1 6 3 2 (temp0 data:)) ; "You will need to perform the other Rituals yourself."
-				(temp2 cat: (gHeroName data:))
-				(temp2 cat: (temp0 data:))
-				(Print addText: (temp2 data:) init:)
-				(temp0 dispose:)
-				(temp2 dispose:)
-				(= seconds 2)
+				(gMessager say: 1 6 3 0 self) ; ""That is all I can do for you,"
 			)
 			(7
 				(gMessager say: 1 6 5 0 self) ; "We will be watching you, so do not even think of trying to betray us."
@@ -911,7 +943,8 @@
 				(gCurRoom doVerb: theVerb)
 			)
 			(-87 ; fetchSpell (part 2)
-				(gEgo get: 25) ; theDarksign
+				(SetFlag 354)
+				(gEgo get: 25 solvePuzzle: 404 6) ; theDarksign
 				(fDarkOneSign init:)
 				(vDarkOneSign dispose:)
 			)
