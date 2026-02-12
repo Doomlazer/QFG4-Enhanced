@@ -148,8 +148,18 @@
 						setScaler: Scaler 89 60 150 120
 					)
 				else
-					(gEgo posn: 203 187 setPri: 51)
-					(monkDoor setCel: (monkDoor lastCel:))
+					(if (IsFlag 330)
+						(gEgo
+							view: 7
+							setLoop: 3 1
+							cel: 0
+							posn: 135 126
+							setScaler: 89 60 150 120
+						)
+					else
+						(gEgo posn: 203 187 setPri: 51)
+						(monkDoor setCel: (monkDoor lastCel:))
+					)
 				)
 			)
 			(else
@@ -213,7 +223,11 @@
 				(if (IsFlag 328)
 					(self setScript: sClimbOutMonks)
 				else
-					(self setScript: sExitMonks)
+					(if (IsFlag 330)
+						(self setScript: sLevitateOutMonks)
+					else
+						(self setScript: sExitMonks)
+					)
 				)
 			)
 			(else
