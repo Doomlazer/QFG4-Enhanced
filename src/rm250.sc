@@ -38,866 +38,190 @@
 	)
 
 	(method (init)
-		; DECOMPILER EXCEPTION: Value cannot be null., Parameter name: key
-		(asm
-			pushi    1
-			pushi    41
-			callb    IsFlag,  2
-			bnt      code_0130
-			lsg      gPrevRoomNum
-			ldi      360
-			eq?
-			bnt      code_0130
-			ldi      0
-			jmp      code_0224
-code_0130:
-			pushi    1
-			pushi    48
-			callb    IsFlag,  2
-			not
-			bnt      code_0157
-			pushi    1
-			pushi    37
-			callb    IsFlag,  2
-			bt       code_0152
-			pushi    1
-			pushi    38
-			callb    IsFlag,  2
-			bnt      code_0157
-code_0152:
-			ldi      4
-			jmp      code_0224
-code_0157:
-			pushi    1
-			pushi    76
-			callb    IsFlag,  2
-			not
-			bnt      code_0173
-			pushi    1
-			pushi    48
-			callb    IsFlag,  2
-			bnt      code_0173
-			ldi      5
-			jmp      code_0224
-code_0173:
-			pushi    1
-			pushi    76
-			callb    IsFlag,  2
-			bnt      code_018e
-			lsg      gDay
-			lsg      global415
-			ldi      1
-			add
-			ge?
-			bnt      code_018e
-			ldi      6
-			jmp      code_0224
-code_018e:
-			pushi    1
-			pushi    74
-			callb    IsFlag,  2
-			bnt      code_01b3
-			pushi    1
-			pushi    75
-			callb    IsFlag,  2
-			bnt      code_01b3
-			lsg      gDay
-			lsg      global415
-			ldi      1
-			add
-			ge?
-			bnt      code_01b3
-			ldi      3
-			jmp      code_0224
-code_01b3:
-			lsg      gDay
-			lsg      global415
-			ldi      1
-			add
-			ge?
-			bnt      code_01d5
-			pushi    1
-			pushi    74
-			callb    IsFlag,  2
-			bnt      code_01d5
-			pushi    1
-			pushi    75
-			callb    IsFlag,  2
-			not
-			bt       code_01f3
-code_01d5:
-			pushi    1
-			pushi    74
-			callb    IsFlag,  2
-			bnt      code_01f7
-			pushi    1
-			pushi    75
-			callb    IsFlag,  2
-			bnt      code_01f7
-			lsg      global415
-			lag      gDay
-			eq?
-			bnt      code_01f7
-code_01f3:
-			ldi      2
-			jmp      code_0224
-code_01f7:
-			lsg      global415
-			ldi      0
-			eq?
-			bt       code_021e
-			pushi    1
-			pushi    74
-			callb    IsFlag,  2
-			bnt      code_0222
-			pushi    1
-			pushi    75
-			callb    IsFlag,  2
-			not
-			bnt      code_0222
-			lsg      global415
-			lag      gDay
-			eq?
-			bnt      code_0222
-code_021e:
-			ldi      1
-			jmp      code_0224
-code_0222:
-			ldi      7
-code_0224:
-			sal      local2
-			pushi    3
-			lsg      gPrevRoomNum
-			pushi    280
-			pushi    260
-			calle    OneOf,  6
-			not
-			bnt      code_0251
-			pushi    52
-			pushi    1
-			pushi    250
-			pushi    254
-			pushi    1
-			pushi    -1
-			pushi    51
-			pushi    0
-			lag      gLongSong
-			send     16
-code_0251:
-			pushi    4
-			pushi    2
-			pushi    66
-			pushi    85
-			pushi    100
-			callk    Palette,  8
-			pushi    147
-			pushi    0
-			pushi    790
-			pushi    0
-			pushi    332
-			pushi    2
-			pushi    335
-			pushi    240
-			pushi    342
-			pushi    5
-			class    Scaler
-			push
-			pushi    100
-			pushi    79
-			pushi    176
-			pushi    132
-			lag      gEgo
-			send     30
-			pushi    18
-			pushi    1
-			pushi    289
-			pushi    19
-			pushi    1
-			pushi    30
-			pushi    21
-			pushi    1
-			pushi    173
-			pushi    20
-			pushi    1
-			pushi    319
-			pushi    309
-			pushi    1
-			pushi    319
-			pushi    310
-			pushi    1
-			pushi    155
-			pushi    147
-			pushi    0
-			pushi    146
-			pushi    0
-			pushi    2
-			pushi    6
-			pushi    0
-			callk    ScriptID,  4
-			send     4
-			send     40
-			pushi    147
-			pushi    0
-			pushi    74
-			pushi    1
-			pushi    0
-			pushi    317
-			pushi    4
-			dup
-			pushi    42
-			pushi    29
-			pushi    80
-			lofsa    guildDoor
-			send     22
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    unknown_250_36
-			send     10
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    unknown_250_37
-			send     10
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    unknown_250_38
-			send     10
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    unknown_250_39
-			send     10
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    unknown_250_43
-			send     10
-			lsg      gTime
-			ldi      3
-			le?
-			bnt      code_0362
-			pushi    3
-			lsl      local2
-			pushi    0
-			pushi    4
-			calle    OneOf,  6
-			not
-			bt       code_0396
-code_0362:
-			lsl      local2
-			ldi      0
-			eq?
-			bnt      code_0445
-			lsg      gTime
-			ldi      3
-			le?
-			bnt      code_0445
-			pushi    1
-			pushi    48
-			callb    IsFlag,  2
-			not
-			bnt      code_0392
-			pushi    1
-			pushi    37
-			callb    IsFlag,  2
-			bt       code_0392
-			pushi    1
-			pushi    38
-			callb    IsFlag,  2
-code_0392:
-			not
-			bnt      code_0445
-code_0396:
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    2
-			pushi    4
-			pushi    2
-			pushi    184
-			pushi    1
-			lofsa    sIgorCarve
-			push
-			lofsa    igor
-			send     18
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    stone
-			send     10
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    shovel
-			send     10
-			pushi    527
-			pushi    1
-			pushi    43
-			pushi    1
-			pushi    2
-			pushi    147
-			pushi    26
-			pushi    0
-			pushi    0
-			pushi    319
-			pushi    0
-			pushi    319
-			pushi    144
-			pushi    212
-			pushi    182
-			pushi    78
-			pushi    133
-			pushi    50
-			pushi    136
-			pushi    36
-			pushi    150
-			pushi    4
-			pushi    150
-			pushi    4
-			pushi    171
-			pushi    156
-			pushi    171
-			pushi    174
-			pushi    189
-			pushi    10
-			pushi    189
-			pushi    0
-			pushi    189
-			pushi    153
-			pushi    0
-			pushi    146
-			pushi    0
-			class    Polygon
-			send     4
-			send     66
-			push
-			lag      gCurRoom
-			send     6
-			jmp      code_04ac
-code_0445:
-			pushi    527
-			pushi    1
-			pushi    43
-			pushi    1
-			pushi    2
-			pushi    147
-			pushi    24
-			pushi    0
-			pushi    0
-			pushi    319
-			pushi    0
-			pushi    319
-			pushi    144
-			pushi    212
-			pushi    182
-			pushi    78
-			pushi    133
-			pushi    50
-			pushi    136
-			pushi    4
-			pushi    150
-			pushi    4
-			pushi    171
-			pushi    156
-			pushi    171
-			pushi    174
-			pushi    189
-			pushi    10
-			pushi    189
-			pushi    0
-			pushi    189
-			pushi    153
-			pushi    0
-			pushi    146
-			pushi    0
-			class    Polygon
-			send     4
-			send     62
-			push
-			lag      gCurRoom
-			send     6
-code_04ac:
-			lsg      gPrevRoomNum
-			dup
-			ldi      260
-			eq?
-			bnt      code_04d2
-			pushi    332
-			pushi    2
-			pushi    265
-			pushi    240
-			lag      gEgo
-			send     8
-			ldi      216
-			sal      local0
-			ldi      187
-			sal      local1
-			jmp      code_05cb
-code_04d2:
-			dup
-			ldi      280
-			eq?
-			bnt      code_04f6
-			pushi    332
-			pushi    2
-			pushi    335
-			pushi    140
-			lag      gEgo
-			send     8
-			ldi      293
-			sal      local0
-			ldi      162
-			sal      local1
-			jmp      code_05cb
-code_04f6:
-			dup
-			ldi      360
-			eq?
-			bnt      code_05bb
-			pushi    1
-			pushi    328
-			callb    IsFlag,  2
-			bnt      code_0542
-			pushi    14
-			pushi    1
-			pushi    7
-			pushi    254
-			pushi    2
-			pushi    3
-			pushi    1
-			pushi    16
-			pushi    1
-			pushi    0
-			pushi    332
-			pushi    2
-			pushi    135
-			pushi    126
-			pushi    342
-			pushi    5
-			class    Scaler
-			push
-			pushi    89
-			pushi    60
-			pushi    150
-			pushi    120
-			lag      gEgo
-			send     42
-			jmp      code_05cb
-code_0542:
-			dup
-			ldi      360
-			eq?
-			bnt      code_05bb
-			pushi    1
-			pushi    330
-			callb    IsFlag,  2
-			bnt      code_058c
-			pushi    14
-			pushi    1
-			pushi    7
-			pushi    254
-			pushi    2
-			pushi    3
-			pushi    1
-			pushi    16
-			pushi    1
-			pushi    0
-			pushi    332
-			pushi    2
-			pushi    135
-			pushi    126
-			pushi    342
-			pushi    5
-			class    Scaler
-			push
-			pushi    89
-			pushi    60
-			pushi    150
-			pushi    120
-			lag      gEgo
-			send     42
-			jmp      code_05cb
-code_058c:
-			pushi    332
-			pushi    2
-			pushi    203
-			pushi    187
-			pushi    74
-			pushi    1
-			pushi    51
-			lag      gEgo
-			send     14
-			pushi    333
-			pushi    1
-			pushi    264
-			pushi    0
-			lofsa    monkDoor
-			send     4
-			push
-			lofsa    monkDoor
-			send     6
-			jmp      code_05cb
-code_05bb:
-			pushi    332
-			pushi    2
-			pushi    172
-			pushi    178
-			lag      gEgo
-			send     8
-code_05cb:
-			toss
-			pushi    1
-			pushi    41
-			callb    IsFlag,  2
-			bnt      code_06a8
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    2
-			pushi    4
-			pushi    33
-			lofsa    unknown_250_35
-			send     12
-			lsg      gPrevRoomNum
-			ldi      360
-			eq?
-			bnt      code_063d
-			pushi    147
-			pushi    0
-			pushi    74
-			pushi    1
-			pushi    17
-			pushi    317
-			pushi    5
-			pushi    4
-			pushi    28
-			pushi    42
-			pushi    29
-			pushi    43
-			lofsa    monkDoor
-			send     24
-			pushi    147
-			pushi    0
-			pushi    236
-			pushi    1
-			class    Fwd
-			push
-			lofsa    fire1
-			send     10
-			pushi    147
-			pushi    0
-			pushi    236
-			pushi    1
-			class    Fwd
-			push
-			lofsa    fire2
-			send     10
-			jmp      code_0784
-code_063d:
-			pushi    147
-			pushi    0
-			pushi    74
-			pushi    1
-			pushi    0
-			pushi    317
-			pushi    2
-			pushi    4
-			pushi    33
-			lofsa    burntRemains
-			send     18
-			pushi    147
-			pushi    0
-			pushi    74
-			pushi    1
-			pushi    0
-			pushi    317
-			pushi    2
-			pushi    4
-			pushi    33
-			lofsa    burntRemains1
-			send     18
-			pushi    147
-			pushi    0
-			pushi    74
-			pushi    1
-			pushi    0
-			pushi    317
-			pushi    2
-			pushi    4
-			pushi    33
-			lofsa    burntRemains2
-			send     18
-			pushi    147
-			pushi    0
-			pushi    74
-			pushi    1
-			pushi    0
-			pushi    317
-			pushi    2
-			pushi    4
-			pushi    33
-			lofsa    burntRemains3
-			send     18
-			jmp      code_0784
-code_06a8:
-			pushi    147
-			pushi    0
-			pushi    74
-			pushi    1
-			pushi    17
-			pushi    317
-			pushi    5
-			pushi    4
-			pushi    28
-			pushi    42
-			pushi    29
-			pushi    43
-			lofsa    monkDoor
-			send     24
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    2
-			pushi    4
-			pushi    33
-			lofsa    unknown_250_44
-			send     12
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    2
-			pushi    4
-			pushi    33
-			lofsa    unknown_250_45
-			send     12
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    unknown_250_46
-			send     10
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    hectMidLtArm
-			send     10
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    hectMidRtArm
-			send     10
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    hectLtArm
-			send     10
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    hectRtArm
-			send     10
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    2
-			pushi    4
-			pushi    33
-			lofsa    unknown_250_40
-			send     12
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    2
-			pushi    4
-			pushi    33
-			lofsa    unknown_250_41
-			send     12
-			pushi    147
-			pushi    0
-			pushi    317
-			pushi    1
-			pushi    4
-			lofsa    unknown_250_42
-			send     10
-code_0784:
-			pushi    147
-			pushi    0
-			&rest    1
-			super    GloryRm,  4
-			pushi    159
-			pushi    1
-			lofsa    igor
-			push
-			lag      gCast
-			send     6
-			bnt      code_07f3
-			pushi    147
-			pushi    5
-			lsg      gEgo
-			pushi    250
-			pushi    16
-			pushi    128
-			lsl      local2
-			dup
-			ldi      0
-			eq?
-			bnt      code_07bb
-			ldi      19
-			jmp      code_07eb
-code_07bb:
-			dup
-			ldi      1
-			eq?
-			bnt      code_07c5
-			ldi      12
-			jmp      code_07eb
-code_07c5:
-			dup
-			ldi      2
-			eq?
-			bnt      code_07cf
-			ldi      11
-			jmp      code_07eb
-code_07cf:
-			dup
-			ldi      3
-			eq?
-			bnt      code_07d9
-			ldi      14
-			jmp      code_07eb
-code_07d9:
-			dup
-			ldi      5
-			eq?
-			bnt      code_07e3
-			ldi      15
-			jmp      code_07eb
-code_07e3:
-			dup
-			ldi      6
-			eq?
-			bnt      code_07eb
-			ldi      13
-code_07eb:
-			toss
-			push
-			lofsa    heroTeller
-			send     14
-code_07f3:
-			lsg      gPrevRoomNum
-			dup
-			ldi      260
-			eq?
-			bnt      code_080b
-			pushi    184
-			pushi    1
-			lofsa    sEnter
-			push
-			self     6
-			jmp      code_088f
-code_080b:
-			dup
-			ldi      280
-			eq?
-			bnt      code_0820
-			pushi    184
-			pushi    1
-			lofsa    sEnter
-			push
-			self     6
-			jmp      code_088f
-code_0820:
-			dup
-			ldi      350
-			eq?
-			bnt      code_0835
-			pushi    184
-			pushi    1
-			lofsa    sOutGuildDoor
-			push
-			self     6
-			jmp      code_088f
-code_0835:
-			dup
-			ldi      360
-			eq?
-			bnt      code_0885
-			pushi    1
-			pushi    328
-			callb    IsFlag,  2
-			bnt      code_0856
-			pushi    184
-			pushi    1
-			lofsa    sClimbOutMonks
-			push
-			self     6
-			jmp      code_088f
-code_0856:
-			dup
-			ldi      360
-			eq?
-			bnt      code_0885
-			pushi    1
-			pushi    330
-			callb    IsFlag,  2
-			bnt      code_0877
-			pushi    184
-			pushi    1
-			lofsa    sLevitateOutMonks
-			push
-			self     6
-			jmp      code_088f
-code_0877:
-			pushi    184
-			pushi    1
-			lofsa    sExitMonks
-			push
-			self     6
-			jmp      code_088f
-code_0885:
-			pushi    537
-			pushi    0
-			lag      gGlory
-			send     4
-code_088f:
-			toss
-			pushi    1
-			pushi    41
-			callb    IsFlag,  2
-			not
-			bnt      code_08a7
-			pushi    86
-			pushi    1
-			pushi    1
-			lag      gGlory
-			send     6
-code_08a7:
-			ret
+		(= local2
+			(cond
+				((and (IsFlag 41) (== gPrevRoomNum 360)) 0)
+				((and (not (IsFlag 48)) (or (IsFlag 37) (IsFlag 38))) 4)
+				((and (not (IsFlag 76)) (IsFlag 48)) 5)
+				((and (IsFlag 76) (>= gDay (+ global415 1))) 6)
+				((and (IsFlag 74) (IsFlag 75) (>= gDay (+ global415 1))) 3)
+				(
+					(or
+						(and
+							(>= gDay (+ global415 1))
+							(IsFlag 74)
+							(not (IsFlag 75))
+						)
+						(and (IsFlag 74) (IsFlag 75) (== global415 gDay))
+					)
+					2
+				)
+				(
+					(or
+						(== global415 0)
+						(and
+							(IsFlag 74)
+							(not (IsFlag 75))
+							(== global415 gDay)
+						)
+					)
+					1
+				)
+				(else 7)
+			)
+		)
+		(if (not (OneOf gPrevRoomNum 280 260))
+			(gLongSong number: 250 setLoop: -1 play:)
+		)
+		(Palette 2 66 85 100) ; PalIntensity
+		(gEgo
+			init:
+			normalize:
+			posn: 335 240
+			setScaler: Scaler 100 79 176 132
+		)
+		(((ScriptID 6 0) new:) ; eFeatureR
+			nsLeft: 289
+			nsTop: 30
+			nsBottom: 173
+			nsRight: 319
+			approachX: 319
+			approachY: 155
+			init:
+		)
+		(guildDoor init: setPri: 0 approachVerbs: 4 42 29 80) ; Do, theToolkit, theKeyRing, openSpell
+		(guildWin init: approachVerbs: 4) ; Do
+		(guildTopWin init: approachVerbs: 4) ; Do
+		(guildWall init: approachVerbs: 4) ; Do
+		(tombStone init: approachVerbs: 4) ; Do
+		(archway init: approachVerbs: 4) ; Do
+		(if
+			(or
+				(and (<= gTime 3) (not (OneOf local2 0 4)))
+				(and
+					(== local2 0)
+					(<= gTime 3)
+					(not
+						(and (not (IsFlag 48)) (or (IsFlag 37) (IsFlag 38)))
+					)
+				)
+			)
+			(igor init: approachVerbs: 4 2 setScript: sIgorCarve) ; Do, Talk
+			(stone init: approachVerbs: 4) ; Do
+			(shovel init: approachVerbs: 4) ; Do
+			(gCurRoom
+				addObstacle:
+					((Polygon new:)
+						type: PBarredAccess
+						init: 0 0 319 0 319 144 212 182 78 133 50 136 36 150 4 150 4 171 156 171 174 189 10 189 0 189
+						yourself:
+					)
+			)
+		else
+			(gCurRoom
+				addObstacle:
+					((Polygon new:)
+						type: PBarredAccess
+						init: 0 0 319 0 319 144 212 182 78 133 50 136 4 150 4 171 156 171 174 189 10 189 0 189
+						yourself:
+					)
+			)
+		)
+		(switch gPrevRoomNum
+			(260
+				(gEgo posn: 265 240)
+				(= local0 216)
+				(= local1 187)
+			)
+			(280
+				(gEgo posn: 335 140)
+				(= local0 293)
+				(= local1 162)
+			)
+			(360
+				(if (IsFlag 328)
+					(gEgo
+						view: 7
+						setLoop: 3 1
+						cel: 0
+						posn: 135 126
+						setScaler: Scaler 89 60 150 120
+					)
+				else
+					(gEgo posn: 203 187 setPri: 51)
+					(monkDoor setCel: (monkDoor lastCel:))
+				)
+			)
+			(else
+				(gEgo posn: 172 178)
+			)
+		)
+		(if (IsFlag 41)
+			(burnFeature init: approachVerbs: 4 33) ; Do, theGrapnel
+			(if (== gPrevRoomNum 360)
+				(monkDoor init: setPri: 17 approachVerbs: 4 28 42 29 43) ; Do, theLockpick, theToolkit, theKeyRing, theDarksign
+				(fire1 init: setCycle: Fwd)
+				(fire2 init: setCycle: Fwd)
+			else
+				(burntRemains init: setPri: 0 approachVerbs: 4 33) ; Do, theGrapnel
+				(burntRemains1 init: setPri: 0 approachVerbs: 4 33) ; Do, theGrapnel
+				(burntRemains2 init: setPri: 0 approachVerbs: 4 33) ; Do, theGrapnel
+				(burntRemains3 init: setPri: 0 approachVerbs: 4 33) ; Do, theGrapnel
+			)
+		else
+			(monkDoor init: setPri: 17 approachVerbs: 4 28 42 29 43) ; Do, theLockpick, theToolkit, theKeyRing, theDarksign
+			(monkWall1 init: approachVerbs: 4 33) ; Do, theGrapnel
+			(monkWall2 init: approachVerbs: 4 33) ; Do, theGrapnel
+			(monkHighWin init: approachVerbs: 4) ; Do
+			(hectMidLtArm init: approachVerbs: 4) ; Do
+			(hectMidRtArm init: approachVerbs: 4) ; Do
+			(hectLtArm init: approachVerbs: 4) ; Do
+			(hectRtArm init: approachVerbs: 4) ; Do
+			(monkWin1 init: approachVerbs: 4 33) ; Do, theGrapnel
+			(monkWin2 init: approachVerbs: 4 33) ; Do, theGrapnel
+			(hectapus init: approachVerbs: 4) ; Do
+		)
+		(super init: &rest)
+		(if (gCast contains: igor)
+			(heroTeller
+				init:
+					gEgo
+					250
+					16
+					128
+					(switch local2
+						(0 19)
+						(1 12)
+						(2 11)
+						(3 14)
+						(5 15)
+						(6 13)
+					)
+			)
+		)
+		(switch gPrevRoomNum
+			(260
+				(self setScript: sEnter)
+			)
+			(280
+				(self setScript: sEnter)
+			)
+			(350
+				(self setScript: sOutGuildDoor)
+			)
+			(360
+				(if (IsFlag 328)
+					(self setScript: sClimbOutMonks)
+				else
+					(self setScript: sExitMonks)
+				)
+			)
+			(else
+				(gGlory handsOn:)
+			)
+		)
+		(if (not (IsFlag 41))
+			(gGlory save: 1)
 		)
 	)
 
