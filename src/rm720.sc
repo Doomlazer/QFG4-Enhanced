@@ -1749,7 +1749,8 @@
 
 (class CaveExit of Feature
 	(properties
-		nsRight 190
+		;; duplicate property prevents compilation
+		;nsRight 190
 		noun 9
 		nsLeft 90
 		nsTop 173

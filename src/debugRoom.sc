@@ -170,41 +170,43 @@
 						)
 						(temp6 dispose:)
 					)
-					(KEY_ALT_o
-						(Unknown_Class_170 init:)
-						(if (gCurRoom obstacles:)
-							(Unknown_Class_170
-								readPolygonsFromList: (gCurRoom obstacles:)
-							)
-						)
-						(Unknown_Class_170 doit:)
-						(= temp1 (Str new: 13))
-						(= temp10 (Str new: 13))
-						(temp10 format: {%d.pol} gCurRoomNum)
-						(Print
-							font: 300
-							fore: 0
-							back: 255
-							skip: 255
-							largeAlp: 0
-							addText: {Output File Name:} 0 0
-							addEdit: temp1 12 0 12 temp10
-							init:
-						)
-						(FrameOut)
-						(poly_pol name: (temp1 data:) open: 0)
-						(poly_pol writeString: {\t\t;********************\0d\n})
-						(poly_pol writeString: {\t\t(curRoom addObstacle:\0d\n})
-						(if (Unknown_Class_170 size:)
-							(Unknown_Class_170
-								eachElementDo: #writeToFile poly_pol
-							)
-						)
-						(poly_pol writeString: {\t\t)\0d\n})
-						(poly_pol close:)
-						(temp1 dispose:)
-						(Unknown_Class_170 dispose:)
-					)
+					; Polygon editor missing, remove for now
+					; https://github.com/EricOakford/SCI-Decompilation-Archive/blob/36f8aeb4a2f6e5ec95eec91e12810bbef55357ba/qfg4cd/src/debugRoom.sc#L187
+;;;					(KEY_ALT_o
+;;;						(Unknown_Class_170 init:)
+;;;						(if (gCurRoom obstacles:)
+;;;							(Unknown_Class_170
+;;;								readPolygonsFromList: (gCurRoom obstacles:)
+;;;							)
+;;;						)
+;;;						(Unknown_Class_170 doit:)
+;;;						(= temp1 (Str new: 13))
+;;;						(= temp10 (Str new: 13))
+;;;						(temp10 format: {%d.pol} gCurRoomNum)
+;;;						(Print
+;;;							font: 300
+;;;							fore: 0
+;;;							back: 255
+;;;							skip: 255
+;;;							largeAlp: 0
+;;;							addText: {Output File Name:} 0 0
+;;;							addEdit: temp1 12 0 12 temp10
+;;;							init:
+;;;						)
+;;;						(FrameOut)
+;;;						(poly_pol name: (temp1 data:) open: 0)
+;;;						(poly_pol writeString: {\t\t;********************\0d\n})
+;;;						(poly_pol writeString: {\t\t(curRoom addObstacle:\0d\n})
+;;;						(if (Unknown_Class_170 size:)
+;;;							(Unknown_Class_170
+;;;								eachElementDo: #writeToFile poly_pol
+;;;							)
+;;;						)
+;;;						(poly_pol writeString: {\t\t)\0d\n})
+;;;						(poly_pol close:)
+;;;						(temp1 dispose:)
+;;;						(Unknown_Class_170 dispose:)
+;;;					)
 					(KEY_ALT_f)
 					(KEY_ALT_g
 						(= temp4 (GetNumber {Flag Number:}))
@@ -402,7 +404,7 @@
 		)
 		(if handle
 			(for ((= temp0 0)) (< temp0 argc) ((++ temp0))
-				(if (not (FileIO fiWRITE_STRING handle (KString 9 [param1 temp0]))) ; StrGetData
+				(if (not (FileIO fiWRITE_STRING handle (String 9 [param1 temp0]))) ; StrGetData
 					(return 0)
 				)
 			)

@@ -68,7 +68,7 @@
 			
 			(casts nextNode: (NextNode node))
 			(= theList (NodeValue node))
-			(if (not (KString 7 (theList name:) theName)) ; StrCmp
+			(if (not (String 7 (theList name:) theName)) ; StrCmp
 				(return theList)
 			)
 		)
@@ -167,7 +167,9 @@
 			(bitmap dispose:)
 			(= newCast (self findCast: {planeBM}))
 		else
-			(= newCast (Cast new: name: {planeBM}))
+			; I'm assuming Sierra's original compiler was more lenient here, SCICompanion gives a compile error -DL
+			;(= newCast (Cast new: name: {planeBM}))
+			(= newCast ((Cast new:) name: {planeBM}))
 			(self addCast: newCast)
 		)
 		(if (< argc 3)

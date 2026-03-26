@@ -512,7 +512,10 @@
 			(if
 				(and
 					(= temp11 (gGlory script:))
-					(temp11 isKindOf: Unknown_Class_18)
+					; Tutorial class is missing. Doesn't seem to be in any verison of QfGIV, so disable for now.
+					; https://github.com/EricOakford/SCI-Decompilation-Archive/blob/master/qfg4cd/src/Tutorial.sc
+					;(temp11 isKindOf: Unknown_Class_18)
+					FALSE
 				)
 				(temp11 doit:)
 			)

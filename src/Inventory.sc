@@ -35,7 +35,14 @@
 		(if (and gMsgType (Message msgGET modNum noun theVerb 0 1))
 			(gMessager say: noun theVerb 0 0 0 modNum)
 		)
-		(if (and (= tut (gGlory script:)) (tut isKindOf: Unknown_Class_18))
+		(if
+			(and 
+				(= tut (gGlory script:))
+				; Tutorial class is missing. Doesn't seem to be in any verison of QfGIV, so disable for now.
+				; https://github.com/EricOakford/SCI-Decompilation-Archive/blob/master/qfg4cd/src/Tutorial.sc
+				;(tut isKindOf: Unknown_Class_18)
+				FALSE
+			)
 			(cond
 				((!= (tut nextItem:) self)
 					(tut report: self)
@@ -441,7 +448,10 @@
 				(if
 					(and
 						(= temp11 (gGlory script:))
-						(temp11 isKindOf: Unknown_Class_18)
+						; Tutorial class is missing. Doesn't seem to be in any verison of QfGIV, so disable for now.
+						; https://github.com/EricOakford/SCI-Decompilation-Archive/blob/master/qfg4cd/src/Tutorial.sc
+						;(temp11 isKindOf: Unknown_Class_18)
+						FALSE
 					)
 					(temp11 doit:)
 				)
