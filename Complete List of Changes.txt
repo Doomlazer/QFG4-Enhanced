@@ -1,0 +1,767 @@
+==============================
+[1.1] Changes in Version 1.1A:
+==============================
+
+
+7 (Rest and Sleep):
+
+
+- Fixed: The variable that controls the Paladin's Honor Shield was erroneously reset after sleeping, making the ability worthless. Honor Shield now persists through sleeping, effectively acting as a permanent Protection spell (the effect doesn't stack with the spell).
+
+- Enabled sleeping in the following rooms: Punny Bones' Room (240), outside Monastery (250), West Town Mordavia (260), East Town Mordavia (280), Burgomeister's office (300), Monastery room (360), Dr. Cranium's Lab (370), Dr. Cranium's Hallway (380), Nikolai's House (390), outside Baba Yaga's Hut (480), Cemetary (500), Borgov Crypt (510), Cave Pit (710), Heart Altar room (720), Breath Altar Room (750), Sense Altar room (760), Bone Altar room (770), Monastery Basement (780), and Cave Mouth (790).
+
+
+
+
+12 (Area Spells):
+
+
+- Enabled Calm in the following rooms: Monastery room (360), Dr. Cranium's Hallway (380), Nikolai's House (390), Borgov Crypt (510), and Castle Entrance (610).
+
+- Enabled Detect Magic in the following rooms: Punny Bones' Room (240), East Town Mordavia (280), Your room at the inn (330), Dr. Cranium's Lab (370), Dr. Cranium's Hallway (380), Nikolai's House (390), Cemetary (500), Lake (520), Castle Entrance (610), all castle rooms and staircases including the Great Hall (620-627, 629-632, 640-644, and 660-663), Tanya's Room (650), Sense Altar room (760), and Cave Mouth (790).
+
+
+
+
+13 (Open Spell):
+
+
+- Enabled Open in the Monastery room (360).
+
+
+
+
+16 (Inventory):
+
+
+- Many of the game's items were intended to play audio narration by John Rhys-Davies whenever you examined them or tried to combine items in your inventory! Unfortunately, much of this data is either missing, or may never have been recorded to begin with. I've restored all of the audio that I could find in the RESOURCE.AUD file using SCI kernel functions and scripting.
+
+- Fixed a crash that would occur if you selected the torch with the hand, scrolled your inventory until the actual torch item was offscreen, then clicked the torch cursor on the flint.
+
+- Fixed: The inn storage locker key was using duplicate lines and text from the crypt secret passageway key.
+
+- Fixed: Using the Bonemeal on the empty Pie Pan wasn't changing its icon.
+
+- The Key Ring now displays the number of keys and their weight.
+
+
+
+
+21 (Spell Hook):
+
+
+- Fixed a script error in the final room: If the Wizard was already holding Erana's staff and the player tried to summon it again, their staff would mysteriously disappear.
+
+- Fixed: The Levitate handler lines were erroneously being displayed as strings instead of playing the audio.
+
+- Enabled Dazzle in the Monastery room (360) and Borgov Crypt (510).
+
+- Enabled Levitate in the Monastery room (360) and Dr. Cranium's Hallway (380).
+
+- Enabled Juggling Lights in the Borgov Crypt (510).
+
+- Enabled Hide in the Monastery room (360), Dr. Cranium's Hallway (380), Nikolai's House (390), and Cave Pit (710).
+
+- Disabled Detect Magic in the Bone Altar room (770) while the Hero is trapped in the bone cage.
+
+- Disabled spellcasting in the Adventurer's Guild Hall (350).
+
+- Disabled spellcasting in front of the Town Gate (290) and Castle Gate (600) while Katrina or Boris are in the room.
+
+
+
+
+26 (Death Screen):
+
+
+- This is perhaps the most famous out of all the QFG4 cut content! The RESOURCE.AUD file contains fully-voiced entries for all death narration done by John Rhys-Davies, but none of it was ever implemented in the code. I've managed to seemlessly restore the bulk of the narration using the game's death screen handler and SCI kernel functions. Unfortunately, the audio narration for three game over screens is missing: "That Burns You Up!" (watching Gypsy Davey burn at the stake), Shades of Socrates! (generic poison death from QFG3), and Have a nice trip... (fall from running out of mana while Levitating).
+
+
+
+
+35 (Inventory Additional):
+
+
+- Restored all of the unused audio narration for examining and combining items in the inventory screen. *NOTE: Much of the narration is missing from the RESOURCE.AUD file, so this is not a complete restoration!
+
+- Fixed a glitch where each time you added more of the Rusalka's hair to the broom, the broom's icon would continue cycling through cels on its animation loop until it reached the last cel.
+
+- Fixed: Using the Pie Pan on the Bone Ritual no longer displays the wrong message.
+
+
+
+
+53 (Wraith Barrows):
+
+
+- Fixed: The Paladin's Sense Danger message wasn't playing when a wraith spawned due to an operator error in the script.
+
+- Restored the proper icons for getting the Battle Axe, Piotyr's Sword, and Platemail Armor.
+
+
+
+
+86 (Adventurer's Guild Hook Puzzle):
+
+
+- Restored a line for manually solving the hook puzzle in the Adventurer's Guild.
+
+
+
+
+89 (Thieves' Guild Safe Puzzle):
+
+
+- Restored a line for successfully solving the safe puzzle in the Thieves' Guild.
+
+
+
+
+180 (Dark One Rising FMV):
+
+
+- Fixed a script error that prevented the Dark One Rising death audio narration from playing.
+
+
+
+
+250 (Northern Side of Town):
+
+
+- Fixed a lockup that would sometimes occur when the Hero triggered the Hectapus death while Igor was in the middle of an animation cycle.
+
+- Fixed a dead end where a Fighter with 0 skill in climbing could use the grapnel to climb up the monastery window and end up trapped inside. There's no precedent in the code for using the grapnel, but you need 250 climbing to get in and out of the monastery by hand. I added a skill check for 200 climbing with the grapnel in order to be consistent with the town gates and to allow starting Thieves to still get into the monastery easily.
+
+- Fixed: The Hectapus's glowing red eyes are no longer obscured by another sprite during the death scene.
+
+- Fixed: The sound effect that plays for opening the Adventurer's Guild door no longer overlaps with the narration.
+
+- Made adjustments to the monastery walls and windows so that the interaction and positioning of the Hero is a little more consistent across all actions (the high window is left untouched). You can no longer click on the walls to climb inside; you must click on the windows. You can't climb or levitate inside during the day. Restored lines for clicking the Hand, Grapnel, and Jump icon on the walls. Restored a line for clicking the Eye on the windows.
+
+- Restored lines for interacting with the monastery door teller. The hectapus no longer eats you just for listening at the door. You can't pick the lock during the day.
+
+- Restored lines for using Lockpick, Keyring, and Thief's Toolkit on the monastery door. The hectapus no longer eats you for trying the keyring on the door. You can't pick the lock during the day.
+
+- Restored the correct line for unlocking the Adventurer's Guild door through the teller. You can still hear the old line by clicking the keyring and using it on the door as was intended.
+
+- Restored a line for unlocking the guildhall door with the Open spell. You can now keep casting Open to train the spell, but only at night and at the cost of reducing your honor.
+
+- Restored a line for picking the guildhall door with the toolkit. You can now train Pick locks using either the lockpick or toolkit, but only at night and at the cost of reducing your honor.
+
+- Restored a line for clicking the Hand on the guildhall door after you've broken it down.
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Restored a line for trying to sleep in this room.
+
+- Using the Flowers on the room now plays the same line as using the Bonsai Bush.
+
+- The Hero will now float down from the window whenever he exits via Levitate. I based the animation and timing on the same code used for levitating over the town gates.
+
+
+
+
+270 (Erana's Staff):
+
+
+- Fixed a dead end: If you woke up from the dream and rested until night without leaving the room, then immediately exited to the south, the Hero would appear behind the locked town gates with no way to progress or return.
+
+- Fixed: If the Hero had any magic, they would always cast the Ritual of Release during Toby's sacrifice, whether they knew the spell or not. The game now properly checks if your class is a Wizard before proceeding with the scene.
+
+- Fixed: The player always triggered the gate teller twice whenever they tried to exit the town gates at night. The script wasn't sending the Hero back far enough behind the trigger line when the teller popped up.
+
+- Restored a line for clicking the Hand on the archway. The Hero no longer attempts to walk through the archway.
+
+- Restored a line for casting Calm in this room.
+
+- Restored a line for casting Fetch in this room.
+
+- Lowered the requirement for successfully using the grapnel on the trees from 200 to 150 Climbing in order to match the area outside the town gates.
+
+- Removed a redundant script call to cast Levitate, which was erroneously training the spell twice when using it to exit the town. This should only be called when the player levitates via the teller and can't manually cast the spell in order to train it.
+
+
+
+
+290 (Town Gates):
+
+
+- Fixed a lockup that would occur when you exited the town via the secret passage and then immediately tried to re-enter the passage.
+
+- Fixed: The Hero should no longer appear on the far right side of the screen when exiting from the secret passage.
+
+- Fixed a script error where casting Fetch on the 2nd and 3rd corn stalks from the town gate wasn't playing the correct message.
+
+- Fixed: The game was playing the wrong line for saying goodbye to Katrina and not disposing of the previous script. After she left, the player was unable to cast spells until they re-entered the room. Spellcasting is now correctly disabled while Katrina is in the room and re-enabled after she leaves.
+
+- Made adjustments to the town gate and the towers so that interaction with the Hero is a little more consistent across all actions. Using the gate teller or clicking the Hand on the towers requires 200 Climbing skill to succeed. Clicking the grapnel on the gate or towers requires 150 Climbing. Restored a line for clicking the Hand on the room. Restored a line for successfully climbing the towers by using the Hand. Restored lines for clicking the Eye on the towers both during the day and at night.
+
+- Restored lines for using various items on the room (Bonsai Bush, Corn, Rock, Water).
+
+- The animation for levitating down from the town gate looked cheap and unfinished (the sparklies didn't even move!). I've adjusted the animation to make it more appealing and consistent with casting Levitate in other areas. The speed was chosen after some testing to ensure that it's neither too slow/janky nor too fast. The cost has been adjusted to always use 7 mana when entering a room (this is the same amount that you'd normally spend for maintaining Levitate over a single cost cycle). I've also removed some redundant script calls that were training Levitate twice and wasting additional mana whenever you cast the spell.
+
+
+
+
+300 (Burgomeister's Office):
+
+
+- Fixed a lockup that would occur when you cast Open on the empty jail cell door.
+
+- Fixed: The shield prop wasn't properly changing nouns when the Burgomeister gave Piotyr's Shield to the Paladin.
+
+- Restored the proper icon for getting Piotyr's Shield.
+
+- Restored lines for entering the Burgomeister's Office for the first time both during the day and at night.
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Restored a line for trying to sleep in this room.
+
+
+
+
+320 (Inn):
+
+
+- Fixed a dead end: If you don't meet the Domovoi at the inn at midnight until the night where you wake up to the sounds of Bella crying, then enter the main room and immediately go back to your room without checking on Bella, the Domovoi will completely stop spawning from this point onward. Without speaking to the Domovoi at least once, you can never rehydrate him because Dr. Cranium never invents his Rehydration Solution, and you can't get the doll or rescue Tanya, essentially making the game unwinnable! The bug was caused by an error in the room's initialization script logic.
+
+- Restored a line for casting Detect Magic in this room.
+
+- Restored a line for clicking the Jump icon on the room.
+
+- The inkeeper will now give you a key to the chest in your room when you pay him.
+
+
+
+
+325 (Inn Barrel):
+
+
+- Fixed a script error where clicking the Eye on the ash pot was playing both lines, and clicking the Hand on it wasn't playing anything.
+
+
+
+
+330 (Your Room at the Inn):
+
+
+- Restored the missing third and final dream sequence between Ad Avis and Katrina. It can occur as early as the first night after Tanya is restored to life. You must NOT learn the Ultimate Joke from Punny Bones too early, because this sets a flag that causes the dream to be skipped and the note to spawn at the foot of your bed.
+
+- Restored a line for casting Detect Magic in this room.
+
+
+
+
+340 (Thieves' Guild):
+
+
+- Fixed: You can no longer crack the two safes on the wall without the toolkit.
+
+- Fixed a script error where the Hero couldn't enter the secret passage behind the Chief Thief until they left and re-entered the room.
+
+- There are three death messages for game over screens in this room: #1 plays when dying to the Chief Thief, #2 isn't used, and #3 plays when dying to any of the three traps. It's really hard to determine, but the wording on death #2 indicates that it's meant to be used with the safe spike traps. I've restored it as such, and the desk gas trap now uses the correct death icon for dying from poison.
+
+- Restored lines for solving the barrel puzzle and opening the secret passageway.
+
+- Restored a line for taking the Guild Card.
+
+- Restored a line for clicking the Eye on the picture frame to the right.
+
+- Restored a line for covering the safes.
+
+- Restored a line for getting killed by the Chief Thief.
+
+- Restored a line for returning to the room after killing the Chief Thief.
+
+- Restored a line for clicking the Jump icon on the room.
+
+
+
+
+350 (Adventurer's Guild):
+
+
+- Fixed: If the player started with a Fighter or Paladin that already had points in Climbing, the option for reading the book "Climbing Skills" would never appear and the player would miss out on those puzzle points. The book will now always appear for those classes as intended. If you already have Climbing, the book will now grant 20 skill points instead of 100, similar to the other two books.
+
+- Fixed a script error where the player wasn't being awarded any puzzle points if they clicked the Hand on the quill pen to sign their name into the logbook.
+
+- Restored a line for entering the guildhall for the first time.
+
+- Restored a line for trying to cast a spell in this room. Spellcasting is now disabled as was originally intended.
+
+- Restored a line for initiating the hook puzzle.
+
+- Restored a line for throwing the rope and grapnel at the ring on the ceiling.
+
+- Restored a line for taking the the rope and grapnel from the ceiling.
+
+- Restored a line for clicking the Eye on the Adventurer's Logbook.
+
+- Restored a line for clicking the Jump icon on the room.
+
+
+
+
+360 (Monastery):
+
+
+- Fixed a dead end where if the Hero entered the Monastery by levitating up to the window, and had 0 skill in Climbing, he would be trapped inside. You couldn't cast the spell inside and the door can't be opened unless the Dark One Sign was used to enter it. You can now cast Levitate inside the Monastery.
+
+- Fixed a dead end where if the Hero entered the Monastery through the window with a low skill in Climbing, and then started to burn the building, he would get trapped inside. The script would force him to exit through the window, which he could not possibly reach because of a skill check. The Hero will now automatically levitate out if he knows the spell. If the Hero can climb, he will bypass the skill check (just call it an adrenaline rush in a life-or-death situation!)
+
+- Fixed a script error where the Hero couldn't open the cabinet with the Open spell.
+
+- Restored lines for the Paladin's Sense Danger ability when entering the Monastery for the first time.
+
+- Restored lines for casting Detect Magic both before and after you've rehydrated the Domovoi statue.
+
+- Restored lines for casting Dazzle, Calm, and Hide in this room.
+
+- Restored lines for using Garlic on the room both before and after you've delt with the Hexapod.
+
+- Restored a line for entering the room for the first time.
+
+- Restored a line for opening the secret passage for the first time.
+
+- Restored a line for climbing up to get the Blackbird.
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Restored a line for trying to sleep in this room.
+
+- Clicking the Hand on the left window no longer causes the Hero to exit through the door.
+
+- The Hero will now float down from the right window whenever he enters via levitating.
+
+
+
+
+380 (Dr. Cranium's Hallway):
+
+
+- Restored lines for using various items on the room (Broom, Candy, Corn, Dagger, Elderbury Berries, Flint, Garlic, Good Humor Bar, Rock, Rope and Grapnel, Rubber Chicken, Sandwiches, Shopping Bag, Sword/Axe, Torch, Undead Amulet, Will o' Wisps).
+
+- Restored lines for casting Open, Detect Magic, Trigger, Calm, Fetch, Levitate, Hide, and offensive spells in this room.
+
+- Restored a line for clicking the Jump icon on the room.
+
+
+
+
+390 (Nikolai's House):
+
+
+- Restored the missing death icon for killing Nikolai.
+
+- Restored lines for casting Detect Magic, Calm, and Hide in this room.
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Restored a line for trying to sleep in this room.
+
+
+
+
+480 (Outside Baba Yaga's Hut):
+
+
+- Fixed: After Bonehead warns you for the first time, the nearest skull's eyes light up red, but remain stuck in that state until you either trigger the laser or re-enter the room. They should now activate and deactivate properly according to the Hero's distance.
+
+- Fixed a script error where the hut was not assigned a noun and restored lines for interacting with it.
+
+- Fixed a script error where the left gate skull (nearest to the hut) was assigned the wrong noun. It should now play the same messages as the right gate skull.
+
+- Restored the correct icon for getting the cooked Elderbury Pie.
+
+- Restored lines for using various items on the room (Bones, Corn, Dagger, Dark One Sign, Elderbury Berries, Flowers, Pie Pan, Rock, Rubber Chicken, Undead Amulet).
+
+- Restored a line for clicking the Hand on the dead body.
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Restored a line for trying to sleep in this room.
+
+
+
+
+500 (Cemetary):
+
+
+- There are three lines present for giving descriptions to this room: one is supposed to play when entering for the first time during the day, another plays when entering for the first time at night, and the last plays when clicking the Eye on the room. The game was using the day line for night entry, the room line for day entry, and the night line wasn't being used at all! I've reassigned all of the lines to their proper locations and made the room react to the day/night cycle like at the town gates.
+
+- Restored lines for sweeping Janos's grave and summoning his ghost.
+
+- Restored lines for using various items on the room (Bone Meal, Bones, Bonsai Bush, Broom, Dark One Sign, Flowers, Rope and Grapnel, Rusalka's Hair, Undead Amulet, Will o' Wisps, Bone/Blood/Breath/Sense/Heart Ritual).
+
+- Restored a line for casting Detect Magic in this room.
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Restored a line for trying to sleep in this room.
+
+
+
+
+510 (Borgov Crypt):
+
+
+- Fixed: Selecting Pick Lock from the secret door relief teller now returns properly instead of creating a partial lockup.
+
+- Fixed: The missing audio for clicking the Eye on the grate was paired with a nonexistent message for noun 199. [Use the 510.msg file I created! Credit: sluicebox]
+
+- Restored the battle with the Crypt Wraith! To trigger this encounter, you must open the sarcophagus in the bottom-left corner of the room. Most of the teller response dialogue is missing, so I pulled lines from other parts of the game to try and make it feel complete. The encounter is totally optional and your reward for surviving is +20 to Weapon Use. Be prepared for a fight though, because I've set this thing to be as powerful as the Master Wraith! Wraith to the Finish death message has also been restored and will play when you die.
+
+- Restored a line for trying to walk through the crypt door to the cemetary.
+
+- Restored lines for trying to cast Open and using the key on the central relief. Restored a line for clicking the Eye on the knight's skeleton.
+
+- Restored lines for trying to cast Open and using the key on either of the two passageway reliefs.
+
+- Restored a line for interacting with the Borgov Crest.
+
+- Restored lines for casting Calm, Dazzle, Juggling Lights, and offensive spells in this room.
+
+- Restored lines for using various items on the room (Bone Meal, Bones, Bonsai Bush, Broom, Rope and Grapnel, Undead Amulet, Will o' Wisps, Bone/Blood/Breath/Sense/Heart Ritual).
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Restored a line for trying to sleep in this room.
+
+
+
+
+520 (Lake):
+
+
+- Fixed: The Hero wasn't earning any honor when giving Flowers or Candy to the Rusalka for the first time. He now earns the same amount of honor as subsequent times.
+
+- Fixed: After the first time that you give Flowers or Candy to the Rusalka, the game stops subtracting them from your inventory after each use.
+
+- When you give flowers to the Rusalka for the first time, three dialogue lines are supposed to play in sequence, but the CD version only plays one and it's erroneous. Line 1 is the message that the game plays, but the text is taken from Line 3 and the audio entry is a duplicate of Line 2. The proper audio for Line 1 doesn't appear to exist at all in the RESOURCE.AUD file. Lines 2 and 3 are omitted entirely from the room's MSG file. The audio for line 3 exists with the correct entry, but can't play because it's paired with a nonexistent message. I added text for the missing two lines taken from the floppy transcript, and restored audio to the third line. [Use the 520.msg file I created!]
+
+- Fixed a script error that was causing most Paladin players to miss an event with the Rusalka. After the Paladin recieves the quest to free the Rusalka from Piotyr's ghost, the lake room script switches to Event 4, where you can tell her about meeting Piotyr. However, most players never get to see this event because they've usually learned the Rusalka's name already from reading her gravestone in the cemetary. Learning her name caused the script to send you back to Event 2 (first meeting after making friends) until you advanced the quest further.
+
+- Restored lines for using various items on the room and the Rusalka (Bonsai Bush, Broom, Dagger, Flowers, Undead Amulet Water, Will o' Wisps).
+
+- Restored a line for casting Detect Magic while the Rusalka is present.
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Removed any instances where you could show items to the decaying Rusalka. The game only has lines that utilize her regular talker sprite and voice for these items and it would make absolutely no sense to play these in her new state!
+
+
+
+
+580 (Fairy Battle):
+
+
+- Fixed: The player wasn't being forced into handsOff mode when entering the room with the fountain present.
+
+- Fixed: A bug was preventing Tatiana from playing an alternate dialogue line when the Wizard drinks from the fountain while knowing all of the new QFG4 spells except for Ritual of Release and Resistance.
+
+- Fixed: Casting Trigger on the fake staff wasn't flagging the event as completed. It would replay every time you re-entered the room.
+
+- Fixed: The first line for Erana's staff was erroneously being displayed as a string instead of playing the audio.
+
+- Restored the "Spelled Down" death message. It plays when you die from running out of mana during the fairy battle.
+
+- Restored a line for looking at the background while it contained the fountain.
+
+- Restored a line for casting Fetch at the false staff.
+
+- Restored several background objects and their descriptions, and the ability to pick flowers during the day.
+
+- The Hero can no longer switch to the movement icon during the fairy battle.
+
+
+
+
+600 (Castle Gate):
+
+
+- Fixed: The thunder sound effect no longer overlaps with the Paladin's Sense Danger narration when you enter the room.
+
+- Fixed: The Necrotaurs would frequently drown out Katrina's voice with their roar sound effect while she was talking, making it virtually impossible to hear what she's saying. They will no longer roar while she's in the room.
+
+- Fixed a script error that was cutting off the gate opening sound effect before the player could hear it.
+
+- Fixed various script errors for casting spells in the room and on the gate, added projectiles, restored the correct narration for each spell, removed unecessary skill checks, and cleaned up redundant code to be more efficient. The gate now uses a TargActor class instead of an Actor class in order to properly detect projectiles and play the correct impact lines for the player.
+
+- Restored missing death icons for the five deaths in this room.
+
+- Restored several lines for interacting with and casting offensive spells at the dead Necrotaurs.
+
+- Restored lines for using the rock and the sword/axe on the room.
+
+- Restored a line for clicking the Jump icon on the room.
+
+- The Paladin will no longer play his Sense Danger message if there are no Necrotaurs present in the room.
+
+- The Fighter will now use the appropriate axe swinging animation instead of a sword when clicking your axe on the gate. [Use the 55.v56 file I created!] Fixed the broken sound effect for swinging the sword/axe.
+
+- Spellcasting is now correctly disabled while Boris or Katrina are in the room.
+
+
+
+
+610 (Castle Courtyard):
+
+
+- Restored a line for entering the castle doors.
+
+- Restored a line for casting Detect Magic in this room.
+
+- Restored a line for casting Calm in this room.
+
+- Restored a line for clicking the Jump icon on the room.
+
+
+
+
+621:
+
+
+- Fixed a script error where entering this staircase wasn't putting the player into handsOff mode.
+
+
+
+
+625 (Ghost):
+
+
+- Fixed a script error where entering this staircase wasn't putting the player into handsOff mode.
+
+- Fixed: The ghost's class was erroneously assigned as Actor instead of TargActor. As a result, there was no way for it to detect projectiles or to play the two missing impact lines for the player. Clicking your last dagger on the ghost or the room no longer results in a missing message error. Attacking the ghost with your sword/axe no longer causes a lockup and now plays the correct sound and animation for each.
+
+- Fixed: Casting Dazzle in this room now works and plays the correct line.
+
+
+
+
+630 (Castle Great Hall):
+
+
+- Restored lines for using various items on the room (Broom, Flint, Rock, Thief's Toolkit, Torch, Will o' Wisps).
+
+- Restored a line for casting Detect Magic and offensive spells in this room.
+
+
+
+
+640:
+
+
+- Fixed a script error where entering several of the castle rooms wasn't putting the player into handsOff mode.
+
+
+
+
+641 (Castle Chest Room):
+
+
+- Fixed: You can no longer pick the lock on the chest without the toolkit.
+
+
+
+
+650 (Tanya's Room):
+
+
+- Fixed a script error where choosing to attack Tanya wasn't putting the player into handsOff mode.
+
+- Restored lines for clicking the Hand on various objects in the room, Tanya, and Toby.
+
+- Restored a line for casting Detect Magic in this room.
+
+
+
+
+662:
+
+
+- Fixed: The right side ceiling in the secret passage room was erroneously assigned the same noun as the candles, instead of the ceiling.
+
+
+
+
+663:
+
+
+- Restored a message for looking at the Boyar crest while the secret door was open.
+
+
+
+
+710 (Cave Pit):
+
+
+- Fixed a lockup that would occur during the endgame if the Hero crossed or tightroped back over the pit and approached the ledge where the tentacle originally kills him.
+
+- Fixed a glitch where after the Fighter/Paladin crossed over the pit, the tentacle wasn't retreating back into its cave.
+
+- Fixed a glitch where after the Wizard levitated over the pit, the tentacle wasn't retreating back into its cave.
+
+- Fixed: During the endgame, if the player clicked the Hand on the exit, they could leave the cave and replay the initial meeting with Katrina from the beginning of the game.
+
+- Fixed a script error where the Hero could cast Dazzle or Calm on the Pit Horror and then continue to attack it from any position without ever waking it up. The Horror will now wake up when it takes any damage and engage the Hero in combat if he is on the lower level.
+
+- Fixed a script error where clicking the Hand on the sleeping/stunned Pit Horrror wasn't waking it up.
+
+- Fixed a script error where the narrator was playing the wrong line when the Fighter/Paladin crossed over for the first time.
+
+- Fixed a script error where the narrator was playing the wrong line when the Thief tightrope walked over for the first time.
+
+- Restored the ability to use the rope and grapnel to lift the book from the cave floor and all of its accompanying dialogue.
+
+- Restored lines for using the Dark One Sign and Undead Amulet on the Pit Horror.
+
+- Restored a line for trying to burn the bridge with the torch or Flame Dart spell.
+
+- Restored a line for casting Hide in this room.
+
+- Restored a line for trying to sleep in this room.
+
+
+
+
+711 (Cave Pit Lower Level):
+
+
+- Fixed: The music no longer stops playing when the Hero levitates up to the right-side ledge.
+
+- Fixed: The Hero's movement gait now resets properly when he levitates down from the left-side ledge.
+
+
+
+
+720 (Heart Altar):
+
+
+- Fixed a dead end: If you head south from the Heart Altar room during the endgame instead of proceeding with the rituals, the next valve would glitch, becomming unclickable and preventing the player from entering the rooms or completing the game.
+
+- Fixed: The music is no longer muted after you exit the Blood Altar room. I still left it muted for the Breath and Sense altar rooms, where you are supposed to listen to the organ/breathing and lose your sense of hearing, respectively.
+
+- Fixed: After performing the Sense Ritual, the Hero could skip performing the Heart Ritual entirely and levitate up to the final room.
+
+- Fixed: The Hero no longer appears in front of the valve when exiting from the Breath Altar room.
+
+- Fixed: The Hero now approaches the Heart Altar when performing the ritual and the altar flashes appropriately.
+
+- Fixed: The Hero's sprite wasn't being normalized after he failed to climb the altar with a low skill.
+
+- Restored a line for hooking the rope and grapnel onto the passageway above the altar.
+
+- Restored lines for using various items on the room (Bones, Bonsai Bush, Rope and Grapnel, Undead Amulet, Will o' Wisps, Bone/Blood/Breath/Sense/Heart Ritual).
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Restored a line for trying to sleep in this room.
+
+
+
+
+730 (Essence Altar):
+
+
+- Fixed a crash that would sometimes occur when Ad Avis kills you and the Dark One Rising cutscene tries to play.
+
+- Fixed a longstanding bug: In several cases during the final script, the game wasn't properly disposing of previously called instances or normalizing sprites after attacking Ad Avis. As a result, the Hero would often find himself stuck in a state or animation loop where he would be "too busy to cast a spell right now." The worst symptom of this issue was that the Wizard often couldn't summon Erana's Staff or blast Ad Avis in order to finish the game!
+
+- Fixed: If the Wizard was already holding Erana's staff when the player closed the teller dialog box, the staff would mysteriously disappear from their hands.
+
+- Fixed: If the Thief selected Erana's Staff from their inventory after defeating Ad Avis, the game would erroneously replay the scene where it transforms into a wooden stake.
+
+- Fixed: Ad Avis's lines for getting struck by an offensive spell and getting struck by a throwing dagger were erroneously swapped.
+
+- Fixed a glitch where the player could still move by selecting the Run or Sneak icons from the action menu bar. You can no longer switch to the movement icon in this room.
+
+- Fixed a script error where the player wasn't being properly placed into handsoff mode when dying to Ad Avis.
+
+- Added sound effects for Ad Avis casting a fireball.
+
+
+
+
+731 (Ad Avis vs. Katrina):
+
+
+- Fixed: Katrina's sprite is no longer obscured by the explosion and the crystal.
+
+- Added some appropriate sound effects to the magical duel between Ad Avis and Katrina! It always bothered me that this epic duel was completely silent except for the music.
+
+
+
+
+750 (Breath Altar):
+
+
+- Restored lines for using various items on the room (Bones, Bonsai Bush, Rope and Grapnel, Undead Amulet, Will o' Wisps, Bone/Blood/Breath/Sense/Heart Ritual).
+
+- Restored a line for casting Detect Magic in this room.
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Restored a line for trying to sleep in this room.
+
+
+
+
+770 (Bone Altar):
+
+
+- Fixed: If the player imported a Paladin and then changed class, they would still keep the Heal spell.
+
+- Fixed: The teller wasn't being properly cleaned when the Thief clicked the Hand on the cage and then selected the option to jump out. As a result, the cursor icon would get stuck as the Hand for the rest of the game, even though the cursor itself could still switch and functioned normally.
+
+- During the endgame, the player could immediately leave the bone ritual room after entering. The valve would glitch from the outside, becomming unclickable and preventing the player from accessing the room again until they left and re-entered the screen. The player will now be trapped upon entering the room until they have completed the Bone Ritual, just like all of the other ritual rooms.
+
+- Fixed a glitch where casting spells while trapped in the bone cage would allow you to move again. The Hero could just walk out of the cage, leaving a body double still trapped behind him! You can no longer switch to the movement icon while trapped.
+
+- Fixed: If you restart the game (not quit!) from a save with the lit torch in your inventory, then pick up the torch for the first time, its default icon would always appear to be lit.
+
+- Clicking the Eye on the empty sconce was actually playing the wrong line meant for clicking the Hand, and clicking the Hand on it wasn't tied to any line, so it was just defaulting to a generic message. I've restored the missing line and fixed both.
+
+- Fixed a script error where the bone cage was not assigned a noun. As a result, the game never played the lines for looking at it or casting the Open spell on it.
+
+- Fixed some of the trigger logic and lines for interacting with the altar. It's no longer possible to perform the ritual with only one torch lit.
+
+- Restored a line for casting Detect Magic while the torch is removed.
+
+- Restored a line for interacting with either of the torch holders while the Hero is trapped in the bone cage.
+
+- Restored a line for using the Heart Ritual on the bone altar.
+
+- Restored lines for using various items on the room (Bone Meal, Bones, Bonsai Bush, Rope and Grapnel, Undead Amulet, Will o' Wisps, Bone/Blood/Breath/Sense/Heart Ritual).
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Restored a line for trying to sleep in this room.
+
+
+
+
+790 (Cave Mouth):
+
+
+- Fixed: During the return to the cave, two of Katrina's lines were erroneously being displayed as strings instead of playing her dialogue audio.
+
+- Fixed: Casting Fetch to get the Dark One Sign wasn't awarding points.
+
+- Restored lines for casting Detect Magic both before and after the Dark One Sign is removed.
+
+- Restored lines for using various items on the room (Bones, Bonsai Bush, Rope and Grapnel, Undead Amulet, Will o' Wisps, Bone/Blood/Breath/Sense/Heart Ritual).
+
+- Restored a line for clicking the Eye on the room.
+
+- Restored a line for clicking the Jump icon on the room.
+
+- Restored a line for trying to sleep in this room.
+
+
+
+
+810 (Wraith Combat):
+
+
+- Added new parameters for the Crypt Wraith combat in room 510 (Borgov Crypt).
