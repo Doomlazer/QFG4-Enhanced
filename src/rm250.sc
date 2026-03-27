@@ -1475,7 +1475,7 @@
 	)
 )
 
-(instance unknown_250_35 of Feature
+(instance burnFeature of Feature
 	(properties
 		noun 23
 		nsLeft 106
@@ -1490,7 +1490,7 @@
 	)
 )
 
-(instance unknown_250_36 of Feature
+(instance guildWin of Feature
 	(properties
 		noun 2
 		nsLeft 2
@@ -1503,7 +1503,7 @@
 	)
 )
 
-(instance unknown_250_37 of Feature
+(instance guildTopWin of Feature
 	(properties
 		noun 3
 		nsLeft 31
@@ -1516,7 +1516,7 @@
 	)
 )
 
-(instance unknown_250_38 of Feature
+(instance guildWall of Feature
 	(properties
 		nsLeft 69
 		nsTop 95
@@ -1528,7 +1528,7 @@
 	)
 )
 
-(instance unknown_250_39 of Feature
+(instance tombStone of Feature
 	(properties
 		noun 4
 		nsLeft 54
@@ -1541,7 +1541,7 @@
 	)
 )
 
-(instance unknown_250_40 of Feature
+(instance monkWin1 of Feature
 	(properties
 		noun 5
 		nsLeft 131
@@ -1589,7 +1589,7 @@
 	)
 )
 
-(instance unknown_250_41 of Feature
+(instance monkWin2 of Feature
 	(properties
 		noun 5
 		nsLeft 230
@@ -1604,11 +1604,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(unknown_250_40 doVerb: theVerb &rest)
+		(monkWall1 doVerb: theVerb &rest)
 	)
 )
 
-(instance unknown_250_42 of Feature
+(instance hectapus of Feature
 	(properties
 		noun 7
 		nsLeft 149
@@ -1623,7 +1623,7 @@
 	)
 )
 
-(instance unknown_250_43 of Feature
+(instance archway of Feature
 	(properties
 		noun 8
 		nsLeft 236
@@ -1636,7 +1636,7 @@
 	)
 )
 
-(instance unknown_250_44 of Feature
+(instance monkWall1 of Feature
 	(properties
 		noun 9
 		nsLeft 94
@@ -1673,7 +1673,7 @@
 	)
 )
 
-(instance unknown_250_45 of Feature
+(instance monkWall2 of Feature
 	(properties
 		noun 9
 		nsLeft 208
@@ -1688,11 +1688,11 @@
 	)
 
 	(method (doVerb theVerb)
-		(unknown_250_44 doVerb: theVerb &rest)
+		(monkWall1 doVerb: theVerb &rest)
 	)
 )
 
-(instance unknown_250_46 of Feature
+(instance monkHighWin of Feature
 	(properties
 		noun 10
 		nsLeft 128
