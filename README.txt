@@ -3,7 +3,7 @@ Quest for Glory IV: Shadows of Darkness Enhanced Update 1.2
 This is a fork of AshLancer's repo that does two things:
 1. Decompiles Ash's patches to show off the changes made in source code. The best way to view these changes is by looking through this commit: https://github.com/Doomlazer/QFG4-Enhanced/commit/1b3ca86a4c217b55949a847d7fa5de964872d185
 
-2. Fix several bugs that were unfortunatly introduced by AshLancer's patches for various reasons.
+2. ix at least one known bug.
 
 I've not been able to reach AshLancer to ask for their blessing in creating this repo, but I'd like believe that they would approve. Additional bug fixes to the game would be welcome. Below is Ash's original readme.
 
@@ -166,7 +166,7 @@ You MAY redistribute this patch freely, install it as many times as you want, an
 
 You may NOT claim this patch as your own, charge money for it, modify any of its contents (including this readme), or reuse its contents without my express permission. Any infringement is subject to full legal action and statutory damages as defined for Fair Use under section 107 of the US Copyright Act of 1976.
 
-Quest for Glory IV: Shadows of Darkness is US Copyright 1993 by Sierra On-Line, Inc. and is designed by Lori Ann Cole and Corey Cole. SIERRA and SIERRA with mountain design is © 2020 by Activision Publishing, Inc. I do not claim ownership over any of their code, files, software, or properties except for my own changes which I have created for personal, educational, and recreational use.
+Quest for Glory IV: Shadows of Darkness is US Copyright 1993 by Sierra On-Line, Inc. and is designed by Lori Ann Cole and Corey Cole. SIERRA and SIERRA with mountain design is Â© 2020 by Activision Publishing, Inc. I do not claim ownership over any of their code, files, software, or properties except for my own changes which I have created for personal, educational, and recreational use.
 
 
 ========
