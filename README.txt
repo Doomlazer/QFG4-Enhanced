@@ -3,7 +3,7 @@ Quest for Glory IV: Shadows of Darkness Enhanced Update 1.2
 This is a fork of AshLancer's repo that does two things:
 1. Decompiles Ash's patches to show off the changes made in source code. The best way to view these changes is by looking through this commit: https://github.com/Doomlazer/QFG4-Enhanced/commit/1b3ca86a4c217b55949a847d7fa5de964872d185
 
-2. ix at least one known bug.
+2. Fix at least one known bug.
 
 I've not been able to reach AshLancer to ask for their blessing in creating this repo, but I'd like believe that they would approve. Additional bug fixes to the game would be welcome. Below is Ash's original readme.
 
