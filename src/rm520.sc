@@ -623,16 +623,39 @@
 				(= cycles 1)
 			)
 			(1
+				// Avoid scummvm fixes for rm520
+				//
+				// Before AshLancer's patch existed, scummvm implemneted a fix to address Sierra's botched flower messages in room 520 of QfG4CD.
+				// They remap the messages here: 
+				// https://github.com/scummvm/scummvm/blob/c9de0d1d614df92e0e439ad694dd01e3d2b8c8fb/engines/sci/engine/workarounds.cpp#L1289
+				// Because there is no recorded audio for the first line, scummmvm skips it entirely. When Ash reliease their patch, it
+				// caused a conflict with scummvm, so they added a workaround that restores scummvm's approach, which removes the 
+				// first text-only message: 
+				// https://github.com/scummvm/scummvm/blob/9bdf95163b127f7d388548e0137f9b52d7973186/engines/sci/engine/script_patches.cpp#L21906
+				// 
+				// That's great, except for two things: 1. this repo is about preserving AshLancer's work and 2. The SVM workaround hardcodes the
+				// message "Thank you for the beautiful flowers...". If you're a translator who's intergrating Ash's patches, that's not cool.
+				// 
+				// I fix all this by breaking the rm520 script_patches.ccp signature, which is done by changing this sequence's condition from 0 to 9.
+				// That solves half the problem, but it breaks the audio. Well, we just need to edit 520.map in a hex editor to correct that. It's as
+				// easy as searching for 0x023b0001, 0x023b0002, and 0x023b0003 and swapping out the 0x00 for 0x09! This maps everything just as
+				// AshLancer intended and allows for translators to modify the hardcoded text. Now the game behaves identically in DOSBox and SVM!
+				//
+				// Thanks to Avo323 for unwinding the .map file format!
+
 				(= local5 (Str new:))
-				(Message msgGET 520 2 59 0 1 (local5 data:)) ; "You give the Rusalka some of the lovely flowers."
+				;(Message msgGET 520 2 59 0 1 (local5 data:)) ; "You give the Rusalka some of the lovely flowers."
+				(Message msgGET 520 2 59 9 1 (local5 data:)) ; "You give the Rusalka some of the lovely flowers."
 				(Print addText: (local5 data:) y: 165 init: self)
 			)
 			(2
 				(local5 dispose:)
-				(gMessager say: 2 59 0 2 self) ; "Thank you for the beautiful flowers. No one has been so nice to me since I can remember."
+				;(gMessager say: 2 59 0 2 self) ; "Thank you for the beautiful flowers. No one has been so nice to me since I can remember."
+				(gMessager say: 2 59 9 2 self) ; "Thank you for the beautiful flowers. No one has been so nice to me since I can remember."
 			)
 			(3
-				(gMessager say: 2 59 0 3 self) ; "I guess I shouldn't try to drown you now, since you've been so kind."
+				;(gMessager say: 2 59 0 3 self) ; "I guess I shouldn't try to drown you now, since you've been so kind."
+				(gMessager say: 2 59 9 3 self) ; "I guess I shouldn't try to drown you now, since you've been so kind."
 			)
 			(4
 				(gGlory handsOn:)
