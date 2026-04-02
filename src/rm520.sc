@@ -623,25 +623,25 @@
 				(= cycles 1)
 			)
 			(1
-				// Avoid scummvm fixes for rm520
-				//
-				// Before AshLancer's patch existed, scummvm implemneted a fix to address Sierra's botched flower messages in room 520 of QfG4CD.
-				// They remap the messages here: 
-				// https://github.com/scummvm/scummvm/blob/c9de0d1d614df92e0e439ad694dd01e3d2b8c8fb/engines/sci/engine/workarounds.cpp#L1289
-				// Because there is no recorded audio for the first line, scummmvm skips it entirely. When Ash reliease their patch, it
-				// caused a conflict with scummvm, so they added a workaround that restores scummvm's approach, which removes the 
-				// first text-only message: 
-				// https://github.com/scummvm/scummvm/blob/9bdf95163b127f7d388548e0137f9b52d7973186/engines/sci/engine/script_patches.cpp#L21906
-				// 
-				// That's great, except for two things: 1. this repo is about preserving AshLancer's work and 2. The SVM workaround hardcodes the
-				// message "Thank you for the beautiful flowers...". If you're a translator who's intergrating Ash's patches, that's not cool.
-				// 
-				// I fix all this by breaking the rm520 script_patches.ccp signature, which is done by changing this sequence's condition from 0 to 9.
-				// That solves half the problem, but it breaks the audio. Well, we just need to edit 520.map in a hex editor to correct that. It's as
-				// easy as searching for 0x023b0001, 0x023b0002, and 0x023b0003 and swapping out the 0x00 for 0x09! This maps everything just as
-				// AshLancer intended and allows for translators to modify the hardcoded text. Now the game behaves identically in DOSBox and SVM!
-				//
-				// Thanks to Avo323 for unwinding the .map file format!
+				; Avoid scummvm fixes for rm520
+				;
+				; Before AshLancer's patch existed, scummvm implemneted a fix to address Sierra's botched flower messages in room 520 of QfG4CD.
+				; They remap the messages here: 
+				; https://github.com/scummvm/scummvm/blob/c9de0d1d614df92e0e439ad694dd01e3d2b8c8fb/engines/sci/engine/workarounds.cpp#L1289
+				; Because there is no recorded audio for the first line, scummmvm skips it entirely. When Ash reliease their patch, it
+				; caused a conflict with scummvm, so they added a workaround that restores scummvm's approach, which removes the 
+				; first text-only message: 
+				; https://github.com/scummvm/scummvm/blob/9bdf95163b127f7d388548e0137f9b52d7973186/engines/sci/engine/script_patches.cpp#L21906
+				; 
+				; That's great, except for two things: 1. this repo is about preserving AshLancer's work and 2. The SVM workaround hardcodes the
+				; message "Thank you for the beautiful flowers...". If you're a translator who's intergrating Ash's patches, that's not cool.
+				; 
+				; I fix all this by breaking the rm520 script_patches.ccp signature, which is done by changing this sequence's condition from 0 to 9.
+				; That solves half the problem, but it breaks the audio. Well, we just need to edit 520.map in a hex editor to correct that. It's as
+				; easy as searching for 0x023b0001, 0x023b0002, and 0x023b0003 and swapping out the 0x00 for 0x09! This maps everything just as
+				; AshLancer intended and allows for translators to modify the hardcoded text. Now the game behaves identically in DOSBox and SVM!
+				;
+				; Thanks to Avo323 for unwinding the .map file format!
 
 				(= local5 (Str new:))
 				;(Message msgGET 520 2 59 0 1 (local5 data:)) ; "You give the Rusalka some of the lovely flowers."
@@ -651,13 +651,23 @@
 			(2
 				(local5 dispose:)
 				;(gMessager say: 2 59 0 2 self) ; "Thank you for the beautiful flowers. No one has been so nice to me since I can remember."
-				(gMessager say: 2 59 9 2 self) ; "Thank you for the beautiful flowers. No one has been so nice to me since I can remember."
+				; FIX part 2
+				;
+				; in Ash's changes for this script there is a clearly visible flash of the room background between this message and the next
+				; This is because the sequence 1 is displayed as text-only and each idivdual message is explictly called instead of using
+				; the built-in seq option. We fix this by changing state 2 and 3 into one gMessager call with a sequence of 0, which auto displays
+				; the entire message sequence (in this case 1 through 2) without graphical glitches. It's a minor detail, but looks much cleaner
+				; in game
+				;(gMessager say: 2 59 9 2 self) ; "Thank you for the beautiful flowers. No one has been so nice to me since I can remember."
+				(gMessager say: 2 59 10 0 self) ; assign a new condition and set seq to 0 to play seq 1 and 2 smoothly
 			)
-			(3
+			;(3
 				;(gMessager say: 2 59 0 3 self) ; "I guess I shouldn't try to drown you now, since you've been so kind."
-				(gMessager say: 2 59 9 3 self) ; "I guess I shouldn't try to drown you now, since you've been so kind."
-			)
-			(4
+				; the below now plays automatically because of the new seq 0 call in state 2
+				;(gMessager say: 2 59 9 3 self) ; "I guess I shouldn't try to drown you now, since you've been so kind."
+			;)
+			;(4
+			(3
 				(gGlory handsOn:)
 				(self dispose:)
 			)
